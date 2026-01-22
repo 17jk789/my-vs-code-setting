@@ -166,6 +166,7 @@ This repository is released under the **Apache License 2.0**.
     // Rust Analyzer
     "rust-analyzer.cargo.loadOutDirsFromCheck": true,
     "rust-analyzer.procMacro.enable": true,
+    "rust-analyzer.checkOnSave": true,
     "rust-analyzer.checkOnSave.command": "clippy",
     // "rust-analyzer.checkOnSave.command": "check" // fatser
     "rust-analyzer.checkOnSave.extraArgs": ["--", "-W", "clippy::all"],
