@@ -45,6 +45,7 @@ Installiere Neovim: [Neovim](https://neovim.io/)
 ```bash
 sudo apt update
 sudo apt install curl wget unzip build-essential
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk
 cd ~/Downloads
