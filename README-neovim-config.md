@@ -1,4 +1,4 @@
-# my-neovim-setting
+# My-neovim-setting
 
 This repository contains my personal **Neovim settings**.
 
