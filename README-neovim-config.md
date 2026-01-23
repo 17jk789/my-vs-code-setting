@@ -88,6 +88,7 @@ nvim
         ├── cpp.lua
         └── java.lua
         └── mason.lua
+        └── github_theme.lua
 ```
 
 ---
@@ -458,6 +459,22 @@ return {
         "jdtls",
       },
     },
+  },
+}
+```
+
+```lua
+-- ~/.config/nvim/lua/plugins/github_theme.lua
+return {
+  {
+    "projekt0n/github-nvim-theme",
+    name = "github-theme",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("github-theme").setup({})
+      vim.cmd("colorscheme github_dark_dimmed")
+    end
   },
 }
 ```
