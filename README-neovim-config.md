@@ -49,6 +49,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk gradle maven
 sudo apt install wl-clipboard
+sudo apt install languagetool
 cd ~/Downloads
 tar -xzf nvim-linux-x86_64.tar.gz
 sudo mv nvim-linux-x86_64 /opt/nvim
@@ -91,7 +92,9 @@ nvim
         ├── mason.lua
         ├── github_theme.lua
         ├── ui.lua
-        └── treesitter.lua
+        ├── treesitter.lua
+        ├── markdown.lua
+        └── ltex.lua
 ```
 
 ---
@@ -603,6 +606,14 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "rust", "c", "cpp", "java", "lua" },
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = { "de_de", "en_us" }
+  end,
+})
+
 ```
 
 ```lua
@@ -690,10 +701,80 @@ return {
     opts = {
       ensure_installed = {
         "lua", "rust", "cpp", "c", "java", "toml",
+        "markdown", "markdown_inline",
       },
       highlight = { enable = true },
     },
   },
 }
+
+```
+
+```lua
+-- lua/plugins/markdown.lua
+-- return {
+--   {
+--     "iamcco/markdown-preview.nvim",
+--     ft = { "markdown" },
+--     build = function()
+--       vim.fn["mkdp#util#install"]()
+--     end,
+--     config = function()
+--       vim.g.mkdp_auto_start = 0
+--       vim.g.mkdp_refresh_slow = 1
+--       vim.g.mkdp_theme = "dark"
+--     end,
+--   },
+--   {
+--     "preservim/vim-markdown",
+--     ft = { "markdown" },
+--     config = function()
+--       vim.g.vim_markdown_folding_disabled = 1
+--       vim.g.vim_markdown_conceal = 0
+--     end,
+--   },
+-- }
+
+```
+
+```lua
+-- lua/plugins/ltex.lua
+return {
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        ltex = {
+          settings = {
+            ltex = {
+              language = "en-US",
+              -- language = "de-DE",
+              additionalRules = {
+                enablePickyRules = true,
+              },
+              checkFrequency = "save", -- nicht bei jedem Tastendruck
+            },
+          },
+          filetypes = {
+            -- Docs
+            "markdown",
+            "text",
+            "tex",
+            "gitcommit",
+            "rust",
+            "c",
+            "cpp",
+            "java",
+            "lua",
+          },
+        },
+      },
+    },
+  },
+}
+
+-- Sprache wechseln (on the fly):
+-- :LtexSwitchLanguage de-DE
+-- :LtexSwitchLanguage en-US
 
 ```
