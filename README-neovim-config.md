@@ -47,7 +47,7 @@ sudo apt update
 sudo apt install curl wget unzip build-essential
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
-sudo apt install openjdk-21-jdk
+sudo apt install openjdk-21-jdk gradle maven
 cd ~/Downloads
 tar -xzf nvim-linux-x86_64.tar.gz
 sudo mv nvim-linux-x86_64 /opt/nvim
@@ -86,9 +86,11 @@ nvim
         ├── dap.lua
         ├── rust.lua
         ├── cpp.lua
-        └── java.lua
-        └── mason.lua
-        └── github_theme.lua
+        ├── java.lua
+        ├── mason.lua
+        ├── github_theme.lua
+        ├── ui.lua
+        └── treesitter.lua
 ```
 
 ---
@@ -117,6 +119,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.updatetime = 250
 
 vim.opt.mouse = "a"
+
 ```
 
 ---
@@ -162,6 +165,7 @@ map("n", "<F12>", "<cmd>lua require'dap'.step_out()<CR>", opts)
 
 map("n", "<C-d>", "<cmd>lua require('dapui').toggle()<CR>", opts)
 map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
+
 ```
 
 ---
@@ -172,7 +176,10 @@ map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
 return {
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "mason-org/mason-lspconfig.nvim" },
+    dependencies = {
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+    },
     opts = {
       servers = {
         rust_analyzer = {
@@ -203,6 +210,7 @@ return {
     },
   },
 }
+
 ```
 
 ---
@@ -210,11 +218,49 @@ return {
 # 6) plugins/completion.lua (sicher + stabil)
 
 ```lua
+-- return {
+--   {
+--     "hrsh7th/nvim-cmp",
+--     opts = function(_, opts)
+--       local cmp = require("cmp")
+
+--       opts.mapping = cmp.mapping.preset.insert({
+--         ["<C-Space>"] = cmp.mapping.complete(),
+--         ["<CR>"] = cmp.mapping.confirm({ select = true }),
+--         ["<Tab>"] = cmp.mapping(function(fallback)
+--           if cmp.visible() then
+--             cmp.select_next_item()
+--           else
+--             fallback()
+--           end
+--         end, { "i", "s" }),
+--         ["<S-Tab>"] = cmp.mapping(function(fallback)
+--           if cmp.visible() then
+--             cmp.select_prev_item()
+--           else
+--             fallback()
+--           end
+--         end, { "i", "s" }),
+--       })
+
+--       opts.experimental = { ghost_text = false }
+--     end,
+--   },
+-- }
+
 return {
   {
     "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",
+      "L3MON4D3/LuaSnip",
+    },
     opts = function(_, opts)
       local cmp = require("cmp")
+
+      opts.sources = cmp.config.sources({
+        { name = "nvim_lsp" },
+      })
 
       opts.mapping = cmp.mapping.preset.insert({
         ["<C-Space>"] = cmp.mapping.complete(),
@@ -239,6 +285,7 @@ return {
     end,
   },
 }
+
 ```
 
 ---
@@ -257,6 +304,7 @@ return {
     end,
   },
 }
+
 ```
 
 ---
@@ -340,6 +388,7 @@ return {
     end,
   },
 }
+
 ```
 
 ---
@@ -360,7 +409,8 @@ return {
 
       local mason_path = vim.fn.stdpath("data") .. "/mason"
       -- local codelldb_path = mason_path .. "/bin/codelldb"
-      local codelldb_path = mason_path .. "/packages/codelldb/extension/adapter/codelldb"
+      local codelldb_path = mason_path 
+        .. "/packages/codelldb/extension/adapter/codelldb"
 
       require("mason-nvim-dap").setup({
         ensure_installed = { "codelldb" },
@@ -419,6 +469,7 @@ return {
     end,
   },
 }
+
 ```
 
 
@@ -443,6 +494,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     })
   end,
 })
+
 ```
 
 ```lua
@@ -461,6 +513,7 @@ return {
     },
   },
 }
+
 ```
 
 ```lua
@@ -477,4 +530,53 @@ return {
     end
   },
 }
+
+```
+
+```lua
+-- lua/plugins/ui.lua
+return {
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+  },
+
+  {
+    "folke/trouble.nvim",
+    opts = {},
+  },
+
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = {
+      view = { width = 30 },
+      renderer = { group_empty = true },
+    },
+  },
+
+  {
+    "numToStr/Comment.nvim",
+    opts = {},
+  },
+}
+
+```
+
+```lua
+-- lua/plugins/treesitter.lua
+return {
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    opts = {
+      ensure_installed = {
+        "lua", "rust", "cpp", "c", "java", "toml",
+      },
+      highlight = { enable = true },
+    },
+  },
+}
+
 ```
