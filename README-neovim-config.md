@@ -49,7 +49,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk gradle maven
 sudo apt install wl-clipboard
-sudo apt install default-jre
+# sudo apt install default-jre
 # sudo snap install languagetool
 # sudo apt install vim vim-common
 # sudo apt install hunspell-de-de hunspell-en-us
@@ -635,7 +635,7 @@ return {
         "clangd",
         "codelldb",
         "jdtls",
-        "ltex-ls",
+        -- "ltex-ls",
       },
     },
   },
