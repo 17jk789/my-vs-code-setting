@@ -172,7 +172,7 @@ map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
 return {
   {
     "neovim/nvim-lspconfig",
-    dependencies = { "williamboman/mason-lspconfig.nvim" },
+    dependencies = { "mason-org/mason-lspconfig.nvim" },
     opts = {
       servers = {
         rust_analyzer = {
@@ -306,8 +306,8 @@ return {
     "mfussenegger/nvim-jdtls",
     ft = { "java" },
     dependencies = {
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
     },
     config = function()
       local jdtls = require("jdtls")
@@ -450,7 +450,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 
 return {
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = {
       ensure_installed = {
         "rust-analyzer",
