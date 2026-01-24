@@ -49,6 +49,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk gradle maven
 sudo apt install wl-clipboard
+sudo apt install default-jre
 # sudo snap install languagetool
 # sudo apt install vim vim-common
 # sudo apt install hunspell-de-de hunspell-en-us
@@ -613,10 +614,9 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "rust", "c", "cpp", "java", "lua" },
+  pattern = { "markdown", "text", "rust", "c", "cpp", "java", "lua" },
   callback = function()
     vim.opt_local.spell = true
-    -- vim.opt_local.spelllang = { "de_de", "en_us" }
     vim.opt_local.spelllang = { "en_us" }
   end,
 })
@@ -635,6 +635,7 @@ return {
         "clangd",
         "codelldb",
         "jdtls",
+        "ltex-ls",
       },
     },
   },
