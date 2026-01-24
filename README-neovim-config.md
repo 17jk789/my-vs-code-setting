@@ -49,7 +49,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk gradle maven
 sudo apt install wl-clipboard
-sudo apt install languagetool
+sudo snap install languagetool
 cd ~/Downloads
 tar -xzf nvim-linux-x86_64.tar.gz
 sudo mv nvim-linux-x86_64 /opt/nvim
