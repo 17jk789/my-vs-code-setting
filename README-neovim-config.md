@@ -347,7 +347,8 @@ return {
         server = {
           on_attach = function(_, bufnr)
             local opts = { noremap = true, silent = true, buffer = bufnr }
-            vim.keymap.set("n", "<Leader>rr", "<cmd>RustRun<CR>", opts)
+            vim.keymap.set("n", "<Leader>rr", ":split | terminal cargo run<CR>", opts)
+            vim.keymap.set("n", "<Leader>rd", ":split | terminal cargo debug<CR>i", opts)
             vim.keymap.set("n", "<Leader>rh", "<cmd>RustHoverActions<CR>", opts)
             vim.keymap.set("n", "<Leader>rc", "<cmd>RustOpenCargo<CR>", opts)
           end,
