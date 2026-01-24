@@ -400,7 +400,12 @@ return {
   {
     "mfussenegger/nvim-dap",
     dependencies = {
-      "rcarriga/nvim-dap-ui",
+      {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+          "nvim-neotest/nvim-nio",
+        },
+      },
       "jay-babu/mason-nvim-dap.nvim",
     },
     config = function()
@@ -408,9 +413,8 @@ return {
       local dapui = require("dapui")
 
       local mason_path = vim.fn.stdpath("data") .. "/mason"
-      -- local codelldb_path = mason_path .. "/bin/codelldb"
-      local codelldb_path = mason_path 
-        .. "/packages/codelldb/extension/adapter/codelldb"
+      local codelldb_path =
+        mason_path .. "/packages/codelldb/extension/adapter/codelldb"
 
       require("mason-nvim-dap").setup({
         ensure_installed = { "codelldb" },
@@ -443,7 +447,11 @@ return {
           type = "codelldb",
           request = "launch",
           program = function()
-            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+            return vim.fn.input(
+              "Path to executable: ",
+              vim.fn.getcwd() .. "/target/debug/",
+              "file"
+            )
           end,
           cwd = "${workspaceFolder}",
           stopOnEntry = false,
@@ -457,7 +465,11 @@ return {
           type = "codelldb",
           request = "launch",
           program = function()
-            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/build/", "file")
+            return vim.fn.input(
+              "Path to executable: ",
+              vim.fn.getcwd() .. "/build/",
+              "file"
+            )
           end,
           cwd = "${workspaceFolder}",
           stopOnEntry = false,
