@@ -153,7 +153,7 @@ map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 
 map("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 
-map("n", "<C-m>", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+-- map("n", "<C-m>", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
 map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
@@ -166,6 +166,11 @@ map("n", "<F12>", "<cmd>lua require'dap'.step_out()<CR>", opts)
 map("n", "<C-d>", "<cmd>lua require('dapui').toggle()<CR>", opts)
 map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
 
+-- Clipboard yanking (system clipboard)
+-- vim.keymap.set({ "n", "v" }, "y", '"+y', { noremap = true, silent = true })
+-- vim.keymap.set("n", "yy", '"+yy', { noremap = true, silent = true })
+vim.keymap.set({ "n", "v", "o" }, "y", '"+y', { noremap = true, silent = true })
+vim.keymap.set({ "n", "o" }, "yy", '"+yy', { noremap = true, silent = true })
 ```
 
 ---
@@ -173,6 +178,44 @@ map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
 # 5) plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)
 
 ```lua
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     dependencies = {
+--       "mason-org/mason.nvim",
+--       "mason-org/mason-lspconfig.nvim",
+--     },
+--     opts = {
+--       servers = {
+--         rust_analyzer = {
+--           settings = {
+--             ["rust-analyzer"] = {
+--               cargo = { allFeatures = true },
+--               checkOnSave = { command = "clippy" }, -- slow
+--               -- checkOnSave = { command = "check" } -- faster
+--               inlayHints = {
+--                 enable = true,
+--                 typeHints = true,
+--                 parameterHints = true,
+--                 lifetimeElisionHints = "always",
+--               },
+--             },
+--           },
+--         },
+--         clangd = {
+--           cmd = {
+--             "clangd",
+--             "--background-index",
+--             "--clang-tidy",
+--             "--completion-style=detailed",
+--             "--header-insertion=never",
+--           },
+--         },
+--       },
+--     },
+--   },
+-- }
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -182,21 +225,6 @@ return {
     },
     opts = {
       servers = {
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              cargo = { allFeatures = true },
-              checkOnSave = { command = "clippy" }, -- slow
-              -- checkOnSave = { command = "check" } -- faster
-              inlayHints = {
-                enable = true,
-                typeHints = true,
-                parameterHints = true,
-                lifetimeElisionHints = "always",
-              },
-            },
-          },
-        },
         clangd = {
           cmd = {
             "clangd",
@@ -295,7 +323,50 @@ return {
 Wichtig: **Keine doppelte rust-analyzer Konfiguration** — das macht nur LSPConfig.
 
 ```lua
+-- return {
+--  {
+--    "Saecki/crates.nvim",
+--    ft = { "rust", "toml" },
+--    config = function()
+--      require("crates").setup()
+--    end,
+--  },
+-- }
+
 return {
+  {
+    "simrat39/rust-tools.nvim",
+    ft = { "rust" },
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "nvim-lua/plenary.nvim",
+    },
+    opts = function()
+      return {
+        server = {
+          on_attach = function(_, bufnr)
+            local opts = { noremap = true, silent = true, buffer = bufnr }
+            vim.keymap.set("n", "<Leader>rr", "<cmd>RustRun<CR>", opts)
+            vim.keymap.set("n", "<Leader>rh", "<cmd>RustHoverActions<CR>", opts)
+            vim.keymap.set("n", "<Leader>rc", "<cmd>RustOpenCargo<CR>", opts)
+          end,
+          settings = {
+            ["rust-analyzer"] = {
+              cargo = { allFeatures = true },
+              checkOnSave = { command = "clippy" },
+              inlayHints = {
+                enable = true,
+                typeHints = true,
+                parameterHints = true,
+                lifetimeElisionHints = "always",
+              },
+            },
+          },
+        },
+      }
+    end,
+  },
+
   {
     "Saecki/crates.nvim",
     ft = { "rust", "toml" },
@@ -495,6 +566,19 @@ return {
 --   end,
 -- })
 
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*.rs",
+--   callback = function()
+--     vim.lsp.buf.format({
+--       async = false,
+--       filter = function(client)
+--         return client.name == "rust_analyzer"
+--       end,
+--     })
+--   end,
+-- })
+
+-- Rust format on save
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.rs",
   callback = function()
@@ -504,6 +588,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
         return client.name == "rust_analyzer"
       end,
     })
+  end,
+})
+
+-- Always end file with newline
+vim.api.nvim_create_autocmd("BufWritePre", {
+  callback = function()
+    local lastline = vim.api.nvim_buf_get_lines(0, -2, -1, false)[1]
+    if lastline ~= "" then
+      vim.api.nvim_buf_set_lines(0, -1, -1, false, { "" })
+    end
   end,
 })
 
@@ -524,6 +618,10 @@ return {
       },
     },
   },
+  -- {
+  --   "tpope/vim-fugitive",
+  --   cmd = { "Git", "G" },
+  -- },
 }
 
 ```
@@ -571,6 +669,11 @@ return {
   {
     "numToStr/Comment.nvim",
     opts = {},
+  },
+
+  {
+    "tpope/vim-fugitive",
+    cmd = { "Git", "G" },
   },
 }
 
