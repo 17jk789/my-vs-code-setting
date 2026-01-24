@@ -49,7 +49,13 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk gradle maven
 sudo apt install wl-clipboard
-sudo snap install languagetool
+# sudo snap install languagetool
+sudo apt install vim-common
+sudo apt install hunspell-de-de hunspell-en-us
+mkdir -p ~/.local/share/nvim/spell
+cd ~/.local/share/nvim/spell
+cp /usr/share/vim/vim*/spell/en.utf-8.spl ~/.local/share/nvim/spell/en_us.utf-8.spl
+cp /usr/share/vim/vim*/spell/de.utf-8.spl ~/.local/share/nvim/spell/de_de.utf-8.spl
 cd ~/Downloads
 tar -xzf nvim-linux-x86_64.tar.gz
 sudo mv nvim-linux-x86_64 /opt/nvim
