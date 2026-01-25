@@ -528,6 +528,7 @@ return {
 
             vim.keymap.set("n", "<Leader>rr", ":split | terminal cargo run<CR>", opts)
             vim.keymap.set("n", "<Leader>rd", ":split | terminal cargo debug<CR>i", opts)
+            vim.keymap.set("n", "<Leader>rb", ":split | terminal cargo build<CR>i", opts)
             vim.keymap.set("n", "<Leader>rh", "<cmd>RustHoverActions<CR>", opts)
             vim.keymap.set("n", "<Leader>rc", "<cmd>RustOpenCargo<CR>", opts)
 
