@@ -1040,31 +1040,18 @@ Test:
 ```lua
 -- ~/.config/nvim/lua/plugins/dashboard.lua
 return {
-  {
-    "nvim-mini/mini.nvim",
-    optional = true,
-    opts = function(_, opts)
-      -- mini.starter deaktivieren
-      opts.starter = { enabled = false }
-    end,
-  },
-  {
-    "nvimdev/dashboard-nvim",
-    lazy = false,
-    opts = {
-      theme = "hyper",
-      config = {
-        header = {
-          "██████╗       ███╗   ██╗██╗   ██╗██╗███╗   ███╗",
-          "██╔══██╗      ████╗  ██║██║   ██║██║████╗ ████║",
-          "██████╔╝█████╗██╔██╗ ██║██║   ██║██║██╔████╔██║",
-          "██╔═══╝ ╚════╝██║╚██╗██║╚██╗ ██╔╝██║██║╚██╔╝██║",
-          "██║           ██║ ╚████║ ╚████╔╝ ██║██║ ╚═╝ ██║",
-          "╚═╝           ╚═╝  ╚═══╝  ╚═══╝  ╚═╝╚═╝     ╚═╝",
-        },
-      },
-    },
-  },
+  "nvim-mini/mini.nvim",
+  opts = function(_, opts)
+    opts.starter = opts.starter or {}
+    opts.starter.header = table.concat({
+      "██████╗       ███╗   ██╗██╗   ██╗██╗███╗   ███╗",
+      "██╔══██╗      ████╗  ██║██║   ██║██║████╗ ████║",
+      "██████╔╝█████╗██╔██╗ ██║██║   ██║██║██╔████╔██║",
+      "██╔═══╝ ╚════╝██║╚██╗██║╚██╗ ██╔╝██║██║╚██╔╝██║",
+      "██║           ██║ ╚████║ ╚████╔╝ ██║██║ ╚═╝ ██║",
+      "╚═╝           ╚═╝  ╚═══╝  ╚═══╝  ╚═╝╚═╝     ╚═╝",
+    }, "\n")
+  end,
 }
 
 ```
