@@ -297,18 +297,18 @@ return {
     opts = {
       servers = {
         rust_analyzer = {
-          -- 👉 WICHTIG für :e neue.rs
           root_dir = function(fname)
             return require("lspconfig.util")
               .root_pattern("Cargo.toml", ".git")(fname)
               or vim.fn.getcwd()
           end,
 
+          -- on_attach sorgt dafür, dass Shortcuts nur in Rust aktiviert sind
           on_attach = function(_, bufnr)
             local map = vim.keymap.set
             local opts = { noremap = true, silent = true, buffer = bufnr }
 
-            -- Cargo
+            -- Cargo Shortcuts
             map("n", "<leader>rr", function()
               vim.cmd("split | terminal cargo run")
             end, opts)
@@ -329,7 +329,7 @@ return {
               vim.cmd("edit Cargo.toml")
             end, opts)
 
-            -- rust-analyzer LSP Commands
+            -- LSP Commands
             map("n", "<leader>rh", function()
               vim.lsp.buf.hover()
             end, opts)
@@ -349,7 +349,7 @@ return {
           settings = {
             ["rust-analyzer"] = {
               cargo = { allFeatures = true },
-              checkOnSave = { command = "check" },
+              checkOnSave = { command = "clippy" },
               inlayHints = {
                 enable = true,
                 typeHints = true,
