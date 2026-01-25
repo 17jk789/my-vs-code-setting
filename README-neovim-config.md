@@ -97,7 +97,8 @@ nvim
         ├── cpp.lua
         ├── java.lua
         ├── mason.lua
-        ├── github_theme.lua
+        ├── github_theme.lua // or nightfox
+        ├── nightfox.lua.lua // or github_theme
         ├── ui.lua
         ├── treesitter.lua
         ├── markdown.lua
@@ -846,6 +847,30 @@ return {
     config = function()
       require("github-theme").setup({})
       vim.cmd("colorscheme github_dark_dimmed")
+    end
+  },
+}
+
+```
+
+```lua
+-- ~/.config/nvim/lua/plugins/nightfox.lua
+return {
+  {
+    "EdenEast/nightfox.nvim",
+    name = "nightfox",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("nightfox").setup({
+        options = {
+          transparent = false,
+          terminal_colors = true,
+        },
+        -- andere Optionen hier falls gewünscht
+      })
+      -- Setze Carbonfox als Farben-Schema
+      vim.cmd("colorscheme carbonfox")
     end
   },
 }
