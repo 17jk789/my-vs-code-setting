@@ -1041,12 +1041,16 @@ Test:
 -- ~/.config/nvim/lua/plugins/dashboard.lua
 return {
   {
-    "echasnovski/mini.starter",
-    enabled = false,
+    "nvim-mini/mini.nvim",
+    optional = true,
+    opts = function(_, opts)
+      -- mini.starter deaktivieren
+      opts.starter = { enabled = false }
+    end,
   },
   {
     "nvimdev/dashboard-nvim",
-    event = "VimEnter",
+    lazy = false,
     opts = {
       theme = "hyper",
       config = {
