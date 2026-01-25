@@ -534,17 +534,17 @@ return {
             vim.keymap.set("n", "<Leader>rc", "<cmd>RustOpenCargo<CR>", opts)
 
             -- Auto Reload: Rust Analyzer neu laden wenn neue Datei erstellt wird
-            vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
-              pattern = { "*.rs", "Cargo.toml" },
-              callback = function()
-                -- nur wenn rust-tools aktiv ist
-                local ok, _ = pcall(vim.cmd, "RustReloadWorkspace")
-                if not ok then
-                  -- fallback: LSP Restart
-                  pcall(vim.cmd, "LspRestart")
-                end
-              end,
-            })
+            -- vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+            --   pattern = { "*.rs", "Cargo.toml" },
+            --   callback = function()
+            --     -- nur wenn rust-tools aktiv ist
+            --     local ok, _ = pcall(vim.cmd, "RustReloadWorkspace")
+            --     if not ok then
+            --       -- fallback: LSP Restart
+            --       pcall(vim.cmd, "LspRestart")
+            --     end
+            --   end,
+            -- })
           end,
 
           settings = {
