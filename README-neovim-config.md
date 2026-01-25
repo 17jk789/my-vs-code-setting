@@ -537,7 +537,7 @@ return {
               pattern = { "*.rs", "Cargo.toml" },
               callback = function()
                 -- nur wenn rust-tools aktiv ist
-                local ok, _ = pcall(vim.cmd, "RustReloadWorkspace")
+                local ok, _ = pcall(vim.cmd, "silent RustReloadWorkspace")
                 if not ok then
                   -- fallback: LSP Restart
                   pcall(vim.cmd, "LspRestart")
