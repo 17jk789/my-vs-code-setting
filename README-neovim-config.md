@@ -808,7 +808,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "text", "rust", "c", "cpp", "java", "lua" },
+  pattern = { "markdown", "text", "rust", "c", "cpp", "java", "lua", "latex" },
   callback = function()
     vim.opt_local.spell = true
     vim.opt_local.spelllang = { "en_us" }
@@ -928,6 +928,7 @@ return {
       ensure_installed = {
         "lua", "rust", "cpp", "c", "java", "toml",
         "markdown", "markdown_inline",
+        "html", "css", "python", "javascript", "json", "latex"
       },
       highlight = { enable = true },
     },
