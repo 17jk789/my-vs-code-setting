@@ -184,6 +184,11 @@ map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
 -- vim.keymap.set("n", "yy", '"+yy', { noremap = true, silent = true })
 vim.keymap.set({ "n", "v", "o" }, "y", '"+y', { noremap = true, silent = true })
 vim.keymap.set({ "n", "o" }, "yy", '"+yy', { noremap = true, silent = true })
+
+-- d / dd NICHT ins Clipboard (Black-hole register)
+vim.keymap.set({ "n", "v" }, "d", '"_d', { noremap = true, silent = true })
+vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
+
 ```
 
 ---
