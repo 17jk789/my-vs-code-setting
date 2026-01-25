@@ -976,8 +976,8 @@ return {
 ```
 
 ```lua
--- plugin/notify.lua
-local notify = vim.notify
+-- plugins/notify.lua
+local old_notify = vim.notify
 
 vim.notify = function(msg, log_level, opts)
   if type(msg) == "string" then
@@ -985,7 +985,12 @@ vim.notify = function(msg, log_level, opts)
       return
     end
   end
-  notify(msg, log_level, opts)
+
+  if old_notify then
+    old_notify(msg, log_level, opts)
+  else
+    vim.api.nvim_echo({ { msg } }, true, {})
+  end
 end
 
 ```
