@@ -980,16 +980,24 @@ return {
 local old_notify = vim.notify
 
 vim.notify = function(msg, log_level, opts)
+  local text = nil
+
   if type(msg) == "string" then
-    if msg:match("Reloaded Cargo workspace") or msg:match("Reloading Cargo Workspace") then
-      return
-    end
+    text = msg
+  elseif type(msg) == "table" and type(msg.msg) == "string" then
+    text = msg.msg
+  end
+
+  if text and text:lower():match("reload.*cargo workspace") then
+    return
   end
 
   if old_notify then
-    old_notify(msg, log_level, opts)
+    pcall(old_notify, msg, log_level, opts)
   else
-    vim.api.nvim_echo({ { msg } }, true, {})
+    if type(msg) == "string" then
+      vim.api.nvim_echo({ { msg } }, true, {})
+    end
   end
 end
 
