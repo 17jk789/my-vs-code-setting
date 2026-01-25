@@ -101,7 +101,8 @@ nvim
         ├── ui.lua
         ├── treesitter.lua
         ├── markdown.lua
-        └── ltex.lua
+        ├── ltex.lua
+        └── notify.lua
 ```
 
 ---
@@ -537,7 +538,7 @@ return {
               pattern = { "*.rs", "Cargo.toml" },
               callback = function()
                 -- nur wenn rust-tools aktiv ist
-                local ok, _ = pcall(vim.cmd, "silent RustReloadWorkspace")
+                local ok, _ = pcall(vim.cmd, "RustReloadWorkspace")
                 if not ok then
                   -- fallback: LSP Restart
                   pcall(vim.cmd, "LspRestart")
@@ -971,5 +972,20 @@ return {
 -- Sprache wechseln (on the fly):
 -- :LtexSwitchLanguage de-DE
 -- :LtexSwitchLanguage en-US
+
+```
+
+```lua
+-- plugin/notify.lua
+local notify = vim.notify
+
+vim.notify = function(msg, log_level, opts)
+  if type(msg) == "string" then
+    if msg:match("Reloaded Cargo workspace") or msg:match("Reloading Cargo Workspace") then
+      return
+    end
+  end
+  notify(msg, log_level, opts)
+end
 
 ```
