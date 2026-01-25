@@ -548,6 +548,9 @@ return {
 
           settings = {
             ["rust-analyzer"] = {
+              diagnostics = {
+                disabled = { "unresolved-proc-macro", "unlinked-file" },
+              },
               cargo = { allFeatures = true },
               checkOnSave = { command = "clippy" },
               inlayHints = {
