@@ -103,7 +103,8 @@ nvim
         ├── treesitter.lua
         ├── markdown.lua
         ├── ltex.lua
-        └── notify.lua
+        ├── notify.lua
+        └── dashboard.lua
 ```
 
 ---
@@ -1031,5 +1032,23 @@ return {
 --     end
 --   end
 -- end
+
+```
+
+```lua
+-- ~/.config/nvim/lua/plugins/dashboard.lua
+return {
+  "nvimdev/dashboard-nvim",
+  opts = function(_, opts)
+    opts.config.header = {
+      "██████╗       ███╗   ██╗██╗   ██╗██╗███╗   ███╗",
+      "██╔══██╗      ████╗  ██║██║   ██║██║████╗ ████║",
+      "██████╔╝█████╗██╔██╗ ██║██║   ██║██║██╔████╔██║",
+      "██╔═══╝ ╚════╝██║╚██╗██║╚██╗ ██╔╝██║██║╚██╔╝██║",
+      "██║           ██║ ╚████║ ╚████╔╝ ██║██║ ╚═╝ ██║",
+      "╚═╝           ╚═╝  ╚═══╝  ╚═══╝  ╚═╝╚═╝     ╚═╝",
+    }
+  end,
+}
 
 ```
