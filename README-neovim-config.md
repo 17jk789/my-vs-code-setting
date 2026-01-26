@@ -889,6 +889,26 @@ return {
 ```lua
 -- plugins/nightfox.lua
 
+-- return {
+--   {
+--     "EdenEast/nightfox.nvim",
+--     name = "nightfox",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       require("nightfox").setup({
+--         options = {
+--           transparent = false,
+--           terminal_colors = true,
+--         },
+--         -- andere Optionen hier falls gewünscht
+--       })
+--       -- Setze Carbonfox als Farben-Schema
+--       vim.cmd("colorscheme carbonfox")
+--     end
+--   },
+-- }
+
 return {
   {
     "EdenEast/nightfox.nvim",
@@ -898,14 +918,31 @@ return {
     config = function()
       require("nightfox").setup({
         options = {
-          transparent = false,
+          transparent = true,
           terminal_colors = true,
         },
-        -- andere Optionen hier falls gewünscht
       })
-      -- Setze Carbonfox als Farben-Schema
+
       vim.cmd("colorscheme carbonfox")
-    end
+
+      -- GLOBAL: alles transparent machen
+      local groups = {
+        "Normal",
+        "NormalNC",
+        "NormalFloat",
+        "FloatBorder",
+        "SignColumn",
+        "EndOfBuffer",
+        "LineNr",
+        "CursorLineNr",
+        "VertSplit",
+        "WinSeparator",
+      }
+
+      for _, group in ipairs(groups) do
+        vim.api.nvim_set_hl(0, group, { bg = "none" })
+      end
+    end,
   },
 }
 
