@@ -138,12 +138,12 @@ vim ~/.config/alacritty/alacritty.toml
 opacity = 0.91
 
 [[keyboard.bindings]]
-key = "l"
+key = "L"
 mods = "Control"
 action = "ToggleMaximized"
 
 [[keyboard.bindings]]
-key = "l"
+key = "L"
 mods = "Control|Shift"
 action = "ToggleFullscreen"
 
