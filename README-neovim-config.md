@@ -153,6 +153,7 @@ action = "ToggleFullscreen"
 
 [colors.primary]
 background = "#000000"
+# background = "#161616"
 foreground = "#f2f4f8"
 dim_foreground = "#b6b8bb"
 bright_foreground = "#f9fbff"
