@@ -159,7 +159,7 @@ bright_foreground = "#f9fbff"
 
 [colors.cursor]
 text = "#f2f4f8"
-cursor = "#00ff00"
+cursor = "#25be6a"
 
 [colors.vi_mode_cursor]
 text = "#f2f4f8"
