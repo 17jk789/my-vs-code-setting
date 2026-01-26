@@ -59,7 +59,7 @@ sudo apt install curl wget unzip build-essential
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk gradle maven
-sudo apt install wl-clipboard
+sudo apt install wl-clipboard fd-find tmux
 sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
 # sudo apt install kitty
 # sudo apt install wezterm
