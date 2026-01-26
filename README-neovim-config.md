@@ -34,6 +34,17 @@ This repository is released under the **Apache License 2.0**.
 * Some settings may be system-specific (Windows vs Linux) -Y *Linux - Ubuntu 24.04.03 LTS*.
 * This configuration is tailored to my personal workflow and may not suit everyone.
 
+<details>
+<summary>Links</summary>
+
+- https://www.lazyvim.org/keymaps
+- https://neovim.io/
+- https://github.com/neovim/neovim
+- https://www.lazyvim.org/
+- https://github.com/LazyVim/LazyVim
+
+</details>
+
 # 0)
 
 Installiere Neovim: [Neovim](https://neovim.io/)
@@ -49,6 +60,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk gradle maven
 sudo apt install wl-clipboard
+sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
+# sudo apt install kitty
+# sudo apt install wezterm
 # sudo apt install default-jre
 # sudo snap install languagetool
 # sudo apt install vim vim-common
@@ -79,6 +93,107 @@ fc-cache -fv
 # git clone --depth=1 https://github.com/github/copilot.vim.git \
 # ~/.config/nvim/pack/github/start/copilot.vim
 nvim
+```
+
+# -1) Alacritty
+
+```bash
+mkdir -p ~/.config/alacritty
+vim ~/.config/alacritty/alacritty.toml
+```
+
+```toml
+[window]
+# decorations = "None"
+
+# Standard-Transparenz (80%)
+opacity = 0.8
+
+[[keyboard.bindings]]
+key = "B"
+mods = "Control"
+action = "ToggleFullscreen"
+
+# Nightfox Alacritty Colors
+## name: carbonfox
+## upstream: https://github.com/edeneast/nightfox.nvim/raw/main/extra/carbonfox/alacritty.toml
+
+[colors.primary]
+background = "#161616"
+foreground = "#f2f4f8"
+dim_foreground = "#b6b8bb"
+bright_foreground = "#f9fbff"
+
+[colors.cursor]
+text = "#f2f4f8"
+cursor = "#b6b8bb"
+
+[colors.vi_mode_cursor]
+text = "#f2f4f8"
+cursor = "#33b1ff"
+
+[colors.search.matches]
+foreground = "#f2f4f8"
+background = "#525253"
+
+[colors.search.focused_match]
+foreground = "#f2f4f8"
+background = "#3ddbd9"
+
+[colors.footer_bar]
+foreground = "#f2f4f8"
+background = "#353535"
+
+[colors.hints.start]
+foreground = "#f2f4f8"
+background = "#3ddbd9"
+
+[colors.hints.end]
+foreground = "#f2f4f8"
+background = "#353535"
+
+[colors.selection]
+text = "#f2f4f8"
+background = "#2a2a2a"
+
+[colors.normal]
+black = "#282828"
+red = "#ee5396"
+green = "#25be6a"
+yellow = "#08bdba"
+blue = "#78a9ff"
+magenta = "#be95ff"
+cyan = "#33b1ff"
+white = "#dfdfe0"
+
+[colors.bright]
+black = "#484848"
+red = "#f16da6"
+green = "#46c880"
+yellow = "#2dc7c4"
+blue = "#8cb6ff"
+magenta = "#c8a5ff"
+cyan = "#52bdff"
+white = "#e4e4e5"
+
+[colors.dim]
+black = "#222222"
+red = "#ca4780"
+green = "#1fa25a"
+yellow = "#07a19e"
+blue = "#6690d9"
+magenta = "#a27fd9"
+cyan = "#2b96d9"
+white = "#bebebe"
+
+[[colors.indexed_colors]]
+index = 16
+color = "#3ddbd9"
+
+[[colors.indexed_colors]]
+index = 17
+color = "#ff7eb6"
+
 ```
 
 # 1) Struktur 
