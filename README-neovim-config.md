@@ -31,7 +31,7 @@ This repository is released under the **Apache License 2.0**.
 
 ## Notes
 
-* Some settings may be system-specific (Windows vs Linux).
+* Some settings may be system-specific (Windows vs Linux) -Y *Linux - Ubuntu 24.04.03 LTS*.
 * This configuration is tailored to my personal workflow and may not suit everyone.
 
 # 0)
@@ -120,6 +120,8 @@ LazyVim lädt automatisch alles aus `lua/config/` und `lua/plugins/`.
 # 3) config/options.lua
 
 ```lua
+-- config/options.lua
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 
@@ -143,6 +145,8 @@ vim.opt.mouse = "a"
 # 4) config/keymaps.lua
 
 ```lua
+-- config/keymaps.lua
+
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
@@ -199,6 +203,8 @@ vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 # 5) plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)
 
 ```lua
+-- plugins/lsp.lua
+
 -- return {
 --   {
 --     "neovim/nvim-lspconfig",
@@ -391,6 +397,8 @@ return {
 # 6) plugins/completion.lua (sicher + stabil)
 
 ```lua
+-- plugins/completion.lua
+
 -- return {
 --   {
 --     "hrsh7th/nvim-cmp",
@@ -468,6 +476,8 @@ return {
 Wichtig: **Keine doppelte rust-analyzer Konfiguration** — das macht nur LSPConfig.
 
 ```lua
+-- plugins/rust.lua
+
 -- return {
 --   {
 --     "Saecki/crates.nvim",
@@ -592,6 +602,8 @@ return {
 # 8) plugins/cpp.lua (nur extras, LSP in lsp.lua)
 
 ```lua
+-- plugins/cpp.lua
+
 -- return {
 --   {
 --     "p00f/clangd_extensions.nvim",
@@ -629,6 +641,8 @@ return {
 # 9) plugins/java.lua (Basis + stabil)
 
 ```lua
+-- plugins/java.lua
+
 return {
   {
     "mfussenegger/nvim-jdtls",
@@ -676,6 +690,8 @@ return {
 # 10) plugins/dap.lua (codelldb + Rust/C++ Debug)
 
 ```lua
+-- plugins/dap.lua
+
 return {
   {
     "mfussenegger/nvim-dap",
@@ -764,9 +780,11 @@ return {
 
 ```
 
+# 11) config/autocmds.lua
 
 ```lua
 -- lua/config/autocmds.lua
+
 -- Rust: format on save
 -- vim.api.nvim_create_autocmd("BufWritePre", {
 --   pattern = "*.rs",
@@ -820,8 +838,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
 ```
 
+# 12) plugins/mason.lua
+
 ```lua
--- in irgendeiner Datei, z.B. lua/plugins/mason.lua
+-- lua/plugins/mason.lua
 
 return {
   {
@@ -844,25 +864,31 @@ return {
 
 ```
 
+# 13) plugins/github_theme.lua
+
 ```lua
--- ~/.config/nvim/lua/plugins/github_theme.lua
-return {
-  {
-    "projekt0n/github-nvim-theme",
-    name = "github-theme",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("github-theme").setup({})
-      vim.cmd("colorscheme github_dark_dimmed")
-    end
-  },
-}
+-- plugins/github_theme.lua
+
+-- return {
+--   {
+--     "projekt0n/github-nvim-theme",
+--     name = "github-theme",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       require("github-theme").setup({})
+--       vim.cmd("colorscheme github_dark_dimmed")
+--     end
+--   },
+-- }
 
 ```
 
+# 14) plugins/nightfox.lua
+
 ```lua
--- ~/.config/nvim/lua/plugins/nightfox.lua
+-- plugins/nightfox.lua
+
 return {
   {
     "EdenEast/nightfox.nvim",
@@ -885,8 +911,11 @@ return {
 
 ```
 
+# 15) plugins/ui.lua
+
 ```lua
--- lua/plugins/ui.lua
+-- plugins/ui.lua
+
 return {
   {
     "nvim-telescope/telescope.nvim",
@@ -921,8 +950,11 @@ return {
 
 ```
 
+# 16) plugins/treesitter.lua
+
 ```lua
--- lua/plugins/treesitter.lua
+-- plugins/treesitter.lua
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
@@ -940,8 +972,11 @@ return {
 
 ```
 
+# 17) plugins/markdown.lua
+
 ```lua
--- lua/plugins/markdown.lua
+-- plugins/markdown.lua
+
 -- return {
 --   {
 --     "iamcco/markdown-preview.nvim",
@@ -967,8 +1002,10 @@ return {
 
 ```
 
+# 18) plugins/ltex.lua
+
 ```lua
--- lua/plugins/ltex.lua
+-- plugins/ltex.lua
 return {
   {
     "neovim/nvim-lspconfig",
@@ -1010,8 +1047,11 @@ return {
 
 ```
 
+# 19) plugins/notify.lua
+
 ```lua
 -- plugins/notify.lua
+
 -- local old_notify = vim.notify
 
 -- vim.notify = function(msg, log_level, opts)
@@ -1038,8 +1078,11 @@ return {
 
 ```
 
+# 20) plugins/dash.lua
+
 ```lua
 -- plugins/dash.lua
+
 -- return {
 --   "nvimdev/dashboard-nvim",
 --   lazy = false, -- As https://github.com/nvimdev/dashboard-nvim/pull/450, dashboard-nvim shouldn't be lazy-loaded to properly handle stdin.
