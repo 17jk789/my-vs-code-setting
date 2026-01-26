@@ -45,7 +45,7 @@ This repository is released under the **Apache License 2.0**.
 
 </details>
 
-# 0)
+# -1)
 
 Installiere Neovim: [Neovim](https://neovim.io/)
 
@@ -95,7 +95,35 @@ fc-cache -fv
 nvim
 ```
 
-# -1) Alacritty
+Update Neovim:
+
+```bash
+# 1) Alte Version prüfen
+/opt/nvim/bin/nvim --version
+
+# 2) Neue Version laden
+cd ~/Downloads
+wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+
+# 3) Entpacken
+tar -xzf nvim-linux-x86_64.tar.gz
+
+# 4) Backup der alten Version (wichtig!)
+sudo mv /opt/nvim /opt/nvim.bak
+
+# 5) Neue Version installieren
+sudo mv nvim-linux-x86_64 /opt/nvim
+
+# 6) Test
+/opt/nvim/bin/nvim --version
+```
+
+Wenn alles OK:
+```bash
+sudo rm -rf /opt/nvim.bak
+```
+
+# 0) Alacritty
 
 ```bash
 mkdir -p ~/.config/alacritty
