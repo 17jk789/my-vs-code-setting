@@ -112,12 +112,12 @@ opacity = 0.91
 [[keyboard.bindings]]
 key = "B"
 mods = "Control"
-action = "ToggleFullscreen"
+action = "ToggleMaximized"
 
 [[keyboard.bindings]]
 key = "B"
 mods = "Control|Shift"
-action = "ToggleMaximize"
+action = "ToggleFullscreen"
 
 # Nightfox Alacritty Colors
 ## name: carbonfox
