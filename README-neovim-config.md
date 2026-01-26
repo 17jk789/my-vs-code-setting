@@ -107,12 +107,17 @@ vim ~/.config/alacritty/alacritty.toml
 # decorations = "None"
 
 # Standard-Transparenz (80%)
-opacity = 0.8
+opacity = 0.91
 
 [[keyboard.bindings]]
 key = "B"
 mods = "Control"
 action = "ToggleFullscreen"
+
+[[keyboard.bindings]]
+key = "B"
+mods = "Control|Shift"
+action = "ToggleMaximize"
 
 # Nightfox Alacritty Colors
 ## name: carbonfox
