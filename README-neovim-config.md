@@ -534,7 +534,7 @@ Wichtig: **Keine doppelte rust-analyzer Konfiguration** — das macht nur LSPCon
 
 return {
   {
-    "simrat39/rust-tools.nvim",
+    "simrat39/rust-tools.nvim", -- This repository was archived by the owner on Jan 3, 2024. It is now read-only. 
     ft = { "rust" },
     dependencies = {
       "neovim/nvim-lspconfig",
