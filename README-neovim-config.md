@@ -552,6 +552,29 @@ vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 --   },
 -- }
 
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     dependencies = {
+--       "mason-org/mason.nvim",
+--       "mason-org/mason-lspconfig.nvim",
+--     },
+--     opts = {
+--       servers = {
+--         clangd = {
+--           cmd = {
+--             "clangd",
+--             "--background-index",
+--             "--clang-tidy",
+--             "--completion-style=detailed",
+--             "--header-insertion=never",
+--           },
+--         },
+--       },
+--     },
+--   },
+-- }
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -568,6 +591,48 @@ return {
             "--clang-tidy",
             "--completion-style=detailed",
             "--header-insertion=never",
+          },
+        },
+
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              diagnostics = {
+                disabled = {
+                  "unresolved-proc-macro",
+                  "unlinked-file",
+                },
+              },
+
+              cargo = {
+                allFeatures = true,
+                buildScripts = { enable = true },
+              },
+
+              procMacro = { enable = true },
+              lens = { enable = true },
+
+              completion = {
+                autoimport = { enable = true },
+              },
+
+              checkOnSave = {
+                command = "clippy",
+              },
+
+              inlayHints = {
+                enable = true,
+                typeHints = true,
+                parameterHints = true,
+                lifetimeElisionHints = "always",
+                closureReturnTypeHints = { enable = "always" },
+                bindingModeHints = { enable = true },
+              },
+
+              files = {
+                watcher = "client",
+              },
+            },
           },
         },
       },
@@ -738,6 +803,44 @@ return {
 --   },
 -- }
 
+-- return {
+--   {
+--     "hrsh7th/nvim-cmp",
+--     dependencies = {
+--       "hrsh7th/cmp-nvim-lsp",
+--       "L3MON4D3/LuaSnip",
+--     },
+--     opts = function(_, opts)
+--       local cmp = require("cmp")
+
+--       opts.sources = cmp.config.sources({
+--         { name = "nvim_lsp" },
+--       })
+
+--       opts.mapping = cmp.mapping.preset.insert({
+--         ["<C-Space>"] = cmp.mapping.complete(),
+--         ["<CR>"] = cmp.mapping.confirm({ select = true }),
+--         ["<Tab>"] = cmp.mapping(function(fallback)
+--           if cmp.visible() then
+--             cmp.select_next_item()
+--           else
+--             fallback()
+--           end
+--         end, { "i", "s" }),
+--         ["<S-Tab>"] = cmp.mapping(function(fallback)
+--           if cmp.visible() then
+--             cmp.select_prev_item()
+--           else
+--             fallback()
+--           end
+--         end, { "i", "s" }),
+--       })
+
+--       opts.experimental = { ghost_text = false }
+--     end,
+--   },
+-- }
+
 return {
   {
     "hrsh7th/nvim-cmp",
@@ -754,7 +857,8 @@ return {
 
       opts.mapping = cmp.mapping.preset.insert({
         ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        ["<CR>"] = cmp.mapping.confirm({ select = false }), -- safer
+
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
@@ -762,6 +866,7 @@ return {
             fallback()
           end
         end, { "i", "s" }),
+
         ["<S-Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
@@ -771,6 +876,7 @@ return {
         end, { "i", "s" }),
       })
 
+      -- Ghost text ist nice, aber manchmal störend.
       opts.experimental = { ghost_text = false }
     end,
   },
@@ -841,65 +947,185 @@ Wichtig: **Keine doppelte rust-analyzer Konfiguration** — das macht nur LSPCon
 --   },
 -- }
 
+-- return {
+--   {
+--     "simrat39/rust-tools.nvim", -- This repository was archived by the owner on Jan 3, 2024. It is now read-only. 
+--     ft = { "rust" },
+--     dependencies = {
+--       "neovim/nvim-lspconfig",
+--       "nvim-lua/plenary.nvim",
+--     },
+--     opts = function()
+--       return {
+--         server = {
+--           on_attach = function(_, bufnr)
+--             local opts = { noremap = true, silent = true, buffer = bufnr }
+
+--             vim.keymap.set("n", "<Leader>rr", ":split | terminal cargo run<CR>", opts)
+--             vim.keymap.set("n", "<Leader>rd", ":split | terminal cargo debug<CR>i", opts)
+--             vim.keymap.set("n", "<Leader>rb", ":split | terminal cargo build<CR>i", opts)
+--             vim.keymap.set("n", "<Leader>rh", "<cmd>RustHoverActions<CR>", opts)
+--             vim.keymap.set("n", "<Leader>rc", "<cmd>RustOpenCargo<CR>", opts)
+
+--             -- Auto Reload: Rust Analyzer neu laden wenn neue Datei erstellt wird
+--             -- vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+--             --   pattern = { "*.rs", "Cargo.toml" },
+--             --   callback = function()
+--             --     -- nur wenn rust-tools aktiv ist
+--             --     local ok, _ = pcall(vim.cmd, "RustReloadWorkspace")
+--             --     if not ok then
+--             --       -- fallback: LSP Restart
+--             --       pcall(vim.cmd, "LspRestart")
+--             --     end
+--             --   end,
+--             -- })
+--           end,
+
+--           settings = {
+--             ["rust-analyzer"] = {
+--               diagnostics = {
+--                 disabled = { "unresolved-proc-macro", "unlinked-file" },
+--               },
+--               cargo = { allFeatures = true },
+--               checkOnSave = { command = "clippy" },
+--               inlayHints = {
+--                 enable = true,
+--                 typeHints = true,
+--                 parameterHints = true,
+--                 lifetimeElisionHints = "always",
+--               },
+--             },
+--           },
+--         },
+--       }
+--     end,
+--   },
+
+--   {
+--     "Saecki/crates.nvim",
+--     ft = { "rust", "toml" },
+--     config = function()
+--       require("crates").setup()
+--     end,
+--   },
+-- }
+
+-- return {
+--   {
+--     "simrat39/rust-tools.nvim", -- This repository was archived by the owner on Jan 3, 2024. It is now read-only. 
+--     ft = { "rust" },
+--     dependencies = {
+--       "neovim/nvim-lspconfig",
+--       "nvim-lua/plenary.nvim",
+--     },
+--     opts = function()
+--       return {
+--         server = {
+--           on_attach = function(_, bufnr)
+--             local opts = { noremap = true, silent = true, buffer = bufnr }
+
+--             vim.keymap.set("n", "<Leader>rr", ":split | terminal cargo run<CR>", opts)
+--             vim.keymap.set("n", "<Leader>rd", ":split | terminal cargo debug<CR>i", opts)
+--             vim.keymap.set("n", "<Leader>rb", ":split | terminal cargo build<CR>i", opts)
+--             vim.keymap.set("n", "<Leader>rh", "<cmd>RustHoverActions<CR>", opts)
+--             vim.keymap.set("n", "<Leader>rc", "<cmd>RustOpenCargo<CR>", opts)
+
+--             -- Auto Reload: Rust Analyzer neu laden wenn neue Datei erstellt wird
+--             -- vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
+--             --   pattern = { "*.rs", "Cargo.toml" },
+--             --   callback = function()
+--             --     -- nur wenn rust-tools aktiv ist
+--             --     local ok, _ = pcall(vim.cmd, "RustReloadWorkspace")
+--             --     if not ok then
+--             --       -- fallback: LSP Restart
+--             --       pcall(vim.cmd, "LspRestart")
+--             --     end
+--             --   end,
+--             -- })
+--           end,
+
+--           settings = {
+--             ["rust-analyzer"] = {
+--               diagnostics = {
+--                 disabled = {
+--                   "unresolved-proc-macro",
+--                   "unlinked-file",
+--                 },
+--                 experimental = {
+--                   enable = true,
+--                 },
+--               },
+
+--               cargo = {
+--                 allFeatures = true,
+--                 buildScripts = {
+--                   enable = true,
+--                 },
+--               },
+
+--               procMacro = {
+--                 enable = true,
+--               },
+
+--               lens = {
+--                 enable = true,
+--               },
+
+--               completion = {
+--                 autoimport = {
+--                   enable = true,
+--                 },
+--               },
+
+--               checkOnSave = {
+--                 command = "clippy",
+--               },
+
+--               inlayHints = {
+--                 enable = true,
+--                 typeHints = true,
+--                 parameterHints = true,
+--                 lifetimeElisionHints = "always",
+--                 closureReturnTypeHints = {
+--                   enable = "always",
+--                 },
+--                 bindingModeHints = {
+--                   enable = true,
+--                 },
+--               },
+
+--               files = {
+--                 watcher = "client",
+--               },
+--             }
+--           },
+--         },
+--       }
+--     end,
+--   },
+
+--   {
+--     "Saecki/crates.nvim",
+--     ft = { "rust", "toml" },
+--     config = function()
+--       require("crates").setup()
+--     end,
+--   },
+-- }
+
 return {
-  {
-    "simrat39/rust-tools.nvim", -- This repository was archived by the owner on Jan 3, 2024. It is now read-only. 
-    ft = { "rust" },
-    dependencies = {
-      "neovim/nvim-lspconfig",
-      "nvim-lua/plenary.nvim",
-    },
-    opts = function()
-      return {
-        server = {
-          on_attach = function(_, bufnr)
-            local opts = { noremap = true, silent = true, buffer = bufnr }
-
-            vim.keymap.set("n", "<Leader>rr", ":split | terminal cargo run<CR>", opts)
-            vim.keymap.set("n", "<Leader>rd", ":split | terminal cargo debug<CR>i", opts)
-            vim.keymap.set("n", "<Leader>rb", ":split | terminal cargo build<CR>i", opts)
-            vim.keymap.set("n", "<Leader>rh", "<cmd>RustHoverActions<CR>", opts)
-            vim.keymap.set("n", "<Leader>rc", "<cmd>RustOpenCargo<CR>", opts)
-
-            -- Auto Reload: Rust Analyzer neu laden wenn neue Datei erstellt wird
-            -- vim.api.nvim_create_autocmd({ "BufWritePost", "BufEnter" }, {
-            --   pattern = { "*.rs", "Cargo.toml" },
-            --   callback = function()
-            --     -- nur wenn rust-tools aktiv ist
-            --     local ok, _ = pcall(vim.cmd, "RustReloadWorkspace")
-            --     if not ok then
-            --       -- fallback: LSP Restart
-            --       pcall(vim.cmd, "LspRestart")
-            --     end
-            --   end,
-            -- })
-          end,
-
-          settings = {
-            ["rust-analyzer"] = {
-              diagnostics = {
-                disabled = { "unresolved-proc-macro", "unlinked-file" },
-              },
-              cargo = { allFeatures = true },
-              checkOnSave = { command = "clippy" },
-              inlayHints = {
-                enable = true,
-                typeHints = true,
-                parameterHints = true,
-                lifetimeElisionHints = "always",
-              },
-            },
-          },
-        },
-      }
-    end,
-  },
-
   {
     "Saecki/crates.nvim",
     ft = { "rust", "toml" },
     config = function()
-      require("crates").setup()
+      require("crates").setup({
+        completion = {
+          cmp = { enabled = true },
+        },
+        popup = {
+          border = "rounded",
+        },
+      })
     end,
   },
 }
@@ -1127,21 +1353,78 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
--- Always end file with newline
+-- -- Always end file with newline
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   callback = function()
+--     local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+--     if #lines == 0 or lines[#lines] ~= "" then
+--       vim.api.nvim_buf_set_lines(0, -1, -1, false, { "" })
+--     end
+--   end,
+-- })
+
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "markdown", "text", "rust", "c", "cpp", "java", "lua", "latex" },
+--   callback = function()
+--     vim.opt_local.spell = true
+--     vim.opt_local.spelllang = { "en_us" }
+--   end,
+-- })
+
+local augroup = vim.api.nvim_create_augroup("UserAutocmds", { clear = true })
+
 vim.api.nvim_create_autocmd("BufWritePre", {
+  group = augroup,
+  pattern = "*.rs",
   callback = function()
-    local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
-    if #lines == 0 or lines[#lines] ~= "" then
-      vim.api.nvim_buf_set_lines(0, -1, -1, false, { "" })
-    end
+    vim.lsp.buf.format({
+      async = false,
+      filter = function(client)
+        return client.name == "rust_analyzer"
+      end,
+    })
   end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "markdown", "text", "rust", "c", "cpp", "java", "lua", "latex" },
+  group = augroup,
+  pattern = { "markdown", "text", "latex" },
   callback = function()
     vim.opt_local.spell = true
     vim.opt_local.spelllang = { "en_us" }
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup,
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client and client.name == "rust_analyzer" then
+      vim.lsp.codelens.refresh()
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd(
+  { "BufEnter", "BufWritePost", "InsertLeave" },
+  {
+    group = augroup,
+    pattern = "*.rs",
+    callback = function()
+      pcall(vim.lsp.codelens.refresh)
+    end,
+  }
+)
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "rust",
+  callback = function()
+    local opts = { noremap = true, silent = true, buffer = true }
+
+    vim.keymap.set("n", "<leader>rr", ":split | terminal cargo run<CR>", opts)
+    vim.keymap.set("n", "<leader>rb", ":split | terminal cargo build<CR>", opts)
+    vim.keymap.set("n", "<leader>rt", ":split | terminal cargo test<CR>", opts)
+    vim.keymap.set("n", "<leader>rc", ":edit Cargo.toml<CR>", opts)
   end,
 })
 
