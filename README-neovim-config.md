@@ -390,14 +390,14 @@ color = "#ff7eb6"
 
 ```
 
-## oh-my-posh
+## oh-my-posh – würde ich nicht wirklich empfehlen, aber cool!
 
 ```bash
-curl -s https://ohmyposh.dev/install.sh | bash -s && \
-mkdir -p ~/.poshthemes && \
-oh-my-posh get theme illusi0n --output ~/.poshthemes/illusi0n.omp.json && \
-grep -qxF 'eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"' ~/.bashrc || echo 'eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"' >> ~/.bashrc && \
-source ~/.bashrc
+# curl -s https://ohmyposh.dev/install.sh | bash -s && \
+# mkdir -p ~/.poshthemes && \
+# oh-my-posh get theme illusi0n --output ~/.poshthemes/illusi0n.omp.json && \
+# grep -qxF 'eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"' ~/.bashrc || echo 'eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"' >> ~/.bashrc && \
+# source ~/.bashrc
 ```
 
 # 1) Struktur 
