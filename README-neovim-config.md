@@ -390,6 +390,17 @@ color = "#ff7eb6"
 
 ```
 
+## oh-my-posh
+
+```bash
+sudo apt install oh-my-posh
+mkdir -p ~/.poshthemes
+oh-my-posh get theme illusi0n --output ~/.poshthemes/illusi0n.omp.json
+nano ~/.bashrc
+eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"
+source ~/.bashrc
+```
+
 # 1) Struktur 
 
 ```text
