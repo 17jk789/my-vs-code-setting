@@ -393,11 +393,10 @@ color = "#ff7eb6"
 ## oh-my-posh
 
 ```bash
-sudo apt install oh-my-posh
-mkdir -p ~/.poshthemes
-oh-my-posh get theme illusi0n --output ~/.poshthemes/illusi0n.omp.json
-nano ~/.bashrc
-eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"
+curl -s https://ohmyposh.dev/install.sh | bash -s && \
+mkdir -p ~/.poshthemes && \
+oh-my-posh get theme illusi0n --output ~/.poshthemes/illusi0n.omp.json && \
+grep -qxF 'eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"' ~/.bashrc || echo 'eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"' >> ~/.bashrc && \
 source ~/.bashrc
 ```
 
