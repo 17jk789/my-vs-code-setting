@@ -409,6 +409,7 @@ color = "#ff7eb6"
     ├── config/
     │   ├── options.lua
     │   ├── keymaps.lua
+    │   ├── lazyvim.lua
     │   └── autocmds.lua
     └── plugins/
         ├── lsp.lua
@@ -1866,5 +1867,19 @@ return {
 
 --     return opts
 --   end,
+-- }
+```
+
+# config/lazyvim.lua
+
+Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
+
+Lösung:
+
+```lua
+-- config/lazyvim.lua
+-- return {
+--   -- disable lazyvim's builtin cmp
+--   { "hrsh7th/nvim-cmp", enabled = false },
 -- }
 ```
