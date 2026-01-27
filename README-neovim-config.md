@@ -1147,6 +1147,7 @@ return {
     ft = { "toml" },
     dependencies = {
       "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
     },
     config = function()
       local ok, crates = pcall(require, "crates")
