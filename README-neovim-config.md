@@ -1476,17 +1476,17 @@ return {
 -- })
 
 -- Rust format on save
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*.rs",
-  callback = function()
-    vim.lsp.buf.format({
-      async = false,
-      filter = function(client)
-        return client.name == "rust_analyzer"
-      end,
-    })
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   pattern = "*.rs",
+--   callback = function()
+--     vim.lsp.buf.format({
+--       async = false,
+--       filter = function(client)
+--         return client.name == "rust_analyzer"
+--       end,
+--     })
+--   end,
+-- })
 
 -- -- Always end file with newline
 -- vim.api.nvim_create_autocmd("BufWritePre", {
@@ -1552,6 +1552,7 @@ vim.api.nvim_create_autocmd(
 )
 
 vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
   pattern = "rust",
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
