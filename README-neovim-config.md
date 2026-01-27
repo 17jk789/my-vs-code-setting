@@ -1870,7 +1870,7 @@ return {
 -- }
 ```
 
-# config/lazyvim.lua
+# 21 config/lazyvim.lua
 
 Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
 
