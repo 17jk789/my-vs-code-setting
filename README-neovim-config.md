@@ -425,6 +425,7 @@ color = "#ff7eb6"
         ├── treesitter.lua
         ├── markdown.lua
         ├── ltex.lua
+        ├── git.lua
         ├── notify.lua
         └── dash.lua
 ```
@@ -1843,7 +1844,19 @@ return {
 
 ```
 
-# 20) plugins/dash.lua
+# 20) plugins/git.lua
+
+```lua
+-- plugins/git.lua
+return {
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {},
+  },
+}
+```
+
+# 21) plugins/dash.lua
 
 ```lua
 -- plugins/dash.lua
@@ -1915,7 +1928,7 @@ return {
 -- }
 ```
 
-# 21 config/lazyvim.lua
+# 22 config/lazyvim.lua
 
 Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
 
