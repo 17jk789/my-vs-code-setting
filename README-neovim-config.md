@@ -1803,6 +1803,19 @@ return {
       vim.cmd("colorscheme carbonfox")
 
       -- GLOBAL: alles transparent machen
+      -- local groups = {
+      --   "Normal",
+      --   "NormalNC",
+      --   "NormalFloat",
+      --   "FloatBorder",
+      --   "SignColumn",
+      --   "EndOfBuffer",
+      --   "LineNr",
+      --   "CursorLineNr",
+      --   "VertSplit",
+      --   "WinSeparator",
+      -- }
+
       local groups = {
         "Normal",
         "NormalNC",
@@ -1814,6 +1827,13 @@ return {
         "CursorLineNr",
         "VertSplit",
         "WinSeparator",
+        "TabLine",
+        "TabLineSel",
+        "TabLineFill",
+        "StatusLine",
+        "StatusLineNC",
+        "WinBar",
+        "WinBarNC",
       }
 
       for _, group in ipairs(groups) do
