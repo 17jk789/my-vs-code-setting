@@ -1585,6 +1585,7 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
+    vim.keymap.set("n", "<leader>rca", ":split | terminal cargo build && cargo run<CR>", opts)
     vim.keymap.set("n", "<leader>rcr", ":split | terminal cargo run<CR>", opts)
     vim.keymap.set("n", "<leader>rcb", ":split | terminal cargo build<CR>", opts)
     vim.keymap.set("n", "<leader>rct", ":split | terminal cargo test<CR>", opts)
