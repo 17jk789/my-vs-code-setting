@@ -1730,6 +1730,8 @@ return {
         "codelldb",
         "jdtls",
         "ltex-ls",
+        "java-debug-adapter",
+        "java-test",
       },
     },
   },
