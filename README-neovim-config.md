@@ -58,7 +58,8 @@ sudo apt update
 sudo apt install curl wget unzip build-essential
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
-sudo apt install openjdk-21-jdk gradle maven
+sudo apt install openjdk-21-jdk maven
+sudo snap install gradle --classic
 sudo apt install wl-clipboard fd-find tmux
 sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
 # sudo apt install kitty
@@ -1353,26 +1354,29 @@ return {
 
       local opts = { noremap = true, silent = true, buffer = true }
 
-      vim.keymap.set(
-        "n",
-        "<leader>rr",
-        ":w | split | terminal (./gradlew build && ./gradlew run || (echo 'Updating Gradle wrapper...' && ./gradlew wrapper --gradle-version 8.3 && ./gradlew build && ./gradlew run))<CR>",
-        opts
-      )
+      local function gradle_run(cmd)
+        vim.cmd("w")
 
-      vim.keymap.set(
-        "n",
-        "<leader>rg",
-        ":w | split | terminal (./gradlew run || (echo 'Updating Gradle wrapper...' && ./gradlew wrapper --gradle-version 8.3 && ./gradlew run))<CR>",
-        opts
-      )
+        local gradlew = vim.fn.filereadable("./gradlew") == 1 and "./gradlew" or "gradle"
 
-      vim.keymap.set(
-        "n",
-        "<leader>rb",
-        ":w | split | terminal (./gradlew build || (echo 'Updating Gradle wrapper...' && ./gradlew wrapper --gradle-version 8.3 && ./gradlew build))<CR>",
-        opts
-      )
+        local full_cmd = gradlew .. " " .. cmd
+        local fallback_cmd = "(echo 'Gradle fehlgeschlagen. Bitte Wrapper aktualisieren!' && " .. full_cmd .. ")"
+
+        vim.cmd("botright split")
+        vim.fn.termopen(full_cmd)
+      end
+
+      vim.keymap.set("n", "<leader>rga", function()
+        gradle_run("build && run")
+      end, opts)
+
+      vim.keymap.set("n", "<leader>rgr", function()
+        gradle_run("run")
+      end, opts)
+
+      vim.keymap.set("n", "<leader>rgb", function()
+        gradle_run("build")
+      end, opts)
     end,
   },
 }
@@ -1581,10 +1585,10 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
-    vim.keymap.set("n", "<leader>rr", ":split | terminal cargo run<CR>", opts)
-    vim.keymap.set("n", "<leader>rb", ":split | terminal cargo build<CR>", opts)
-    vim.keymap.set("n", "<leader>rt", ":split | terminal cargo test<CR>", opts)
-    vim.keymap.set("n", "<leader>rc", ":edit Cargo.toml<CR>", opts)
+    vim.keymap.set("n", "<leader>rcr", ":split | terminal cargo run<CR>", opts)
+    vim.keymap.set("n", "<leader>rcb", ":split | terminal cargo build<CR>", opts)
+    vim.keymap.set("n", "<leader>rct", ":split | terminal cargo test<CR>", opts)
+    vim.keymap.set("n", "<leader>rcc", ":edit Cargo.toml<CR>", opts)
   end,
 })
 
