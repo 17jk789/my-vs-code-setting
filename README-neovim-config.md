@@ -1895,9 +1895,12 @@ return {
     build = ":TSUpdate",
     opts = {
       ensure_installed = {
-        "lua", "rust", "cpp", "c", "java", "toml",
-        "markdown", "markdown_inline",
-        "html", "css", "python", "javascript", "json", "latex"
+        "c", "cpp", "rust", "java", "kotlin",
+        "lua", "python", "javascript", "typescript",
+        "toml", "yaml", "json", "json5", "ini", "xml",
+        "makefile", "cmake", "gradle", "bash", "sh",
+        "markdown", "markdown_inline", "rst", "latex",
+        "html", "css", "sql"
       },
       highlight = { enable = true },
     },
