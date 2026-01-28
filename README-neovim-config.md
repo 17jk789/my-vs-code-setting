@@ -1353,8 +1353,26 @@ return {
 
       local opts = { noremap = true, silent = true, buffer = true }
 
-      vim.keymap.set("n", "<leader>rg", ":w | split | terminal ./gradlew run<CR>", opts)
-      vim.keymap.set("n", "<leader>rb", ":w | split | terminal ./gradlew build<CR>", opts)
+      vim.keymap.set(
+        "n",
+        "<leader>rr",
+        ":w | split | terminal (./gradlew build && ./gradlew run || (echo 'Updating Gradle wrapper...' && ./gradlew wrapper --gradle-version 8.3 && ./gradlew build && ./gradlew run))<CR>",
+        opts
+      )
+
+      vim.keymap.set(
+        "n",
+        "<leader>rg",
+        ":w | split | terminal (./gradlew run || (echo 'Updating Gradle wrapper...' && ./gradlew wrapper --gradle-version 8.3 && ./gradlew run))<CR>",
+        opts
+      )
+
+      vim.keymap.set(
+        "n",
+        "<leader>rb",
+        ":w | split | terminal (./gradlew build || (echo 'Updating Gradle wrapper...' && ./gradlew wrapper --gradle-version 8.3 && ./gradlew build))<CR>",
+        opts
+      )
     end,
   },
 }
