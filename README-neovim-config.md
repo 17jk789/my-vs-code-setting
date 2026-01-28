@@ -1628,33 +1628,28 @@ return {
 
       dap.configurations.c = dap.configurations.cpp
 
-      -- Java Adapter
-      dap.adapters.java = function(callback)
-        local jars = vim.fn.glob(
-          mason_path .. "/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar",
-          0,
-          1
-        )
-
-        if #jars == 0 then
-          vim.notify("java-debug-adapter jar nicht gefunden (Mason).", vim.log.levels.ERROR)
-          return
-        end
-
-        callback({
-          type = "executable",
-          command = "java",
-          args = { "-jar", jars[1] },
-        })
+      -- Java Adapter + Config über nvim-jdtls
+      local jdtls_ok, jdtls = pcall(require, "jdtls")
+      if not jdtls_ok then
+        vim.notify("nvim-jdtls nicht installiert. Bitte installieren!", vim.log.levels.ERROR)
+        return
       end
 
-      -- Java Config
+      -- Java DAP Adapter wird automatisch von jdtls bereitgestellt
+      dap.adapters.java = function(callback)
+        -- jdtls stellt Adapter bereit
+        local jdtls_adapter = require("jdtls.dap").setup_dap_main_class_configs()
+        callback(jdtls_adapter)
+      end
+
+      -- Java Configs
       dap.configurations.java = {
         {
           type = "java",
           request = "launch",
           name = "Launch Main",
           mainClass = function()
+            -- Auto-Eingabe für Main Class, kann auch über jdtls automatisiert werden
             return vim.fn.input("Main class > ", "", "file")
           end,
           projectName = function()
