@@ -55,7 +55,7 @@ Installiere Neovim: [Neovim](https://neovim.io/)
 
 ```bash
 sudo apt update
-sudo apt install curl wget unzip build-essential
+sudo apt install curl wget unzip build-essential cmark
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk maven
@@ -1578,6 +1578,49 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", opts)
     vim.keymap.set("n", "<leader>rrt", ":split | terminal ./gradlew test<CR>", opts)
     vim.keymap.set("n", "<leader>rrg", ":edit build.gradle<CR>", opts)
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = { "c", "cpp" },
+  callback = function()
+    local opts = { noremap = true, silent = true, buffer = true }
+
+    vim.keymap.set(
+      "n",
+      "<leader>rra",
+      ":split | terminal sh -c 'cmake -S . -B build && cmake --build build && ./build/app'<CR>",
+      opts
+    )
+
+    vim.keymap.set(
+      "n",
+      "<leader>rrr",
+      ":split | terminal ./build/app<CR>",
+      opts
+    )
+
+    vim.keymap.set(
+      "n",
+      "<leader>rrb",
+      ":split | terminal cmake --build build<CR>",
+      opts
+    )
+
+    vim.keymap.set(
+      "n",
+      "<leader>rrt",
+      ":split | terminal sh -c 'cd build && ctest'<CR>",
+      opts
+    )
+
+    vim.keymap.set(
+      "n",
+      "<leader>rrg",
+      ":edit CMakeLists.txt<CR>",
+      opts
+    )
   end,
 })
 ```
