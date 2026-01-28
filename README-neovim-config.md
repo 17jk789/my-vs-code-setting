@@ -1540,104 +1540,147 @@ return {
 --   },
 -- }
 
-
 return {
   {
     "mfussenegger/nvim-dap",
     dependencies = {
-      { "rcarriga/nvim-dap-ui" },
+      {
+        "rcarriga/nvim-dap-ui",
+        dependencies = {
+          "nvim-neotest/nvim-nio",
+        },
+      },
       "jay-babu/mason-nvim-dap.nvim",
     },
     config = function()
-      local dap = require("dap")
-      local dapui = require("dapui")
+      local ok_dap, dap = pcall(require, "dap")
+      if not ok_dap then
+        vim.notify("nvim-dap not found", vim.log.levels.ERROR)
+        return
+      end
 
-      -- DAP UI Setup
-      dapui.setup()
+      local ok_ui, dapui = pcall(require, "dapui")
+      if not ok_ui then
+        vim.notify("nvim-dap-ui not found", vim.log.levels.ERROR)
+        return
+      end
+
+      -- Mason DAP installieren & sicherstellen
+      require("mason-nvim-dap").setup({
+        ensure_installed = { "codelldb", "java" },
+        automatic_installation = true,
+      })
+
+      -- DAP UI konfigurieren
+      dapui.setup({
+        icons = { expanded = "▾", collapsed = "▸" },
+        mappings = {
+          expand = { "<CR>", "<2-LeftMouse>" },
+          open = "o",
+          remove = "d",
+          edit = "e",
+          repl = "r",
+        },
+        layouts = {
+          {
+            elements = { "scopes", "breakpoints", "stacks", "watches" },
+            size = 40,
+            position = "left",
+          },
+          {
+            elements = { "repl", "console" },
+            size = 0.25,
+            position = "bottom",
+          },
+        },
+        floating = { max_height = 0.9, max_width = 0.5, border = "rounded", mappings = { close = { "q", "<Esc>" } } },
+      })
+
+      -- DAP UI automatisch öffnen/schließen
       dap.listeners.after.event_initialized["dapui"] = function() dapui.open() end
       dap.listeners.before.event_terminated["dapui"] = function() dapui.close() end
       dap.listeners.before.event_exited["dapui"] = function() dapui.close() end
 
-      -- Mason DAP Adapter Setup
+      -- Rust / C++ Adapter: codelldb
       local mason_path = vim.fn.stdpath("data") .. "/mason"
       local codelldb_path = mason_path .. "/packages/codelldb/extension/adapter/codelldb"
-      require("mason-nvim-dap").setup({
-        ensure_installed = { "codelldb", "java-debug-adapter" },
-      })
 
-      -- Rust/C++ Adapter
       dap.adapters.codelldb = {
         type = "server",
         port = "${port}",
-        executable = { command = codelldb_path, args = { "--port", "${port}" } },
+        executable = {
+          command = codelldb_path,
+          args = { "--port", "${port}" },
+        },
       }
 
+      local function input_program(default_path)
+        return vim.fn.input("Path to executable: ", default_path, "file")
+      end
+
+      -- Rust DAP Konfiguration
       dap.configurations.rust = {
         {
           name = "Debug Rust",
           type = "codelldb",
           request = "launch",
-          program = function()
-            return vim.fn.input("Executable path: ", vim.fn.getcwd() .. "/target/debug/", "file")
-          end,
+          program = function() return input_program(vim.fn.getcwd() .. "/target/debug/") end,
           cwd = "${workspaceFolder}",
           stopOnEntry = false,
           args = {},
         },
       }
 
+      -- C++ DAP Konfiguration
       dap.configurations.cpp = {
         {
           name = "Debug C++",
           type = "codelldb",
           request = "launch",
-          program = function()
-            return vim.fn.input("Executable path: ", vim.fn.getcwd() .. "/build/", "file")
-          end,
+          program = function() return input_program(vim.fn.getcwd() .. "/build/") end,
           cwd = "${workspaceFolder}",
           stopOnEntry = false,
           args = {},
         },
       }
+
+      -- C DAP = gleiche wie C++
       dap.configurations.c = dap.configurations.cpp
 
-      -- Java Adapter (ohne LSP)
-      local java_debug_path = mason_path .. "/packages/java-debug-adapter"
-      local java_launcher = java_debug_path .. "/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar"
-      local jar_files = vim.fn.glob(java_launcher, true, true)
-      local jar = jar_files[1]
-      if not jar then
-        vim.notify("Java Debug Adapter Jar nicht gefunden! Installiere über Mason.", vim.log.levels.ERROR)
-      else
-        dap.adapters.java = {
-          type = "executable",
-          command = "java",
-          args = {
-            "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=1044",
-            "-jar", jar,
-          },
-        }
+      -- Java Adapter: jdtls (via nvim-jdtls)
+      local ok_jdtls, jdtls = pcall(require, "jdtls")
+      if ok_jdtls then
+        dap.adapters.java = function(callback)
+          local bundles = vim.fn.glob(vim.fn.stdpath("data") .. "/mason/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar", true, true)
+          callback({
+            type = "server",
+            host = "127.0.0.1",
+            port = 5005,
+            executable = {
+              command = "java",
+              args = {
+                "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005",
+                "-jar",
+                bundles[1],
+              },
+            },
+          })
+        end
 
         dap.configurations.java = {
           {
             type = "java",
-            request = "launch",
-            name = "Launch Java",
-            mainClass = function()
-              return vim.fn.input("Main class (z.B. com.example.Main): ")
-            end,
-            projectName = function()
-              return vim.fn.input("Project name: ")
-            end,
-            cwd = vim.fn.getcwd(),
-            stopOnEntry = false,
-            args = {},
+            request = "attach",
+            name = "Attach to Java Process",
+            hostName = "127.0.0.1",
+            port = 5005,
           },
         }
       end
     end,
   },
 }
+
 
 ```
 
