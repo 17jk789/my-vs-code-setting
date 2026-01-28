@@ -1350,6 +1350,12 @@ return {
       }
 
       jdtls.start_or_attach(config)
+
+      local opts = { noremap = true, silent = true, buffer = true }
+
+      vim.keymap.set("n", "<leader>rr", ":w | split | terminal javac % && java %:r<CR>", opts)
+      vim.keymap.set("n", "<leader>rg", ":w | split | terminal ./gradlew run<CR>", opts)
+      vim.keymap.set("n", "<leader>rb", ":w | split | terminal ./gradlew build<CR>", opts)
     end,
   },
 }
