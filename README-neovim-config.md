@@ -1558,8 +1558,7 @@ return {
       local dapui = require("dapui")
 
       local mason_path = vim.fn.stdpath("data") .. "/mason"
-      local codelldb_path =
-        mason_path .. "/packages/codelldb/extension/adapter/codelldb"
+      local codelldb_path = mason_path .. "/packages/codelldb/extension/adapter/codelldb"
 
       -- Mason DAP Setup
       require("mason-nvim-dap").setup({
@@ -1628,28 +1627,35 @@ return {
 
       dap.configurations.c = dap.configurations.cpp
 
-      -- Java Adapter + Config über nvim-jdtls
+      -- Java Adapter über nvim-jdtls
       local jdtls_ok, jdtls = pcall(require, "jdtls")
       if not jdtls_ok then
         vim.notify("nvim-jdtls nicht installiert. Bitte installieren!", vim.log.levels.ERROR)
         return
       end
 
-      -- Java DAP Adapter wird automatisch von jdtls bereitgestellt
+      -- Adapter-Funktion, die immer ein Table liefert
       dap.adapters.java = function(callback)
-        -- jdtls stellt Adapter bereit
-        local jdtls_adapter = require("jdtls.dap").setup_dap_main_class_configs()
-        callback(jdtls_adapter)
+        local ok, jdtls_dap = pcall(require, "jdtls.dap")
+        if not ok or not jdtls_dap then
+          vim.notify("jdtls.dap konnte nicht geladen werden", vim.log.levels.ERROR)
+          return
+        end
+        local configs = jdtls_dap.setup_dap_main_class_configs()
+        if not configs then
+          vim.notify("Keine Java-DAP-Konfiguration gefunden", vim.log.levels.WARN)
+          return
+        end
+        callback(configs)
       end
 
-      -- Java Configs
+      -- Java Debug Configs
       dap.configurations.java = {
         {
           type = "java",
           request = "launch",
           name = "Launch Main",
           mainClass = function()
-            -- Auto-Eingabe für Main Class, kann auch über jdtls automatisiert werden
             return vim.fn.input("Main class > ", "", "file")
           end,
           projectName = function()
