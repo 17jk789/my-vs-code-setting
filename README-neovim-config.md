@@ -1353,7 +1353,30 @@ return {
 
       local opts = { noremap = true, silent = true, buffer = true }
 
-      vim.keymap.set("n", "<leader>rr", ":w | split | terminal javac % && java %:r<CR>", opts)
+      vim.keymap.set("n", "<leader>rr", function()
+        vim.cmd("w")
+
+        local file = vim.fn.expand("%")
+        local safe_file = vim.fn.shellescape(file)
+        local classname = vim.fn.expand("%:r")
+
+        local package = vim.fn.system(
+          "grep -E '^\\s*package ' " .. safe_file .. " | sed 's/package \\(.*\\);/\\1/'"
+        ):gsub("%s+", "")
+
+        local full_class = classname
+        if package ~= "" then
+          full_class = package .. "." .. classname
+        end
+
+        vim.cmd(
+          "split | terminal javac -d . "
+            .. safe_file
+            .. " && java -cp . "
+            .. full_class
+        )
+      end, opts)
+
       vim.keymap.set("n", "<leader>rg", ":w | split | terminal ./gradlew run<CR>", opts)
       vim.keymap.set("n", "<leader>rb", ":w | split | terminal ./gradlew build<CR>", opts)
     end,
