@@ -189,8 +189,8 @@ background = "#353535"
 
 [colors.selection]
 text = "#f2f4f8"
-# background = "#2a2a2a"
-background = "#52bdff"
+background = "#2a2a2a"
+# background = "#52bdff"
 
 [colors.normal]
 black = "#282828"
