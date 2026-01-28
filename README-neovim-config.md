@@ -1798,11 +1798,6 @@ return {
           transparent = true,
           terminal_colors = true,
         },
-        groups = {
-          all = {
-              Visual = { bg = "#3b82f680" },
-            },
-          },
       })
 
       vim.cmd("colorscheme carbonfox")
