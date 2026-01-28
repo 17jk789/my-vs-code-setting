@@ -1630,17 +1630,21 @@ return {
 
       -- Java Adapter
       dap.adapters.java = function(callback)
-        local jar = vim.fn.glob(
-          mason_path .. "/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"
+        local jars = vim.fn.glob(
+          mason_path .. "/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar",
+          0,
+          1
         )
-        if not jar or jar == "" then
-          vim.notify("java-debug-adapter jar nicht gefunden. Installiere über Mason.", vim.log.levels.ERROR)
+
+        if #jars == 0 then
+          vim.notify("java-debug-adapter jar nicht gefunden (Mason).", vim.log.levels.ERROR)
           return
         end
+
         callback({
           type = "executable",
           command = "java",
-          args = { "-jar", jar },
+          args = { "-jar", jars[1] },
         })
       end
 
