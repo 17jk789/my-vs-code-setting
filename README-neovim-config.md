@@ -1354,28 +1354,37 @@ return {
 
       local opts = { noremap = true, silent = true, buffer = true }
 
-      local function gradle_run(cmd)
-        vim.cmd("w")
+      local opts = { noremap = true, silent = true, buffer = true }
 
-        local gradlew = vim.fn.filereadable("./gradlew") == 1 and "./gradlew" or "gradle"
-
-        local full_cmd = gradlew .. " " .. cmd
-        local fallback_cmd = "(echo 'Gradle fehlgeschlagen. Bitte Wrapper aktualisieren!' && " .. full_cmd .. ")"
-
-        vim.cmd("botright split")
-        vim.fn.termopen(full_cmd)
+      local function gradle_cmd()
+        if vim.fn.filereadable("gradlew") == 1 then
+          return "./gradlew"
+        end
+        return "gradle"
       end
 
-      vim.keymap.set("n", "<leader>rga", function()
-        gradle_run("build && run")
-      end, opts)
+      local function gradle_run(tasks)
+        vim.cmd("w")
 
-      vim.keymap.set("n", "<leader>rgr", function()
+        local cmd = gradle_cmd() .. " " .. tasks
+
+        vim.cmd("botright split")
+        vim.cmd("resize 15")
+
+        vim.fn.termopen(cmd)
+        vim.cmd("startinsert")
+      end
+
+      vim.keymap.set("n", "<leader>rrr", function()
         gradle_run("run")
       end, opts)
 
-      vim.keymap.set("n", "<leader>rgb", function()
+      vim.keymap.set("n", "<leader>rrb", function()
         gradle_run("build")
+      end, opts)
+
+      vim.keymap.set("n", "<leader>rra", function()
+        gradle_run("build run")
       end, opts)
     end,
   },
@@ -1585,11 +1594,11 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
-    vim.keymap.set("n", "<leader>rca", ":split | terminal cargo build && cargo run<CR>", opts)
-    vim.keymap.set("n", "<leader>rcr", ":split | terminal cargo run<CR>", opts)
-    vim.keymap.set("n", "<leader>rcb", ":split | terminal cargo build<CR>", opts)
-    vim.keymap.set("n", "<leader>rct", ":split | terminal cargo test<CR>", opts)
-    vim.keymap.set("n", "<leader>rcc", ":edit Cargo.toml<CR>", opts)
+    vim.keymap.set("n", "<leader>rra", ":split | terminal cargo build && cargo run<CR>", opts)
+    vim.keymap.set("n", "<leader>rrr", ":split | terminal cargo run<CR>", opts)
+    vim.keymap.set("n", "<leader>rrb", ":split | terminal cargo build<CR>", opts)
+    vim.keymap.set("n", "<leader>rrt", ":split | terminal cargo test<CR>", opts)
+    vim.keymap.set("n", "<leader>rrc", ":edit Cargo.toml<CR>", opts)
   end,
 })
 
