@@ -1351,41 +1351,6 @@ return {
       }
 
       jdtls.start_or_attach(config)
-
-      local opts = { noremap = true, silent = true, buffer = true }
-
-      local opts = { noremap = true, silent = true, buffer = true }
-
-      local function gradle_cmd()
-        if vim.fn.filereadable("gradlew") == 1 then
-          return "./gradlew"
-        end
-        return "gradle"
-      end
-
-      local function gradle_run(tasks)
-        vim.cmd("w")
-
-        local cmd = gradle_cmd() .. " " .. tasks
-
-        vim.cmd("botright split")
-        vim.cmd("resize 15")
-
-        vim.fn.termopen(cmd)
-        vim.cmd("startinsert")
-      end
-
-      vim.keymap.set("n", "<leader>rrr", function()
-        gradle_run("run")
-      end, opts)
-
-      vim.keymap.set("n", "<leader>rrb", function()
-        gradle_run("build")
-      end, opts)
-
-      vim.keymap.set("n", "<leader>rra", function()
-        gradle_run("build run")
-      end, opts)
     end,
   },
 }
@@ -1602,6 +1567,19 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "java",
+  callback = function()
+    local opts = { noremap = true, silent = true, buffer = true }
+
+    vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", opts)
+    vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", opts)
+    vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", opts)
+    vim.keymap.set("n", "<leader>rrt", ":split | terminal ./gradlew test<CR>", opts)
+    vim.keymap.set("n", "<leader>rrg", ":edit build.gradle<CR>", opts)
+  end,
+})
 ```
 
 # 12) plugins/mason.lua
