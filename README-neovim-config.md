@@ -1454,6 +1454,93 @@ return {
 ```lua
 -- plugins/dap.lua
 
+-- return {
+--   {
+--     "mfussenegger/nvim-dap",
+--     dependencies = {
+--       {
+--         "rcarriga/nvim-dap-ui",
+--         dependencies = {
+--           "nvim-neotest/nvim-nio",
+--         },
+--       },
+--       "jay-babu/mason-nvim-dap.nvim",
+--     },
+--     config = function()
+--       local dap = require("dap")
+--       local dapui = require("dapui")
+
+--       local mason_path = vim.fn.stdpath("data") .. "/mason"
+--       local codelldb_path =
+--         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
+
+--       require("mason-nvim-dap").setup({
+--         ensure_installed = { "codelldb" },
+--       })
+
+--       dapui.setup()
+
+--       dap.listeners.after.event_initialized["dapui"] = function()
+--         dapui.open()
+--       end
+--       dap.listeners.before.event_terminated["dapui"] = function()
+--         dapui.close()
+--       end
+--       dap.listeners.before.event_exited["dapui"] = function()
+--         dapui.close()
+--       end
+
+--       dap.adapters.codelldb = {
+--         type = "server",
+--         port = "${port}",
+--         executable = {
+--           command = codelldb_path,
+--           args = { "--port", "${port}" },
+--         },
+--       }
+
+--       dap.configurations.rust = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/target/debug/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.cpp = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/build/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.c = dap.configurations.cpp
+--     end,
+--   },
+-- }
+
+
 return {
   {
     "mfussenegger/nvim-dap",
@@ -1474,12 +1561,13 @@ return {
       local codelldb_path =
         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
 
+      -- Mason DAP Setup
       require("mason-nvim-dap").setup({
-        ensure_installed = { "codelldb" },
+        ensure_installed = { "codelldb", "java-debug-adapter" },
       })
 
+      -- DAP UI Setup
       dapui.setup()
-
       dap.listeners.after.event_initialized["dapui"] = function()
         dapui.open()
       end
@@ -1490,6 +1578,7 @@ return {
         dapui.close()
       end
 
+      -- Rust/C++/C Adapter
       dap.adapters.codelldb = {
         type = "server",
         port = "${port}",
@@ -1499,6 +1588,7 @@ return {
         },
       }
 
+      -- Rust Config
       dap.configurations.rust = {
         {
           name = "Debug",
@@ -1517,6 +1607,7 @@ return {
         },
       }
 
+      -- C++ Config
       dap.configurations.cpp = {
         {
           name = "Debug",
@@ -1536,6 +1627,37 @@ return {
       }
 
       dap.configurations.c = dap.configurations.cpp
+
+      -- Java Adapter
+      dap.adapters.java = function(callback)
+        local jar = vim.fn.glob(
+          mason_path .. "/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar"
+        )
+        if not jar or jar == "" then
+          vim.notify("java-debug-adapter jar nicht gefunden. Installiere über Mason.", vim.log.levels.ERROR)
+          return
+        end
+        callback({
+          type = "executable",
+          command = "java",
+          args = { "-jar", jar },
+        })
+      end
+
+      -- Java Config
+      dap.configurations.java = {
+        {
+          type = "java",
+          request = "launch",
+          name = "Launch Main",
+          mainClass = function()
+            return vim.fn.input("Main class > ", "", "file")
+          end,
+          projectName = function()
+            return vim.fn.input("Project name > ", "", "file")
+          end,
+        },
+      }
     end,
   },
 }
