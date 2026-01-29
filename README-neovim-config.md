@@ -1963,6 +1963,7 @@ return {
   -- Treesitter für Python
   {
     "nvim-treesitter/nvim-treesitter",
+    ft = "python",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, { "python" })
     end,
@@ -1971,6 +1972,7 @@ return {
   -- LSP: pylsp
   {
     "neovim/nvim-lspconfig",
+    ft = "python",
     opts = {
       servers = {
         pylsp = {
@@ -1994,6 +1996,7 @@ return {
   -- Formatter
   {
     "stevearc/conform.nvim",
+    ft = "python",
     opts = {
       formatters_by_ft = {
         python = { "black" },
@@ -2004,14 +2007,13 @@ return {
   -- Ruff Linter Integration
   {
     "mfussenegger/nvim-lint",
+    ft = "python",
     opts = {
       linters_by_ft = {
         python = {
           function()
             local bufname = vim.api.nvim_buf_get_name(0)
-            if bufname == "" then
-              return nil
-            end
+            if bufname == "" then return nil end
             return {
               cmd = get_ruff_bin(),
               args = { "--stdin-filename", bufname, "-" },
@@ -2026,9 +2028,8 @@ return {
   -- Debugging
   {
     "mfussenegger/nvim-dap",
-    dependencies = {
-      "mfussenegger/nvim-dap-python",
-    },
+    ft = "python",
+    dependencies = { "mfussenegger/nvim-dap-python" },
     config = function()
       require("dap-python").setup(get_python_bin())
     end,
