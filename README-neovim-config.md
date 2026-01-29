@@ -2441,7 +2441,7 @@ local augroup = vim.api.nvim_create_augroup("UserAutocmds", { clear = true })
 
 local opts = { noremap = true, silent = true }
 
-function _G.run_in_term_split(cmd)
+function _G.run_in_term(cmd)
   vim.cmd("split | terminal " .. cmd)
 end
 
