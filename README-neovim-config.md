@@ -1356,6 +1356,101 @@ return {
 --   },
 -- }
 
+-- return {
+--   {
+--     "mfussenegger/nvim-jdtls",
+--     ft = { "java" },
+--     dependencies = {
+--       "mason-org/mason.nvim",
+--       "mason-org/mason-lspconfig.nvim",
+--     },
+--     config = function()
+--       local jdtls = require("jdtls")
+
+--       -- Pfad zu Mason
+--       local mason_path = vim.fn.stdpath("data") .. "/mason"
+--       local jdtls_path = mason_path .. "/packages/jdtls"
+
+--       local jar_files = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar", true, true)
+--       local jar = jar_files[1]
+--       if not jar or jar == "" then
+--         vim.notify("JDTLS jar nicht gefunden. Bitte über Mason installieren.", vim.log.levels.ERROR)
+--         return
+--       end
+
+--       local os_config
+--       if vim.fn.has("macunix") == 1 then
+--         os_config = "config_mac"
+--       elseif vim.fn.has("win32") == 1 then
+--         os_config = "config_win"
+--       else
+--         os_config = "config_linux"
+--       end
+
+--       local config_dir = jdtls_path .. "/" .. os_config
+
+--       local root_dir = require("jdtls.setup").find_root({
+--         ".git", "mvnw", "gradlew", "pom.xml", "build.gradle"
+--       }) or vim.fn.getcwd()
+
+--       local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.sha256(root_dir)
+
+--       local capabilities = vim.lsp.protocol.make_client_capabilities()
+--       local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+--       if cmp_ok then
+--         capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+--       end
+
+--       local on_attach = function(client, bufnr)
+--         local bufopts = { noremap = true, silent = true, buffer = bufnr }
+--         vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+--         vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+--         vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+--         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+--       end
+
+--       -- JDTLS Config
+--       local config = {
+--         cmd = {
+--           "java",
+--           "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+--           "-Dosgi.bundles.defaultStartLevel=4",
+--           "-Declipse.product=org.eclipse.jdt.ls.core.product",
+--           "-Dlog.protocol=true",
+--           "-Dlog.level=ALL",
+--           "-Xms1g",
+--           "--add-modules=ALL-SYSTEM",
+--           "--add-opens", "java.base/java.util=ALL-UNNAMED",
+--           "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+--           "-jar", jar,
+--           "-configuration", config_dir,
+--           "-data", workspace_dir,
+--         },
+--         root_dir = root_dir,
+--         capabilities = capabilities,
+--         on_attach = on_attach,
+--         settings = {
+--           java = {
+--             eclipse = { downloadSources = true },
+--             maven = { downloadSources = true },
+--             format = { enabled = true },
+--             referencesCodeLens = { enabled = true },
+--             implementationsCodeLens = { enabled = true },
+--           },
+--         },
+--       }
+
+--       jdtls.start_or_attach(config)
+      
+--       jdtls.setup_dap({ hotcodereplace = "auto" })
+--       jdtls.setup.add_commands()
+
+--       require("jdtls.dap").setup_dap_main_class_configs()
+      
+--     end,
+--   },
+-- }
+
 return {
   {
     "mfussenegger/nvim-jdtls",
@@ -1365,88 +1460,70 @@ return {
       "mason-org/mason-lspconfig.nvim",
     },
     config = function()
-      local jdtls = require("jdtls")
+      local augroup = vim.api.nvim_create_augroup("JdtlsAutostart", { clear = true })
 
-      -- Pfad zu Mason
-      local mason_path = vim.fn.stdpath("data") .. "/mason"
-      local jdtls_path = mason_path .. "/packages/jdtls"
+      vim.api.nvim_create_autocmd("FileType", {
+        group = augroup,
+        pattern = "java",
+        callback = function()
+          local jdtls = require("jdtls")
 
-      local jar_files = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar", true, true)
-      local jar = jar_files[1]
-      if not jar or jar == "" then
-        vim.notify("JDTLS jar nicht gefunden. Bitte über Mason installieren.", vim.log.levels.ERROR)
-        return
-      end
+          local mason_path = vim.fn.stdpath("data") .. "/mason"
+          local jdtls_path = mason_path .. "/packages/jdtls"
 
-      local os_config
-      if vim.fn.has("macunix") == 1 then
-        os_config = "config_mac"
-      elseif vim.fn.has("win32") == 1 then
-        os_config = "config_win"
-      else
-        os_config = "config_linux"
-      end
+          local jar = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar")
+          if jar == "" then
+            vim.notify("JDTLS nicht über Mason installiert", vim.log.levels.ERROR)
+            return
+          end
 
-      local config_dir = jdtls_path .. "/" .. os_config
+          local os_config = vim.fn.has("macunix") == 1 and "config_mac"
+            or vim.fn.has("win32") == 1 and "config_win"
+            or "config_linux"
 
-      local root_dir = require("jdtls.setup").find_root({
-        ".git", "mvnw", "gradlew", "pom.xml", "build.gradle"
-      }) or vim.fn.getcwd()
+          local root_dir = require("jdtls.setup").find_root({
+            "build.gradle", "settings.gradle",
+            "pom.xml", "mvnw", "gradlew", ".git",
+          }) or vim.fn.getcwd()
 
-      local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.sha256(root_dir)
+          local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.sha256(root_dir)
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      if cmp_ok then
-        capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-      end
+          local capabilities = vim.lsp.protocol.make_client_capabilities()
+          local ok, cmp = pcall(require, "cmp_nvim_lsp")
+          if ok then
+            capabilities = cmp.default_capabilities(capabilities)
+          end
 
-      local on_attach = function(client, bufnr)
-        local bufopts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-      end
+          local config = {
+            cmd = {
+              "java",
+              "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+              "-Dosgi.bundles.defaultStartLevel=4",
+              "-Declipse.product=org.eclipse.jdt.ls.core.product",
+              "-Xms1g",
+              "--add-modules=ALL-SYSTEM",
+              "--add-opens", "java.base/java.util=ALL-UNNAMED",
+              "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+              "-jar", jar,
+              "-configuration", jdtls_path .. "/" .. os_config,
+              "-data", workspace_dir,
+            },
+            root_dir = root_dir,
+            capabilities = capabilities,
+            settings = {
+              java = {
+                eclipse = { downloadSources = true },
+                maven = { downloadSources = true },
+                format = { enabled = true },
+              },
+            },
+          }
 
-      -- JDTLS Config
-      local config = {
-        cmd = {
-          "java",
-          "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-          "-Dosgi.bundles.defaultStartLevel=4",
-          "-Declipse.product=org.eclipse.jdt.ls.core.product",
-          "-Dlog.protocol=true",
-          "-Dlog.level=ALL",
-          "-Xms1g",
-          "--add-modules=ALL-SYSTEM",
-          "--add-opens", "java.base/java.util=ALL-UNNAMED",
-          "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-          "-jar", jar,
-          "-configuration", config_dir,
-          "-data", workspace_dir,
-        },
-        root_dir = root_dir,
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          java = {
-            eclipse = { downloadSources = true },
-            maven = { downloadSources = true },
-            format = { enabled = true },
-            referencesCodeLens = { enabled = true },
-            implementationsCodeLens = { enabled = true },
-          },
-        },
-      }
-
-      jdtls.start_or_attach(config)
-      
-      jdtls.setup_dap({ hotcodereplace = "auto" })
-      jdtls.setup.add_commands()
-
-      require("jdtls.dap").setup_dap_main_class_configs()
-      
+          jdtls.start_or_attach(config)
+          jdtls.setup_dap({ hotcodereplace = "auto" })
+          require("jdtls.dap").setup_dap_main_class_configs()
+        end,
+      })
     end,
   },
 }
