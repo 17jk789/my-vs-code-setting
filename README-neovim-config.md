@@ -140,6 +140,7 @@ nvim .
 oder:
 
 ```bash
+vim create-python-pro.sh
 chmod +x create-python-pro.sh
 ./create-python-pro.sh new mein-python-projekt
 nvim .
