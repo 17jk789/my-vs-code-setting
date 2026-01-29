@@ -1437,6 +1437,69 @@ return {
 
 return {
   {
+    "L3MON4D3/LuaSnip",
+    opts = function(_, opts)
+      local ls = require("luasnip")
+      local s = ls.snippet
+      local t = ls.text_node
+      local i = ls.insert_node
+      local f = ls.function_node
+
+      ls.add_snippets("java", {
+
+        s("mainclass", {
+          t("public class "),
+          f(function()
+            return vim.fn.expand("%:t:r")
+          end),
+          t({ " {", "", "    public static void main(String[] args) {", "        " }),
+          i(0),
+          t({ "", "    }", "}", "" }),
+        }),
+
+        s("mc", {
+          t("public class "),
+          f(function()
+            return vim.fn.expand("%:t:r")
+          end),
+          t({ " {", "", "    public static void main(String[] args) {", "        " }),
+          i(0),
+          t({ "", "    }", "}", "" }),
+        }),
+
+        s("mch", {
+          t("public class "),
+          f(function()
+            return vim.fn.expand("%:t:r")
+          end),
+          t({
+            " {",
+            "",
+            "    public static void main(String[] args) {",
+            '        System.out.println("Hello World!");',
+            "        ",
+          }),
+          i(0),
+          t({ "", "    }", "}", "" }),
+        }),
+
+        s("pri", {
+          t("System.out.print("),
+          i(0),
+          t(");"),
+        }),
+
+        s("priln", {
+          t("System.out.println("),
+          i(0),
+          t(");"),
+        }),
+      })
+
+      return opts
+    end,
+  },
+  {
     "mfussenegger/nvim-jdtls",
     ft = { "java" },
     dependencies = {
@@ -1608,9 +1671,223 @@ return {
 
 ```
 
+# 10) plugins/python.lua
+
+```lua
+-- plugins/python.lua
+
+return {
+  -- Treesitter für Python
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, {
+        "python",
+      })
+    end,
+  },
+
+  -- LSP: Pyright
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                typeCheckingMode = "strict",
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+
+  -- Formatter & Linter
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        python = { "black" },
+      },
+    },
+  },
+
+  -- Ruff Linter Integration
+  {
+    "mfussenegger/nvim-lint",
+    opts = {
+      linters_by_ft = {
+        python = { "ruff" },
+      },
+    },
+  },
+
+  -- Debugging
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = {
+      "mfussenegger/nvim-dap-python",
+    },
+    config = function()
+      require("dap-python").setup("python")
+    end,
+  },
+}
+
+```
+
+# 11) plugins/html.lua
+
+```lua
+-- plugins/html.lua
+
+return {
+  {
+    "L3MON4D3/LuaSnip",
+    opts = function(_, opts)
+      local ls = require("luasnip")
+      local s = ls.snippet
+      local t = ls.text_node
+      local i = ls.insert_node
+      local f = ls.function_node
+
+      ls.add_snippets("html", {
+
+        -- ! -> HTML5 Boilerplate
+        s("!", {
+          t({
+            "<!DOCTYPE html>",
+            "<html lang=\"en\">",
+            "<head>",
+            "    <meta charset=\"UTF-8\">",
+            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+            "    <title>",
+          }),
+          i(1, "Document"),
+          t({
+            "</title>",
+            "</head>",
+            "<body>",
+            "",
+            }),
+          i(0),
+          t({
+            "",
+            "</body>",
+            "</html>",
+          }),
+        }),
+
+        -- !! -> Minimal HTML
+        s("!!", {
+          t({
+            "<!DOCTYPE html>",
+            "<html>",
+            "<head>",
+            "    <title>",
+          }),
+          i(1, "Document"),
+          t({
+            "</title>",
+            "</head>",
+            "<body>",
+            }),
+          i(0),
+          t({
+            "",
+            "</body>",
+            "</html>",
+          }),
+        }),
+
+        -- !!! -> Nur Body
+        s("!!!", {
+          t({
+            "<body>",
+            }),
+          i(0),
+          t({
+            "",
+            "</body>",
+          }),
+        }),
+
+        -- div
+        s("div", {
+          t("<div>"),
+          i(0),
+          t("</div>"),
+        }),
+
+        -- span
+        s("span", {
+          t("<span>"),
+          i(0),
+          t("</span>"),
+        }),
+
+        -- p
+        s("p", {
+          t("<p>"),
+          i(0),
+          t("</p>"),
+        }),
+
+        -- a
+        s("a", {
+          t("<a href=\""),
+          i(1, "#"),
+          t("\">"),
+          i(0),
+          t("</a>"),
+        }),
+
+        -- img
+        s("img", {
+          t("<img src=\""),
+          i(1),
+          t("\" alt=\""),
+          i(2),
+          t("\" />"),
+        }),
+
+        -- link css
+        s("css", {
+          t("<link rel=\"stylesheet\" href=\""),
+          i(0),
+          t("\">"),
+        }),
+
+        -- script
+        s("js", {
+          t("<script src=\""),
+          i(0),
+          t("\"></script>"),
+        }),
+
+        -- comment
+        s("com", {
+          t("<!-- "),
+          i(0),
+          t(" -->"),
+        }),
+      })
+
+      return opts
+    end,
+  },
+}
+
+```
+
 ---
 
-# 10) plugins/dap.lua (codelldb + Rust/C++ Debug)
+# 12) plugins/dap.lua (codelldb + Rust/C++ Debug)
 
 ```lua
 -- plugins/dap.lua
@@ -1737,7 +2014,6 @@ return {
         dapui.close()
       end
 
-      -- ===================== Rust / C++ / C =====================
       dap.adapters.codelldb = {
         type = "server",
         port = "${port}",
@@ -1747,6 +2023,7 @@ return {
         },
       }
 
+      -- Rust Debugger
       dap.configurations.rust = {
         {
           name = "Debug",
@@ -1765,6 +2042,7 @@ return {
         },
       }
 
+      -- C++ Debugger
       dap.configurations.cpp = {
         {
           name = "Debug",
@@ -1785,7 +2063,6 @@ return {
 
       dap.configurations.c = dap.configurations.cpp
 
-      -- ===================== Java =====================
       dap.adapters.java = function(callback)
         callback({
           type = "server",
@@ -1804,7 +2081,6 @@ return {
         },
       }
 
-      -- ===================== Tastenkürzel =====================
       vim.api.nvim_set_keymap(
         "n",
         "<F5>",
@@ -1820,9 +2096,10 @@ return {
     end,
   },
 }
+
 ```
 
-# 11) config/autocmds.lua
+# 13) config/autocmds.lua
 
 ```lua
 -- lua/config/autocmds.lua
@@ -1929,6 +2206,8 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
+    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)      -- VS Code
+    vim.keymap.set("n", "<leader>rir", function() run_in_term("idea .") end, opts)      -- IntelliJ
     vim.keymap.set("n", "<leader>rra", ":split | terminal cargo build && cargo run<CR>", opts)
     vim.keymap.set("n", "<leader>rrr", ":split | terminal cargo run<CR>", opts)
     vim.keymap.set("n", "<leader>rrb", ":split | terminal cargo build<CR>", opts)
@@ -1962,11 +2241,32 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
+    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)
+    vim.keymap.set("n", "<leader>rir", function() run_in_term("idea .") end, opts)
     vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", opts)
     vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", opts)
     vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", opts)
     vim.keymap.set("n", "<leader>rrt", ":split | terminal ./gradlew test<CR>", opts)
     vim.keymap.set("n", "<leader>rrg", ":edit build.gradle<CR>", opts)
+        vim.keymap.set("n", "<F5>", function()
+      require("dap").continue()
+    end, opts)
+
+    vim.keymap.set("n", "<F9>", function()
+      require("dap").toggle_breakpoint()
+    end, opts)
+
+    vim.keymap.set("n", "<F10>", function()
+      require("dap").step_over()
+    end, opts)
+
+    vim.keymap.set("n", "<F11>", function()
+      require("dap").step_into()
+    end, opts)
+
+    vim.keymap.set("n", "<F12>", function()
+      require("dap").step_out()
+    end, opts)
   end,
 })
 
@@ -1976,6 +2276,8 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
+    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)
+    vim.keymap.set("n", "<leader>rir", function() run_in_term("eclipse") end, opts)
     vim.keymap.set(
       "n",
       "<leader>rra",
@@ -2013,9 +2315,34 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "python",
+  callback = function()
+    local opts = { noremap = true, silent = true, buffer = true }
+
+    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)      -- VS Code
+    vim.keymap.set("n", "<leader>rir", function() run_in_term("pycharm .") end, opts)  -- PyCharm
+    vim.keymap.set("n", "<leader>rrr", ":split | terminal python %<CR>", opts)
+    vim.keymap.set("n", "<leader>rrt", ":split | terminal pytest<CR>", opts)
+    vim.keymap.set("n", "<leader>rrv", ":split | terminal python -m venv .venv<CR>", opts)
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "c",
+  callback = function()
+    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)      -- VS Code
+    vim.keymap.set("n", "<leader>rir", function() run_in_term("eclipse") end, opts)     -- Eclipse
+    vim.keymap.set("n", "<leader>rrb", function() run_in_term("gcc % -o %:r") end, opts)
+    vim.keymap.set("n", "<leader>rrr", function() run_in_term("./%:r") end, opts)
+  end,
+})
+
 ```
 
-# 12) plugins/mason.lua
+# 14) plugins/mason.lua
 
 ```lua
 -- lua/plugins/mason.lua
@@ -2033,6 +2360,11 @@ return {
         "java-debug-adapter",
         "java-test",
         -- "vscode-java-test",
+        "pyright",
+        "black",
+        "ruff",
+        "debugpy",
+        -- "mypy",
       },
     },
   },
@@ -2044,7 +2376,7 @@ return {
 
 ```
 
-# 13) plugins/github_theme.lua
+# 15) plugins/github_theme.lua
 
 ```lua
 -- plugins/github_theme.lua
@@ -2064,7 +2396,7 @@ return {
 
 ```
 
-# 14) plugins/nightfox.lua
+# 16) plugins/nightfox.lua
 
 ```lua
 -- plugins/nightfox.lua
@@ -2148,7 +2480,7 @@ return {
 
 ```
 
-# 15) plugins/ui.lua
+# 17) plugins/ui.lua
 
 ```lua
 -- plugins/ui.lua
@@ -2187,7 +2519,7 @@ return {
 
 ```
 
-# 16) plugins/treesitter.lua
+# 18) plugins/treesitter.lua
 
 ```lua
 -- plugins/treesitter.lua
@@ -2212,7 +2544,7 @@ return {
 
 ```
 
-# 17) plugins/markdown.lua
+# 19) plugins/markdown.lua
 
 ```lua
 -- plugins/markdown.lua
@@ -2242,10 +2574,11 @@ return {
 
 ```
 
-# 18) plugins/ltex.lua
+# 20) plugins/ltex.lua
 
 ```lua
 -- plugins/ltex.lua
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -2287,7 +2620,7 @@ return {
 
 ```
 
-# 19) plugins/notify.lua
+# 21) plugins/notify.lua
 
 ```lua
 -- plugins/notify.lua
@@ -2318,7 +2651,7 @@ return {
 
 ```
 
-# 20) plugins/git.lua
+# 22) plugins/git.lua
 
 ```lua
 -- plugins/git.lua
@@ -2330,7 +2663,7 @@ return {
 }
 ```
 
-# 21) plugins/dash.lua
+# 23) plugins/dash.lua
 
 ```lua
 -- plugins/dash.lua
@@ -2402,7 +2735,7 @@ return {
 -- }
 ```
 
-# 22 config/lazyvim.lua
+# 24) config/lazyvim.lua
 
 Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
 
