@@ -289,6 +289,9 @@ fi
 # Optional: Gradle Wrapper generieren
 gradle wrapper --gradle-version 8.3
 
+echo "Java-Programm wird mit Debug-Flag gestartet"
+java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar <deinJar>.jar
+
 # LazyVim Hinweise
 echo ""
 echo "✅ Projekt '$PROJECT_NAME' erstellt!"
