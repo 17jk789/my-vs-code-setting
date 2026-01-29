@@ -649,6 +649,19 @@ return {
             },
           },
         },
+        local jdtls = require('jdtls')
+
+        jdtls.start_or_attach({
+          cmd = {'jdtls'},  -- Pfad zu jdtls, evtl. '/usr/local/bin/jdtls'
+          root_dir = require('jdtls.setup').find_root({'.git', 'pom.xml', 'build.gradle'}),
+          settings = {
+            java = {
+              signatureHelp = { enabled = true },
+              contentProvider = { preferred = 'fernflower' }
+            }
+          }
+        })
+
       },
     },
   },
