@@ -589,6 +589,72 @@ vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 --   },
 -- }
 
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     dependencies = {
+--       "mason-org/mason.nvim",
+--       "mason-org/mason-lspconfig.nvim",
+--     },
+--     opts = {
+--       servers = {
+--         clangd = {
+--           cmd = {
+--             "clangd",
+--             "--background-index",
+--             "--clang-tidy",
+--             "--completion-style=detailed",
+--             "--header-insertion=never",
+--           },
+--         },
+
+--         rust_analyzer = {
+--           settings = {
+--             ["rust-analyzer"] = {
+--               diagnostics = {
+--                 disabled = {
+--                   "unresolved-proc-macro",
+--                   "unlinked-file",
+--                 },
+--               },
+
+--               cargo = {
+--                 allFeatures = true,
+--                 buildScripts = { enable = true },
+--               },
+
+--               procMacro = { enable = true },
+--               lens = { enable = true },
+
+--               completion = {
+--                 autoimport = { enable = true },
+--               },
+
+--               checkOnSave = {
+--                 command = "clippy",
+--               },
+
+--               inlayHints = {
+--                 enable = true,
+--                 typeHints = true,
+--                 parameterHints = true,
+--                 lifetimeElisionHints = "always",
+--                 closureReturnTypeHints = { enable = "always" },
+--                 bindingModeHints = { enable = true },
+--               },
+
+--               files = {
+--                 watcher = "client",
+--               },
+--             },
+--           },
+--         },
+--       },
+--     },
+--   },
+-- }
+
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -649,6 +715,7 @@ return {
             },
           },
         },
+
         local jdtls = require('jdtls')
 
         jdtls.start_or_attach({
@@ -661,7 +728,6 @@ return {
             }
           }
         })
-
       },
     },
   },
@@ -1550,6 +1616,92 @@ return {
 ```lua
 -- plugins/dap.lua
 
+-- return {
+--   {
+--     "mfussenegger/nvim-dap",
+--     dependencies = {
+--       {
+--         "rcarriga/nvim-dap-ui",
+--         dependencies = {
+--           "nvim-neotest/nvim-nio",
+--         },
+--       },
+--       "jay-babu/mason-nvim-dap.nvim",
+--     },
+--     config = function()
+--       local dap = require("dap")
+--       local dapui = require("dapui")
+
+--       local mason_path = vim.fn.stdpath("data") .. "/mason"
+--       local codelldb_path =
+--         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
+
+--       require("mason-nvim-dap").setup({
+--         ensure_installed = { "codelldb" },
+--       })
+
+--       dapui.setup()
+
+--       dap.listeners.after.event_initialized["dapui"] = function()
+--         dapui.open()
+--       end
+--       dap.listeners.before.event_terminated["dapui"] = function()
+--         dapui.close()
+--       end
+--       dap.listeners.before.event_exited["dapui"] = function()
+--         dapui.close()
+--       end
+
+--       dap.adapters.codelldb = {
+--         type = "server",
+--         port = "${port}",
+--         executable = {
+--           command = codelldb_path,
+--           args = { "--port", "${port}" },
+--         },
+--       }
+
+--       dap.configurations.rust = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/target/debug/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.cpp = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/build/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.c = dap.configurations.cpp
+--     end,
+--    },
+-- }
+
 return {
   {
     "mfussenegger/nvim-dap",
@@ -1586,6 +1738,7 @@ return {
         dapui.close()
       end
 
+      -- ===================== Rust / C++ / C =====================
       dap.adapters.codelldb = {
         type = "server",
         port = "${port}",
@@ -1632,8 +1785,41 @@ return {
       }
 
       dap.configurations.c = dap.configurations.cpp
+
+      -- ===================== Java =====================
+      dap.adapters.java = function(callback)
+        callback({
+          type = "server",
+          host = "127.0.0.1",
+          port = 5005, -- Standardport für jdtls Debug
+        })
+      end
+
+      dap.configurations.java = {
+        {
+          type = "java",
+          request = "launch",
+          name = "Debug Current File",
+          mainClass = "${file}",
+          projectName = "MeinProjekt", -- optional
+        },
+      }
+
+      -- ===================== Tastenkürzel =====================
+      vim.api.nvim_set_keymap(
+        "n",
+        "<F5>",
+        "<cmd>lua require'dap'.continue()<CR>",
+        { noremap = true, silent = true }
+      )
+      vim.api.nvim_set_keymap(
+        "n",
+        "<F9>",
+        "<cmd>lua require'dap'.toggle_breakpoint()<CR>",
+        { noremap = true, silent = true }
+      )
     end,
-   },
+  },
 }
 ```
 
