@@ -2439,6 +2439,12 @@ return {
 
 local augroup = vim.api.nvim_create_augroup("UserAutocmds", { clear = true })
 
+local opts = { noremap = true, silent = true }
+
+function _G.run_in_term(cmd)
+  vim.fn.termopen(cmd)
+end
+
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = augroup,
   pattern = "*.rs",
