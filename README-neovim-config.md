@@ -133,7 +133,7 @@ cd mein_python_projekt
 python -m venv venv
 source venv/bin/activate
 touch main.py
-pip install 'python-lsp-server[all]'
+pip install 'python-lsp-server[all]' black ruff debugpy
 nvim .
 ```
 
@@ -2567,9 +2567,9 @@ return {
         -- "vscode-java-test",
         -- "pyright", -- gibt es nicht 
         -- "pylsp", -- gibt es nicht
-        "black",
-        "ruff",
-        "debugpy",
+        -- "black",
+        -- "ruff",
+        -- "debugpy",
         -- "mypy",
       },
     },
