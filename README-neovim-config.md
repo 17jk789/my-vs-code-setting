@@ -1441,6 +1441,12 @@ return {
       }
 
       jdtls.start_or_attach(config)
+      
+      jdtls.setup_dap({ hotcodereplace = "auto" })
+      jdtls.setup.add_commands()
+
+      require("jdtls.dap").setup_dap_main_class_configs()
+      
     end,
   },
 }
@@ -1454,15 +1460,99 @@ return {
 ```lua
 -- plugins/dap.lua
 
+-- return {
+--   {
+--     "mfussenegger/nvim-dap",
+--     dependencies = {
+--       {
+--         "rcarriga/nvim-dap-ui",
+--         dependencies = {
+--           "nvim-neotest/nvim-nio",
+--         },
+--       },
+--       "jay-babu/mason-nvim-dap.nvim",
+--     },
+--     config = function()
+--       local dap = require("dap")
+--       local dapui = require("dapui")
+
+--       local mason_path = vim.fn.stdpath("data") .. "/mason"
+--       local codelldb_path =
+--         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
+
+--       require("mason-nvim-dap").setup({
+--         ensure_installed = { "codelldb" },
+--       })
+
+--       dapui.setup()
+
+--       dap.listeners.after.event_initialized["dapui"] = function()
+--         dapui.open()
+--       end
+--       dap.listeners.before.event_terminated["dapui"] = function()
+--         dapui.close()
+--       end
+--       dap.listeners.before.event_exited["dapui"] = function()
+--         dapui.close()
+--       end
+
+--       dap.adapters.codelldb = {
+--         type = "server",
+--         port = "${port}",
+--         executable = {
+--           command = codelldb_path,
+--           args = { "--port", "${port}" },
+--         },
+--       }
+
+--       dap.configurations.rust = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/target/debug/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.cpp = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/build/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.c = dap.configurations.cpp
+--     end,
+--    },
+-- }
+
 return {
   {
     "mfussenegger/nvim-dap",
     dependencies = {
       {
         "rcarriga/nvim-dap-ui",
-        dependencies = {
-          "nvim-neotest/nvim-nio",
-        },
+        dependencies = { "nvim-neotest/nvim-nio" },
       },
       "jay-babu/mason-nvim-dap.nvim",
     },
@@ -1470,25 +1560,40 @@ return {
       local dap = require("dap")
       local dapui = require("dapui")
 
+      require("mason-nvim-dap").setup({
+        ensure_installed = {
+          "codelldb",
+        },
+        automatic_installation = true,
+      })
+
+      dapui.setup({
+        layouts = {
+          {
+            elements = {
+              { id = "scopes", size = 0.35 },
+              { id = "watches", size = 0.15 },
+              { id = "breakpoints", size = 0.15 },
+              { id = "stacks", size = 0.20 },
+              { id = "threads", size = 0.15 },
+            },
+            size = 45,
+            position = "left",
+          },
+          {
+            elements = {
+              { id = "repl", size = 0.5 },
+              { id = "console", size = 0.5 },
+            },
+            size = 15,
+            position = "bottom",
+          },
+        },
+      })
+
       local mason_path = vim.fn.stdpath("data") .. "/mason"
       local codelldb_path =
         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
-
-      require("mason-nvim-dap").setup({
-        ensure_installed = { "codelldb" },
-      })
-
-      dapui.setup()
-
-      dap.listeners.after.event_initialized["dapui"] = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated["dapui"] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited["dapui"] = function()
-        dapui.close()
-      end
 
       dap.adapters.codelldb = {
         type = "server",
@@ -1499,45 +1604,17 @@ return {
         },
       }
 
-      dap.configurations.rust = {
-        {
-          name = "Debug",
-          type = "codelldb",
-          request = "launch",
-          program = function()
-            return vim.fn.input(
-              "Path to executable: ",
-              vim.fn.getcwd() .. "/target/debug/",
-              "file"
-            )
-          end,
-          cwd = "${workspaceFolder}",
-          stopOnEntry = false,
-          args = {},
-        },
-      }
-
-      dap.configurations.cpp = {
-        {
-          name = "Debug",
-          type = "codelldb",
-          request = "launch",
-          program = function()
-            return vim.fn.input(
-              "Path to executable: ",
-              vim.fn.getcwd() .. "/build/",
-              "file"
-            )
-          end,
-          cwd = "${workspaceFolder}",
-          stopOnEntry = false,
-          args = {},
-        },
-      }
-
-      dap.configurations.c = dap.configurations.cpp
+      dap.listeners.after.event_initialized["dapui"] = function()
+        dapui.open()
+      end
+      dap.listeners.before.event_terminated["dapui"] = function()
+        dapui.close()
+      end
+      dap.listeners.before.event_exited["dapui"] = function()
+        dapui.close()
+      end
     end,
-   },
+  },
 }
 
 ```
@@ -1654,6 +1731,25 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrb", ":split | terminal cargo build<CR>", opts)
     vim.keymap.set("n", "<leader>rrt", ":split | terminal cargo test<CR>", opts)
     vim.keymap.set("n", "<leader>rrc", ":edit Cargo.toml<CR>", opts)
+    vim.keymap.set("n", "<F5>", function()
+      require("dap").continue()
+    end, opts)
+
+    vim.keymap.set("n", "<F9>", function()
+      require("dap").toggle_breakpoint()
+    end, opts)
+
+    vim.keymap.set("n", "<F10>", function()
+      require("dap").step_over()
+    end, opts)
+
+    vim.keymap.set("n", "<F11>", function()
+      require("dap").step_into()
+    end, opts)
+
+    vim.keymap.set("n", "<F12>", function()
+      require("dap").step_out()
+    end, opts)
   end,
 })
 
