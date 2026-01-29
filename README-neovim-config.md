@@ -1527,20 +1527,16 @@ return {
       require("jdtls.dap").setup_dap_main_class_configs()
 
       local jdtls = require("jdtls")
-
-      -- 1️⃣ Start jdtls (LSP + Workspace)
       jdtls.start_or_attach(config)
-
-      -- 2️⃣ Setup DAP
       jdtls.setup_dap({ hotcodereplace = "auto" })
       jdtls.setup.add_commands()
       require("jdtls.dap").setup_dap_main_class_configs()
 
-      -- 3️⃣ Keymaps **erst jetzt**
-      vim.keymap.set("n", "<F5>", function() jdtls.debug_class() end)
-      vim.keymap.set("n", "<F9>", function() jdtls.dap.toggle_breakpoint() end)
-      vim.keymap.set("n", "<leader>dt", function() jdtls.test_class({ debug = true }) end)
-      vim.keymap.set("n", "<leader>dn", function() jdtls.test_nearest_method({ debug = true }) end)
+      local opts = { noremap = true, silent = true, buffer = 0 }
+      vim.keymap.set("n", "<F5>", function() jdtls.debug_class() end, opts)
+      vim.keymap.set("n", "<F9>", function() require("jdtls.dap").toggle_breakpoint() end, opts)
+      vim.keymap.set("n", "<leader>dt", function() jdtls.test_class({ debug = true }) end, opts)
+      vim.keymap.set("n", "<leader>dn", function() jdtls.test_nearest_method({ debug = true }) end, opts)
 
     end,
   },
