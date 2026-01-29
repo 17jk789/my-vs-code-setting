@@ -999,11 +999,12 @@ return {
   {
     "neovim/nvim-lspconfig",
     dependencies = {
-      "mason-org/mason.nvim",
-      "mason-org/mason-lspconfig.nvim",
+      "williamboman/mason.nvim",
+      "williamboman/mason-lspconfig.nvim",
     },
     opts = {
       servers = {
+        -- C/C++ LSP
         clangd = {
           cmd = {
             "clangd",
@@ -1014,6 +1015,7 @@ return {
           },
         },
 
+        -- Rust LSP
         rust_analyzer = {
           settings = {
             ["rust-analyzer"] = {
@@ -1039,19 +1041,6 @@ return {
     },
   },
 }
-
--- Java LSP separat starten, **außerhalb von servers**
-local jdtls = require('jdtls')
-jdtls.start_or_attach({
-  cmd = {'jdtls'},  
-  root_dir = require('jdtls.setup').find_root({'.git', 'pom.xml', 'build.gradle'}),
-  settings = {
-    java = {
-      signatureHelp = { enabled = true },
-      contentProvider = { preferred = 'fernflower' }
-    }
-  }
-})
 
 -- return {
 --   {
@@ -1755,162 +1744,162 @@ return {
 --   },
 -- }
 
-return {
-  {
-    "L3MON4D3/LuaSnip",
-    opts = function(_, opts)
-      local ls = require("luasnip")
-      local s = ls.snippet
-      local t = ls.text_node
-      local i = ls.insert_node
-      local f = ls.function_node
+-- return {
+--   {
+--     "L3MON4D3/LuaSnip",
+--     opts = function(_, opts)
+--       local ls = require("luasnip")
+--       local s = ls.snippet
+--       local t = ls.text_node
+--       local i = ls.insert_node
+--       local f = ls.function_node
 
-      ls.add_snippets("java", {
+--       ls.add_snippets("java", {
 
-        s("mainclass", {
-          t("public class "),
-          f(function()
-            return vim.fn.expand("%:t:r")
-          end),
-          t({ " {", "", "    public static void main(String[] args) {", "        " }),
-          i(0),
-          t({ "", "    }", "}", "" }),
-        }),
+--         s("mainclass", {
+--           t("public class "),
+--           f(function()
+--             return vim.fn.expand("%:t:r")
+--           end),
+--           t({ " {", "", "    public static void main(String[] args) {", "        " }),
+--           i(0),
+--           t({ "", "    }", "}", "" }),
+--         }),
 
-        s("mc", {
-          t("public class "),
-          f(function()
-            return vim.fn.expand("%:t:r")
-          end),
-          t({ " {", "", "    public static void main(String[] args) {", "        " }),
-          i(0),
-          t({ "", "    }", "}", "" }),
-        }),
+--         s("mc", {
+--           t("public class "),
+--           f(function()
+--             return vim.fn.expand("%:t:r")
+--           end),
+--           t({ " {", "", "    public static void main(String[] args) {", "        " }),
+--           i(0),
+--           t({ "", "    }", "}", "" }),
+--         }),
 
-        s("mch", {
-          t("public class "),
-          f(function()
-            return vim.fn.expand("%:t:r")
-          end),
-          t({
-            " {",
-            "",
-            "    public static void main(String[] args) {",
-            '        System.out.println("Hello World!");',
-            "        ",
-          }),
-          i(0),
-          t({ "", "    }", "}", "" }),
-        }),
+--         s("mch", {
+--           t("public class "),
+--           f(function()
+--             return vim.fn.expand("%:t:r")
+--           end),
+--           t({
+--             " {",
+--             "",
+--             "    public static void main(String[] args) {",
+--             '        System.out.println("Hello World!");',
+--             "        ",
+--           }),
+--           i(0),
+--           t({ "", "    }", "}", "" }),
+--         }),
 
-        s("pri", {
-          t("System.out.print("),
-          i(0),
-          t(");"),
-        }),
+--         s("pri", {
+--           t("System.out.print("),
+--           i(0),
+--           t(");"),
+--         }),
 
-        s("priln", {
-          t("System.out.println("),
-          i(0),
-          t(");"),
-        }),
-      })
+--         s("priln", {
+--           t("System.out.println("),
+--           i(0),
+--           t(");"),
+--         }),
+--       })
 
-      return opts
-    end,
-  },
-  {
-    "mfussenegger/nvim-jdtls",
-    ft = { "java" },
-    dependencies = {
-      "mason-org/mason.nvim",
-      "mason-org/mason-lspconfig.nvim",
-    },
-    config = function()
-      local jdtls = require("jdtls")
+--       return opts
+--     end,
+--   },
+--   {
+--     "mfussenegger/nvim-jdtls",
+--     ft = { "java" },
+--     dependencies = {
+--       "mason-org/mason.nvim",
+--       "mason-org/mason-lspconfig.nvim",
+--     },
+--     config = function()
+--       local jdtls = require("jdtls")
 
-      -- Pfad zu Mason
-      local mason_path = vim.fn.stdpath("data") .. "/mason"
-      local jdtls_path = mason_path .. "/packages/jdtls"
+--       -- Pfad zu Mason
+--       local mason_path = vim.fn.stdpath("data") .. "/mason"
+--       local jdtls_path = mason_path .. "/packages/jdtls"
 
-      local jar_files = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar", true, true)
-      local jar = jar_files[1]
-      if not jar or jar == "" then
-        vim.notify("JDTLS jar nicht gefunden. Bitte über Mason installieren.", vim.log.levels.ERROR)
-        return
-      end
+--       local jar_files = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar", true, true)
+--       local jar = jar_files[1]
+--       if not jar or jar == "" then
+--         vim.notify("JDTLS jar nicht gefunden. Bitte über Mason installieren.", vim.log.levels.ERROR)
+--         return
+--       end
 
-      local os_config
-      if vim.fn.has("macunix") == 1 then
-        os_config = "config_mac"
-      elseif vim.fn.has("win32") == 1 then
-        os_config = "config_win"
-      else
-        os_config = "config_linux"
-      end
+--       local os_config
+--       if vim.fn.has("macunix") == 1 then
+--         os_config = "config_mac"
+--       elseif vim.fn.has("win32") == 1 then
+--         os_config = "config_win"
+--       else
+--         os_config = "config_linux"
+--       end
 
-      local config_dir = jdtls_path .. "/" .. os_config
+--       local config_dir = jdtls_path .. "/" .. os_config
 
-      local root_dir = require("jdtls.setup").find_root({
-        ".git", "mvnw", "gradlew", "pom.xml", "build.gradle"
-      }) or vim.fn.getcwd()
+--       local root_dir = require("jdtls.setup").find_root({
+--         ".git", "mvnw", "gradlew", "pom.xml", "build.gradle"
+--       }) or vim.fn.getcwd()
 
-      local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.sha256(root_dir)
+--       local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.sha256(root_dir)
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      if cmp_ok then
-        capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-      end
+--       local capabilities = vim.lsp.protocol.make_client_capabilities()
+--       local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+--       if cmp_ok then
+--         capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+--       end
 
-      local on_attach = function(client, bufnr)
-        local bufopts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-      end
+--       local on_attach = function(client, bufnr)
+--         local bufopts = { noremap = true, silent = true, buffer = bufnr }
+--         vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+--         vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+--         vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+--         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+--       end
 
-      -- JDTLS Config
-      local config = {
-        cmd = {
-          "java",
-          "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-          "-Dosgi.bundles.defaultStartLevel=4",
-          "-Declipse.product=org.eclipse.jdt.ls.core.product",
-          "-Dlog.protocol=true",
-          "-Dlog.level=ALL",
-          "-Xms1g",
-          "--add-modules=ALL-SYSTEM",
-          "--add-opens", "java.base/java.util=ALL-UNNAMED",
-          "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-          "-jar", jar,
-          "-configuration", config_dir,
-          "-data", workspace_dir,
-        },
-        root_dir = root_dir,
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          java = {
-            eclipse = { downloadSources = true },
-            maven = { downloadSources = true },
-            format = { enabled = true },
-            referencesCodeLens = { enabled = true },
-            implementationsCodeLens = { enabled = true },
-          },
-        },
-      }
+--       -- JDTLS Config
+--       local config = {
+--         cmd = {
+--           "java",
+--           "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+--           "-Dosgi.bundles.defaultStartLevel=4",
+--           "-Declipse.product=org.eclipse.jdt.ls.core.product",
+--           "-Dlog.protocol=true",
+--           "-Dlog.level=ALL",
+--           "-Xms1g",
+--           "--add-modules=ALL-SYSTEM",
+--           "--add-opens", "java.base/java.util=ALL-UNNAMED",
+--           "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+--           "-jar", jar,
+--           "-configuration", config_dir,
+--           "-data", workspace_dir,
+--         },
+--         root_dir = root_dir,
+--         capabilities = capabilities,
+--         on_attach = on_attach,
+--         settings = {
+--           java = {
+--             eclipse = { downloadSources = true },
+--             maven = { downloadSources = true },
+--             format = { enabled = true },
+--             referencesCodeLens = { enabled = true },
+--             implementationsCodeLens = { enabled = true },
+--           },
+--         },
+--       }
 
-      jdtls.start_or_attach(config)
+--       jdtls.start_or_attach(config)
       
-      jdtls.setup_dap({ hotcodereplace = "auto" })
-      jdtls.setup.add_commands()
+--       jdtls.setup_dap({ hotcodereplace = "auto" })
+--       jdtls.setup.add_commands()
 
-      require("jdtls.dap").setup_dap_main_class_configs()
-    end,
-  },
-}
+--       require("jdtls.dap").setup_dap_main_class_configs()
+--     end,
+--   },
+-- }
 
 -- return {
 --   {
@@ -1989,6 +1978,142 @@ return {
 --   },
 -- }
 
+return {
+  {
+    "L3MON4D3/LuaSnip",
+    opts = function(_, opts)
+      local ls = require("luasnip")
+      local s = ls.snippet
+      local t = ls.text_node
+      local i = ls.insert_node
+      local f = ls.function_node
+
+      ls.add_snippets("java", {
+
+        s("mainclass", {
+          t("public class "),
+          f(function() return vim.fn.expand("%:t:r") end),
+          t({ " {", "", "    public static void main(String[] args) {", "        " }),
+          i(0),
+          t({ "", "    }", "}", "" }),
+        }),
+
+        s("mc", {
+          t("public class "),
+          f(function() return vim.fn.expand("%:t:r") end),
+          t({ " {", "", "    public static void main(String[] args) {", "        " }),
+          i(0),
+          t({ "", "    }", "}", "" }),
+        }),
+
+        s("mch", {
+          t("public class "),
+          f(function() return vim.fn.expand("%:t:r") end),
+          t({
+            " {",
+            "",
+            "    public static void main(String[] args) {",
+            '        System.out.println("Hello World!");',
+            "        ",
+          }),
+          i(0),
+          t({ "", "    }", "}", "" }),
+        }),
+
+        s("pri", {
+          t("System.out.print("),
+          i(0),
+          t(");"),
+        }),
+
+        s("priln", {
+          t("System.out.println("),
+          i(0),
+          t(");"),
+        }),
+      })
+
+      return opts
+    end,
+  },
+
+  {
+    "mfussenegger/nvim-jdtls",
+    ft = { "java" },
+    dependencies = {
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+    },
+    config = function()
+      local jdtls = require("jdtls")
+
+      local mason_path = vim.fn.stdpath("data") .. "/mason"
+      local jdtls_path = mason_path .. "/packages/jdtls"
+      local jar_files = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar", true, true)
+      local jar = jar_files[1]
+      if not jar or jar == "" then
+        vim.notify("JDTLS jar nicht gefunden. Bitte über Mason installieren.", vim.log.levels.ERROR)
+        return
+      end
+
+      local os_config
+      if vim.fn.has("macunix") == 1 then
+        os_config = "config_mac"
+      elseif vim.fn.has("win32") == 1 then
+        os_config = "config_win"
+      else
+        os_config = "config_linux"
+      end
+
+      local root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }) or vim.fn.getcwd()
+      local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.sha256(root_dir)
+
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+      if cmp_ok then
+        capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+      end
+
+      local on_attach = function(client, bufnr)
+        local bufopts = { noremap = true, silent = true, buffer = bufnr }
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+      end
+
+      jdtls.start_or_attach({
+        cmd = {
+          "java",
+          "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+          "-Dosgi.bundles.defaultStartLevel=4",
+          "-Declipse.product=org.eclipse.jdt.ls.core.product",
+          "-Dlog.protocol=true",
+          "-Dlog.level=ALL",
+          "-Xms1g",
+          "--add-modules=ALL-SYSTEM",
+          "--add-opens", "java.base/java.util=ALL-UNNAMED",
+          "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+          "-jar", jar,
+          "-configuration", jdtls_path .. "/" .. os_config,
+          "-data", workspace_dir,
+        },
+        root_dir = root_dir,
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          java = {
+            eclipse = { downloadSources = true },
+            maven = { downloadSources = true },
+            format = { enabled = true },
+            referencesCodeLens = { enabled = true },
+            implementationsCodeLens = { enabled = true },
+          },
+        },
+      })
+    end,
+  },
+}
 ```
 
 # 10) plugins/python.lua
