@@ -1942,21 +1942,21 @@ return {
 local function get_python_bin()
   local python_bin = vim.fn.getcwd() .. "/venv/bin/python"
   local f = io.open(python_bin, "r")
-  if not f then
-    error("Python-Binary nicht gefunden: " .. python_bin .. ". Bitte erstelle ein venv mit './venv'.")
+  if f then
+    f:close()
+    return python_bin
   end
-  f:close()
-  return python_bin
+  return nil
 end
 
 local function get_ruff_bin()
   local ruff_bin = vim.fn.getcwd() .. "/venv/bin/ruff"
   local f = io.open(ruff_bin, "r")
-  if not f then
-    error("Ruff-Binary nicht gefunden: " .. ruff_bin .. ". Bitte installiere Ruff in deinem venv.")
+  if f then
+    f:close()
+    return ruff_bin
   end
-  f:close()
-  return ruff_bin
+  return nil
 end
 
 return {
@@ -1973,24 +1973,33 @@ return {
   {
     "neovim/nvim-lspconfig",
     ft = "python",
-    opts = {
-      servers = {
-        pylsp = {
-          cmd = { get_python_bin(), "-m", "pylsp" },
-          settings = {
-            pylsp = {
-              plugins = {
-                pyflakes = { enabled = true },
-                pycodestyle = { enabled = true },
-                flake8 = { enabled = true },
-                black = { enabled = true },
-                ruff = { enabled = true, executable = get_ruff_bin() },
+    opts = function()
+      local python_bin = get_python_bin()
+      if not python_bin then
+        return {} -- kein venv, LSP nicht starten
+      end
+
+      local ruff_bin = get_ruff_bin()
+
+      return {
+        servers = {
+          pylsp = {
+            cmd = { python_bin, "-m", "pylsp" },
+            settings = {
+              pylsp = {
+                plugins = {
+                  pyflakes = { enabled = true },
+                  pycodestyle = { enabled = true },
+                  flake8 = { enabled = true },
+                  black = { enabled = true },
+                  ruff = { enabled = ruff_bin ~= nil, executable = ruff_bin },
+                },
               },
             },
           },
         },
-      },
-    },
+      }
+    end,
   },
 
   -- Formatter
@@ -2013,9 +2022,12 @@ return {
         python = {
           function()
             local bufname = vim.api.nvim_buf_get_name(0)
-            if bufname == "" then return nil end
+            local ruff_bin = get_ruff_bin()
+            if bufname == "" or not ruff_bin then
+              return nil
+            end
             return {
-              cmd = get_ruff_bin(),
+              cmd = ruff_bin,
               args = { "--stdin-filename", bufname, "-" },
               stdin = true,
             }
@@ -2031,7 +2043,10 @@ return {
     ft = "python",
     dependencies = { "mfussenegger/nvim-dap-python" },
     config = function()
-      require("dap-python").setup(get_python_bin())
+      local python_bin = get_python_bin()
+      if python_bin then
+        require("dap-python").setup(python_bin)
+      end
     end,
   },
 }
