@@ -137,6 +137,51 @@ pip install 'python-lsp-server[all]' black ruff debugpy
 nvim .
 ```
 
+oder:
+
+```bash
+chmod +x create-python-pro.sh
+./create-python-pro.sh new mein-python-projekt
+nvim .
+```
+
+create-python-pro.sh:
+
+```bash
+#!/bin/bash
+
+# create-python-pro.sh
+
+# Prüfen, ob der Benutzer ein Argument übergeben hat
+if [ "$1" != "new" ] || [ -z "$2" ]; then
+    echo "Usage: $0 new <projektname>"
+    exit 1
+fi
+
+PROJECT_NAME=$2
+
+# Projektordner erstellen und wechseln
+mkdir "$PROJECT_NAME"
+cd "$PROJECT_NAME" || exit
+
+# Virtuelle Umgebung erstellen
+python -m venv venv
+
+# Virtuelle Umgebung aktivieren
+# Hinweis: Dies funktioniert nur im Skript, wenn man 'source' im aktuellen Shell ausführt
+# Für interaktive Nutzung: der Benutzer muss manuell aktivieren
+echo "Aktiviere die virtuelle Umgebung mit: source venv/bin/activate"
+
+# Hauptdatei erstellen
+touch main.py
+
+# Python-Tools installieren
+# Aktiviert nur für diesen Befehl die venv automatisch
+source venv/bin/activate
+pip install --upgrade pip
+pip install 'python-lsp-server[all]' black ruff debugpy
+```
+
 Rust:
 
 ```bash
