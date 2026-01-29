@@ -120,6 +120,15 @@ sudo mv nvim-linux-x86_64 /opt/nvim
 /opt/nvim/bin/nvim --version
 ```
 
+LazyVim Löschen:
+
+```bash
+rm -rf ~/.config/nvim
+rm -rf ~/.local/share/nvim
+rm -rf ~/.local/state/nvim
+rm -rf ~/.cache/nvim
+```
+
 Wenn alles OK:
 ```bash
 sudo rm -rf /opt/nvim.bak
