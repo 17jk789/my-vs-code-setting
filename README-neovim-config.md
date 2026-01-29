@@ -2601,6 +2601,7 @@ return {
 
 local dap = require("dap")
 local dapui = require("dapui")
+
 local mason_path = vim.fn.stdpath("data") .. "/mason"
 local codelldb_path = mason_path .. "/packages/codelldb/extension/adapter/codelldb"
 
@@ -2611,25 +2612,40 @@ dap.listeners.after.event_initialized["dapui"] = function() dapui.open() end
 dap.listeners.before.event_terminated["dapui"] = function() dapui.close() end
 dap.listeners.before.event_exited["dapui"] = function() dapui.close() end
 
--- Rust/CPP
+-- =======================
+-- Adapter
+-- =======================
 dap.adapters.codelldb = {
   type = "server",
   port = "${port}",
   executable = { command = codelldb_path, args = { "--port", "${port}" } },
 }
+
+dap.adapters.java = {
+  type = "server",
+  host = "127.0.0.1",
+  port = 5005,
+}
+
+-- =======================
+-- Rust/C/C++ Konfiguration
+-- =======================
 dap.configurations.rust = {
   {
     name = "Debug",
     type = "codelldb",
     request = "launch",
     program = function()
-      return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+      vim.cmd("!cargo build")  -- automatisch kompilieren
+      local default_path = vim.fn.getcwd() .. "/target/debug/"
+      return vim.fn.input("Path to executable: ", default_path, "file")
     end,
     cwd = "${workspaceFolder}",
     stopOnEntry = false,
     args = {},
   },
 }
+
 dap.configurations.cpp = {
   {
     name = "Debug",
@@ -2643,14 +2659,12 @@ dap.configurations.cpp = {
     args = {},
   },
 }
+
 dap.configurations.c = dap.configurations.cpp
 
--- Java
-dap.adapters.java = {
-  type = "server",
-  host = "127.0.0.1",
-  port = 5005,
-}
+-- =======================
+-- Java Konfiguration
+-- =======================
 dap.configurations.java = {
   {
     type = "java",
