@@ -1687,18 +1687,21 @@ return {
     end,
   },
 
-  -- LSP: Pyright
+  -- LSP: pylsp
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        pyright = {
+        pylsp = {
           settings = {
-            python = {
-              analysis = {
-                typeCheckingMode = "strict",
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
+            pylsp = {
+              plugins = {
+                pyflakes = { enabled = true },
+                pycodestyle = { enabled = true },
+                flake8 = { enabled = true },
+                black = { enabled = true },
+                ruff = { enabled = true },
+                -- type checking kann über mypy/ruff erfolgen, PyLSP selbst unterstützt kein strict Typchecking wie Pyright
               },
             },
           },
@@ -1707,7 +1710,7 @@ return {
     },
   },
 
-  -- Formatter & Linter
+  -- Formatter
   {
     "stevearc/conform.nvim",
     opts = {
@@ -2360,7 +2363,8 @@ return {
         "java-debug-adapter",
         "java-test",
         -- "vscode-java-test",
-        "pyright",
+        -- "pyright",
+        "pylsp",
         "black",
         "ruff",
         "debugpy",
