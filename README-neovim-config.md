@@ -1944,9 +1944,9 @@ local function get_python_bin()
   local f = io.open(python_bin, "r")
   if f then
     f:close()
-    return python_bin  -- gibt String zurück
+    return python_bin -- gibt String zurück
   end
-  return nil            -- nil signalisiert "nicht vorhanden"
+  return nil -- nil signalisiert "nicht vorhanden"
 end
 
 local function get_ruff_bin()
@@ -1976,7 +1976,7 @@ return {
     opts = function()
       local python_bin = get_python_bin()
       if not python_bin then
-        return {} -- Kein venv vorhanden → LSP nicht starten
+        return nil
       end
 
       local ruff_bin = get_ruff_bin()
