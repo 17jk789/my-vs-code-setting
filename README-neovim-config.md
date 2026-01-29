@@ -2290,16 +2290,27 @@ return {
 --    },
 -- }
 
+-- return {
+--   {
+--     "mfussenegger/nvim-dap",
+--     dependencies = {
+--       {
+--         "rcarriga/nvim-dap-ui",
+--         dependencies = {
+--           "nvim-neotest/nvim-nio",
+--         },
+--       },
+--       "jay-babu/mason-nvim-dap.nvim",
+--     },
+--     config = function()
+--       local dap = require("dap")
+--       local dapui = require("dapui")
 return {
   {
     "mfussenegger/nvim-dap",
+    ft = { "rust", "c", "cpp", "java" },
     dependencies = {
-      {
-        "rcarriga/nvim-dap-ui",
-        dependencies = {
-          "nvim-neotest/nvim-nio",
-        },
-      },
+      "rcarriga/nvim-dap-ui",
       "jay-babu/mason-nvim-dap.nvim",
     },
     config = function()
@@ -2335,7 +2346,6 @@ return {
         },
       }
 
-      -- Rust Debugger
       dap.configurations.rust = {
         {
           name = "Debug",
@@ -2354,7 +2364,6 @@ return {
         },
       }
 
-      -- C++ Debugger
       dap.configurations.cpp = {
         {
           name = "Debug",
