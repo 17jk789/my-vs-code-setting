@@ -1944,9 +1944,9 @@ local function get_python_bin()
   local f = io.open(python_bin, "r")
   if f then
     f:close()
-    return python_bin
+    return python_bin  -- gibt String zurück
   end
-  return nil
+  return nil            -- nil signalisiert "nicht vorhanden"
 end
 
 local function get_ruff_bin()
@@ -1976,7 +1976,7 @@ return {
     opts = function()
       local python_bin = get_python_bin()
       if not python_bin then
-        return {} -- kein venv, LSP nicht starten
+        return {} -- Kein venv vorhanden → LSP nicht starten
       end
 
       local ruff_bin = get_ruff_bin()
@@ -2024,7 +2024,7 @@ return {
             local bufname = vim.api.nvim_buf_get_name(0)
             local ruff_bin = get_ruff_bin()
             if bufname == "" or not ruff_bin then
-              return nil
+              return nil  -- nil-safe, kein Linter starten
             end
             return {
               cmd = ruff_bin,
