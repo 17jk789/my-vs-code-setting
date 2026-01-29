@@ -2441,8 +2441,8 @@ local augroup = vim.api.nvim_create_augroup("UserAutocmds", { clear = true })
 
 local opts = { noremap = true, silent = true }
 
-function _G.run_in_term(cmd)
-  vim.fn.termopen(cmd)
+function _G.run_in_term_split(cmd)
+  vim.cmd("split | terminal " .. cmd)
 end
 
 vim.api.nvim_create_autocmd("BufWritePre", {
@@ -2494,8 +2494,12 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
-    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)      -- VS Code
-    vim.keymap.set("n", "<leader>rir", function() run_in_term("idea .") end, opts)      -- IntelliJ
+    vim.keymap.set("n", "<leader>rid", function() 
+      run_in_term("code .") 
+    end, opts) -- VS Code
+    vim.keymap.set("n", "<leader>rir", function() 
+      run_in_term("idea .") 
+    end, opts) -- IntelliJ
     vim.keymap.set("n", "<leader>rra", ":split | terminal cargo build && cargo run<CR>", opts)
     vim.keymap.set("n", "<leader>rrr", ":split | terminal cargo run<CR>", opts)
     vim.keymap.set("n", "<leader>rrb", ":split | terminal cargo build<CR>", opts)
@@ -2529,14 +2533,20 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
-    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)
-    vim.keymap.set("n", "<leader>rir", function() run_in_term("idea .") end, opts)
+    vim.keymap.set("n", "<leader>rid", function() 
+      run_in_term("code .") 
+    end, opts)
+    vim.keymap.set("n", "<leader>rir", function() 
+      run_in_term("idea .") 
+    end, opts)
     vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", opts)
     vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", opts)
     vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", opts)
     vim.keymap.set("n", "<leader>rrt", ":split | terminal ./gradlew test<CR>", opts)
     vim.keymap.set("n", "<leader>rrg", ":edit build.gradle<CR>", opts)
-        vim.keymap.set("n", "<F5>", function()
+    
+    -- noch nicht geststet!!!
+    vim.keymap.set("n", "<F5>", function()
       require("dap").continue()
     end, opts)
 
@@ -2564,8 +2574,12 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
-    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)
-    vim.keymap.set("n", "<leader>rir", function() run_in_term("eclipse") end, opts)
+    vim.keymap.set("n", "<leader>rid", function() 
+      run_in_term("code .") 
+    end, opts)
+    vim.keymap.set("n", "<leader>rir", function() 
+      run_in_term("eclipse") 
+    end, opts)
     vim.keymap.set(
       "n",
       "<leader>rra",
@@ -2625,10 +2639,18 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
   pattern = "c",
   callback = function()
-    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)      -- VS Code
-    vim.keymap.set("n", "<leader>rir", function() run_in_term("eclipse") end, opts)     -- Eclipse
-    vim.keymap.set("n", "<leader>rrb", function() run_in_term("gcc % -o %:r") end, opts)
-    vim.keymap.set("n", "<leader>rrr", function() run_in_term("./%:r") end, opts)
+    vim.keymap.set("n", "<leader>rid", function() 
+      run_in_term("code .") 
+    end, opts) -- VS Code
+    vim.keymap.set("n", "<leader>rir", function() 
+      run_in_term("eclipse") 
+    end, opts) -- Eclipse
+    vim.keymap.set("n", "<leader>rrb", function() 
+      run_in_term("gcc % -o %:r") 
+    end, opts)
+    vim.keymap.set("n", "<leader>rrr", function() 
+      run_in_term("./%:r") 
+    end, opts)
   end,
 })
 
