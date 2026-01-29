@@ -1525,6 +1525,18 @@ return {
       jdtls.setup.add_commands()
 
       require("jdtls.dap").setup_dap_main_class_configs()
+
+      local jdtls = require("jdtls")
+
+      -- Debug MainClass
+      vim.keymap.set("n", "<F5>", function() jdtls.debug_class() end)
+
+      -- Breakpoints
+      vim.keymap.set("n", "<F9>", function() require("jdtls.dap").toggle_breakpoint() end)
+
+      -- Tests debuggen (nur wenn Projekt-Root erkannt)
+      vim.keymap.set("n", "<leader>dt", function() jdtls.test_class({ debug = true }) end)
+      vim.keymap.set("n", "<leader>dn", function() jdtls.test_nearest_method({ debug = true }) end)
       
     end,
   },
@@ -2033,6 +2045,7 @@ return {
         "ltex-ls",
         "java-debug-adapter",
         "java-test",
+        -- "vscode-java-test",
       },
     },
   },
