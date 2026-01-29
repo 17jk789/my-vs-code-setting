@@ -2605,9 +2605,9 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, opts)      -- VS Code
     vim.keymap.set("n", "<leader>rir", function() run_in_term("pycharm .") end, opts)  -- PyCharm
-    vim.keymap.set("n", "<leader>rrr", ":split | terminal python %<CR>", opts)
+    vim.keymap.set("n", "<leader>rrr", ":split | terminal python3 %<CR>", opts)
     vim.keymap.set("n", "<leader>rrt", ":split | terminal pytest<CR>", opts)
-    vim.keymap.set("n", "<leader>rrv", ":split | terminal python -m venv .venv<CR>", opts)
+    vim.keymap.set("n", "<leader>rrv", ":split | terminal python3 -m venv .venv<CR>", opts)
   end,
 })
 
