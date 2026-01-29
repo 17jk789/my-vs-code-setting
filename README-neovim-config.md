@@ -1887,48 +1887,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Funktion zum Starten eines LSP und Stoppen des anderen
-local function switch_lsp(target)
-  local clients = vim.lsp.get_active_clients()
-  
-  -- Stoppe alle aktiven Clients außer dem Ziel
-  for _, client in pairs(clients) do
-    if client.name ~= target then
-      client.stop()
-      vim.notify(client.name .. " stopped", vim.log.levels.INFO)
-    end
-  end
-
-  -- Prüfen, ob Ziel-LSP schon läuft
-  for _, client in pairs(vim.lsp.get_active_clients()) do
-    if client.name == target then
-      vim.notify(target .. " is already running", vim.log.levels.INFO)
-      return
-    end
-  end
-
-  -- LSP starten
-  if target == "jdtls" then
-    require("lspconfig").jdtls.setup({})
-    vim.notify("jdtls started", vim.log.levels.INFO)
-  elseif target == "idlts" then
-    require("lspconfig").idlts.setup({})
-    vim.notify("idlts started", vim.log.levels.INFO)
-  else
-    vim.notify("Unknown LSP: " .. target, vim.log.levels.WARN)
-  end
-end
-
--- Keymaps
--- <leader>lj -> switch zu jdtls
-vim.keymap.set("n", "<leader>lj", function()
-  switch_lsp("jdtls")
-end, { desc = "Switch to jdtls" })
-
--- <leader>li -> switch zu idlts
-vim.keymap.set("n", "<leader>li", function()
-  switch_lsp("idlts")
-end, { desc = "Switch to idlts" })
 ```
 
 # 12) plugins/mason.lua
