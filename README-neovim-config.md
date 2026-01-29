@@ -1537,6 +1537,92 @@ return {
 ```lua
 -- plugins/dap.lua
 
+-- return {
+--   {
+--     "mfussenegger/nvim-dap",
+--     dependencies = {
+--       {
+--         "rcarriga/nvim-dap-ui",
+--         dependencies = {
+--           "nvim-neotest/nvim-nio",
+--         },
+--       },
+--       "jay-babu/mason-nvim-dap.nvim",
+--     },
+--     config = function()
+--       local dap = require("dap")
+--       local dapui = require("dapui")
+
+--       local mason_path = vim.fn.stdpath("data") .. "/mason"
+--       local codelldb_path =
+--         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
+
+--       require("mason-nvim-dap").setup({
+--         ensure_installed = { "codelldb" },
+--       })
+
+--       dapui.setup()
+
+--       dap.listeners.after.event_initialized["dapui"] = function()
+--         dapui.open()
+--       end
+--       dap.listeners.before.event_terminated["dapui"] = function()
+--         dapui.close()
+--       end
+--       dap.listeners.before.event_exited["dapui"] = function()
+--         dapui.close()
+--       end
+
+--       dap.adapters.codelldb = {
+--         type = "server",
+--         port = "${port}",
+--         executable = {
+--           command = codelldb_path,
+--           args = { "--port", "${port}" },
+--         },
+--       }
+
+--       dap.configurations.rust = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/target/debug/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.cpp = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/build/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.c = dap.configurations.cpp
+--     end,
+--    },
+-- }
+
 return {
   {
     "mfussenegger/nvim-dap",
@@ -1548,14 +1634,14 @@ return {
         },
       },
       "jay-babu/mason-nvim-dap.nvim",
+      "mfussenegger/nvim-jdtls", -- für Java DAP
     },
     config = function()
       local dap = require("dap")
       local dapui = require("dapui")
 
       local mason_path = vim.fn.stdpath("data") .. "/mason"
-      local codelldb_path =
-        mason_path .. "/packages/codelldb/extension/adapter/codelldb"
+      local codelldb_path = mason_path .. "/packages/codelldb/extension/adapter/codelldb"
 
       require("mason-nvim-dap").setup({
         ensure_installed = { "codelldb" },
@@ -1563,6 +1649,7 @@ return {
 
       dapui.setup()
 
+      -- DAP UI automatisches Öffnen/Schließen
       dap.listeners.after.event_initialized["dapui"] = function()
         dapui.open()
       end
@@ -1573,6 +1660,7 @@ return {
         dapui.close()
       end
 
+      -- Rust / C / C++ Adapter
       dap.adapters.codelldb = {
         type = "server",
         port = "${port}",
@@ -1619,9 +1707,51 @@ return {
       }
 
       dap.configurations.c = dap.configurations.cpp
+
+      -- Java DAP Adapter über jdtls
+      local jdtls_ok, jdtls = pcall(require, "jdtls")
+      if jdtls_ok then
+        dap.adapters.java = function(callback)
+          local bundles = {}
+          local mason_jdtls_path = mason_path .. "/packages/java-debug-adapter/extension/server"
+          local jar_pattern = mason_jdtls_path .. "/com.microsoft.java.debug.plugin-*.jar"
+          for _, bundle in ipairs(vim.split(vim.fn.glob(jar_pattern), "\n")) do
+            table.insert(bundles, bundle)
+          end
+
+          callback({
+            type = "server",
+            host = "127.0.0.1",
+            port = 5005,
+          })
+        end
+
+        dap.configurations.java = {
+          {
+            type = "java",
+            request = "attach",
+            name = "Attach to Remote JVM",
+            hostName = "127.0.0.1",
+            port = 5005,
+          },
+          {
+            type = "java",
+            request = "launch",
+            name = "Launch Current File",
+            mainClass = function()
+              return vim.fn.input("Main class > ", "", "file")
+            end,
+            projectName = function()
+              return vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+            end,
+            cwd = "${workspaceFolder}",
+          },
+        }
+      end
     end,
-   },
+  },
 }
+
 ```
 
 # 11) config/autocmds.lua
