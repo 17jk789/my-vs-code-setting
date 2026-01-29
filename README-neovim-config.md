@@ -1451,8 +1451,6 @@ return {
 
 # 10) plugins/dap.lua (codelldb + Rust/C++ Debug)
 
-> Probelme!!!
-
 ```lua
 -- plugins/dap.lua
 
