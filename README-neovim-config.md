@@ -1937,23 +1937,33 @@ return {
 -- plugins/python.lua
 
 local function get_python_bin()
-  -- Prüft zuerst venv, dann globales Python
+  -- Nutzt ausschließlich das Python im VENV
   local venv = os.getenv("VIRTUAL_ENV")
-  if venv then
-    return venv .. "/bin/python"
+  if not venv then
+    error("VIRTUAL_ENV ist nicht gesetzt! Bitte aktiviere dein venv.")
   end
-  return "python"
+  local python_bin = venv .. "/bin/python"
+  local f = io.open(python_bin, "r")
+  if not f then
+    error("Python-Binary im VENV nicht gefunden: " .. python_bin)
+  end
+  f:close()
+  return python_bin
 end
 
 local function get_ruff_bin()
-  -- Prüft zuerst venv, dann globales ruff
+  -- Nutzt ausschließlich Ruff im VENV
   local venv = os.getenv("VIRTUAL_ENV")
-  if venv then
-    local ruff_path = venv .. "/bin/ruff"
-    local f = io.open(ruff_path, "r")
-    if f then f:close() return ruff_path end
+  if not venv then
+    error("VIRTUAL_ENV ist nicht gesetzt! Bitte aktiviere dein venv.")
   end
-  return "ruff" -- fallback auf global
+  local ruff_bin = venv .. "/bin/ruff"
+  local f = io.open(ruff_bin, "r")
+  if not f then
+    error("Ruff-Binary im VENV nicht gefunden: " .. ruff_bin)
+  end
+  f:close()
+  return ruff_bin
 end
 
 return {
@@ -2005,9 +2015,14 @@ return {
       linters_by_ft = {
         python = {
           function()
+            local bufname = vim.api.nvim_buf_get_name(0)
+            if bufname == "" then
+              -- Kein Dateiname, Linter überspringen
+              return nil
+            end
             return {
               cmd = get_ruff_bin(),
-              args = { "--stdin-filename", vim.api.nvim_buf_get_name(0), "-" },
+              args = { "--stdin-filename", bufname, "-" },
               stdin = true,
             }
           end,
@@ -2023,8 +2038,7 @@ return {
       "mfussenegger/nvim-dap-python",
     },
     config = function()
-      local python_bin = get_python_bin()
-      require("dap-python").setup(python_bin)
+      require("dap-python").setup(get_python_bin())
     end,
   },
 }
