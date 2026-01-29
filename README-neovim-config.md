@@ -917,6 +917,83 @@ vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 --   },
 -- }
 
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     dependencies = {
+--       "mason-org/mason.nvim",
+--       "mason-org/mason-lspconfig.nvim",
+--     },
+--     opts = {
+--       servers = {
+--         clangd = {
+--           cmd = {
+--             "clangd",
+--             "--background-index",
+--             "--clang-tidy",
+--             "--completion-style=detailed",
+--             "--header-insertion=never",
+--           },
+--         },
+
+--         rust_analyzer = {
+--           settings = {
+--             ["rust-analyzer"] = {
+--               diagnostics = {
+--                 disabled = {
+--                   "unresolved-proc-macro",
+--                   "unlinked-file",
+--                 },
+--               },
+
+--               cargo = {
+--                 allFeatures = true,
+--                 buildScripts = { enable = true },
+--               },
+
+--               procMacro = { enable = true },
+--               lens = { enable = true },
+
+--               completion = {
+--                 autoimport = { enable = true },
+--               },
+
+--               checkOnSave = {
+--                 command = "clippy",
+--               },
+
+--               inlayHints = {
+--                 enable = true,
+--                 typeHints = true,
+--                 parameterHints = true,
+--                 lifetimeElisionHints = "always",
+--                 closureReturnTypeHints = { enable = "always" },
+--                 bindingModeHints = { enable = true },
+--               },
+
+--               files = {
+--                 watcher = "client",
+--               },
+--             },
+--           },
+--         },
+
+--         local jdtls = require('jdtls')
+
+--         jdtls.start_or_attach({
+--           cmd = {'jdtls'},  -- Pfad zu jdtls, evtl. '/usr/local/bin/jdtls'
+--           root_dir = require('jdtls.setup').find_root({'.git', 'pom.xml', 'build.gradle'}),
+--           settings = {
+--             java = {
+--               signatureHelp = { enabled = true },
+--               contentProvider = { preferred = 'fernflower' }
+--             }
+--           }
+--         })
+--       },
+--     },
+--   },
+-- }
 
 return {
   {
@@ -940,29 +1017,12 @@ return {
         rust_analyzer = {
           settings = {
             ["rust-analyzer"] = {
-              diagnostics = {
-                disabled = {
-                  "unresolved-proc-macro",
-                  "unlinked-file",
-                },
-              },
-
-              cargo = {
-                allFeatures = true,
-                buildScripts = { enable = true },
-              },
-
+              diagnostics = { disabled = { "unresolved-proc-macro", "unlinked-file" } },
+              cargo = { allFeatures = true, buildScripts = { enable = true } },
               procMacro = { enable = true },
               lens = { enable = true },
-
-              completion = {
-                autoimport = { enable = true },
-              },
-
-              checkOnSave = {
-                command = "clippy",
-              },
-
+              completion = { autoimport = { enable = true } },
+              checkOnSave = { command = "clippy" },
               inlayHints = {
                 enable = true,
                 typeHints = true,
@@ -971,30 +1031,27 @@ return {
                 closureReturnTypeHints = { enable = "always" },
                 bindingModeHints = { enable = true },
               },
-
-              files = {
-                watcher = "client",
-              },
+              files = { watcher = "client" },
             },
           },
         },
-
-        local jdtls = require('jdtls')
-
-        jdtls.start_or_attach({
-          cmd = {'jdtls'},  -- Pfad zu jdtls, evtl. '/usr/local/bin/jdtls'
-          root_dir = require('jdtls.setup').find_root({'.git', 'pom.xml', 'build.gradle'}),
-          settings = {
-            java = {
-              signatureHelp = { enabled = true },
-              contentProvider = { preferred = 'fernflower' }
-            }
-          }
-        })
       },
     },
   },
 }
+
+-- Java LSP separat starten, **außerhalb von servers**
+local jdtls = require('jdtls')
+jdtls.start_or_attach({
+  cmd = {'jdtls'},  
+  root_dir = require('jdtls.setup').find_root({'.git', 'pom.xml', 'build.gradle'}),
+  settings = {
+    java = {
+      signatureHelp = { enabled = true },
+      contentProvider = { preferred = 'fernflower' }
+    }
+  }
+})
 
 -- return {
 --   {
