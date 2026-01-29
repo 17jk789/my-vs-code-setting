@@ -1937,30 +1937,20 @@ return {
 -- plugins/python.lua
 
 local function get_python_bin()
-  -- Nutzt ausschließlich das Python im VENV
-  local venv = os.getenv("VIRTUAL_ENV")
-  if not venv then
-    error("VIRTUAL_ENV ist nicht gesetzt! Bitte aktiviere dein venv.")
-  end
-  local python_bin = venv .. "/bin/python"
+  local python_bin = vim.fn.getcwd() .. "/venv/bin/python"
   local f = io.open(python_bin, "r")
   if not f then
-    error("Python-Binary im VENV nicht gefunden: " .. python_bin)
+    error("Python-Binary nicht gefunden: " .. python_bin .. ". Bitte erstelle ein venv mit './venv'.")
   end
   f:close()
   return python_bin
 end
 
 local function get_ruff_bin()
-  -- Nutzt ausschließlich Ruff im VENV
-  local venv = os.getenv("VIRTUAL_ENV")
-  if not venv then
-    error("VIRTUAL_ENV ist nicht gesetzt! Bitte aktiviere dein venv.")
-  end
-  local ruff_bin = venv .. "/bin/ruff"
+  local ruff_bin = vim.fn.getcwd() .. "/venv/bin/ruff"
   local f = io.open(ruff_bin, "r")
   if not f then
-    error("Ruff-Binary im VENV nicht gefunden: " .. ruff_bin)
+    error("Ruff-Binary nicht gefunden: " .. ruff_bin .. ". Bitte installiere Ruff in deinem venv.")
   end
   f:close()
   return ruff_bin
@@ -2017,7 +2007,6 @@ return {
           function()
             local bufname = vim.api.nvim_buf_get_name(0)
             if bufname == "" then
-              -- Kein Dateiname, Linter überspringen
               return nil
             end
             return {
