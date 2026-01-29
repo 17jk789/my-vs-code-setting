@@ -123,6 +123,219 @@ Wenn alles OK:
 ```bash
 sudo rm -rf /opt/nvim.bak
 ```
+- 1) inits
+
+Python:
+
+```bash
+mkdir mein_python_projekt
+cd mein_python_projekt
+python -m venv venv
+source venv/bin/activate
+touch main.py
+pip install 'python-lsp-server[all]'
+nvim .
+```
+
+Rust:
+
+```bash
+cargo new mein_rust_projekt
+cd mein_rust_projekt
+nvim .
+```
+
+Java:
+
+```bash
+vim ~/create-java-pro.sh
+chmod +x ~/create-java-pro.sh
+~/create-java-pro.sh new my-java-project
+cd ~/my-java-project
+nvim .
+```
+
+crate-java-pro.sh:
+
+```bash
+#!/usr/bin/env bash
+
+# crate-java-pro.sh
+
+set -e
+
+# usage: ./crate-java-pro.sh new my-java-project
+COMMAND=$1
+PROJECT_NAME=$2
+
+if [[ "$COMMAND" != "new" ]] || [[ -z "$PROJECT_NAME" ]]; then
+  echo "Usage: $0 new <project-name>"
+  exit 1
+fi
+
+# Erstelle Projektordner
+PROJECT_DIR="$HOME/$PROJECT_NAME"
+mkdir -p "$PROJECT_DIR"
+cd "$PROJECT_DIR"
+
+echo "📁 Projektverzeichnis erstellt: $PROJECT_DIR"
+
+# Gradle Wrapper initialisieren (mit Java 21)
+gradle init --type java-application --dsl groovy --project-name "$PROJECT_NAME" --package "$PROJECT_NAME"
+
+# Standardstruktur (falls init nicht alles erstellt)
+mkdir -p src/main/java
+mkdir -p src/test/java
+
+# Beispiel Main-Klasse
+MAIN_CLASS_PATH="src/main/java/${PROJECT_NAME//-/.}/App.java"
+mkdir -p "$(dirname "$MAIN_CLASS_PATH")"
+cat > "$MAIN_CLASS_PATH" <<EOF
+package ${PROJECT_NAME//-/.};
+
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello from $PROJECT_NAME!");
+    }
+}
+EOF
+echo "📄 Beispiel-Main-Klasse erstellt: $MAIN_CLASS_PATH"
+
+# Gradle Build-Dateien checken / erstellen
+if [ ! -f "build.gradle" ]; then
+cat > build.gradle <<EOF
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = '$PROJECT_NAME'
+version = '1.0-SNAPSHOT'
+
+sourceCompatibility = '21'
+targetCompatibility = '21'
+
+mainClass = '$PROJECT_NAME.App'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+}
+
+test {
+    useJUnitPlatform()
+}
+EOF
+echo "📄 build.gradle erstellt"
+fi
+
+if [ ! -f "settings.gradle" ]; then
+cat > settings.gradle <<EOF
+rootProject.name = '$PROJECT_NAME'
+EOF
+echo "📄 settings.gradle erstellt"
+fi
+
+# Optional: Gradle Wrapper generieren
+gradle wrapper --gradle-version 8.3
+
+# LazyVim Hinweise
+echo ""
+echo "✅ Projekt '$PROJECT_NAME' erstellt!"
+echo "🔹 Öffne Projekt mit LazyVim: nvim $PROJECT_DIR"
+echo "🔹 Stelle sicher, dass Mason installiert ist und folgende Pakete installiert sind:"
+echo "   - jdtls"
+echo "   - java-debug-adapter"
+echo "   - java-test"
+echo "🔹 Beim ersten Öffnen startet jdtls automatisch. F5=Debug, F9=Breakpoint, <leader>dt=<Testklasse debuggen>, <leader>dn=<Testmethode debuggen>"
+
+```
+
+C++:
+
+```bash
+vim ~create-cpp-pro.sh
+chmod +x ~/create-cpp-pro.sh
+~/create-cpp-pro.sh new my-cpp-project
+cd ~/my-cpp-project/build
+cmake ..
+cmake --build .
+nvim .
+```
+
+create-cpp-pro.sh:
+
+```bas
+#!/usr/bin/env bash
+
+# create-cpp-pro.sh
+
+set -e
+
+# Usage: ./create-cpp-pro.sh new <project-name>
+COMMAND=$1
+PROJECT_NAME=$2
+
+if [[ "$COMMAND" != "new" ]] || [[ -z "$PROJECT_NAME" ]]; then
+  echo "Usage: $0 new <project-name>"
+  exit 1
+fi
+
+PROJECT_DIR="$HOME/$PROJECT_NAME"
+mkdir -p "$PROJECT_DIR"
+cd "$PROJECT_DIR"
+echo "📁 Projektverzeichnis erstellt: $PROJECT_DIR"
+
+# ===========================
+# C/C++ Projektstruktur
+# ===========================
+mkdir -p src include build
+echo "📁 C/C++ Standardstruktur erstellt: src/, include/, build/"
+
+# Beispiel main.cpp
+cat > src/main.cpp <<EOF
+#include <iostream>
+
+int main() {
+    std::cout << "Hello C++ from LazyVim!" << std::endl;
+    return 0;
+}
+EOF
+echo "📄 Beispiel main.cpp erstellt"
+
+# CMakeLists.txt
+cat > CMakeLists.txt <<EOF
+cmake_minimum_required(VERSION 3.16)
+project(${PROJECT_NAME})
+
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+include_directories(include)
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+EOF
+echo "📄 CMakeLists.txt erstellt"
+
+# ===========================
+# LazyVim / Mason Hinweise
+# ===========================
+echo ""
+echo "✅ Fertig! Projekt '$PROJECT_NAME' ist bereit."
+echo "🔹 Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
+echo "🔹 LazyVim: öffne $PROJECT_DIR mit nvim"
+echo "🔹 Mason-Pakete installieren (falls noch nicht vorhanden):"
+echo "     - clangd (C/C++ LSP)"
+echo "     - codelldb (Debug Adapter)"
+echo "🔹 Keymaps in LazyVim:"
+echo "     F5 → Start Debug (aktuelles Executable)"
+echo "     F9 → Toggle Breakpoints"
+
+```
+
 
 # 0) Alacritty
 
@@ -2070,7 +2283,7 @@ return {
         callback({
           type = "server",
           host = "127.0.0.1",
-          port = 5005, -- Standardport für jdtls Debug
+          port = 5005,  -- Standardport für jdtls Debug
         })
       end
 
@@ -2079,23 +2292,12 @@ return {
           type = "java",
           request = "launch",
           name = "Debug Current File",
-          mainClass = "${file}",
-          projectName = "MeinProjekt", -- optional
+          mainClass = "${file}", 
+          projectName = "MeinProjekt",
+          cwd = vim.fn.getcwd(),
+          console = "integratedTerminal",
         },
       }
-
-      vim.api.nvim_set_keymap(
-        "n",
-        "<F5>",
-        "<cmd>lua require'dap'.continue()<CR>",
-        { noremap = true, silent = true }
-      )
-      vim.api.nvim_set_keymap(
-        "n",
-        "<F9>",
-        "<cmd>lua require'dap'.toggle_breakpoint()<CR>",
-        { noremap = true, silent = true }
-      )
     end,
   },
 }
@@ -2363,8 +2565,8 @@ return {
         "java-debug-adapter",
         "java-test",
         -- "vscode-java-test",
-        -- "pyright",
-        "pylsp",
+        -- "pyright", -- gibt es nicht 
+        -- "pylsp", -- gibt es nicht
         "black",
         "ruff",
         "debugpy",
