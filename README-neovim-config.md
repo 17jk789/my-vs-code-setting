@@ -61,6 +61,7 @@ sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk maven
 sudo snap install gradle --classic
 sudo apt install wl-clipboard fd-find tmux
+sudo apt install python3-venv
 sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
 # sudo apt install kitty
 # sudo apt install wezterm
@@ -166,7 +167,7 @@ mkdir "$PROJECT_NAME"
 cd "$PROJECT_NAME" || exit
 
 # Virtuelle Umgebung erstellen
-python -m venv venv
+python3 -m venv venv
 
 # Virtuelle Umgebung aktivieren
 # Hinweis: Dies funktioniert nur im Skript, wenn man 'source' im aktuellen Shell ausführt
@@ -1935,14 +1936,32 @@ return {
 ```lua
 -- plugins/python.lua
 
+local function get_python_bin()
+  -- Prüft zuerst venv, dann globales Python
+  local venv = os.getenv("VIRTUAL_ENV")
+  if venv then
+    return venv .. "/bin/python"
+  end
+  return "python"
+end
+
+local function get_ruff_bin()
+  -- Prüft zuerst venv, dann globales ruff
+  local venv = os.getenv("VIRTUAL_ENV")
+  if venv then
+    local ruff_path = venv .. "/bin/ruff"
+    local f = io.open(ruff_path, "r")
+    if f then f:close() return ruff_path end
+  end
+  return "ruff" -- fallback auf global
+end
+
 return {
   -- Treesitter für Python
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, {
-        "python",
-      })
+      vim.list_extend(opts.ensure_installed, { "python" })
     end,
   },
 
@@ -1952,6 +1971,7 @@ return {
     opts = {
       servers = {
         pylsp = {
+          cmd = { get_python_bin(), "-m", "pylsp" },
           settings = {
             pylsp = {
               plugins = {
@@ -1959,8 +1979,7 @@ return {
                 pycodestyle = { enabled = true },
                 flake8 = { enabled = true },
                 black = { enabled = true },
-                ruff = { enabled = true },
-                -- type checking kann über mypy/ruff erfolgen, PyLSP selbst unterstützt kein strict Typchecking wie Pyright
+                ruff = { enabled = true, executable = get_ruff_bin() },
               },
             },
           },
@@ -1984,7 +2003,15 @@ return {
     "mfussenegger/nvim-lint",
     opts = {
       linters_by_ft = {
-        python = { "ruff" },
+        python = {
+          function()
+            return {
+              cmd = get_ruff_bin(),
+              args = { "--stdin-filename", vim.api.nvim_buf_get_name(0), "-" },
+              stdin = true,
+            }
+          end,
+        },
       },
     },
   },
@@ -1996,7 +2023,8 @@ return {
       "mfussenegger/nvim-dap-python",
     },
     config = function()
-      require("dap-python").setup("python")
+      local python_bin = get_python_bin()
+      require("dap-python").setup(python_bin)
     end,
   },
 }
