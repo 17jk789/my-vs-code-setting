@@ -1706,48 +1706,57 @@ return {
         },
       }
 
-      dap.configurations.c = dap.configurations.cpp
+      local dap = require("dap")
+      local mason_path = vim.fn.stdpath("data") .. "/mason"
+      local java_debug_path = mason_path .. "/packages/java-debug-adapter/extension/server"
 
-      -- Java DAP Adapter über jdtls
-      local jdtls_ok, jdtls = pcall(require, "jdtls")
-      if jdtls_ok then
-        dap.adapters.java = function(callback)
-          local bundles = {}
-          local mason_jdtls_path = mason_path .. "/packages/java-debug-adapter/extension/server"
-          local jar_pattern = mason_jdtls_path .. "/com.microsoft.java.debug.plugin-*.jar"
-          for _, bundle in ipairs(vim.split(vim.fn.glob(jar_pattern), "\n")) do
-            table.insert(bundles, bundle)
-          end
-
-          callback({
-            type = "server",
-            host = "127.0.0.1",
-            port = 5005,
-          })
+      -- Java Adapter
+      dap.adapters.java = function(callback)
+        local bundles = {}
+        for _, bundle in ipairs(vim.split(vim.fn.glob(java_debug_path .. "/com.microsoft.java.debug.plugin-*.jar"), "\n")) do
+          table.insert(bundles, bundle)
         end
 
-        dap.configurations.java = {
-          {
-            type = "java",
-            request = "attach",
-            name = "Attach to Remote JVM",
-            hostName = "127.0.0.1",
-            port = 5005,
+        callback({
+          type = "server",
+          host = "127.0.0.1",
+          port = "${port}", -- dynamischer Port
+          executable = {
+            command = "java",
+            args = {
+              "-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,quiet=y,address=${port}",
+              "-jar",
+              java_debug_path .. "/com.microsoft.java.debug.plugin-*.jar"
+            },
           },
-          {
-            type = "java",
-            request = "launch",
-            name = "Launch Current File",
-            mainClass = function()
-              return vim.fn.input("Main class > ", "", "file")
-            end,
-            projectName = function()
-              return vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
-            end,
-            cwd = "${workspaceFolder}",
-          },
-        }
+        })
       end
+
+      -- Java Konfigurationen
+      dap.configurations.java = {
+        {
+          type = "java",
+          request = "launch",
+          name = "Launch Current File",
+          mainClass = function()
+            return vim.fn.input("Main class > ", "", "file")
+          end,
+          projectName = function()
+            return vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+          args = {},
+        },
+        {
+          type = "java",
+          request = "attach",
+          name = "Attach to Remote JVM",
+          hostName = "127.0.0.1",
+          port = 5005, -- nur für bereits laufende JVM
+        },
+      }
+
     end,
   },
 }
