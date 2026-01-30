@@ -134,7 +134,7 @@ rm -rf ~/.local/state/nvim
 rm -rf ~/.cache/nvim
 ```
 
-- 1) inits
+# 1) inits
 
 Python:
 
