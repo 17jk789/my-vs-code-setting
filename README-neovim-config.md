@@ -2481,33 +2481,16 @@ return {
 --    },
 -- }
 
--- return {
---   {
---     "mfussenegger/nvim-dap",
---     dependencies = {
---       {
---         "rcarriga/nvim-dap-ui",
---         dependencies = {
---           "nvim-neotest/nvim-nio",
---         },
---       },
---       "jay-babu/mason-nvim-dap.nvim",
---     },
---     config = function()
---       local dap = require("dap")
---       local dapui = require("dapui")
 return {
   {
     "mfussenegger/nvim-dap",
-    -- lazy = false, 
-    -- ft = { "rust", "c", "cpp", "java" },
     dependencies = {
       {
         "rcarriga/nvim-dap-ui",
         dependencies = {
           "nvim-neotest/nvim-nio",
         },
-      }
+      },
       "jay-babu/mason-nvim-dap.nvim",
     },
     config = function()
@@ -2601,7 +2584,7 @@ return {
         },
       }
     end,
-  },
+   },
 }
 
 ```
