@@ -861,70 +861,70 @@ vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 --   },
 -- }
 
--- return {
---   {
---     "neovim/nvim-lspconfig",
---     dependencies = {
---       "mason-org/mason.nvim",
---       "mason-org/mason-lspconfig.nvim",
---     },
---     opts = {
---       servers = {
---         clangd = {
---           cmd = {
---             "clangd",
---             "--background-index",
---             "--clang-tidy",
---             "--completion-style=detailed",
---             "--header-insertion=never",
---           },
---         },
+return {
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+    },
+    opts = {
+      servers = {
+        clangd = {
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--completion-style=detailed",
+            "--header-insertion=never",
+          },
+        },
 
---         rust_analyzer = {
---           settings = {
---             ["rust-analyzer"] = {
---               diagnostics = {
---                 disabled = {
---                   "unresolved-proc-macro",
---                   "unlinked-file",
---                 },
---               },
+        rust_analyzer = {
+          settings = {
+            ["rust-analyzer"] = {
+              diagnostics = {
+                disabled = {
+                  "unresolved-proc-macro",
+                  "unlinked-file",
+                },
+              },
 
---               cargo = {
---                 allFeatures = true,
---                 buildScripts = { enable = true },
---               },
+              cargo = {
+                allFeatures = true,
+                buildScripts = { enable = true },
+              },
 
---               procMacro = { enable = true },
---               lens = { enable = true },
+              procMacro = { enable = true },
+              lens = { enable = true },
 
---               completion = {
---                 autoimport = { enable = true },
---               },
+              completion = {
+                autoimport = { enable = true },
+              },
 
---               checkOnSave = {
---                 command = "clippy",
---               },
+              checkOnSave = {
+                command = "clippy",
+              },
 
---               inlayHints = {
---                 enable = true,
---                 typeHints = true,
---                 parameterHints = true,
---                 lifetimeElisionHints = "always",
---                 closureReturnTypeHints = { enable = "always" },
---                 bindingModeHints = { enable = true },
---               },
+              inlayHints = {
+                enable = true,
+                typeHints = true,
+                parameterHints = true,
+                lifetimeElisionHints = "always",
+                closureReturnTypeHints = { enable = "always" },
+                bindingModeHints = { enable = true },
+              },
 
---               files = {
---                 watcher = "client",
---               },
---             },
---           },
---         },
---       },
---     },
---   },
--- }
+              files = {
+                watcher = "client",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+}
 
 -- return {
 --   {
@@ -1004,52 +1004,52 @@ vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 --   },
 -- }
 
-return {
-  {
-    "neovim/nvim-lspconfig",
-    dependencies = {
-      "mason-org/mason.nvim",
-      "mason-org/mason-lspconfig.nvim",
-    },
-    opts = {
-      servers = {
-        -- C/C++ LSP
-        clangd = {
-          cmd = {
-            "clangd",
-            "--background-index",
-            "--clang-tidy",
-            "--completion-style=detailed",
-            "--header-insertion=never",
-          },
-        },
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     dependencies = {
+--       "mason-org/mason.nvim",
+--       "mason-org/mason-lspconfig.nvim",
+--     },
+--     opts = {
+--       servers = {
+--         -- C/C++ LSP
+--         clangd = {
+--           cmd = {
+--             "clangd",
+--             "--background-index",
+--             "--clang-tidy",
+--             "--completion-style=detailed",
+--             "--header-insertion=never",
+--           },
+--         },
 
-        -- Rust LSP
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              diagnostics = { disabled = { "unresolved-proc-macro", "unlinked-file" } },
-              cargo = { allFeatures = true, buildScripts = { enable = true } },
-              procMacro = { enable = true },
-              lens = { enable = true },
-              completion = { autoimport = { enable = true } },
-              checkOnSave = { command = "clippy" },
-              inlayHints = {
-                enable = true,
-                typeHints = true,
-                parameterHints = true,
-                lifetimeElisionHints = "always",
-                closureReturnTypeHints = { enable = "always" },
-                bindingModeHints = { enable = true },
-              },
-              files = { watcher = "client" },
-            },
-          },
-        },
-      },
-    },
-  },
-}
+--         -- Rust LSP
+--         rust_analyzer = {
+--           settings = {
+--             ["rust-analyzer"] = {
+--               diagnostics = { disabled = { "unresolved-proc-macro", "unlinked-file" } },
+--               cargo = { allFeatures = true, buildScripts = { enable = true } },
+--               procMacro = { enable = true },
+--               lens = { enable = true },
+--               completion = { autoimport = { enable = true } },
+--               checkOnSave = { command = "clippy" },
+--               inlayHints = {
+--                 enable = true,
+--                 typeHints = true,
+--                 parameterHints = true,
+--                 lifetimeElisionHints = "always",
+--                 closureReturnTypeHints = { enable = "always" },
+--                 bindingModeHints = { enable = true },
+--               },
+--               files = { watcher = "client" },
+--             },
+--           },
+--         },
+--       },
+--     },
+--   },
+-- }
 
 -- return {
 --   {
@@ -2227,19 +2227,6 @@ return {
       },
     },
   },
-
-  -- Debugging
-  {
-    "mfussenegger/nvim-dap",
-    ft = "python",
-    dependencies = { "mfussenegger/nvim-dap-python" },
-    config = function()
-      local python_bin = get_python_bin()
-      if python_bin then
-        require("dap-python").setup(python_bin)
-      end
-    end,
-  },
 }
 
 ```
@@ -2492,6 +2479,7 @@ return {
         },
       },
       "jay-babu/mason-nvim-dap.nvim",
+      "mfussenegger/nvim-dap-python",
     },
     config = function()
       local dap = require("dap")
@@ -2502,7 +2490,7 @@ return {
         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
 
       require("mason-nvim-dap").setup({
-        ensure_installed = { "codelldb" },
+        ensure_installed = { "codelldb" , "python"},
       })
 
       dapui.setup()
@@ -2583,6 +2571,16 @@ return {
           console = "integratedTerminal",
         },
       }
+
+      local function get_python_bin()
+        local python = vim.fn.getcwd() .. "/venv/bin/python"
+        if vim.fn.executable(python) == 1 then
+          return python
+        end
+        return vim.fn.exepath("python3")
+      end
+
+      require("dap-python").setup(get_python_bin())
     end,
    },
 }
