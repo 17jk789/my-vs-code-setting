@@ -701,6 +701,7 @@ color = "#ff7eb6"
         ├── ltex.lua
         ├── git.lua
         ├── notify.lua
+        ├── neo-tree.lua
         └── dash.lua
 ```
 
@@ -3279,4 +3280,19 @@ Lösung:
 --   -- disable lazyvim's builtin cmp
 --   { "hrsh7th/nvim-cmp", enabled = false },
 -- }
+```
+
+# plugins/neo-tree.lua
+
+```lua
+-- plugins/neo-tree.lua
+
+return {
+  "nvim-neo-tree/neo-tree.nvim",
+  opts = {
+    window = {
+      position = "right",
+    },
+  },
+}
 ```
