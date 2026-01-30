@@ -120,6 +120,11 @@ sudo mv nvim-linux-x86_64 /opt/nvim
 /opt/nvim/bin/nvim --version
 ```
 
+Wenn alles OK:
+```bash
+sudo rm -rf /opt/nvim.bak
+```
+
 LazyVim Löschen:
 
 ```bash
@@ -129,10 +134,6 @@ rm -rf ~/.local/state/nvim
 rm -rf ~/.cache/nvim
 ```
 
-Wenn alles OK:
-```bash
-sudo rm -rf /opt/nvim.bak
-```
 - 1) inits
 
 Python:
