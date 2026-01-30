@@ -404,6 +404,11 @@ mkdir -p ~/.config/alacritty
 vim ~/.config/alacritty/alacritty.toml
 ```
 
+```bash
+mkdir -p ~/.config/alacritty
+nano ~/.config/alacritty/alacritty.toml
+```
+
 ```toml
 [window]
 # decorations = "None"
