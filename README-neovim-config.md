@@ -3493,16 +3493,11 @@ nano plugins/neo-tree.lua
 -- plugins/neo-tree.lua
 
 return {
-  "nvim-neo-tree/neo-tree.nvim",
-  opts = function(_, opts)
-    opts.window.position = "right"
-
-    opts.filesystem = opts.filesystem or {}
-    opts.filesystem.filtered_items = {
-      hide_dotfiles = false,
-      hide_gitignored = false,
-    }
-  end,
+   "nvim-neo-tree/neo-tree.nvim",
+   opts = {
+      window = {
+         position = "right",
+      },
+   },
 }
-
 ```
