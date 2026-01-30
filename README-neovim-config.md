@@ -2582,7 +2582,18 @@ return {
 
       require("dap-python").setup(get_python_bin())
     end,
-   },
+  },
+
+  -- Noch nicht getestet!!!
+  {
+    "Weissle/persistent-breakpoints.nvim",
+    config = function()
+      require("persistent-breakpoints").setup({
+        save_dir = vim.fn.stdpath("data") .. "/breakpoints",
+        load_breakpoints_event = { "BufReadPost" },
+      })
+    end,
+  },
 }
 
 ```
