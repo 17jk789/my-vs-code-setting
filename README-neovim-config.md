@@ -3493,11 +3493,16 @@ nano plugins/neo-tree.lua
 -- plugins/neo-tree.lua
 
 return {
-   "nvim-neo-tree/neo-tree.nvim",
-   opts = {
-      window = {
-         position = "right",
-      },
-   },
+  "folke/snacks.nvim",
+  -- lazy = false,
+  -- priority = 1000,
+  opts = {
+    explorer = {
+      -- enabled = true,
+      -- replace_netrw = true,
+      position = "right",
+    },
+  },
 }
+
 ```
