@@ -3492,23 +3492,17 @@ nano plugins/neo-tree.lua
 ```lua
 -- plugins/neo-tree.lua
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  opts = {
-    filesystem = {
-      hijack_netrw_behavior = "open_current",
-      filtered_items = {
-        hide_dotfiles = false,
-        hide_gitignored = false,
-      },
-    },
-    window = {
-      position = "right",
-    },
-  },
+  opts = function(_, opts)
+    opts.window.position = "right"
+
+    opts.filesystem = opts.filesystem or {}
+    opts.filesystem.filtered_items = {
+      hide_dotfiles = false,
+      hide_gitignored = false,
+    }
+  end,
 }
 
 ```
