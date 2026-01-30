@@ -328,7 +328,7 @@ nvim .
 
 create-cpp-pro.sh:
 
-```bas
+```bash
 #!/usr/bin/env bash
 
 # create-cpp-pro.sh
@@ -677,6 +677,10 @@ color = "#ff7eb6"
 
 # 1) Struktur 
 
+```bash
+cd ~/.config/nvim/lua
+```
+
 ```text
 ~/.config/nvim/
 ├── init.lua
@@ -716,6 +720,14 @@ LazyVim lädt automatisch alles aus `lua/config/` und `lua/plugins/`.
 
 # 3) config/options.lua
 
+```bash
+vim config/options.lua
+```
+
+```bash
+nano config/options.lua
+```
+
 ```lua
 -- config/options.lua
 
@@ -740,6 +752,14 @@ vim.opt.mouse = "a"
 ---
 
 # 4) config/keymaps.lua
+
+```bash
+vim config/keymaps.lua
+```
+
+```bash
+nano config/keymaps.lua
+```
 
 ```lua
 -- config/keymaps.lua
@@ -798,6 +818,14 @@ vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 ---
 
 # 5) plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)
+
+```bash
+vim plugins/lsp.lua
+```
+
+```bash
+nano plugins/lsp.lua
+```
 
 ```lua
 -- plugins/lsp.lua
@@ -1183,6 +1211,14 @@ return {
 
 # 6) plugins/completion.lua (sicher + stabil)
 
+```bash
+vim plugins/completion.lua
+```
+
+```bash
+nano plugins/completion.lua
+```
+
 ```lua
 -- plugins/completion.lua
 
@@ -1302,6 +1338,14 @@ return {
 # 7) plugins/rust.lua (Rust IDE + DAP + Crates)
 
 Wichtig: **Keine doppelte rust-analyzer Konfiguration** — das macht nur LSPConfig.
+
+```bash
+vim plugins/rust.lua
+```
+
+```bash
+nano plugins/rust.lua
+```
 
 ```lua
 -- plugins/rust.lua
@@ -1593,6 +1637,14 @@ return {
 
 # 8) plugins/cpp.lua (nur extras, LSP in lsp.lua)
 
+```bash
+vim plugins/cpp.lua
+```
+
+```bash
+nano plugins/cpp.lua
+```
+
 ```lua
 -- plugins/cpp.lua
 
@@ -1631,6 +1683,14 @@ return {
 ---
 
 # 9) plugins/java.lua (Basis + stabil)
+
+```bash
+vim plugins/java.lua
+```
+
+```bash
+nano plugins/java.lua
+```
 
 ```lua
 -- plugins/java.lua
@@ -2125,9 +2185,18 @@ return {
     end,
   },
 }
+
 ```
 
 # 10) plugins/python.lua
+
+```bash
+vim plugins/python.lua
+```
+
+```bash
+nano plugins/python.lua
+```
 
 ```lua
 -- plugins/python.lua
@@ -2234,6 +2303,14 @@ return {
 ```
 
 # 11) plugins/html.lua
+
+```bash
+vim plugins/html.lua
+```
+
+```bash
+nano plugins/html.lua
+```
 
 ```lua
 -- plugins/html.lua
@@ -2380,6 +2457,14 @@ return {
 ---
 
 # 12) plugins/dap.lua (codelldb + Rust/C++ Debug)
+
+```bash
+vim plugins/dap.lua
+```
+
+```bash
+nano plugins/dap.lua
+```
 
 ```lua
 -- plugins/dap.lua
@@ -2602,8 +2687,16 @@ return {
 
 # 13) config/autocmds.lua
 
+```bash
+vim config/autocmds.lua
+```
+
+```bash
+nano config/autocmds.lua
+```
+
 ```lua
--- lua/config/autocmds.lua
+-- config/autocmds.lua
 
 -- Rust: format on save
 -- vim.api.nvim_create_autocmd("BufWritePre", {
@@ -2877,8 +2970,16 @@ vim.api.nvim_create_autocmd("FileType", {
 
 # 14) plugins/mason.lua
 
+```bash
+vim plugins/mason.lua
+```
+
+```bash
+nano plugins/mason.lua
+```
+
 ```lua
--- lua/plugins/mason.lua
+-- plugins/mason.lua
 
 return {
   {
@@ -2912,6 +3013,14 @@ return {
 
 # 15) plugins/github_theme.lua
 
+```bash
+vim plugins/github_theme.lua
+```
+
+```bash
+nano plugins/github_theme.lua
+```
+
 ```lua
 -- plugins/github_theme.lua
 
@@ -2931,6 +3040,14 @@ return {
 ```
 
 # 16) plugins/nightfox.lua
+
+```bash
+vim plugins/nightfox.lua
+```
+
+```bash
+nano plugins/nightfox.lua
+```
 
 ```lua
 -- plugins/nightfox.lua
@@ -3016,6 +3133,14 @@ return {
 
 # 17) plugins/ui.lua
 
+```bash
+vim plugins/ui.lua
+```
+
+```bash
+nano plugins/ui.lua
+```
+
 ```lua
 -- plugins/ui.lua
 
@@ -3055,6 +3180,14 @@ return {
 
 # 18) plugins/treesitter.lua
 
+```bash
+vim plugins/treesitter.lua
+```
+
+```bash
+nano plugins/treesitter.lua
+```
+
 ```lua
 -- plugins/treesitter.lua
 
@@ -3079,6 +3212,14 @@ return {
 ```
 
 # 19) plugins/markdown.lua
+
+```bash
+vim plugins/markdown.lua
+```
+
+```bash
+nano plugins/markdown.lua
+```
 
 ```lua
 -- plugins/markdown.lua
@@ -3109,6 +3250,14 @@ return {
 ```
 
 # 20) plugins/ltex.lua
+
+```bash
+vim plugins/ltex.lua
+```
+
+```bash
+nano plugins/ltex.lua
+```
 
 ```lua
 -- plugins/ltex.lua
@@ -3156,6 +3305,14 @@ return {
 
 # 21) plugins/notify.lua
 
+```bash
+vim plugins/notify.lua
+```
+
+```bash
+nano plugins/notify.lua
+```
+
 ```lua
 -- plugins/notify.lua
 
@@ -3187,6 +3344,14 @@ return {
 
 # 22) plugins/git.lua
 
+```bash
+vim plugins/git.lua
+```
+
+```bash
+nano plugins/git.lua
+```
+
 ```lua
 -- plugins/git.lua
 return {
@@ -3195,9 +3360,18 @@ return {
     opts = {},
   },
 }
+
 ```
 
 # 23) plugins/dash.lua
+
+```bash
+vim plugins/dash.lua
+```
+
+```bash
+nano plugins/dash.lua
+```
 
 ```lua
 -- plugins/dash.lua
@@ -3267,23 +3441,42 @@ return {
 --     return opts
 --   end,
 -- }
+
 ```
 
 # 24) config/lazyvim.lua
 
 Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
 
+```bash
+vim config/lazyvim.lua
+```
+
+```bash
+nano config/lazyvim.lua
+```
+
 Lösung:
 
 ```lua
 -- config/lazyvim.lua
+
 -- return {
 --   -- disable lazyvim's builtin cmp
 --   { "hrsh7th/nvim-cmp", enabled = false },
 -- }
+
 ```
 
 # plugins/neo-tree.lua
+
+```bash
+vim plugins/neo-tree.lua
+```
+
+```bash
+nano plugins/neo-tree.lua
+```
 
 ```lua
 -- plugins/neo-tree.lua
@@ -3302,4 +3495,5 @@ return {
     },
   },
 }
+
 ```
