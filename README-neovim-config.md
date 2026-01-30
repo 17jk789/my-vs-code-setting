@@ -3366,6 +3366,12 @@ return {
   },
 }
 
+-- :Gitsigns toggle_current_line_blame
+-- :Gitsigns toggle_signs
+-- :Gitsigns toggle_numhl
+-- :Gitsigns toggle_linehl
+-- :Gitsigns toggle_word_diff
+
 ```
 
 # 23) plugins/dash.lua
