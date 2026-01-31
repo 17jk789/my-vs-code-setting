@@ -204,7 +204,14 @@ nvim .
 
 Java:
 
-Funktioniert noch nicht verwende erstmal nur `gradle init` und `java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar <deinJar>.jar`!
+```bash
+mkdir new my-java-project
+cd new my-java-project
+gradle init
+nvim .
+```
+
+oder
 
 ```bash
 vim ~/create-java-pro.sh
@@ -341,6 +348,8 @@ cat > pom.xml <<EOL
     </dependencies>
 </project>
 EOL
+
+# java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar <deinJar>.jar
 
 echo "✅ Projekt '$PROJECT_NAME' erstellt!"
 echo "Öffne in Neovim: nvim $PROJECT_NAME"
