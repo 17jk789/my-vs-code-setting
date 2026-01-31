@@ -220,17 +220,23 @@ crate-java-pro.sh:
 # crate-java-pro.sh
 set -e
 
-PROJECT_NAME=$1
+COMMAND=$1
+PROJECT_NAME=$2
 
-if [ -z "$PROJECT_NAME" ]; then
-  echo "Usage: ./new-java.sh <project-name>"
+if [[ "$COMMAND" != "new" || -z "$PROJECT_NAME" ]]; then
+  echo "Usage: $0 new <project-name>"
   exit 1
 fi
 
 mkdir -p "$PROJECT_NAME"
 cd "$PROJECT_NAME"
 
-# 1️⃣ Gradle init (nicht-interaktiv)
+# WICHTIG: Verzeichnis MUSS leer sein
+if [ "$(ls -A .)" ]; then
+  echo "❌ Verzeichnis ist nicht leer. gradle init bricht ab."
+  exit 1
+fi
+
 gradle init \
   --type java-application \
   --dsl groovy \
@@ -239,19 +245,15 @@ gradle init \
   --package com.example.app \
   --no-incubating
 
-# 2️⃣ Build (JETZT entsteht das JAR!)
 gradle build
 
-# JAR automatisch finden
 JAR_FILE=$(ls build/libs/*.jar | head -n 1)
 
 echo "Java-Programm wird mit Debug-Flag gestartet"
 
-# 3️⃣ Debug-Start (JETZT korrekt!)
 java \
   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 \
   -jar "$JAR_FILE"
-
 ```
 
 C++:
