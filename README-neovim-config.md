@@ -245,7 +245,7 @@ gradle init \
   --package com.example.app \
   --no-incubating
 
-gradle build
+gradle build -x test
 
 JAR_FILE=$(ls build/libs/*.jar | head -n 1)
 
@@ -254,6 +254,7 @@ echo "Java-Programm wird mit Debug-Flag gestartet"
 java \
   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 \
   -jar "$JAR_FILE"
+
 ```
 
 C++:
