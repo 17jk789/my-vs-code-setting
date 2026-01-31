@@ -228,32 +228,21 @@ fi
 
 PROJECT_DIR="$HOME/$PROJECT_NAME"
 PACKAGE="com.example.app"
-PACKAGE_DIR="src/main/java/com/example/app"
+SRC_DIR="src/main/java/com/example/app"
 
 mkdir -p "$PROJECT_DIR"
 cd "$PROJECT_DIR"
 
-echo "📁 Projektverzeichnis erstellt: $PROJECT_DIR"
+echo "📁 Projekt erstellt: $PROJECT_DIR"
 
-# Gradle Wrapper
-gradle wrapper --gradle-version 8.5
+# ---------------------------
+# 1️⃣ Minimales Gradle-Projekt
+# ---------------------------
 
-# Verzeichnisstruktur
-mkdir -p "$PACKAGE_DIR"
-mkdir -p src/test/java
-
-# App.java
-cat > "$PACKAGE_DIR/App.java" <<EOF
-package $PACKAGE;
-
-public class App {
-    public static void main(String[] args) {
-        System.out.println("Hello from $PROJECT_NAME!");
-    }
-}
+cat > settings.gradle <<EOF
+rootProject.name = "$PROJECT_NAME"
 EOF
 
-# build.gradle
 cat > build.gradle <<EOF
 plugins {
     id 'java'
@@ -283,15 +272,45 @@ test {
 }
 EOF
 
-# settings.gradle
-cat > settings.gradle <<EOF
-rootProject.name = '$PROJECT_NAME'
+echo "📄 build.gradle + settings.gradle erstellt"
+
+# ---------------------------
+# 2️⃣ Wrapper ERZEUGEN (jetzt geht’s!)
+# ---------------------------
+
+gradle wrapper --gradle-version 8.14
+
+# ---------------------------
+# 3️⃣ Projektstruktur (jdtls-konform)
+# ---------------------------
+
+mkdir -p "$SRC_DIR"
+mkdir -p src/test/java
+
+cat > "$SRC_DIR/App.java" <<EOF
+package $PACKAGE;
+
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello from $PROJECT_NAME!");
+    }
+}
 EOF
 
-echo "✅ Projekt '$PROJECT_NAME' erstellt!"
+echo "📄 App.java erstellt"
+
+# ---------------------------
+# 4️⃣ Sanity Check
+# ---------------------------
+
+./gradlew build
+./gradlew run
+
+echo ""
+echo "✅ Fertig!"
 echo "➡ Öffnen mit: nvim $PROJECT_DIR"
-echo "➡ jdtls startet automatisch"
-echo "➡ Run: ./gradlew run"
+echo "➡ jdtls erkennt Projekt automatisch"
+echo "➡ Debug: F5 (jdtls)"
 
 ```
 
