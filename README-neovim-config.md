@@ -216,12 +216,8 @@ crate-java-pro.sh:
 
 ```bash
 #!/usr/bin/env bash
-
-# crate-java-pro.sh
-
 set -e
 
-# usage: ./crate-java-pro.sh new my-java-project
 COMMAND=$1
 PROJECT_NAME=$2
 
@@ -230,25 +226,25 @@ if [[ "$COMMAND" != "new" ]] || [[ -z "$PROJECT_NAME" ]]; then
   exit 1
 fi
 
-# Erstelle Projektordner
 PROJECT_DIR="$HOME/$PROJECT_NAME"
+PACKAGE="com.example.app"
+PACKAGE_DIR="src/main/java/com/example/app"
+
 mkdir -p "$PROJECT_DIR"
 cd "$PROJECT_DIR"
 
 echo "📁 Projektverzeichnis erstellt: $PROJECT_DIR"
 
-# Gradle Wrapper initialisieren (mit Java 21)
-gradle init --type java-application --dsl groovy --project-name "$PROJECT_NAME" --package "$PROJECT_NAME"
+# Gradle Wrapper
+gradle wrapper --gradle-version 8.5
 
-# Standardstruktur (falls init nicht alles erstellt)
-mkdir -p src/main/java
+# Verzeichnisstruktur
+mkdir -p "$PACKAGE_DIR"
 mkdir -p src/test/java
 
-# Beispiel Main-Klasse
-MAIN_CLASS_PATH="src/main/java/${PROJECT_NAME//-/.}/App.java"
-mkdir -p "$(dirname "$MAIN_CLASS_PATH")"
-cat > "$MAIN_CLASS_PATH" <<EOF
-package ${PROJECT_NAME//-/.};
+# App.java
+cat > "$PACKAGE_DIR/App.java" <<EOF
+package $PACKAGE;
 
 public class App {
     public static void main(String[] args) {
@@ -256,23 +252,23 @@ public class App {
     }
 }
 EOF
-echo "📄 Beispiel-Main-Klasse erstellt: $MAIN_CLASS_PATH"
 
-# Gradle Build-Dateien checken / erstellen
-if [ ! -f "build.gradle" ]; then
+# build.gradle
 cat > build.gradle <<EOF
 plugins {
     id 'java'
     id 'application'
 }
 
-group = '$PROJECT_NAME'
-version = '1.0-SNAPSHOT'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
 
-sourceCompatibility = '21'
-targetCompatibility = '21'
-
-mainClass = '$PROJECT_NAME.App'
+application {
+    mainClass = '$PACKAGE.App'
+}
 
 repositories {
     mavenCentral()
@@ -286,31 +282,16 @@ test {
     useJUnitPlatform()
 }
 EOF
-echo "📄 build.gradle erstellt"
-fi
 
-if [ ! -f "settings.gradle" ]; then
+# settings.gradle
 cat > settings.gradle <<EOF
 rootProject.name = '$PROJECT_NAME'
 EOF
-echo "📄 settings.gradle erstellt"
-fi
 
-# Optional: Gradle Wrapper generieren
-gradle wrapper --gradle-version 8.3
-
-echo "Java-Programm wird mit Debug-Flag gestartet"
-java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar <deinJar>.jar
-
-# LazyVim Hinweise
-echo ""
 echo "✅ Projekt '$PROJECT_NAME' erstellt!"
-echo "🔹 Öffne Projekt mit LazyVim: nvim $PROJECT_DIR"
-echo "🔹 Stelle sicher, dass Mason installiert ist und folgende Pakete installiert sind:"
-echo "   - jdtls"
-echo "   - java-debug-adapter"
-echo "   - java-test"
-echo "🔹 Beim ersten Öffnen startet jdtls automatisch. F5=Debug, F9=Breakpoint, <leader>dt=<Testklasse debuggen>, <leader>dn=<Testmethode debuggen>"
+echo "➡ Öffnen mit: nvim $PROJECT_DIR"
+echo "➡ jdtls startet automatisch"
+echo "➡ Run: ./gradlew run"
 
 ```
 
