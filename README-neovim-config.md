@@ -204,6 +204,8 @@ nvim .
 
 Java:
 
+Funktioniert noch nicht verwende erstmal nur `gradle init` und `java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar <deinJar>.jar`!
+
 ```bash
 vim ~/create-java-pro.sh
 chmod +x ~/create-java-pro.sh
@@ -218,42 +220,42 @@ crate-java-pro.sh:
 #!/usr/bin/env bash
 
 # crate-java-pro.sh
-set -e
+# set -e
 
-COMMAND=$1
-PROJECT_NAME=$2
+# COMMAND=$1
+# PROJECT_NAME=$2
 
-if [[ "$COMMAND" != "new" || -z "$PROJECT_NAME" ]]; then
-  echo "Usage: $0 new <project-name>"
-  exit 1
-fi
+# if [[ "$COMMAND" != "new" || -z "$PROJECT_NAME" ]]; then
+#   echo "Usage: $0 new <project-name>"
+#   exit 1
+# fi
 
-mkdir -p "$PROJECT_NAME"
-cd "$PROJECT_NAME"
+# mkdir -p "$PROJECT_NAME"
+# cd "$PROJECT_NAME"
 
 # WICHTIG: Verzeichnis MUSS leer sein
-if [ "$(ls -A .)" ]; then
-  echo "❌ Verzeichnis ist nicht leer. gradle init bricht ab."
-  exit 1
-fi
+# if [ "$(ls -A .)" ]; then
+#   echo "❌ Verzeichnis ist nicht leer. gradle init bricht ab."
+#   exit 1
+# fi
 
-gradle init \
-  --type java-application \
-  --dsl groovy \
-  --test-framework junit-jupiter \
-  --project-name "$PROJECT_NAME" \
-  --package com.example.app \
-  --no-incubating
+# gradle init \
+#   --type java-application \
+#   --dsl groovy \
+#   --test-framework junit-jupiter \
+#   --project-name "$PROJECT_NAME" \
+#   --package com.example.app \
+#   --no-incubating
 
-gradle build -x test
+# gradle build -x test
 
-JAR_FILE=$(ls build/libs/*.jar | head -n 1)
+# JAR_FILE=$(ls build/libs/*.jar | head -n 1)
 
-echo "Java-Programm wird mit Debug-Flag gestartet"
+# echo "Java-Programm wird mit Debug-Flag gestartet"
 
-java \
-  -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 \
-  -jar "$JAR_FILE"
+# java \
+#   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 \
+#   -jar "$JAR_FILE"
 
 ```
 
@@ -292,9 +294,6 @@ mkdir -p "$PROJECT_DIR"
 cd "$PROJECT_DIR"
 echo "📁 Projektverzeichnis erstellt: $PROJECT_DIR"
 
-# ===========================
-# C/C++ Projektstruktur
-# ===========================
 mkdir -p src include build
 echo "📁 C/C++ Standardstruktur erstellt: src/, include/, build/"
 
@@ -323,9 +322,6 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 EOF
 echo "📄 CMakeLists.txt erstellt"
 
-# ===========================
-# LazyVim / Mason Hinweise
-# ===========================
 echo ""
 echo "✅ Fertig! Projekt '$PROJECT_NAME' ist bereit."
 echo "🔹 Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
