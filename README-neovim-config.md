@@ -257,6 +257,94 @@ crate-java-pro.sh:
 #   -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 \
 #   -jar "$JAR_FILE"
 
+#!/usr/bin/env bash
+
+# crate-java-pro.sh
+# Minimal Maven Java-Projekt erstellen für Neovim + jdtls
+
+set -e
+
+COMMAND=$1
+PROJECT_NAME=$2
+
+if [[ "$COMMAND" != "new" || -z "$PROJECT_NAME" ]]; then
+  echo "Usage: $0 new <project-name>"
+  exit 1
+fi
+
+mkdir -p "$PROJECT_NAME"
+cd "$PROJECT_NAME"
+
+# WICHTIG: Verzeichnis MUSS leer sein
+if [ "$(ls -A .)" ]; then
+  echo "❌ Verzeichnis ist nicht leer. Abbruch."
+  exit 1
+fi
+
+# Projektstruktur erstellen
+mkdir -p src/main/java src/test/java
+
+# App.java erstellen
+cat > src/main/java/App.java <<EOL
+package com.example.app;
+
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+EOL
+
+# TestApp.java erstellen
+cat > src/test/java/TestApp.java <<EOL
+package com.example.app;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+public class TestApp {
+    @Test
+    public void sampleTest() {
+        assertTrue(true);
+    }
+}
+EOL
+
+# Minimaler pom.xml
+cat > pom.xml <<EOL
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>$PROJECT_NAME</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>
+EOL
+
+echo "✅ Projekt '$PROJECT_NAME' erstellt!"
+echo "Öffne in Neovim: nvim $PROJECT_NAME"
+
 ```
 
 C++:
