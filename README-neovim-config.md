@@ -218,27 +218,17 @@ crate-java-pro.sh:
 #!/usr/bin/env bash
 set -e
 
-COMMAND=$1
-PROJECT_NAME=$2
+PROJECT_NAME=$1
 
-if [[ "$COMMAND" != "new" ]] || [[ -z "$PROJECT_NAME" ]]; then
-  echo "Usage: $0 new <project-name>"
+if [ -z "$PROJECT_NAME" ]; then
+  echo "Usage: ./new-java.sh <project-name>"
   exit 1
 fi
 
-PROJECT_DIR="$HOME/$PROJECT_NAME"
-PACKAGE="com.example.app"
-SRC_DIR="src/main/java/com/example/app"
+mkdir -p "$PROJECT_NAME"
+cd "$PROJECT_NAME"
 
-mkdir -p "$PROJECT_DIR"
-cd "$PROJECT_DIR"
-
-echo "📁 Projekt erstellt: $PROJECT_DIR"
-
-# ---------------------------
-# 1️⃣ Minimales Gradle-Projekt
-# ---------------------------
-
+# Gradle files
 cat > settings.gradle <<EOF
 rootProject.name = "$PROJECT_NAME"
 EOF
@@ -256,61 +246,32 @@ java {
 }
 
 application {
-    mainClass = '$PACKAGE.App'
+    mainClass = 'com.example.app.App'
 }
 
 repositories {
     mavenCentral()
 }
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
-}
-
-test {
-    useJUnitPlatform()
-}
 EOF
 
-echo "📄 build.gradle + settings.gradle erstellt"
+# Source
+mkdir -p src/main/java/com/example/app
 
-# ---------------------------
-# 2️⃣ Wrapper ERZEUGEN (jetzt geht’s!)
-# ---------------------------
-
-gradle wrapper --gradle-version 8.14
-
-# ---------------------------
-# 3️⃣ Projektstruktur (jdtls-konform)
-# ---------------------------
-
-mkdir -p "$SRC_DIR"
-mkdir -p src/test/java
-
-cat > "$SRC_DIR/App.java" <<EOF
-package $PACKAGE;
+cat > src/main/java/com/example/app/App.java <<EOF
+package com.example.app;
 
 public class App {
-    public static void main(String[] args) {
-        System.out.println("Hello from $PROJECT_NAME!");
+    public static void main(String[] args) throws Exception {
+        System.out.println("Hello LazyVim Debug!");
+        Thread.sleep(60000);
     }
 }
 EOF
 
-echo "📄 App.java erstellt"
+echo "Java-Programm wird mit Debug-Flag gestartet"
 
-# ---------------------------
-# 4️⃣ Sanity Check
-# ---------------------------
-
-./gradlew build
-./gradlew run
-
-echo ""
-echo "✅ Fertig!"
-echo "➡ Öffnen mit: nvim $PROJECT_DIR"
-echo "➡ jdtls erkennt Projekt automatisch"
-echo "➡ Debug: F5 (jdtls)"
+JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005" \
+gradle run
 
 ```
 
