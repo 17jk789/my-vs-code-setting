@@ -711,7 +711,7 @@ cd ~/.config/nvim/lua
         ├── ltex.lua
         ├── git.lua
         ├── notify.lua
-        ├── neo-tree.lua
+        ├── snacks.lua
         └── dash.lua
 ```
 
@@ -2676,16 +2676,15 @@ return {
     end,
   },
 
-  -- Noch nicht getestet!!!
-  {
-    "Weissle/persistent-breakpoints.nvim",
-    config = function()
-      require("persistent-breakpoints").setup({
-        save_dir = vim.fn.stdpath("data") .. "/breakpoints",
-        load_breakpoints_event = { "BufReadPost" },
-      })
-    end,
-  },
+  -- {
+  --   "Weissle/persistent-breakpoints.nvim",
+  --   config = function()
+  --     require("persistent-breakpoints").setup({
+  --       save_dir = vim.fn.stdpath("data") .. "/breakpoints",
+  --       load_breakpoints_event = { "BufReadPost" },
+  --     })
+  --   end,
+  -- },
 }
 
 ```
@@ -3479,28 +3478,35 @@ Lösung:
 
 ```
 
-# plugins/neo-tree.lua
+# plugins/snacks.lua
 
 ```bash
-vim plugins/neo-tree.lua
+vim plugins/snacks.lua
 ```
 
 ```bash
-nano plugins/neo-tree.lua
+nano plugins/snacks.lua
 ```
 
 ```lua
--- plugins/neo-tree.lua
+-- plugins/snacks.lua
 
 return {
   "folke/snacks.nvim",
-  -- lazy = false,
-  -- priority = 1000,
   opts = {
     explorer = {
-      -- enabled = true,
-      -- replace_netrw = true,
-      position = "right",
+      replace_netrw = true,
+    },
+    picker = {
+      sources = {
+        explorer = {
+          layout = {
+            layout = {
+              position = "right",
+            },
+          },
+        },
+      },
     },
   },
 }
