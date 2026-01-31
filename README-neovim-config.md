@@ -216,6 +216,8 @@ crate-java-pro.sh:
 
 ```bash
 #!/usr/bin/env bash
+
+# crate-java-pro.sh
 set -e
 
 PROJECT_NAME=$1
@@ -228,50 +230,27 @@ fi
 mkdir -p "$PROJECT_NAME"
 cd "$PROJECT_NAME"
 
-# Gradle files
-cat > settings.gradle <<EOF
-rootProject.name = "$PROJECT_NAME"
-EOF
+# 1️⃣ Gradle init (nicht-interaktiv)
+gradle init \
+  --type java-application \
+  --dsl groovy \
+  --test-framework junit-jupiter \
+  --project-name "$PROJECT_NAME" \
+  --package com.example.app \
+  --no-incubating
 
-cat > build.gradle <<EOF
-plugins {
-    id 'java'
-    id 'application'
-}
+# 2️⃣ Build (JETZT entsteht das JAR!)
+gradle build
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-}
-
-application {
-    mainClass = 'com.example.app.App'
-}
-
-repositories {
-    mavenCentral()
-}
-EOF
-
-# Source
-mkdir -p src/main/java/com/example/app
-
-cat > src/main/java/com/example/app/App.java <<EOF
-package com.example.app;
-
-public class App {
-    public static void main(String[] args) throws Exception {
-        System.out.println("Hello LazyVim Debug!");
-        Thread.sleep(60000);
-    }
-}
-EOF
+# JAR automatisch finden
+JAR_FILE=$(ls build/libs/*.jar | head -n 1)
 
 echo "Java-Programm wird mit Debug-Flag gestartet"
 
-JAVA_TOOL_OPTIONS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005" \
-gradle run
+# 3️⃣ Debug-Start (JETZT korrekt!)
+java \
+  -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 \
+  -jar "$JAR_FILE"
 
 ```
 
