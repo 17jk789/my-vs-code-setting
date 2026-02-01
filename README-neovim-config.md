@@ -396,10 +396,10 @@ fi
 PROJECT_DIR="$HOME/$PROJECT_NAME"
 mkdir -p "$PROJECT_DIR"
 cd "$PROJECT_DIR"
-echo "📁 Projektverzeichnis erstellt: $PROJECT_DIR"
+echo "Projektverzeichnis erstellt: $PROJECT_DIR"
 
 mkdir -p src include build
-echo "📁 C/C++ Standardstruktur erstellt: src/, include/, build/"
+echo "C/C++ Standardstruktur erstellt: src/, include/, build/"
 
 # Beispiel main.cpp
 cat > src/main.cpp <<EOF
@@ -410,7 +410,7 @@ int main() {
     return 0;
 }
 EOF
-echo "📄 Beispiel main.cpp erstellt"
+echo "Beispiel main.cpp erstellt"
 
 # CMakeLists.txt
 cat > CMakeLists.txt <<EOF
@@ -424,19 +424,11 @@ include_directories(include)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 EOF
-echo "📄 CMakeLists.txt erstellt"
+echo "CMakeLists.txt erstellt"
 
 echo ""
 echo "✅ Fertig! Projekt '$PROJECT_NAME' ist bereit."
-echo "🔹 Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
-echo "🔹 LazyVim: öffne $PROJECT_DIR mit nvim"
-echo "🔹 Mason-Pakete installieren (falls noch nicht vorhanden):"
-echo "     - clangd (C/C++ LSP)"
-echo "     - codelldb (Debug Adapter)"
-echo "🔹 Keymaps in LazyVim:"
-echo "     F5 → Start Debug (aktuelles Executable)"
-echo "     F9 → Toggle Breakpoints"
-
+echo "Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
 ```
 
 
@@ -3491,6 +3483,29 @@ nano plugins/dash.lua
 --     return opts
 --   end,
 -- }
+
+return {
+  {
+    "folke/snacks.nvim",
+    opts {
+      dashboard {
+        present {
+          header = [[
+
+██████╗       ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗         Z
+██╔══██╗      ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║     Z    
+██████╔╝█████╗██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║  z       
+██╔═══╝ ╚════╝██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║z         
+██║           ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║          
+╚═╝           ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝          
+
+Julian NeoVim Config (Rust, C++, Java)
+          ]],
+        },
+      },
+    },
+  },
+}
 
 ```
 
