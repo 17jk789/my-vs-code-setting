@@ -2358,142 +2358,142 @@ nano plugins/html.lua
 ```lua
 -- plugins/html.lua
 
-return {
-  {
-    "L3MON4D3/LuaSnip",
-    opts = function(_, opts)
-      local ls = require("luasnip")
-      local s = ls.snippet
-      local t = ls.text_node
-      local i = ls.insert_node
-      local f = ls.function_node
+-- return {
+--   {
+--     "L3MON4D3/LuaSnip",
+--     opts = function(_, opts)
+--       local ls = require("luasnip")
+--       local s = ls.snippet
+--       local t = ls.text_node
+--       local i = ls.insert_node
+--       local f = ls.function_node
 
-      ls.add_snippets("html", {
+--       ls.add_snippets("html", {
 
-        -- ! -> HTML5 Boilerplate
-        s("!", {
-          t({
-            "<!DOCTYPE html>",
-            "<html lang=\"en\">",
-            "<head>",
-            "    <meta charset=\"UTF-8\">",
-            "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
-            "    <title>",
-          }),
-          i(1, "Document"),
-          t({
-            "</title>",
-            "</head>",
-            "<body>",
-            "",
-            }),
-          i(0),
-          t({
-            "",
-            "</body>",
-            "</html>",
-          }),
-        }),
+--         -- ! -> HTML5 Boilerplate
+--         s("!", {
+--           t({
+--             "<!DOCTYPE html>",
+--             "<html lang=\"en\">",
+--             "<head>",
+--             "    <meta charset=\"UTF-8\">",
+--             "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">",
+--             "    <title>",
+--           }),
+--           i(1, "Document"),
+--           t({
+--             "</title>",
+--             "</head>",
+--             "<body>",
+--             "",
+--             }),
+--           i(0),
+--           t({
+--             "",
+--             "</body>",
+--             "</html>",
+--           }),
+--         }),
 
-        -- !! -> Minimal HTML
-        s("!!", {
-          t({
-            "<!DOCTYPE html>",
-            "<html>",
-            "<head>",
-            "    <title>",
-          }),
-          i(1, "Document"),
-          t({
-            "</title>",
-            "</head>",
-            "<body>",
-            }),
-          i(0),
-          t({
-            "",
-            "</body>",
-            "</html>",
-          }),
-        }),
+--         -- !! -> Minimal HTML
+--         s("!!", {
+--           t({
+--             "<!DOCTYPE html>",
+--             "<html>",
+--             "<head>",
+--             "    <title>",
+--           }),
+--           i(1, "Document"),
+--           t({
+--             "</title>",
+--             "</head>",
+--             "<body>",
+--             }),
+--           i(0),
+--           t({
+--             "",
+--             "</body>",
+--             "</html>",
+--           }),
+--         }),
 
-        -- !!! -> Nur Body
-        s("!!!", {
-          t({
-            "<body>",
-            }),
-          i(0),
-          t({
-            "",
-            "</body>",
-          }),
-        }),
+--         -- !!! -> Nur Body
+--         s("!!!", {
+--           t({
+--             "<body>",
+--             }),
+--           i(0),
+--           t({
+--             "",
+--             "</body>",
+--           }),
+--         }),
 
-        -- div
-        s("div", {
-          t("<div>"),
-          i(0),
-          t("</div>"),
-        }),
+--         -- div
+--         s("div", {
+--           t("<div>"),
+--           i(0),
+--           t("</div>"),
+--         }),
 
-        -- span
-        s("span", {
-          t("<span>"),
-          i(0),
-          t("</span>"),
-        }),
+--         -- span
+--         s("span", {
+--           t("<span>"),
+--           i(0),
+--           t("</span>"),
+--         }),
 
-        -- p
-        s("p", {
-          t("<p>"),
-          i(0),
-          t("</p>"),
-        }),
+--         -- p
+--         s("p", {
+--           t("<p>"),
+--           i(0),
+--           t("</p>"),
+--         }),
 
-        -- a
-        s("a", {
-          t("<a href=\""),
-          i(1, "#"),
-          t("\">"),
-          i(0),
-          t("</a>"),
-        }),
+--         -- a
+--         s("a", {
+--           t("<a href=\""),
+--           i(1, "#"),
+--           t("\">"),
+--           i(0),
+--           t("</a>"),
+--         }),
 
-        -- img
-        s("img", {
-          t("<img src=\""),
-          i(1),
-          t("\" alt=\""),
-          i(2),
-          t("\" />"),
-        }),
+--         -- img
+--         s("img", {
+--           t("<img src=\""),
+--           i(1),
+--           t("\" alt=\""),
+--           i(2),
+--           t("\" />"),
+--         }),
 
-        -- link css
-        s("css", {
-          t("<link rel=\"stylesheet\" href=\""),
-          i(0),
-          t("\">"),
-        }),
+--         -- link css
+--         s("css", {
+--           t("<link rel=\"stylesheet\" href=\""),
+--           i(0),
+--           t("\">"),
+--         }),
 
-        -- script
-        s("js", {
-          t("<script src=\""),
-          i(0),
-          t("\"></script>"),
-        }),
+--         -- script
+--         s("js", {
+--           t("<script src=\""),
+--           i(0),
+--           t("\"></script>"),
+--         }),
 
-        -- comment
-        s("com", {
-          t("<!-- "),
-          i(0),
-          t(" -->"),
-        }),
-      })
+--         -- comment
+--         s("com", {
+--           t("<!-- "),
+--           i(0),
+--           t(" -->"),
+--         }),
+--       })
 
-      return opts
-    end,
-  },
-}
+--       return opts
+--     end,
+--   },
+-- }
 
 ```
 
