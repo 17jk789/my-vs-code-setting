@@ -2717,7 +2717,7 @@ return {
         return vim.fn.exepath("python3")
       end
 
-      require("dap-python").setup(get_python_bin)
+      require("dap-python").setup(get_python_bin())
     end,
   },
 
