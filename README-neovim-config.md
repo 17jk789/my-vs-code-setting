@@ -2099,45 +2099,45 @@ nano plugins/java.lua
 -- }
 
 return {
-  {
-    "L3MON4D3/LuaSnip",
-    version = "v2.*",
-    build = "make install_jsregexp", -- optional für LSP transformations
-    event = "InsertEnter",           -- lazy load
-    config = function()
-      local ls = require("luasnip")
-      local s, t, i, f = ls.snippet, ls.text_node, ls.insert_node, ls.function_node
+  -- {
+  --   "L3MON4D3/LuaSnip",
+  --   version = "v2.*",
+  --   build = "make install_jsregexp", -- optional für LSP transformations
+  --   event = "InsertEnter",           -- lazy load
+  --   config = function()
+  --     local ls = require("luasnip")
+  --     local s, t, i, f = ls.snippet, ls.text_node, ls.insert_node, ls.function_node
 
-      -- Keymaps (optional, aber empfohlen)
-      vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
-      vim.keymap.set({"i","s"}, "<C-L>", function() ls.jump(1) end, {silent = true})
-      vim.keymap.set({"i","s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
-      vim.keymap.set({"i","s"}, "<C-E>", function()
-        if ls.choice_active() then ls.change_choice(1) end
-      end, {silent = true})
+  --     -- Keymaps (optional, aber empfohlen)
+  --     vim.keymap.set({"i"}, "<C-K>", function() ls.expand() end, {silent = true})
+  --     vim.keymap.set({"i","s"}, "<C-L>", function() ls.jump(1) end, {silent = true})
+  --     vim.keymap.set({"i","s"}, "<C-J>", function() ls.jump(-1) end, {silent = true})
+  --     vim.keymap.set({"i","s"}, "<C-E>", function()
+  --       if ls.choice_active() then ls.change_choice(1) end
+  --     end, {silent = true})
 
-      -- Autocmd: snippets erst beim richtigen FileType registrieren
-      vim.api.nvim_create_autocmd("FileType", {
-        pattern = "java",
-        callback = function()
-          ls.add_snippets("java", {
-            -- public class + main
-            s("main", {
-              t("public class "), f(function() return vim.fn.expand("%:t:r") end), t({" {", "", "    public static void main(String[] args) {", "        "}), i(1), t({"", "    }", "}", ""})
-            }),
-            -- Hello World
-            s("mainh", {
-              t("public class "), f(function() return vim.fn.expand("%:t:r") end), t({" {", "", "    public static void main(String[] args) {", '        System.out.println("Hello World!");', "    }", "}", ""})
-            }),
-            -- print
-            s("pri", {t("System.out.print("), i(1), t(");")}),
-            -- println
-            s("priln", {t("System.out.println("), i(1), t(");")}),
-          })
-        end
-      })
-    end,
-  },
+  --     -- Autocmd: snippets erst beim richtigen FileType registrieren
+  --     vim.api.nvim_create_autocmd("FileType", {
+  --       pattern = "java",
+  --       callback = function()
+  --         ls.add_snippets("java", {
+  --           -- public class + main
+  --           s("main", {
+  --             t("public class "), f(function() return vim.fn.expand("%:t:r") end), t({" {", "", "    public static void main(String[] args) {", "        "}), i(1), t({"", "    }", "}", ""})
+  --           }),
+  --           -- Hello World
+  --           s("mainh", {
+  --             t("public class "), f(function() return vim.fn.expand("%:t:r") end), t({" {", "", "    public static void main(String[] args) {", '        System.out.println("Hello World!");', "    }", "}", ""})
+  --           }),
+  --           -- print
+  --           s("pri", {t("System.out.print("), i(1), t(");")}),
+  --           -- println
+  --           s("priln", {t("System.out.println("), i(1), t(");")}),
+  --         })
+  --       end
+  --     })
+  --   end,
+  -- },
 
   {
     -- "mfussenegger/nvim-jdtls",
