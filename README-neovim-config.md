@@ -790,12 +790,6 @@ vim.opt.mouse = "a"
 
 vim.opt.winbar = "%=%m %f  | %l/%L"
 
--- LSP Server to use for Python.
--- Set to "basedpyright" to use basedpyright instead of pyright.
-vim.g.lazyvim_python_lsp = "pyright"
--- Set to "ruff_lsp" to use the old LSP implementation version.
-vim.g.lazyvim_python_ruff = "ruff"
-
 ```
 
 ---
@@ -2246,104 +2240,104 @@ nano plugins/python.lua
 ```lua
 -- plugins/python.lua
 
--- local function get_python_bin()
---   local python_bin = vim.fn.getcwd() .. "/venv/bin/python"
---   local f = io.open(python_bin, "r")
---   if f then
---     f:close()
---     return python_bin -- gibt String zurück
---   end
---   return nil -- nil signalisiert "nicht vorhanden"
--- end
+local function get_python_bin()
+  local python_bin = vim.fn.getcwd() .. "/venv/bin/python"
+  local f = io.open(python_bin, "r")
+  if f then
+    f:close()
+    return python_bin -- gibt String zurück
+  end
+  return nil -- nil signalisiert "nicht vorhanden"
+end
 
--- local function get_ruff_bin()
---   local ruff_bin = vim.fn.getcwd() .. "/venv/bin/ruff"
---   local f = io.open(ruff_bin, "r")
---   if f then
---     f:close()
---     return ruff_bin
---   end
---   return nil
--- end
+local function get_ruff_bin()
+  local ruff_bin = vim.fn.getcwd() .. "/venv/bin/ruff"
+  local f = io.open(ruff_bin, "r")
+  if f then
+    f:close()
+    return ruff_bin
+  end
+  return nil
+end
 
--- return {
---   -- Treesitter für Python
---   {
---     "nvim-treesitter/nvim-treesitter",
---     ft = "python",
---     opts = function(_, opts)
---       vim.list_extend(opts.ensure_installed, { "python" })
---     end,
---   },
+return {
+  -- Treesitter für Python
+  {
+    "nvim-treesitter/nvim-treesitter",
+    ft = "python",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, { "python" })
+    end,
+  },
 
---   -- LSP: pylsp
---   {
---     "neovim/nvim-lspconfig",
---     ft = "python",
---     opts = function()
---       local python_bin = get_python_bin()
---       if not python_bin then
---         return nil
---       end
+  -- LSP: pylsp
+  {
+    "neovim/nvim-lspconfig",
+    ft = "python",
+    opts = function()
+      local python_bin = get_python_bin()
+      if not python_bin then
+        return nil
+      end
 
---       local ruff_bin = get_ruff_bin()
+      local ruff_bin = get_ruff_bin()
 
---       return {
---         servers = {
---           pylsp = {
---             cmd = { python_bin, "-m", "pylsp" },
---             settings = {
---               pylsp = {
---                 plugins = {
---                   pyflakes = { enabled = true },
---                   pycodestyle = { enabled = true },
---                   flake8 = { enabled = true },
---                   black = { enabled = true },
---                   ruff = { enabled = ruff_bin ~= nil, executable = ruff_bin },
---                 },
---               },
---             },
---           },
---         },
---       }
---     end,
---   },
+      return {
+        servers = {
+          pylsp = {
+            cmd = { python_bin, "-m", "pylsp" },
+            settings = {
+              pylsp = {
+                plugins = {
+                  pyflakes = { enabled = true },
+                  pycodestyle = { enabled = true },
+                  flake8 = { enabled = true },
+                  black = { enabled = true },
+                  ruff = { enabled = ruff_bin ~= nil, executable = ruff_bin },
+                },
+              },
+            },
+          },
+        },
+      }
+    end,
+  },
 
---   -- Formatter
---   {
---     "stevearc/conform.nvim",
---     ft = "python",
---     opts = {
---       formatters_by_ft = {
---         python = { "black" },
---       },
---     },
---   },
+  -- Formatter
+  {
+    "stevearc/conform.nvim",
+    ft = "python",
+    opts = {
+      formatters_by_ft = {
+        python = { "black" },
+      },
+    },
+  },
 
---   -- Ruff Linter Integration
---   {
---     "mfussenegger/nvim-lint",
---     ft = "python",
---     opts = {
---       linters_by_ft = {
---         python = {
---           function()
---             local bufname = vim.api.nvim_buf_get_name(0)
---             local ruff_bin = get_ruff_bin()
---             if bufname == "" or not ruff_bin then
---               return nil  -- nil-safe, kein Linter starten
---             end
---             return {
---               cmd = ruff_bin,
---               args = { "--stdin-filename", bufname, "-" },
---               stdin = true,
---             }
---           end,
---         },
---       },
---     },
---   },
--- }
+  -- Ruff Linter Integration
+  {
+    "mfussenegger/nvim-lint",
+    ft = "python",
+    opts = {
+      linters_by_ft = {
+        python = {
+          function()
+            local bufname = vim.api.nvim_buf_get_name(0)
+            local ruff_bin = get_ruff_bin()
+            if bufname == "" or not ruff_bin then
+              return nil  -- nil-safe, kein Linter starten
+            end
+            return {
+              cmd = ruff_bin,
+              args = { "--stdin-filename", bufname, "-" },
+              stdin = true,
+            }
+          end,
+        },
+      },
+    },
+  },
+}
 
 ```
 
@@ -2715,15 +2709,15 @@ return {
 
       -- require("dap-python").setup(get_python_bin())
 
-      -- local function get_python_bin()
-      --   local venv = vim.fn.getcwd() .. "/venv/bin/python"
-      --   if vim.fn.executable(venv) == 1 then
-      --     return venv
-      --   end
-      --   return vim.fn.exepath("python3")
-      -- end
+      local function get_python_bin()
+        local venv = vim.fn.getcwd() .. "/venv/bin/python"
+        if vim.fn.executable(venv) == 1 then
+          return venv
+        end
+        return vim.fn.exepath("python3")
+      end
 
-      -- require("dap-python").setup(get_python_bin)
+      require("dap-python").setup(get_python_bin)
     end,
   },
 
