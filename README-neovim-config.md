@@ -3512,7 +3512,7 @@ return {
 ██║           ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║          
 ╚═╝           ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝          
 
-Julian NeoVim Config (Rust, C++, Java)
+Julian Neovim Config (Rust, C++, Java)
           ]],
         },
       },
