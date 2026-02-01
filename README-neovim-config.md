@@ -3487,9 +3487,9 @@ nano plugins/dash.lua
 return {
   {
     "folke/snacks.nvim",
-    opts {
-      dashboard {
-        present {
+    opts = {
+      dashboard = {
+        present = {
           header = [[
 
 ██████╗       ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗         Z
