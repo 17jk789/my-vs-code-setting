@@ -2615,8 +2615,12 @@ return {
       local codelldb_path =
         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
 
+      -- require("mason-nvim-dap").setup({
+      --   ensure_installed = { "codelldb" , "python"},
+      -- })
+      
       require("mason-nvim-dap").setup({
-        ensure_installed = { "codelldb" , "python"},
+        ensure_installed = { "codelldb"},
       })
 
       dapui.setup()
