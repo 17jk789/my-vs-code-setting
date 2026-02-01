@@ -2832,15 +2832,28 @@ return {
       --   },
       -- }
 
+      -- local function get_python_bin()
+      --   local python = vim.fn.getcwd() .. "/venv/bin/python"
+      --   if vim.fn.executable(python) == 1 then
+      --     return python
+      --   end
+      --   return vim.fn.exepath("python3")
+      -- end
+
+      -- require("dap-python").setup(get_python_bin())
+
       local function get_python_bin()
-        local python = vim.fn.getcwd() .. "/venv/bin/python"
-        if vim.fn.executable(python) == 1 then
-          return python
+        local cwd = vim.fn.getcwd()
+        local venv_python = cwd .. "/venv/bin/python"
+
+        if vim.fn.executable(venv_python) == 1 then
+          return venv_python
         end
+
         return vim.fn.exepath("python3")
       end
 
-      require("dap-python").setup(get_python_bin())
+      require("dap-python").setup(get_python_bin)
     end,
   },
 
