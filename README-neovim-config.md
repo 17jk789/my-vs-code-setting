@@ -787,6 +787,8 @@ vim.opt.updatetime = 250
 
 vim.opt.mouse = "a"
 
+vim.opt.winbar = "%=%m %f   %l/%L"
+
 ```
 
 ---
