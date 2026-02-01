@@ -355,6 +355,7 @@ cat > pom.xml <<EOL
 </project>
 EOL
 
+# https://github.com/nvim-java/nvim-java ersetzt das!
 # java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar <deinJar>.jar
 
 echo "✅ Projekt '$PROJECT_NAME' erstellt!"
@@ -1731,6 +1732,8 @@ return {
 
 # 9) plugins/java.lua (Basis + stabil)
 
+https://github.com/nvim-java/nvim-java -> top, bringrt alles mit für Java!
+
 ```bash
 vim plugins/java.lua
 ```
@@ -2698,6 +2701,7 @@ return {
 
       dap.configurations.c = dap.configurations.cpp
 
+      -- https://github.com/nvim-java/nvim-java ersetzt das!
       -- dap.adapters.java = function(callback)
       --   callback({
       --     type = "server",
@@ -3047,10 +3051,10 @@ return {
         "rust-analyzer",
         "clangd",
         "codelldb",
-        "jdtls",
+        -- "jdtls", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         "ltex-ls",
-        "java-debug-adapter",
-        "java-test",
+        -- "java-debug-adapter", -- https://github.com/nvim-java/nvim-java installirt das automatisch
+        -- "java-test", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "vscode-java-test",
         -- "pyright", -- gibt es nicht 
         -- "pylsp", -- gibt es nicht
