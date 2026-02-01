@@ -2100,47 +2100,47 @@ return {
       local i = ls.insert_node
       local f = ls.function_node
 
+      local filename = function()
+        return vim.fn.expand("%:t:r")
+      end
+
       ls.add_snippets("java", {
 
-        s("mainclass", {
+        -- public class + main
+        s("main", {
           t("public class "),
-          f(function() return vim.fn.expand("%:t:r") end),
+          f(filename),
           t({ " {", "", "    public static void main(String[] args) {", "        " }),
-          i(0),
+          i(1),
           t({ "", "    }", "}", "" }),
         }),
 
-        s("mc", {
+        -- Hello World
+        s("mainh", {
           t("public class "),
-          f(function() return vim.fn.expand("%:t:r") end),
-          t({ " {", "", "    public static void main(String[] args) {", "        " }),
-          i(0),
-          t({ "", "    }", "}", "" }),
-        }),
-
-        s("mch", {
-          t("public class "),
-          f(function() return vim.fn.expand("%:t:r") end),
+          f(filename),
           t({
             " {",
             "",
             "    public static void main(String[] args) {",
             '        System.out.println("Hello World!");',
-            "        ",
+            "    }",
+            "}",
+            "",
           }),
-          i(0),
-          t({ "", "    }", "}", "" }),
         }),
 
+        -- print
         s("pri", {
           t("System.out.print("),
-          i(0),
+          i(1),
           t(");"),
         }),
 
+        -- println
         s("priln", {
           t("System.out.println("),
-          i(0),
+          i(1),
           t(");"),
         }),
       })
@@ -2150,79 +2150,91 @@ return {
   },
 
   {
-    "mfussenegger/nvim-jdtls",
+    -- "mfussenegger/nvim-jdtls",
+    -- ft = { "java" },
+    -- dependencies = {
+    --   "mason-org/mason.nvim",
+    --   "mason-org/mason-lspconfig.nvim",
+    -- },
+    -- config = function()
+    --   local jdtls = require("jdtls")
+
+    --   local mason_path = vim.fn.stdpath("data") .. "/mason"
+    --   local jdtls_path = mason_path .. "/packages/jdtls"
+    --   local jar_files = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar", true, true)
+    --   local jar = jar_files[1]
+    --   if not jar or jar == "" then
+    --     vim.notify("JDTLS jar nicht gefunden. Bitte über Mason installieren.", vim.log.levels.ERROR)
+    --     return
+    --   end
+
+    --   local os_config
+    --   if vim.fn.has("macunix") == 1 then
+    --     os_config = "config_mac"
+    --   elseif vim.fn.has("win32") == 1 then
+    --     os_config = "config_win"
+    --   else
+    --     os_config = "config_linux"
+    --   end
+
+    --   local root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }) or vim.fn.getcwd()
+    --   local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.sha256(root_dir)
+
+    --   local capabilities = vim.lsp.protocol.make_client_capabilities()
+    --   local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+    --   if cmp_ok then
+    --     capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
+    --   end
+
+    --   local on_attach = function(client, bufnr)
+    --     local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    --     vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+    --     vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+    --     vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+    --     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+    --   end
+
+    --   jdtls.start_or_attach({
+    --     cmd = {
+    --       "java",
+    --       "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+    --       "-Dosgi.bundles.defaultStartLevel=4",
+    --       "-Declipse.product=org.eclipse.jdt.ls.core.product",
+    --       "-Dlog.protocol=true",
+    --       "-Dlog.level=ALL",
+    --       "-Xms1g",
+    --       "--add-modules=ALL-SYSTEM",
+    --       "--add-opens", "java.base/java.util=ALL-UNNAMED",
+    --       "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+    --       "-jar", jar,
+    --       "-configuration", jdtls_path .. "/" .. os_config,
+    --       "-data", workspace_dir,
+    --     },
+    --     root_dir = root_dir,
+    --     capabilities = capabilities,
+    --     on_attach = on_attach,
+    --     settings = {
+    --       java = {
+    --         eclipse = { downloadSources = true },
+    --         maven = { downloadSources = true },
+    --         format = { enabled = true },
+    --         referencesCodeLens = { enabled = true },
+    --         implementationsCodeLens = { enabled = true },
+    --       },
+    --     },
+    --   })
+    -- end,
+
+    "nvim-java/nvim-java",
     ft = { "java" },
     dependencies = {
+      "neovim/nvim-lspconfig",
+      "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
-      "mason-org/mason-lspconfig.nvim",
     },
     config = function()
-      local jdtls = require("jdtls")
-
-      local mason_path = vim.fn.stdpath("data") .. "/mason"
-      local jdtls_path = mason_path .. "/packages/jdtls"
-      local jar_files = vim.fn.glob(jdtls_path .. "/plugins/org.eclipse.equinox.launcher_*.jar", true, true)
-      local jar = jar_files[1]
-      if not jar or jar == "" then
-        vim.notify("JDTLS jar nicht gefunden. Bitte über Mason installieren.", vim.log.levels.ERROR)
-        return
-      end
-
-      local os_config
-      if vim.fn.has("macunix") == 1 then
-        os_config = "config_mac"
-      elseif vim.fn.has("win32") == 1 then
-        os_config = "config_win"
-      else
-        os_config = "config_linux"
-      end
-
-      local root_dir = require("jdtls.setup").find_root({ ".git", "mvnw", "gradlew", "pom.xml", "build.gradle" }) or vim.fn.getcwd()
-      local workspace_dir = vim.fn.stdpath("cache") .. "/jdtls/" .. vim.fn.sha256(root_dir)
-
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      local cmp_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-      if cmp_ok then
-        capabilities = cmp_nvim_lsp.default_capabilities(capabilities)
-      end
-
-      local on_attach = function(client, bufnr)
-        local bufopts = { noremap = true, silent = true, buffer = bufnr }
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-        vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-      end
-
-      jdtls.start_or_attach({
-        cmd = {
-          "java",
-          "-Declipse.application=org.eclipse.jdt.ls.core.id1",
-          "-Dosgi.bundles.defaultStartLevel=4",
-          "-Declipse.product=org.eclipse.jdt.ls.core.product",
-          "-Dlog.protocol=true",
-          "-Dlog.level=ALL",
-          "-Xms1g",
-          "--add-modules=ALL-SYSTEM",
-          "--add-opens", "java.base/java.util=ALL-UNNAMED",
-          "--add-opens", "java.base/java.lang=ALL-UNNAMED",
-          "-jar", jar,
-          "-configuration", jdtls_path .. "/" .. os_config,
-          "-data", workspace_dir,
-        },
-        root_dir = root_dir,
-        capabilities = capabilities,
-        on_attach = on_attach,
-        settings = {
-          java = {
-            eclipse = { downloadSources = true },
-            maven = { downloadSources = true },
-            format = { enabled = true },
-            referencesCodeLens = { enabled = true },
-            implementationsCodeLens = { enabled = true },
-          },
-        },
-      })
+      require("java").setup()
+      vim.lsp.enable("jdtls")
     end,
   },
 }
@@ -2680,25 +2692,25 @@ return {
 
       dap.configurations.c = dap.configurations.cpp
 
-      dap.adapters.java = function(callback)
-        callback({
-          type = "server",
-          host = "127.0.0.1",
-          port = 5005,  -- Standardport für jdtls Debug
-        })
-      end
+      -- dap.adapters.java = function(callback)
+      --   callback({
+      --     type = "server",
+      --     host = "127.0.0.1",
+      --     port = 5005,  -- Standardport für jdtls Debug
+      --   })
+      -- end
 
-      dap.configurations.java = {
-        {
-          type = "java",
-          request = "launch",
-          name = "Debug Current File",
-          mainClass = "${file}", 
-          projectName = "MeinProjekt",
-          cwd = vim.fn.getcwd(),
-          console = "integratedTerminal",
-        },
-      }
+      -- dap.configurations.java = {
+      --   {
+      --     type = "java",
+      --     request = "launch",
+      --     name = "Debug Current File",
+      --     mainClass = "${file}", 
+      --     projectName = "MeinProjekt",
+      --     cwd = vim.fn.getcwd(),
+      --     console = "integratedTerminal",
+      --   },
+      -- }
 
       local function get_python_bin()
         local python = vim.fn.getcwd() .. "/venv/bin/python"
