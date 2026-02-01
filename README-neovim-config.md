@@ -2102,7 +2102,7 @@ nano plugins/java.lua
 return {
   {
     "L3MON4D3/LuaSnip",
-    opts = function(_, opts)
+    config = function()
       local ls = require("luasnip")
       local s = ls.snippet
       local t = ls.text_node
@@ -2119,9 +2119,19 @@ return {
         s("main", {
           t("public class "),
           f(filename),
-          t({ " {", "", "    public static void main(String[] args) {", "        " }),
+          t({
+            " {",
+            "",
+            "    public static void main(String[] args) {",
+            "        ",
+          }),
           i(1),
-          t({ "", "    }", "}", "" }),
+          t({
+            "",
+            "    }",
+            "}",
+            "",
+          }),
         }),
 
         -- Hello World
@@ -2153,8 +2163,6 @@ return {
           t(");"),
         }),
       })
-
-      return opts
     end,
   },
 
