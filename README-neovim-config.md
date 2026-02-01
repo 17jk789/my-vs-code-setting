@@ -198,6 +198,7 @@ touch main.py
 source venv/bin/activate
 pip install --upgrade pip
 pip install 'python-lsp-server[all]' black ruff debugpy
+pip install debugpy
 ```
 
 Rust:
@@ -787,7 +788,13 @@ vim.opt.updatetime = 250
 
 vim.opt.mouse = "a"
 
-vim.opt.winbar = "%=%m %f   %l/%L"
+vim.opt.winbar = "%=%m %f  | %l/%L"
+
+-- LSP Server to use for Python.
+-- Set to "basedpyright" to use basedpyright instead of pyright.
+vim.g.lazyvim_python_lsp = "pyright"
+-- Set to "ruff_lsp" to use the old LSP implementation version.
+vim.g.lazyvim_python_ruff = "ruff"
 
 ```
 
@@ -2338,140 +2345,6 @@ nano plugins/python.lua
 --   },
 -- }
 
-local function get_venv()
-  local cwd = vim.fn.getcwd()
-  local venv = cwd .. "/venv"
-  if vim.fn.isdirectory(venv) == 1 then
-    return venv
-  end
-  return nil
-end
-
-local function get_python_bin()
-  local venv = get_venv()
-  if not venv then
-    return nil
-  end
-  local python = venv .. "/bin/python"
-  if vim.fn.executable(python) == 1 then
-    return python
-  end
-  return nil
-end
-
-local function get_ruff_bin()
-  local venv = get_venv()
-  if not venv then
-    return nil
-  end
-  local ruff = venv .. "/bin/ruff"
-  if vim.fn.executable(ruff) == 1 then
-    return ruff
-  end
-  return nil
-end
-
-local function get_black_bin()
-  local venv = get_venv()
-  if not venv then
-    return nil
-  end
-  local black = venv .. "/bin/black"
-  if vim.fn.executable(black) == 1 then
-    return black
-  end
-  return nil
-end
-
-return {
-
-  -- Treesitter
-  {
-    "nvim-treesitter/nvim-treesitter",
-    ft = "python",
-    opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed or {}, { "python" })
-    end,
-  },
-
-  -- LSP: pylsp (minimal & stabil)
-  {
-    "neovim/nvim-lspconfig",
-    ft = "python",
-    opts = {
-      servers = {
-        pylsp = {
-          cmd = function()
-            local python = get_python_bin()
-            if not python then
-              return nil -- Server startet einfach nicht (OK)
-            end
-            return { python, "-m", "pylsp" }
-          end,
-          settings = {
-            pylsp = {
-              plugins = {
-                pyflakes = { enabled = false },
-                pycodestyle = { enabled = false },
-                flake8 = { enabled = false },
-                mccabe = { enabled = false },
-                black = { enabled = true },
-                autopep8 = { enabled = false },
-                yapf = { enabled = false },
-                ruff = { enabled = false }, -- Ruff NUR über nvim-lint
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-
-  -- Formatter: Black
-  {
-    "stevearc/conform.nvim",
-    ft = "python",
-    opts = {
-      formatters = {
-        black = {
-          command = function()
-            return get_black_bin() or "black"
-          end,
-        },
-      },
-      formatters_by_ft = {
-        python = { "black" },
-      },
-    },
-  },
-
-  -- Linter: Ruff (crashfrei)
-  {
-    "mfussenegger/nvim-lint",
-    ft = "python",
-    opts = {
-      linters_by_ft = {
-        python = {
-          function()
-            local bufname = vim.api.nvim_buf_get_name(0)
-            local ruff = get_ruff_bin()
-
-            if bufname == "" or not ruff then
-              return {} -- ❗ niemals nil
-            end
-
-            return {
-              cmd = ruff,
-              args = { "--stdin-filename", bufname, "-" },
-              stdin = true,
-            }
-          end,
-        },
-      },
-    },
-  },
-}
-
 ```
 
 # 11) plugins/html.lua
@@ -2842,18 +2715,15 @@ return {
 
       -- require("dap-python").setup(get_python_bin())
 
-      local function get_python_bin()
-        local cwd = vim.fn.getcwd()
-        local venv_python = cwd .. "/venv/bin/python"
+      -- local function get_python_bin()
+      --   local venv = vim.fn.getcwd() .. "/venv/bin/python"
+      --   if vim.fn.executable(venv) == 1 then
+      --     return venv
+      --   end
+      --   return vim.fn.exepath("python3")
+      -- end
 
-        if vim.fn.executable(venv_python) == 1 then
-          return venv_python
-        end
-
-        return vim.fn.exepath("python3")
-      end
-
-      require("dap-python").setup(get_python_bin)
+      -- require("dap-python").setup(get_python_bin)
     end,
   },
 
