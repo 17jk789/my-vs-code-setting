@@ -747,7 +747,7 @@ cd ~/.config/nvim/lua
         ├── git.lua
         ├── notify.lua
         ├── snacks.lua
-        └── dash.lua
+        └── alpha.lua
 ```
 
 ---
@@ -3405,18 +3405,18 @@ return {
 
 ```
 
-# 23) plugins/dash.lua
+# 23) plugins/alpha.lua
 
 ```bash
-vim plugins/dash.lua
+vim plugins/alpha.lua
 ```
 
 ```bash
-nano plugins/dash.lua
+nano plugins/alpha.lua
 ```
 
 ```lua
--- plugins/dash.lua
+-- plugins/alpha.lua
 
 -- return {
 --   "nvimdev/dashboard-nvim",
