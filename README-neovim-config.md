@@ -3554,13 +3554,13 @@ return {
   opts = {
     explorer = {
       replace_netrw = true,
-      hidden = true,
-      ignored = false,
-      gitignored = false,
     },
+
     picker = {
       sources = {
         explorer = {
+          hidden = true,
+          ignored = true,
           layout = {
             layout = {
               position = "right",
