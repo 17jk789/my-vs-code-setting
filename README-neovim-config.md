@@ -2358,6 +2358,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     ft = "python",
     opts = function(_, opts)
+      opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, { "python" })
     end,
   },
@@ -2375,7 +2376,8 @@ return {
               },
             },
             on_attach = function(client, bufnr)
-              if client.server_capabilities.inlayHintProvider then
+              -- Inlay Hints nur aufrufen, wenn verfügbar
+              if client.server_capabilities.inlayHintProvider and vim.lsp.buf.inlay_hint then
                 vim.lsp.buf.inlay_hint(bufnr, false)
               end
             end,
