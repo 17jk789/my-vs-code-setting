@@ -68,6 +68,8 @@ sudo apt install openjdk-21-jdk maven
 sudo snap install gradle --classic
 sudo apt install wl-clipboard fd-find tmux
 sudo apt install python3-venv
+sudo apt install ripgrep
+sudo apt install nodejs npm
 sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
 # sudo apt install kitty
 # sudo apt install wezterm
@@ -142,7 +144,7 @@ rm -rf ~/.cache/nvim
 
 # -1) inits
 
-Python:
+## Python:
 
 ```bash
 mkdir mein_python_projekt
@@ -150,7 +152,7 @@ cd mein_python_projekt
 python -m venv venv
 source venv/bin/activate
 touch main.py
-pip install 'python-lsp-server[all]' black ruff debugpy
+# pip install 'python-lsp-server[all]' black ruff debugpy
 nvim .
 ```
 
@@ -197,11 +199,10 @@ touch main.py
 # Aktiviert nur für diesen Befehl die venv automatisch
 source venv/bin/activate
 pip install --upgrade pip
-pip install 'python-lsp-server[all]' black ruff debugpy
-pip install debugpy
+# pip install 'python-lsp-server[all]' black ruff debugpy
 ```
 
-Rust:
+## Rust:
 
 ```bash
 cargo new mein_rust_projekt
@@ -209,7 +210,7 @@ cd mein_rust_projekt
 nvim .
 ```
 
-Java:
+## Java:
 
 ```bash
 mkdir new my-java-project
@@ -364,7 +365,7 @@ echo "Öffne in Neovim: nvim $PROJECT_NAME"
 
 ```
 
-C++:
+## C++:
 
 ```bash
 vim ~create-cpp-pro.sh
@@ -2240,28 +2241,114 @@ nano plugins/python.lua
 ```lua
 -- plugins/python.lua
 
-local function get_python_bin()
-  local python_bin = vim.fn.getcwd() .. "/venv/bin/python"
-  local f = io.open(python_bin, "r")
-  if f then
-    f:close()
-    return python_bin -- gibt String zurück
-  end
-  return nil -- nil signalisiert "nicht vorhanden"
-end
+-- local function get_python_bin()
+--   local python_bin = vim.fn.getcwd() .. "/venv/bin/python"
+--   local f = io.open(python_bin, "r")
+--   if f then
+--     f:close()
+--     return python_bin -- gibt String zurück
+--   end
+--   return nil -- nil signalisiert "nicht vorhanden"
+-- end
 
-local function get_ruff_bin()
-  local ruff_bin = vim.fn.getcwd() .. "/venv/bin/ruff"
-  local f = io.open(ruff_bin, "r")
-  if f then
-    f:close()
-    return ruff_bin
+-- local function get_ruff_bin()
+--   local ruff_bin = vim.fn.getcwd() .. "/venv/bin/ruff"
+--   local f = io.open(ruff_bin, "r")
+--   if f then
+--     f:close()
+--     return ruff_bin
+--   end
+--   return nil
+-- end
+
+-- return {
+--   -- Treesitter für Python
+--   {
+--     "nvim-treesitter/nvim-treesitter",
+--     ft = "python",
+--     opts = function(_, opts)
+--       vim.list_extend(opts.ensure_installed, { "python" })
+--     end,
+--   },
+
+--   -- LSP: pylsp
+--   {
+--     "neovim/nvim-lspconfig",
+--     ft = "python",
+--     opts = function()
+--       local python_bin = get_python_bin()
+--       if not python_bin then
+--         return nil
+--       end
+
+--       local ruff_bin = get_ruff_bin()
+
+--       return {
+--         servers = {
+--           pylsp = {
+--             cmd = { python_bin, "-m", "pylsp" },
+--             settings = {
+--               pylsp = {
+--                 plugins = {
+--                   pyflakes = { enabled = true },
+--                   pycodestyle = { enabled = true },
+--                   flake8 = { enabled = true },
+--                   black = { enabled = true },
+--                   ruff = { enabled = ruff_bin ~= nil, executable = ruff_bin },
+--                 },
+--               },
+--             },
+--           },
+--         },
+--       }
+--     end,
+--   },
+
+--   -- Formatter
+--   {
+--     "stevearc/conform.nvim",
+--     ft = "python",
+--     opts = {
+--       formatters_by_ft = {
+--         python = { "black" },
+--       },
+--     },
+--   },
+
+--   -- Ruff Linter Integration
+--   {
+--     "mfussenegger/nvim-lint",
+--     ft = "python",
+--     opts = {
+--       linters_by_ft = {
+--         python = {
+--           function()
+--             local bufname = vim.api.nvim_buf_get_name(0)
+--             local ruff_bin = get_ruff_bin()
+--             if bufname == "" or not ruff_bin then
+--               return nil  -- nil-safe, kein Linter starten
+--             end
+--             return {
+--               cmd = ruff_bin,
+--               args = { "--stdin-filename", bufname, "-" },
+--               stdin = true,
+--             }
+--           end,
+--         },
+--       },
+--     },
+--   },
+-- }
+
+local function get_python_bin()
+  local venv = vim.fn.getcwd() .. "/venv/bin/python"
+  if vim.fn.executable(venv) == 1 then
+    return venv
   end
-  return nil
+  return vim.fn.exepath("python3")
 end
 
 return {
-  -- Treesitter für Python
   {
     "nvim-treesitter/nvim-treesitter",
     ft = "python",
@@ -2270,31 +2357,16 @@ return {
     end,
   },
 
-  -- LSP: pylsp
   {
     "neovim/nvim-lspconfig",
     ft = "python",
     opts = function()
-      local python_bin = get_python_bin()
-      if not python_bin then
-        return nil
-      end
-
-      local ruff_bin = get_ruff_bin()
-
       return {
         servers = {
-          pylsp = {
-            cmd = { python_bin, "-m", "pylsp" },
+          pyright = {
             settings = {
-              pylsp = {
-                plugins = {
-                  pyflakes = { enabled = true },
-                  pycodestyle = { enabled = true },
-                  flake8 = { enabled = true },
-                  black = { enabled = true },
-                  ruff = { enabled = ruff_bin ~= nil, executable = ruff_bin },
-                },
+              python = {
+                pythonPath = get_python_bin(),
               },
             },
           },
@@ -2303,7 +2375,6 @@ return {
     end,
   },
 
-  -- Formatter
   {
     "stevearc/conform.nvim",
     ft = "python",
@@ -2314,26 +2385,12 @@ return {
     },
   },
 
-  -- Ruff Linter Integration
   {
     "mfussenegger/nvim-lint",
     ft = "python",
     opts = {
       linters_by_ft = {
-        python = {
-          function()
-            local bufname = vim.api.nvim_buf_get_name(0)
-            local ruff_bin = get_ruff_bin()
-            if bufname == "" or not ruff_bin then
-              return nil  -- nil-safe, kein Linter starten
-            end
-            return {
-              cmd = ruff_bin,
-              args = { "--stdin-filename", bufname, "-" },
-              stdin = true,
-            }
-          end,
-        },
+        python = { "ruff" },
       },
     },
   },
@@ -2594,6 +2651,157 @@ nano plugins/dap.lua
 --    },
 -- }
 
+-- return {
+--   {
+--     "mfussenegger/nvim-dap",
+--     dependencies = {
+--       {
+--         "rcarriga/nvim-dap-ui",
+--         dependencies = {
+--           "nvim-neotest/nvim-nio",
+--         },
+--       },
+--       "jay-babu/mason-nvim-dap.nvim",
+--       "mfussenegger/nvim-dap-python",
+--     },
+--     config = function()
+--       local dap = require("dap")
+--       local dapui = require("dapui")
+
+--       local mason_path = vim.fn.stdpath("data") .. "/mason"
+--       local codelldb_path =
+--         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
+
+--       -- require("mason-nvim-dap").setup({
+--       --   ensure_installed = { "codelldb" , "python"},
+--       -- })
+      
+--       require("mason-nvim-dap").setup({
+--         ensure_installed = { "codelldb"},
+--       })
+
+--       dapui.setup()
+
+--       dap.listeners.after.event_initialized["dapui"] = function()
+--         dapui.open()
+--       end
+--       dap.listeners.before.event_terminated["dapui"] = function()
+--         dapui.close()
+--       end
+--       dap.listeners.before.event_exited["dapui"] = function()
+--         dapui.close()
+--       end
+
+--       dap.adapters.codelldb = {
+--         type = "server",
+--         port = "${port}",
+--         executable = {
+--           command = codelldb_path,
+--           args = { "--port", "${port}" },
+--         },
+--       }
+
+--       dap.configurations.rust = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/target/debug/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.cpp = {
+--         {
+--           name = "Debug",
+--           type = "codelldb",
+--           request = "launch",
+--           program = function()
+--             return vim.fn.input(
+--               "Path to executable: ",
+--               vim.fn.getcwd() .. "/build/",
+--               "file"
+--             )
+--           end,
+--           cwd = "${workspaceFolder}",
+--           stopOnEntry = false,
+--           args = {},
+--         },
+--       }
+
+--       dap.configurations.c = dap.configurations.cpp
+
+--       -- https://github.com/nvim-java/nvim-java ersetzt das!
+--       -- dap.adapters.java = function(callback)
+--       --   callback({
+--       --     type = "server",
+--       --     host = "127.0.0.1",
+--       --     port = 5005,  -- Standardport für jdtls Debug
+--       --   })
+--       -- end
+
+--       -- dap.configurations.java = {
+--       --   {
+--       --     type = "java",
+--       --     request = "launch",
+--       --     name = "Debug Current File",
+--       --     mainClass = "${file}", 
+--       --     projectName = "MeinProjekt",
+--       --     cwd = vim.fn.getcwd(),
+--       --     console = "integratedTerminal",
+--       --   },
+--       -- }
+
+--       -- local function get_python_bin()
+--       --   local python = vim.fn.getcwd() .. "/venv/bin/python"
+--       --   if vim.fn.executable(python) == 1 then
+--       --     return python
+--       --   end
+--       --   return vim.fn.exepath("python3")
+--       -- end
+
+--       -- require("dap-python").setup(get_python_bin())
+
+--       -- local function get_python_bin()
+--       --   local venv = vim.fn.getcwd() .. "/venv/bin/python"
+--       --   if vim.fn.executable(venv) == 1 then
+--       --     return venv
+--       --   end
+--       --   return vim.fn.exepath("python3")
+--       -- end
+
+--       -- require("dap-python").setup(get_python_bin())
+--       -- dap.lua (Python-relevant Teil)
+--     end,
+--   },
+
+--   -- {
+--   --   "Weissle/persistent-breakpoints.nvim",
+--   --   config = function()
+--   --     require("persistent-breakpoints").setup({
+--   --       save_dir = vim.fn.stdpath("data") .. "/breakpoints",
+--   --       load_breakpoints_event = { "BufReadPost" },
+--   --     })
+--   --   end,
+--   -- },
+-- }
+
+local function get_python_bin()
+  local venv = vim.fn.getcwd() .. "/venv/bin/python"
+  if vim.fn.executable(venv) == 1 then
+    return venv
+  end
+  return vim.fn.exepath("python3")
+end
+
 return {
   {
     "mfussenegger/nvim-dap",
@@ -2619,8 +2827,16 @@ return {
       --   ensure_installed = { "codelldb" , "python"},
       -- })
       
+      -- require("mason-nvim-dap").setup({
+      --   ensure_installed = { "codelldb"},
+      -- })
+
+      -- Mason Debug Adapter
       require("mason-nvim-dap").setup({
-        ensure_installed = { "codelldb"},
+        ensure_installed = {
+          "codelldb",
+          "python", -- debugpy
+        },
       })
 
       dapui.setup()
@@ -2713,15 +2929,20 @@ return {
 
       -- require("dap-python").setup(get_python_bin())
 
-      local function get_python_bin()
-        local venv = vim.fn.getcwd() .. "/venv/bin/python"
-        if vim.fn.executable(venv) == 1 then
-          return venv
-        end
-        return vim.fn.exepath("python3")
-      end
+      -- local function get_python_bin()
+      --   local venv = vim.fn.getcwd() .. "/venv/bin/python"
+      --   if vim.fn.executable(venv) == 1 then
+      --     return venv
+      --   end
+      --   return vim.fn.exepath("python3")
+      -- end
 
+      -- require("dap-python").setup(get_python_bin())
+      -- dap.lua (Python-relevant Teil)
+
+      -- Python
       require("dap-python").setup(get_python_bin())
+      require("dap-python").test_runner = "pytest"
     end,
   },
 
@@ -3047,12 +3268,15 @@ return {
         -- "java-debug-adapter", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "java-test", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "vscode-java-test",
-        -- "pyright", -- gibt es nicht 
-        -- "pylsp", -- gibt es nicht
-        -- "black",
-        -- "ruff",
-        -- "debugpy",
+        "pyright", 
+        -- "pylsp",
+        "black",
+        "ruff",
+        "debugpy",
         -- "mypy",
+        "html",
+        "cssls",
+        "lua_ls",
       },
     },
   },
