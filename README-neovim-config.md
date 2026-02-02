@@ -2416,17 +2416,34 @@ local function get_python_bin()
 end
 
 return {
-  -- Treesitter für Python
+  -- 1️⃣ Colorscheme, damit der Code nicht alles weiß ist
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+        flavour = "mocha",
+        transparent_background = false,
+      })
+      vim.cmd([[colorscheme catppuccin]])
+    end,
+  },
+
+  -- 2️⃣ Treesitter für Syntax-Highlighting in Python
   {
     "nvim-treesitter/nvim-treesitter",
     ft = "python",
     opts = function(_, opts)
       opts.ensure_installed = opts.ensure_installed or {}
       vim.list_extend(opts.ensure_installed, { "python" })
+      require("nvim-treesitter.configs").setup({
+        highlight = { enable = true, additional_vim_regex_highlighting = false },
+      })
     end,
   },
 
-  -- LSP mit pylsp über Mason-Org
+  -- 3️⃣ LSP: pylsp über Mason-Org
   {
     "neovim/nvim-lspconfig",
     ft = "python",
@@ -2438,7 +2455,7 @@ return {
       local lspconfig = require("lspconfig")
       local mason_lspconfig = require("mason-lspconfig")
 
-      -- Sicherstellen, dass pylsp installiert ist
+      -- pylsp ist schon installiert via Mason
       mason_lspconfig.setup({
         ensure_installed = { "pylsp" },
       })
@@ -2447,58 +2464,24 @@ return {
       lspconfig.pylsp.setup({
         settings = {
           pylsp = {
-            configurationSources = { "flake8" }, -- optional: ruff, flake8 etc.
             pythonPath = get_python_bin(),
           },
         },
         on_attach = function(_, _)
-          -- kein Inlay-Hints
+          -- LSP Diagnostics konfigurieren
+          vim.diagnostic.config({
+            virtual_text = true,
+            signs = true,
+            underline = true,
+            update_in_insert = false,
+          })
+
+          local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+          for type, icon in pairs(signs) do
+            local hl = "DiagnosticSign" .. type
+            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+          end
         end,
-      })
-    end,
-  },
-
-  -- Formatter mit Mason + null-ls
-  {
-    "stevearc/conform.nvim",
-    ft = "python",
-    dependencies = {
-      "jose-elias-alvarez/null-ls.nvim",
-      "mason-org/mason.nvim",
-      "mason-org/mason-null-ls.nvim",
-    },
-    config = function()
-      local conform = require("conform")
-      conform.setup({
-        formatters_by_ft = {
-          python = { "black" },
-        },
-      })
-
-      -- Black via Mason installieren
-      require("mason-null-ls").setup({
-        ensure_installed = { "black" },
-      })
-    end,
-  },
-
-  -- Linter mit Mason + null-ls
-  {
-    "mfussenegger/nvim-lint",
-    ft = "python",
-    dependencies = {
-      "mason-org/mason.nvim",
-      "mason-org/mason-nvim-lint.nvim",
-    },
-    config = function()
-      local lint = require("nvim-lint")
-      lint.linters_by_ft = {
-        python = { "ruff" },
-      }
-
-      -- Ruff via Mason installieren
-      require("mason-nvim-lint").setup({
-        ensure_installed = { "ruff" },
       })
     end,
   },
