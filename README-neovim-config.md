@@ -4208,20 +4208,23 @@ return {
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
             { icon = " ", key = "y", desc = "Lazy Diagnostics", action = ":Lazy diagnostics" },
             { icon = " ", key = "m", desc = "Mason", action = ":Mason" },
-            { 
-              icon = " ", 
-              key = "h", 
-              desc = "17jk789/my-vs-code-setting", 
+            {
+              icon = " ",
+              key = "h",
+              desc = "17jk789/my-vs-code-setting",
               action = function()
-                  -- Cross-platform URL öffnen
-                  local url = "https://github.com/17jk789/my-vs-code-setting/blob/main/README-neovim-config.md"
-                  if vim.fn.has("mac") == 1 then
-                      os.execute("open " .. url)
-                  elseif vim.fn.has("unix") == 1 then
-                      os.execute("xdg-open " .. url)
-                  elseif vim.fn.has("win32") == 1 then
-                      os.execute("start " .. url)
-                  end
+                local url = "https://github.com/17jk789/my-vs-code-setting/blob/main/README-neovim-config.md"
+                local cmd
+                if vim.fn.has("mac") == 1 then
+                  cmd = {"open", url}
+                elseif vim.fn.has("unix") == 1 then
+                  cmd = {"xdg-open", url}
+                elseif vim.fn.has("win32") == 1 then
+                  cmd = {"cmd", "/c", "start", "", url} -- Windows-safe Variante
+                end
+                if cmd then
+                  vim.fn.jobstart(cmd, {detach = true})
+                end
               end
             },
             {
@@ -4229,14 +4232,18 @@ return {
               key = "k",
               desc = "LazyVim Keymaps",
               action = function()
-                  local url = "https://www.lazyvim.org/keymaps"
-                  if vim.fn.has("unix") == 1 then
-                      vim.fn.jobstart({"xdg-open", url})
-                  elseif vim.fn.has("mac") == 1 then
-                      vim.fn.jobstart({"open", url})
-                  elseif vim.fn.has("win32") == 1 then
-                      vim.fn.jobstart({"start", url}, {detach = true})
-                  end
+                local url = "https://www.lazyvim.org/keymaps"
+                local cmd
+                if vim.fn.has("mac") == 1 then
+                  cmd = {"open", url}
+                elseif vim.fn.has("unix") == 1 then
+                  cmd = {"xdg-open", url}
+                elseif vim.fn.has("win32") == 1 then
+                  cmd = {"cmd", "/c", "start", "", url}
+                end
+                if cmd then
+                  vim.fn.jobstart(cmd, {detach = true})
+                end
               end
             },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
