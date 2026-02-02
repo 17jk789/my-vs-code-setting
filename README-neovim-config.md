@@ -70,6 +70,7 @@ sudo apt install wl-clipboard fd-find tmux
 sudo apt install python3-venv
 sudo apt install ripgrep
 sudo apt install nodejs npm
+sudo apt install gzip
 sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
 # sudo apt install kitty
 # sudo apt install wezterm
