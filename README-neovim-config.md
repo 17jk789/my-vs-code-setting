@@ -2234,7 +2234,7 @@ return {
 
 ```
 
-# 10) plugins/python.lua
+# 10.1) plugins/python.lua
 
 ```bash
 vim plugins/python.lua
@@ -2406,58 +2406,93 @@ nano plugins/python.lua
 --     },
 --   },
 -- }
+```
 
+# 10.2 lsp/python.lua
+
+```bash
+vim lsp/python.lua
+```
+
+```bash
+nano lsp/python.lua
+```
+
+```lua
+-- lsp/python.lua
 local M = {}
 
 M.setup = function(capabilities, no_diagnostics)
     local lspconfig = require('lspconfig')
 
+    -- bessere Completion-Capabilities
+    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
     lspconfig.pylsp.setup({
         capabilities = capabilities,
-        handlers = no_diagnostics,  -- Diagnosen deaktivieren
+        handlers = no_diagnostics,
 
         settings = {
             pylsp = {
                 plugins = {
-                    -- Linters deaktivieren
+                    -- klassische Linters AUS
                     pycodestyle = { enabled = false },
                     pyflakes    = { enabled = false },
                     pylint      = { enabled = false },
                     mccabe      = { enabled = false },
-                    rope_completion = { enabled = false },
 
-                    -- Autocompletion
+                    -- Completion
+                    rope_completion = { enabled = false },
                     jedi_completion = { enabled = true },
 
-                    -- Formatierung (optional)
-                    black = { enabled = true },
+                    -- Formatierung
+                    black = {
+                        enabled = true,
+                        line_length = 88,
+                    },
                     yapf = { enabled = false },
 
-                    -- Moderner Linter (optional)
-                    ruff = { enabled = true },
+                    -- ruff im pylsp: lieber AUS
+                    ruff = { enabled = false },
                 },
             },
         },
 
         on_attach = function(client, bufnr)
+            -- Diagnostics wirklich abschalten
+            client.server_capabilities.diagnosticProvider = false
+
+            -- nur pylsp formatiert
+            client.server_capabilities.documentFormattingProvider = true
+
+            -- Semantic Tokens aus (optional, aber oft angenehmer)
+            client.server_capabilities.semanticTokensProvider = nil
+
             local buf_map = function(mode, lhs, rhs, opts)
                 opts = opts or {}
                 opts.buffer = bufnr
                 vim.keymap.set(mode, lhs, rhs, opts)
             end
 
-            -- LSP Keymaps für Python
             buf_map('n', 'gd', vim.lsp.buf.definition)
             buf_map('n', 'K', vim.lsp.buf.hover)
             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
             buf_map('n', '<leader>ca', vim.lsp.buf.code_action)
-            buf_map('n', '<leader>f', function() vim.lsp.buf.format { async = true } end)
+            buf_map('n', '<leader>f', function()
+                vim.lsp.buf.format({ async = true })
+            end)
+
+            buf_map('n', '<leader>oi', function()
+                vim.lsp.buf.execute_command({
+                    command = 'pylsp.organizeImports',
+                    arguments = { vim.api.nvim_buf_get_name(0) },
+                })
+            end)
         end,
     })
 end
 
 return M
-
 ```
 
 # 11) plugins/html.lua
