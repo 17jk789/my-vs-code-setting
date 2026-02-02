@@ -2447,12 +2447,58 @@ return {
       lspconfig.pylsp.setup({
         settings = {
           pylsp = {
+            configurationSources = { "flake8" }, -- optional: ruff, flake8 etc.
             pythonPath = get_python_bin(),
           },
         },
         on_attach = function(_, _)
-          -- kein Inlay-Hints oder extra Setup
+          -- kein Inlay-Hints
         end,
+      })
+    end,
+  },
+
+  -- Formatter mit Mason + null-ls
+  {
+    "stevearc/conform.nvim",
+    ft = "python",
+    dependencies = {
+      "jose-elias-alvarez/null-ls.nvim",
+      "mason-org/mason.nvim",
+      "mason-org/mason-null-ls.nvim",
+    },
+    config = function()
+      local conform = require("conform")
+      conform.setup({
+        formatters_by_ft = {
+          python = { "black" },
+        },
+      })
+
+      -- Black via Mason installieren
+      require("mason-null-ls").setup({
+        ensure_installed = { "black" },
+      })
+    end,
+  },
+
+  -- Linter mit Mason + null-ls
+  {
+    "mfussenegger/nvim-lint",
+    ft = "python",
+    dependencies = {
+      "mason-org/mason.nvim",
+      "mason-org/mason-nvim-lint.nvim",
+    },
+    config = function()
+      local lint = require("nvim-lint")
+      lint.linters_by_ft = {
+        python = { "ruff" },
+      }
+
+      -- Ruff via Mason installieren
+      require("mason-nvim-lint").setup({
+        ensure_installed = { "ruff" },
       })
     end,
   },
