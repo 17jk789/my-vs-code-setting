@@ -2811,8 +2811,16 @@ local function get_python_bin()
   if vim.fn.executable(venv) == 1 then
     return venv
   end
+
+  -- Mason debugpy Pfad
+  local mason_debugpy = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+  if vim.fn.executable(mason_debugpy) == 1 then
+    return mason_debugpy
+  end
+
   return vim.fn.exepath("python3")
 end
+
 
 return {
   {
@@ -2953,8 +2961,13 @@ return {
       -- dap.lua (Python-relevant Teil)
 
       -- Python
-      require("dap-python").setup(get_python_bin())
-      require("dap-python").test_runner = "pytest"
+      local ok, dap_python = pcall(require, "dap-python")
+      if ok then
+        dap_python.setup(get_python_bin())   -- verwendet Mason debugpy
+        dap_python.test_runner = "pytest"
+      else
+        vim.notify("dap-python konnte nicht geladen werden", vim.log.levels.WARN)
+      end
     end,
   },
 
