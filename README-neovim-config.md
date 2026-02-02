@@ -2346,6 +2346,67 @@ nano plugins/python.lua
 --   },
 -- }
 
+-- local function get_python_bin()
+--   local venv = vim.fn.getcwd() .. "/venv/bin/python"
+--   if vim.fn.executable(venv) == 1 then
+--     return venv
+--   end
+--   return vim.fn.exepath("python3") or "python"
+-- end
+
+-- return {
+--   {
+--     "nvim-treesitter/nvim-treesitter",
+--     ft = "python",
+--     opts = function(_, opts)
+--       opts.ensure_installed = opts.ensure_installed or {}
+--       vim.list_extend(opts.ensure_installed, { "python" })
+--     end,
+--   },
+
+--   {
+--     "neovim/nvim-lspconfig",
+--     ft = "python",
+--     opts = function()
+--       return {
+--         servers = {
+--           pyright = {
+--             settings = {
+--               python = {
+--                 pythonPath = get_python_bin(),
+--               },
+--             },
+--             -- on_attach ohne Inlay-Hints
+--             on_attach = function(_, _)
+--               -- nichts hier
+--             end,
+--           },
+--         },
+--       }
+--     end,
+--   },
+
+--   {
+--     "stevearc/conform.nvim",
+--     ft = "python",
+--     opts = {
+--       formatters_by_ft = {
+--         python = { "black" },
+--       },
+--     },
+--   },
+
+--   {
+--     "mfussenegger/nvim-lint",
+--     ft = "python",
+--     opts = {
+--       linters_by_ft = {
+--         python = { "ruff" },
+--       },
+--     },
+--   },
+-- }
+
 local function get_python_bin()
   local venv = vim.fn.getcwd() .. "/venv/bin/python"
   if vim.fn.executable(venv) == 1 then
@@ -2355,6 +2416,7 @@ local function get_python_bin()
 end
 
 return {
+  -- Treesitter für Python
   {
     "nvim-treesitter/nvim-treesitter",
     ft = "python",
@@ -2364,46 +2426,81 @@ return {
     end,
   },
 
+  -- LSP mit pylsp über Mason-Org
   {
     "neovim/nvim-lspconfig",
     ft = "python",
-    opts = function()
-      return {
-        servers = {
-          pyright = {
-            settings = {
-              python = {
-                pythonPath = get_python_bin(),
-              },
-            },
-            -- on_attach ohne Inlay-Hints
-            on_attach = function(_, _)
-              -- nichts hier
-            end,
+    dependencies = {
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+    },
+    config = function()
+      local lspconfig = require("lspconfig")
+      local mason_lspconfig = require("mason-lspconfig")
+
+      -- Sicherstellen, dass pylsp installiert ist
+      mason_lspconfig.setup({
+        ensure_installed = { "pylsp" },
+      })
+
+      -- pylsp konfigurieren
+      lspconfig.pylsp.setup({
+        settings = {
+          pylsp = {
+            configurationSources = { "flake8" }, -- optional: ruff, flake8 etc.
+            pythonPath = get_python_bin(),
           },
         },
-      }
+        on_attach = function(_, _)
+          -- kein Inlay-Hints
+        end,
+      })
     end,
   },
 
+  -- Formatter mit Mason + null-ls
   {
     "stevearc/conform.nvim",
     ft = "python",
-    opts = {
-      formatters_by_ft = {
-        python = { "black" },
-      },
+    dependencies = {
+      "jose-elias-alvarez/null-ls.nvim",
+      "mason-org/mason.nvim",
+      "mason-org/mason-null-ls.nvim",
     },
+    config = function()
+      local conform = require("conform")
+      conform.setup({
+        formatters_by_ft = {
+          python = { "black" },
+        },
+      })
+
+      -- Black via Mason installieren
+      require("mason-null-ls").setup({
+        ensure_installed = { "black" },
+      })
+    end,
   },
 
+  -- Linter mit Mason + null-ls
   {
     "mfussenegger/nvim-lint",
     ft = "python",
-    opts = {
-      linters_by_ft = {
-        python = { "ruff" },
-      },
+    dependencies = {
+      "mason-org/mason.nvim",
+      "mason-org/mason-nvim-lint.nvim",
     },
+    config = function()
+      local lint = require("nvim-lint")
+      lint.linters_by_ft = {
+        python = { "ruff" },
+      }
+
+      -- Ruff via Mason installieren
+      require("mason-nvim-lint").setup({
+        ensure_installed = { "ruff" },
+      })
+    end,
   },
 }
 
@@ -3292,9 +3389,9 @@ return {
         -- "java-test", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "vscode-java-test",
         "pyright", 
-        -- "pylsp",
-        "black",
-        "ruff",
+        "pylsp",
+        -- "black",
+        -- "ruff",
         -- "debugpy",
         -- "mypy",
         "html-lsp",
