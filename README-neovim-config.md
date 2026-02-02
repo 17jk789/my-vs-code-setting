@@ -2407,85 +2407,56 @@ nano plugins/python.lua
 --   },
 -- }
 
-local function get_python_bin()
-  local venv = vim.fn.getcwd() .. "/venv/bin/python"
-  if vim.fn.executable(venv) == 1 then
-    return venv
-  end
-  return vim.fn.exepath("python3") or "python"
+local M = {}
+
+M.setup = function(capabilities, no_diagnostics)
+    local lspconfig = require('lspconfig')
+
+    lspconfig.pylsp.setup({
+        capabilities = capabilities,
+        handlers = no_diagnostics,  -- Diagnosen deaktivieren
+
+        settings = {
+            pylsp = {
+                plugins = {
+                    -- Linters deaktivieren
+                    pycodestyle = { enabled = false },
+                    pyflakes    = { enabled = false },
+                    pylint      = { enabled = false },
+                    mccabe      = { enabled = false },
+                    rope_completion = { enabled = false },
+
+                    -- Autocompletion
+                    jedi_completion = { enabled = true },
+
+                    -- Formatierung (optional)
+                    black = { enabled = true },
+                    yapf = { enabled = false },
+
+                    -- Moderner Linter (optional)
+                    ruff = { enabled = true },
+                },
+            },
+        },
+
+        on_attach = function(client, bufnr)
+            local buf_map = function(mode, lhs, rhs, opts)
+                opts = opts or {}
+                opts.buffer = bufnr
+                vim.keymap.set(mode, lhs, rhs, opts)
+            end
+
+            -- LSP Keymaps für Python
+            buf_map('n', 'gd', vim.lsp.buf.definition)
+            buf_map('n', 'K', vim.lsp.buf.hover)
+            buf_map('n', '<leader>rn', vim.lsp.buf.rename)
+            buf_map('n', '<leader>ca', vim.lsp.buf.code_action)
+            buf_map('n', '<leader>f', function() vim.lsp.buf.format { async = true } end)
+        end,
+    })
 end
 
-return {
-  -- 1️⃣ Colorscheme, damit der Code nicht alles weiß ist
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    config = function()
-      require("catppuccin").setup({
-        flavour = "mocha",
-        transparent_background = false,
-      })
-      vim.cmd([[colorscheme catppuccin]])
-    end,
-  },
-
-  -- 2️⃣ Treesitter für Syntax-Highlighting in Python
-  {
-    "nvim-treesitter/nvim-treesitter",
-    ft = "python",
-    opts = function(_, opts)
-      opts.ensure_installed = opts.ensure_installed or {}
-      vim.list_extend(opts.ensure_installed, { "python" })
-      require("nvim-treesitter.configs").setup({
-        highlight = { enable = true, additional_vim_regex_highlighting = false },
-      })
-    end,
-  },
-
-  -- 3️⃣ LSP: pylsp über Mason-Org
-  {
-    "neovim/nvim-lspconfig",
-    ft = "python",
-    dependencies = {
-      "mason-org/mason.nvim",
-      "mason-org/mason-lspconfig.nvim",
-    },
-    config = function()
-      local lspconfig = require("lspconfig")
-      local mason_lspconfig = require("mason-lspconfig")
-
-      -- pylsp ist schon installiert via Mason
-      mason_lspconfig.setup({
-        ensure_installed = { "pylsp" },
-      })
-
-      -- pylsp konfigurieren
-      lspconfig.pylsp.setup({
-        settings = {
-          pylsp = {
-            pythonPath = get_python_bin(),
-          },
-        },
-        on_attach = function(_, _)
-          -- LSP Diagnostics konfigurieren
-          vim.diagnostic.config({
-            virtual_text = true,
-            signs = true,
-            underline = true,
-            update_in_insert = false,
-          })
-
-          local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-          for type, icon in pairs(signs) do
-            local hl = "DiagnosticSign" .. type
-            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-          end
-        end,
-      })
-    end,
-  },
-}
+return M
 
 ```
 
