@@ -2375,11 +2375,9 @@ return {
                 pythonPath = get_python_bin(),
               },
             },
-            on_attach = function(client, bufnr)
-              -- Inlay Hints nur aufrufen, wenn verfügbar
-              if client.server_capabilities.inlayHintProvider and vim.lsp.buf.inlay_hint then
-                vim.lsp.buf.inlay_hint(bufnr, false)
-              end
+            -- on_attach ohne Inlay-Hints
+            on_attach = function(_, _)
+              -- nichts hier
             end,
           },
         },
