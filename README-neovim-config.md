@@ -463,6 +463,10 @@ key = "M"
 mods = "Control|Shift"
 action = "ToggleFullscreen"
 
+[font]
+family = "JetBrainsMono"
+size = 12
+
 # Nightfox Alacritty Colors
 ## name: carbonfox
 ## upstream: https://github.com/edeneast/nightfox.nvim/raw/main/extra/carbonfox/alacritty.toml
