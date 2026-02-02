@@ -48,8 +48,6 @@ This repository is released under the **Apache License 2.0**.
 ## To do
 
 - Probleme mit LuaSnip
-- Python Probleme 
-- java, html Snipper geth nicht!
 
 # -1)
 
