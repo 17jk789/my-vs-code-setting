@@ -4193,6 +4193,10 @@ return {
 \   _-'                    N E O V I M - J U L I A N                   `-_   /
  `''                                                                      ``'
           ]],
+          footer = {
+            "",
+            " github.com/17jk789",
+          },
           keys = {
             { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
