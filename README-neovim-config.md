@@ -2806,20 +2806,20 @@ nano plugins/dap.lua
 --   -- },
 -- }
 
-local function get_python_bin()
-  local venv = vim.fn.getcwd() .. "/venv/bin/python"
-  if vim.fn.executable(venv) == 1 then
-    return venv
-  end
+-- local function get_python_bin()
+--   local venv = vim.fn.getcwd() .. "/venv/bin/python"
+--   if vim.fn.executable(venv) == 1 then
+--     return venv
+--   end
 
-  -- Mason debugpy Pfad
-  local mason_debugpy = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
-  if vim.fn.executable(mason_debugpy) == 1 then
-    return mason_debugpy
-  end
+--   -- Mason debugpy Pfad
+--   local mason_debugpy = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+--   if vim.fn.executable(mason_debugpy) == 1 then
+--     return mason_debugpy
+--   end
 
-  return vim.fn.exepath("python3")
-end
+--   return vim.fn.exepath("python3")
+-- end
 
 return {
   {
@@ -2846,17 +2846,17 @@ return {
       --   ensure_installed = { "codelldb" , "python"},
       -- })
       
-      -- require("mason-nvim-dap").setup({
-      --   ensure_installed = { "codelldb"},
-      -- })
+      require("mason-nvim-dap").setup({
+        ensure_installed = { "codelldb"},
+      })
 
       -- Mason Debug Adapter
-      require("mason-nvim-dap").setup({
-        ensure_installed = {
-          "codelldb",
-          "python", -- debugpy
-        },
-      })
+      -- require("mason-nvim-dap").setup({
+      --   ensure_installed = {
+      --     "codelldb",
+      --     "python", -- debugpy
+      --   },
+      -- })
 
       dapui.setup()
 
@@ -2960,13 +2960,13 @@ return {
       -- dap.lua (Python-relevant Teil)
 
       -- Python
-      local ok, dap_python = pcall(require, "dap-python")
-      if ok then
-        dap_python.setup(get_python_bin())   -- verwendet Mason debugpy
-        dap_python.test_runner = "pytest"
-      else
-        vim.notify("dap-python konnte nicht geladen werden", vim.log.levels.WARN)
-      end
+      -- local ok, dap_python = pcall(require, "dap-python")
+      -- if ok then
+      --   dap_python.setup(get_python_bin())   -- verwendet Mason debugpy
+      --   dap_python.test_runner = "pytest"
+      -- else
+      --   vim.notify("dap-python konnte nicht geladen werden", vim.log.levels.WARN)
+      -- end
     end,
   },
 
@@ -3296,7 +3296,7 @@ return {
         -- "pylsp",
         "black",
         "ruff",
-        "debugpy",
+        -- "debugpy",
         -- "mypy",
         "html-lsp",
         "css-lsp",
