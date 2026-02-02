@@ -2345,7 +2345,7 @@ local function get_python_bin()
   if vim.fn.executable(venv) == 1 then
     return venv
   end
-  return vim.fn.exepath("python3")
+  return vim.fn.exepath("python3") or "python"
 end
 
 return {
@@ -2369,9 +2369,11 @@ return {
                 pythonPath = get_python_bin(),
               },
             },
-            inlay_hints = {
-              enabled = false,
-            },
+            on_attach = function(client, bufnr)
+              if client.server_capabilities.inlayHintProvider then
+                vim.lsp.buf.inlay_hint(bufnr, false)
+              end
+            end,
           },
         },
       }
