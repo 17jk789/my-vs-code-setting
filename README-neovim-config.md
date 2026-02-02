@@ -2369,6 +2369,9 @@ return {
                 pythonPath = get_python_bin(),
               },
             },
+            inlay_hints = {
+              enabled = false,
+            },
           },
         },
       }
