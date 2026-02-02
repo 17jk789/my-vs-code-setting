@@ -2872,7 +2872,7 @@ nano lsp/css.lua
 
 
 
-# 14) plugins/dap.lua (codelldb + Rust/C++ Debug)
+# 16) plugins/dap.lua (codelldb + Rust/C++ Debug)
 
 ```bash
 vim plugins/dap.lua
@@ -3291,7 +3291,7 @@ return {
 
 ```
 
-# 15) config/autocmds.lua
+# 17) config/autocmds.lua
 
 ```bash
 vim config/autocmds.lua
@@ -3574,7 +3574,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 ```
 
-# 16) plugins/mason.lua
+# 18) plugins/mason.lua
 
 ```bash
 vim plugins/mason.lua
@@ -3620,7 +3620,7 @@ return {
 
 ```
 
-# 17) plugins/github_theme.lua
+# 19) plugins/github_theme.lua
 
 ```bash
 vim plugins/github_theme.lua
@@ -3648,7 +3648,7 @@ nano plugins/github_theme.lua
 
 ```
 
-# 18) plugins/nightfox.lua
+# 20) plugins/nightfox.lua
 
 ```bash
 vim plugins/nightfox.lua
@@ -3740,7 +3740,7 @@ return {
 
 ```
 
-# 19) plugins/ui.lua
+# 21) plugins/ui.lua
 
 ```bash
 vim plugins/ui.lua
@@ -3787,7 +3787,7 @@ return {
 
 ```
 
-# 20) plugins/treesitter.lua
+# 22) plugins/treesitter.lua
 
 ```bash
 vim plugins/treesitter.lua
@@ -3820,7 +3820,7 @@ return {
 
 ```
 
-# 21) plugins/markdown.lua
+# 23) plugins/markdown.lua
 
 ```bash
 vim plugins/markdown.lua
@@ -3858,7 +3858,7 @@ nano plugins/markdown.lua
 
 ```
 
-# 22) plugins/ltex.lua
+# 24) plugins/ltex.lua
 
 ```bash
 vim plugins/ltex.lua
@@ -3912,7 +3912,7 @@ return {
 
 ```
 
-# 23) plugins/notify.lua
+# 25) plugins/notify.lua
 
 ```bash
 vim plugins/notify.lua
@@ -3951,7 +3951,7 @@ nano plugins/notify.lua
 
 ```
 
-# 24) plugins/git.lua
+# 26) plugins/git.lua
 
 ```bash
 vim plugins/git.lua
@@ -3978,7 +3978,7 @@ return {
 
 ```
 
-# 25) plugins/alpha.lua
+# 27) plugins/alpha.lua
 
 ```bash
 vim plugins/alpha.lua
@@ -4105,7 +4105,7 @@ return {
 
 ```
 
-# 26) config/lazyvim.lua
+# 28) config/lazyvim.lua
 
 Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
 
@@ -4129,7 +4129,7 @@ Lösung:
 
 ```
 
-# 27) plugins/snacks.lua
+# 29) plugins/snacks.lua
 
 ```bash
 vim plugins/snacks.lua
