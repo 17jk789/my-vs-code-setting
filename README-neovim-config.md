@@ -3771,6 +3771,7 @@ return {
             { icon = " ", key = "s", desc = "Restore Session", section = "session" },
             { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
+            { icon = " ", key = "y", desc = "Lazy Diagnostics", action = ":Lazy diagnostics" },
             { icon = " ", key = "m", desc = "Mason", action = ":Mason" },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
