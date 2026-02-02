@@ -2869,8 +2869,97 @@ nano lsp/css.lua
 ```
 
 
+# 16) plugins/javascript.lua
 
-# 16) plugins/dap.lua (codelldb + Rust/C++ Debug)
+```bash
+vim plugins/javascript.lua
+````
+
+```bash
+nano plugins/javascript.lua
+```
+
+```lua
+-- plugins/javascript.lua
+
+return {
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        tsserver = {
+          settings = {
+            completions = {
+              completeFunctionCalls = true,
+            },
+          },
+        },
+        eslint = {},
+      },
+    },
+  },
+
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "javascript",
+        "typescript",
+        "tsx",
+        "json",
+      },
+    },
+  },
+
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
+        json = { "prettier" },
+      },
+    },
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      setup = {
+        eslint = function()
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            callback = function(event)
+              local client = vim.lsp.get_active_clients({
+                bufnr = event.buf,
+                name = "eslint",
+              })[1]
+
+              if client then
+                vim.lsp.buf.format({
+                  bufnr = event.buf,
+                  filter = function(c)
+                    return c.name == "eslint"
+                  end,
+                })
+              end
+            end,
+          })
+        end,
+      },
+    },
+  },
+
+  {
+    "windwp/nvim-ts-autotag",
+    opts = {},
+  },
+}
+
+```
+
+# 17) plugins/dap.lua (codelldb + Rust/C++ Debug)
 
 ```bash
 vim plugins/dap.lua
@@ -3289,7 +3378,7 @@ return {
 
 ```
 
-# 17) config/autocmds.lua
+# 18) config/autocmds.lua
 
 ```bash
 vim config/autocmds.lua
@@ -3572,7 +3661,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 ```
 
-# 18) plugins/mason.lua
+# 19) plugins/mason.lua
 
 ```bash
 vim plugins/mason.lua
@@ -3590,23 +3679,45 @@ return {
     "mason-org/mason.nvim",
     opts = {
       ensure_installed = {
+        -- Rust:
         "rust-analyzer",
+
+        -- C++: 
         "clangd",
         "codelldb",
-        -- "jdtls", -- https://github.com/nvim-java/nvim-java installirt das automatisch
+
+        -- Auto completion:
         "ltex-ls",
+
+        -- Java:
+        -- "jdtls", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "java-debug-adapter", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "java-test", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "vscode-java-test",
+
+        -- Python:
         -- "pyright", 
         "python-lsp-server", -- früber "pylsp",
         -- "black",
         -- "ruff",
         -- "debugpy",
         -- "mypy",
+
+        -- HTML:
         -- "html-lsp",
+
+        -- CSS:
         -- "css-lsp",
+
+        -- Lua:
         -- "lua_ls",
+
+        -- JavaScript:
+        -- "typescript-language-server",
+        -- "eslint-lsp",
+        -- "prettier",
+        -- "eslint_d",
+        -- "js-debug-adapter",
       },
     },
   },
@@ -3618,7 +3729,7 @@ return {
 
 ```
 
-# 19) plugins/github_theme.lua
+# 20) plugins/github_theme.lua
 
 ```bash
 vim plugins/github_theme.lua
@@ -3646,7 +3757,7 @@ nano plugins/github_theme.lua
 
 ```
 
-# 20) plugins/nightfox.lua
+# 21) plugins/nightfox.lua
 
 ```bash
 vim plugins/nightfox.lua
@@ -3738,7 +3849,7 @@ return {
 
 ```
 
-# 21) plugins/ui.lua
+# 22) plugins/ui.lua
 
 ```bash
 vim plugins/ui.lua
@@ -3785,7 +3896,7 @@ return {
 
 ```
 
-# 22) plugins/treesitter.lua
+# 23) plugins/treesitter.lua
 
 ```bash
 vim plugins/treesitter.lua
@@ -3818,7 +3929,7 @@ return {
 
 ```
 
-# 23) plugins/markdown.lua
+# 24) plugins/markdown.lua
 
 ```bash
 vim plugins/markdown.lua
@@ -3856,7 +3967,7 @@ nano plugins/markdown.lua
 
 ```
 
-# 24) plugins/ltex.lua
+# 25) plugins/ltex.lua
 
 ```bash
 vim plugins/ltex.lua
@@ -3910,7 +4021,7 @@ return {
 
 ```
 
-# 25) plugins/notify.lua
+# 26) plugins/notify.lua
 
 ```bash
 vim plugins/notify.lua
@@ -3949,7 +4060,7 @@ nano plugins/notify.lua
 
 ```
 
-# 26) plugins/git.lua
+# 27) plugins/git.lua
 
 ```bash
 vim plugins/git.lua
@@ -3976,7 +4087,7 @@ return {
 
 ```
 
-# 27) plugins/alpha.lua
+# 28) plugins/alpha.lua
 
 ```bash
 vim plugins/alpha.lua
@@ -4103,7 +4214,7 @@ return {
 
 ```
 
-# 28) config/lazyvim.lua
+# 29) config/lazyvim.lua
 
 Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
 
@@ -4127,7 +4238,7 @@ Lösung:
 
 ```
 
-# 29) plugins/snacks.lua
+# 30) plugins/snacks.lua
 
 ```bash
 vim plugins/snacks.lua
