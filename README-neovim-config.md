@@ -3599,7 +3599,7 @@ return {
         -- "java-test", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "vscode-java-test",
         -- "pyright", 
-        "pylsp",
+        "python-lsp-server", -- früber "pylsp",
         -- "black",
         -- "ruff",
         -- "debugpy",
