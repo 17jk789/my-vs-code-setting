@@ -2821,7 +2821,6 @@ local function get_python_bin()
   return vim.fn.exepath("python3")
 end
 
-
 return {
   {
     "mfussenegger/nvim-dap",
