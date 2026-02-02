@@ -3756,7 +3756,6 @@ return {
 =='    _-'                                                            \/   `==
 \   _-'                    N E O V I M - J U L I A N                   `-_   /
  `''                                                                      ``'
-
           ]],
           keys = {
             { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
