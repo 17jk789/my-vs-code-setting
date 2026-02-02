@@ -941,51 +941,87 @@ nano plugins/lsp.lua
 --   },
 -- }
 
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     dependencies = {
+--       "mason-org/mason.nvim",
+--       "mason-org/mason-lspconfig.nvim",
+--     },
+--     opts = {
+--       servers = {
+--         clangd = {
+--           cmd = {
+--             "clangd",
+--             "--background-index",
+--             "--clang-tidy",
+--             "--completion-style=detailed",
+--             "--header-insertion=never",
+--           },
+--         },
+
+--         rust_analyzer = {
+--           settings = {
+--             ["rust-analyzer"] = {
+--               diagnostics = {
+--                 disabled = {
+--                   "unresolved-proc-macro",
+--                   "unlinked-file",
+--                 },
+--               },
+
+--               cargo = {
+--                 allFeatures = true,
+--                 buildScripts = { enable = true },
+--               },
+
+--               procMacro = { enable = true },
+--               lens = { enable = true },
+
+--               completion = {
+--                 autoimport = { enable = true },
+--               },
+
+--               checkOnSave = {
+--                 command = "clippy",
+--               },
+
+--               inlayHints = {
+--                 enable = true,
+--                 typeHints = true,
+--                 parameterHints = true,
+--                 lifetimeElisionHints = "always",
+--                 closureReturnTypeHints = { enable = "always" },
+--                 bindingModeHints = { enable = true },
+--               },
+
+--               files = {
+--                 watcher = "client",
+--               },
+--             },
+--           },
+--         },
+--       },
+--     },
+--   },
+-- }
+
 return {
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "mason-org/mason.nvim",
-      "mason-org/mason-lspconfig.nvim",
-    },
+    dependencies = { "mason-org/mason.nvim", "mason-org/mason-lspconfig.nvim" },
     opts = {
       servers = {
-        clangd = {
-          cmd = {
-            "clangd",
-            "--background-index",
-            "--clang-tidy",
-            "--completion-style=detailed",
-            "--header-insertion=never",
-          },
-        },
-
+        -- Rust
         rust_analyzer = {
           settings = {
             ["rust-analyzer"] = {
-              diagnostics = {
-                disabled = {
-                  "unresolved-proc-macro",
-                  "unlinked-file",
-                },
-              },
-
-              cargo = {
-                allFeatures = true,
-                buildScripts = { enable = true },
-              },
-
+              diagnostics = { disabled = { "unresolved-proc-macro", "unlinked-file" } },
+              cargo = { allFeatures = true, buildScripts = { enable = true } },
               procMacro = { enable = true },
               lens = { enable = true },
-
-              completion = {
-                autoimport = { enable = true },
-              },
-
-              checkOnSave = {
-                command = "clippy",
-              },
-
+              completion = { autoimport = { enable = true } },
+              checkOnSave = { command = "clippy" },
               inlayHints = {
                 enable = true,
                 typeHints = true,
@@ -994,11 +1030,25 @@ return {
                 closureReturnTypeHints = { enable = "always" },
                 bindingModeHints = { enable = true },
               },
-
-              files = {
-                watcher = "client",
-              },
+              files = { watcher = "client" },
             },
+          },
+          on_attach = function(client, bufnr)
+            -- Safe call für Inlay-Hints
+            if client.server_capabilities.inlayHintProvider then
+              vim.lsp.inlay_hint(bufnr, true)
+            end
+          end,
+        },
+
+        -- C/C++
+        clangd = {
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--completion-style=detailed",
+            "--header-insertion=never",
           },
         },
       },
@@ -2355,6 +2405,7 @@ local function get_python_bin()
 end
 
 return {
+  -- Treesitter für Python
   {
     "nvim-treesitter/nvim-treesitter",
     ft = "python",
@@ -2364,6 +2415,7 @@ return {
     end,
   },
 
+  -- Python LSP
   {
     "neovim/nvim-lspconfig",
     ft = "python",
@@ -2376,16 +2428,14 @@ return {
                 pythonPath = get_python_bin(),
               },
             },
-            -- on_attach ohne Inlay-Hints
-            on_attach = function(_, _)
-              -- nichts hier
-            end,
+            on_attach = function(_, _) end, -- kein Inlay-Hints-Aufruf
           },
         },
       }
     end,
   },
 
+  -- Python Formatter
   {
     "stevearc/conform.nvim",
     ft = "python",
@@ -2396,6 +2446,7 @@ return {
     },
   },
 
+  -- Python Linter
   {
     "mfussenegger/nvim-lint",
     ft = "python",
