@@ -2234,7 +2234,7 @@ return {
 
 ```
 
-# 10.1) plugins/python.lua
+# 10) plugins/python.lua
 
 ```bash
 vim plugins/python.lua
@@ -2408,7 +2408,7 @@ nano plugins/python.lua
 -- }
 ```
 
-# 10.2 lsp/python.lua
+# 11 lsp/python.lua
 
 ```bash
 vim lsp/python.lua
@@ -2495,7 +2495,84 @@ end
 return M
 ```
 
-# 11) plugins/html.lua
+# 12) lsp/lua.lua
+
+```bash
+vim lsp/lua.lua
+```
+
+```bash
+nano lsp/lua.lua
+```
+
+```lua
+-- lsp/lua.lua
+-- local M = {}
+
+-- M.setup = function(capabilities, no_diagnostics)
+--     local lspconfig = require("lspconfig")
+
+--     -- bessere Completion-Capabilities
+--     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+--     lspconfig.lua_ls.setup({
+--         capabilities = capabilities,
+--         handlers = no_diagnostics,
+
+--         settings = {
+--             Lua = {
+--                 runtime = {
+--                     -- LuaJIT für Neovim
+--                     version = "LuaJIT",
+--                     path = vim.split(package.path, ";"),
+--                 },
+--                 diagnostics = {
+--                     globals = { "vim" },  -- Neovim globale Variablen
+--                 },
+--                 workspace = {
+--                     library = {
+--                         [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+--                         [vim.fn.stdpath("config") .. "/lua"] = true,
+--                     },
+--                     checkThirdParty = false,
+--                 },
+--                 telemetry = {
+--                     enable = false,
+--                 },
+--                 format = {
+--                     enable = true,
+--                 },
+--             },
+--         },
+
+--         on_attach = function(client, bufnr)
+--             -- Diagnostics optional deaktivieren
+--             client.server_capabilities.diagnosticProvider = false
+--             client.server_capabilities.documentFormattingProvider = true
+
+--             local buf_map = function(mode, lhs, rhs, opts)
+--                 opts = opts or {}
+--                 opts.buffer = bufnr
+--                 vim.keymap.set(mode, lhs, rhs, opts)
+--             end
+
+--             -- LSP Keymaps
+--             buf_map("n", "gd", vim.lsp.buf.definition)
+--             buf_map("n", "K", vim.lsp.buf.hover)
+--             buf_map("n", "<leader>rn", vim.lsp.buf.rename)
+--             buf_map("n", "<leader>ca", vim.lsp.buf.code_action)
+--             buf_map("n", "<leader>f", function()
+--                 vim.lsp.buf.format({ async = true })
+--             end)
+--         end,
+--     })
+-- end
+
+-- return M
+
+```
+
+# 13) plugins/html.lua
 
 ```bash
 vim plugins/html.lua
@@ -2647,9 +2724,155 @@ nano plugins/html.lua
 
 ```
 
----
+# 14) lsp/html.lua
 
-# 12) plugins/dap.lua (codelldb + Rust/C++ Debug)
+```bash
+vim ls/html.lua
+```
+
+```bash
+nano lsp/html.lua
+```
+
+```lua
+-- lsp/html.lua
+-- local M = {}
+
+-- M.setup = function(capabilities, no_diagnostics)
+--     local lspconfig = require("lspconfig")
+
+--     -- bessere Completion-Capabilities
+--     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+--     lspconfig.html.setup({
+--         capabilities = capabilities,
+--         handlers = no_diagnostics,
+
+--         settings = {
+--             html = {
+--                 format = {
+--                     wrapLineLength = 120,
+--                     unformatted = "pre,code,textarea",
+--                     contentUnformatted = "pre,code,textarea",
+--                     indentInnerHtml = true,
+--                 },
+--                 hover = {
+--                     documentation = true,
+--                     references = true,
+--                 },
+--             },
+--         },
+
+--         on_attach = function(client, bufnr)
+--             -- Optional: Diagnostics deaktivieren
+--             client.server_capabilities.diagnosticProvider = false
+--             client.server_capabilities.documentFormattingProvider = true
+
+--             local buf_map = function(mode, lhs, rhs, opts)
+--                 opts = opts or {}
+--                 opts.buffer = bufnr
+--                 vim.keymap.set(mode, lhs, rhs, opts)
+--             end
+
+--             -- LSP Keymaps (konsistent)
+--             buf_map("n", "gd", vim.lsp.buf.definition)
+--             buf_map("n", "K", vim.lsp.buf.hover)
+--             buf_map("n", "<leader>rn", vim.lsp.buf.rename)
+--             buf_map("n", "<leader>ca", vim.lsp.buf.code_action)
+--             buf_map("n", "<leader>f", function()
+--                 vim.lsp.buf.format({ async = true })
+--             end)
+--         end,
+--     })
+-- end
+
+-- return M
+```
+
+# 15) lsp/cc.lua
+
+```bash
+vim ls/css.lua
+```
+
+```bash
+nano lsp/css.lua
+```
+
+```lua
+-- lsp/css.lua
+-- local M = {}
+
+-- M.setup = function(capabilities, no_diagnostics)
+--     local lspconfig = require("lspconfig")
+
+--     -- bessere Completion-Capabilities
+--     capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+--     lspconfig.cssls.setup({
+--         capabilities = capabilities,
+--         handlers = no_diagnostics,
+
+--         settings = {
+--             css = {
+--                 validate = true,
+--                 lint = {
+--                     unknownProperties = "warning", -- Warnung für unbekannte Properties
+--                 },
+--                 format = {
+--                     enable = true,
+--                 },
+--             },
+--             scss = {
+--                 validate = true,
+--                 lint = {
+--                     unknownProperties = "warning",
+--                 },
+--                 format = {
+--                     enable = true,
+--                 },
+--             },
+--             less = {
+--                 validate = true,
+--                 lint = {
+--                     unknownProperties = "warning",
+--                 },
+--                 format = {
+--                     enable = true,
+--                 },
+--             },
+--         },
+
+--         on_attach = function(client, bufnr)
+--             -- Optional: Diagnostics deaktivieren
+--             client.server_capabilities.diagnosticProvider = false
+--             client.server_capabilities.documentFormattingProvider = true
+
+--             local buf_map = function(mode, lhs, rhs, opts)
+--                 opts = opts or {}
+--                 opts.buffer = bufnr
+--                 vim.keymap.set(mode, lhs, rhs, opts)
+--             end
+
+--             -- Konsistente LSP Keymaps
+--             buf_map("n", "gd", vim.lsp.buf.definition)
+--             buf_map("n", "K", vim.lsp.buf.hover)
+--             buf_map("n", "<leader>rn", vim.lsp.buf.rename)
+--             buf_map("n", "<leader>ca", vim.lsp.buf.code_action)
+--             buf_map("n", "<leader>f", function()
+--                 vim.lsp.buf.format({ async = true })
+--             end)
+--         end,
+--     })
+-- end
+
+-- return M
+
+```
+
+
+
+# 14) plugins/dap.lua (codelldb + Rust/C++ Debug)
 
 ```bash
 vim plugins/dap.lua
@@ -3068,7 +3291,7 @@ return {
 
 ```
 
-# 13) config/autocmds.lua
+# 15) config/autocmds.lua
 
 ```bash
 vim config/autocmds.lua
@@ -3351,7 +3574,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 ```
 
-# 14) plugins/mason.lua
+# 16) plugins/mason.lua
 
 ```bash
 vim plugins/mason.lua
@@ -3377,7 +3600,7 @@ return {
         -- "java-debug-adapter", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "java-test", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "vscode-java-test",
-        "pyright", 
+        -- "pyright", 
         "pylsp",
         -- "black",
         -- "ruff",
@@ -3397,7 +3620,7 @@ return {
 
 ```
 
-# 15) plugins/github_theme.lua
+# 17) plugins/github_theme.lua
 
 ```bash
 vim plugins/github_theme.lua
@@ -3425,7 +3648,7 @@ nano plugins/github_theme.lua
 
 ```
 
-# 16) plugins/nightfox.lua
+# 18) plugins/nightfox.lua
 
 ```bash
 vim plugins/nightfox.lua
@@ -3517,7 +3740,7 @@ return {
 
 ```
 
-# 17) plugins/ui.lua
+# 19) plugins/ui.lua
 
 ```bash
 vim plugins/ui.lua
@@ -3564,7 +3787,7 @@ return {
 
 ```
 
-# 18) plugins/treesitter.lua
+# 20) plugins/treesitter.lua
 
 ```bash
 vim plugins/treesitter.lua
@@ -3597,7 +3820,7 @@ return {
 
 ```
 
-# 19) plugins/markdown.lua
+# 21) plugins/markdown.lua
 
 ```bash
 vim plugins/markdown.lua
@@ -3635,7 +3858,7 @@ nano plugins/markdown.lua
 
 ```
 
-# 20) plugins/ltex.lua
+# 22) plugins/ltex.lua
 
 ```bash
 vim plugins/ltex.lua
@@ -3689,7 +3912,7 @@ return {
 
 ```
 
-# 21) plugins/notify.lua
+# 23) plugins/notify.lua
 
 ```bash
 vim plugins/notify.lua
@@ -3728,7 +3951,7 @@ nano plugins/notify.lua
 
 ```
 
-# 22) plugins/git.lua
+# 24) plugins/git.lua
 
 ```bash
 vim plugins/git.lua
@@ -3755,7 +3978,7 @@ return {
 
 ```
 
-# 23) plugins/alpha.lua
+# 25) plugins/alpha.lua
 
 ```bash
 vim plugins/alpha.lua
@@ -3882,7 +4105,7 @@ return {
 
 ```
 
-# 24) config/lazyvim.lua
+# 26) config/lazyvim.lua
 
 Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
 
@@ -3906,7 +4129,7 @@ Lösung:
 
 ```
 
-# plugins/snacks.lua
+# 27) plugins/snacks.lua
 
 ```bash
 vim plugins/snacks.lua
