@@ -1322,24 +1322,80 @@ nano plugins/completion.lua
 --   },
 -- }
 
+-- return {
+--   {
+--     "hrsh7th/nvim-cmp",
+--     dependencies = {
+--       "hrsh7th/cmp-nvim-lsp",
+--       "L3MON4D3/LuaSnip",
+--     },
+--     opts = function(_, opts)
+--       local cmp = require("cmp")
+
+--       opts.sources = cmp.config.sources({
+--         { name = "nvim_lsp" },
+--       })
+
+--       opts.mapping = cmp.mapping.preset.insert({
+--         ["<C-Space>"] = cmp.mapping.complete(),
+--         ["<CR>"] = cmp.mapping.confirm({ select = false }), -- safer
+
+--         ["<Tab>"] = cmp.mapping(function(fallback)
+--           if cmp.visible() then
+--             cmp.select_next_item()
+--           else
+--             fallback()
+--           end
+--         end, { "i", "s" }),
+
+--         ["<S-Tab>"] = cmp.mapping(function(fallback)
+--           if cmp.visible() then
+--             cmp.select_prev_item()
+--           else
+--             fallback()
+--           end
+--         end, { "i", "s" }),
+--       })
+
+--       -- Ghost text ist nice, aber manchmal störend.
+--       opts.experimental = { ghost_text = false }
+--     end,
+--   },
+-- }
+
 return {
   {
     "hrsh7th/nvim-cmp",
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
       "L3MON4D3/LuaSnip",
     },
     opts = function(_, opts)
       local cmp = require("cmp")
 
+      opts.completion = {
+        completeopt = "menu,menuone,noselect",
+      }
+
+      -- IntelliSense-ähnliche Priorisierung
       opts.sources = cmp.config.sources({
-        { name = "nvim_lsp" },
+        { name = "nvim_lsp", priority = 1000 },
+        { name = "path", priority = 750 },
+        { name = "buffer", priority = 500, keyword_length = 3 },
       })
 
       opts.mapping = cmp.mapping.preset.insert({
         ["<C-Space>"] = cmp.mapping.complete(),
-        ["<CR>"] = cmp.mapping.confirm({ select = false }), -- safer
 
+        -- Kein Auto-Accept → sicher
+        ["<CR>"] = cmp.mapping.confirm({
+          select = false,
+          behavior = cmp.ConfirmBehavior.Insert,
+        }),
+
+        -- Tab nur wenn Menü sichtbar
         ["<Tab>"] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
@@ -1357,8 +1413,12 @@ return {
         end, { "i", "s" }),
       })
 
-      -- Ghost text ist nice, aber manchmal störend.
-      opts.experimental = { ghost_text = false }
+      -- Kein Ghost-Text (IntelliSense-Style)
+      opts.experimental = {
+        ghost_text = false,
+      }
+
+      return opts
     end,
   },
 }
