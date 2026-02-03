@@ -6,8 +6,6 @@ This repository contains my personal **Neovim settings**.
 > This repo was not created for public distribution.
 > It is intended only for my own use, so I can use my settings on another computer without logging into my GitHub account.
 
----
-
 ## Disclaimer
 
 These settings are provided **as-is**, without any warranty.
@@ -21,13 +19,9 @@ I am **not responsible** for any issues, errors, or damage that may occur from u
 
 Use them **at your own risk**.
 
----
-
 ## License
 
 This repository is released under the **Apache License 2.0**.
-
----
 
 ## Notes
 
@@ -756,13 +750,9 @@ cd ~/.config/nvim/lua
         └── alpha.lua
 ```
 
----
-
 # 2) init.lua (keine Änderungen nötig)
 
 LazyVim lädt automatisch alles aus `lua/config/` und `lua/plugins/`.
-
----
 
 # 3) config/options.lua
 
@@ -796,8 +786,6 @@ vim.opt.mouse = "a"
 vim.opt.winbar = "%=%m %f  | %l/%L"
 
 ```
-
----
 
 # 4) config/keymaps.lua
 
@@ -862,8 +850,6 @@ vim.keymap.set({ "n", "v" }, "d", '"_d', { noremap = true, silent = true })
 vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 
 ```
-
----
 
 # 5) plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)
 
@@ -1382,8 +1368,6 @@ return {
 
 ```
 
----
-
 # 7) plugins/rust.lua (Rust IDE + DAP + Crates)
 
 Wichtig: **Keine doppelte rust-analyzer Konfiguration** — das macht nur LSPConfig.
@@ -1709,8 +1693,6 @@ return {
 
 ```
 
----
-
 # 8) plugins/cpp.lua (nur extras, LSP in lsp.lua)
 
 ```bash
@@ -1755,8 +1737,6 @@ return {
 }
 
 ```
-
----
 
 # 9) plugins/java.lua (Basis + stabil)
 
@@ -2931,80 +2911,80 @@ nano plugins/javascript.lua
 ```lua
 -- plugins/javascript.lua
 
-return {
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        tsserver = {
-          settings = {
-            completions = {
-              completeFunctionCalls = true,
-            },
-          },
-        },
-        eslint = {},
-      },
-    },
-  },
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     opts = {
+--       servers = {
+--         tsserver = {
+--           settings = {
+--             completions = {
+--               completeFunctionCalls = true,
+--             },
+--           },
+--         },
+--         eslint = {},
+--       },
+--     },
+--   },
 
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = {
-      ensure_installed = {
-        "javascript",
-        "typescript",
-        "tsx",
-        "json",
-      },
-    },
-  },
+--   {
+--     "nvim-treesitter/nvim-treesitter",
+--     opts = {
+--       ensure_installed = {
+--         "javascript",
+--         "typescript",
+--         "tsx",
+--         "json",
+--       },
+--     },
+--   },
 
-  {
-    "stevearc/conform.nvim",
-    opts = {
-      formatters_by_ft = {
-        javascript = { "prettier" },
-        javascriptreact = { "prettier" },
-        typescript = { "prettier" },
-        typescriptreact = { "prettier" },
-        json = { "prettier" },
-      },
-    },
-  },
+--   {
+--     "stevearc/conform.nvim",
+--     opts = {
+--       formatters_by_ft = {
+--         javascript = { "prettier" },
+--         javascriptreact = { "prettier" },
+--         typescript = { "prettier" },
+--         typescriptreact = { "prettier" },
+--         json = { "prettier" },
+--       },
+--     },
+--   },
 
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      setup = {
-        eslint = function()
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            callback = function(event)
-              local client = vim.lsp.get_active_clients({
-                bufnr = event.buf,
-                name = "eslint",
-              })[1]
+--   {
+--     "neovim/nvim-lspconfig",
+--     opts = {
+--       setup = {
+--         eslint = function()
+--           vim.api.nvim_create_autocmd("BufWritePre", {
+--             callback = function(event)
+--               local client = vim.lsp.get_active_clients({
+--                 bufnr = event.buf,
+--                 name = "eslint",
+--               })[1]
 
-              if client then
-                vim.lsp.buf.format({
-                  bufnr = event.buf,
-                  filter = function(c)
-                    return c.name == "eslint"
-                  end,
-                })
-              end
-            end,
-          })
-        end,
-      },
-    },
-  },
+--               if client then
+--                 vim.lsp.buf.format({
+--                   bufnr = event.buf,
+--                   filter = function(c)
+--                     return c.name == "eslint"
+--                   end,
+--                 })
+--               end
+--             end,
+--           })
+--         end,
+--       },
+--     },
+--   },
 
-  {
-    "windwp/nvim-ts-autotag",
-    opts = {},
-  },
-}
+--   {
+--     "windwp/nvim-ts-autotag",
+--     opts = {},
+--   },
+-- }
 
 ```
 
