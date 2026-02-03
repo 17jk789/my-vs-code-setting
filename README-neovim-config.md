@@ -2239,6 +2239,7 @@ return {
     "nvim-java/nvim-java",
     ft = { "java" },
     dependencies = {
+      "neovim/nvim-lspconfig",
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
       "hrsh7th/cmp-nvim-lsp",
