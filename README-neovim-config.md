@@ -3934,17 +3934,18 @@ return {
 
   {
     "akinsho/bufferline.nvim",
-    version = "*",
+    version = "v5.0.0",
     dependencies = "nvim-tree/nvim-web-devicons",
     opts = {
       options = {
-        numbers = "ordinal",
+        numbers = "buffer_id",  -- eindeutige Nummern
         diagnostics = "nvim_lsp",
+        diagnostics_update_in_insert = false,
         show_buffer_close_icons = true,
         show_close_icon = false,
       },
     },
-  },
+  }
 }
 
 ```
