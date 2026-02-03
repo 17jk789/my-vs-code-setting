@@ -931,8 +931,6 @@ return {
     dependencies = {
       "mason-org/mason.nvim",
       "mason-org/mason-lspconfig.nvim",
-      -- new
-      "hrsh7th/cmp-nvim-lsp",
     },
     opts = {
       servers = {
@@ -947,10 +945,6 @@ return {
         },
 
         rust_analyzer = {
-          -- new
-          -- capabilities = require("cmp_nvim_lsp").default_capabilities(),
-          capabilities = (pcall(require, "cmp_nvim_lsp") and require("cmp_nvim_lsp").default_capabilities()) or vim.lsp.protocol.make_client_capabilities()
-
           settings = {
             ["rust-analyzer"] = {
               diagnostics = {
@@ -1649,65 +1643,20 @@ nano plugins/rust.lua
 --   },
 -- }
 
--- return {
---   {
---     "Saecki/crates.nvim",
---     ft = { "toml" },
---     dependencies = {
---       "nvim-lua/plenary.nvim",
---       "hrsh7th/nvim-cmp",
---     },
---     config = function()
---       require("crates").setup({
---         popup = {
---           border = "rounded",
---         },
---       })
---     end,
---   },
--- }
-
 return {
-  -- nvim-cmp selbst
-  {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",  -- lazy-load in Insert
-    dependencies = { "hrsh7th/cmp-nvim-lsp", "L3MON4D3/LuaSnip" },
-    config = function()
-      local cmp = require("cmp")
-      cmp.setup({
-        sources = { { name = "nvim_lsp" } },
-        mapping = cmp.mapping.preset.insert({
-          ["<C-Space>"] = cmp.mapping.complete(),
-          ["<CR>"] = cmp.mapping.confirm({ select = false }),
-          ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then cmp.select_next_item() else fallback() end
-          end, { "i", "s" }),
-          ["<S-Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() then cmp.select_prev_item() else fallback() end
-          end, { "i", "s" }),
-        }),
-        experimental = { ghost_text = false },
-      })
-    end,
-  },
-
-  -- crates.nvim, nur für TOML
   {
     "Saecki/crates.nvim",
     ft = { "toml" },
-    dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
-    after = "nvim-cmp",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "hrsh7th/nvim-cmp",
+    },
     config = function()
-      local crates = require("crates")
-      crates.setup({ popup = { border = "rounded" } })
-
-      local ok, cmp = pcall(require, "cmp")
-      if ok then
-        cmp.setup.filetype("toml", {
-          sources = { { name = "crates" }, { name = "nvim_lsp" } },
-        })
-      end
+      require("crates").setup({
+        popup = {
+          border = "rounded",
+        },
+      })
     end,
   },
 }
@@ -2245,36 +2194,15 @@ return {
     --   })
     -- end,
 
-    -- "nvim-java/nvim-java",
-    -- ft = { "java" },
-    -- dependencies = {
-    --   "neovim/nvim-lspconfig",
-    --   "mfussenegger/nvim-dap",
-    --   "mason-org/mason.nvim",
-    -- },
-    -- config = function()
-    --   require("java").setup()
-    --   vim.lsp.enable("jdtls")
-    -- end,
-
     "nvim-java/nvim-java",
     ft = { "java" },
     dependencies = {
       "neovim/nvim-lspconfig",
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
-      "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      local capabilities =
-        require("cmp_nvim_lsp").default_capabilities()
-
-      require("java").setup({
-        jdtls = {
-          capabilities = capabilities,
-        },
-      })
-
+      require("java").setup()
       vim.lsp.enable("jdtls")
     end,
   },
