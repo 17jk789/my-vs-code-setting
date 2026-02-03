@@ -3931,6 +3931,20 @@ return {
     "tpope/vim-fugitive",
     cmd = { "Git", "G" },
   },
+
+  {
+    "akinsho/bufferline.nvim",
+    version = "*",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    opts = {
+      options = {
+        numbers = "ordinal",
+        diagnostics = "nvim_lsp",
+        show_buffer_close_icons = true,
+        show_close_icon = false,
+      },
+    },
+  },
 }
 
 ```
