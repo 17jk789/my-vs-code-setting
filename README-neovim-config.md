@@ -1258,8 +1258,6 @@ return {
 
 ```
 
----
-
 # 6) plugins/completion.lua (sicher + stabil)
 
 ```bash
