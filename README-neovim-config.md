@@ -3938,7 +3938,7 @@ return {
     dependencies = "nvim-tree/nvim-web-devicons",
     opts = {
       options = {
-        numbers = "buffer_id",  -- eindeutige Nummern
+        -- numbers = "buffer_id",  -- eindeutige Nummern
         diagnostics = "nvim_lsp",
         diagnostics_update_in_insert = false,
         show_buffer_close_icons = true,
