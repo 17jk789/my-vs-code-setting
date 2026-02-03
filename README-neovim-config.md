@@ -959,6 +959,9 @@ return {
         },
 
         rust_analyzer = {
+          -- new
+          capabilities = require("cmp_nvim_lsp").default_capabilities(),
+
           settings = {
             ["rust-analyzer"] = {
               diagnostics = {
@@ -1661,6 +1664,24 @@ nano plugins/rust.lua
 --   },
 -- }
 
+-- return {
+--   {
+--     "Saecki/crates.nvim",
+--     ft = { "toml" },
+--     dependencies = {
+--       "nvim-lua/plenary.nvim",
+--       "hrsh7th/nvim-cmp",
+--     },
+--     config = function()
+--       require("crates").setup({
+--         popup = {
+--           border = "rounded",
+--         },
+--       })
+--     end,
+--   },
+-- }
+
 return {
   {
     "Saecki/crates.nvim",
@@ -1670,9 +1691,18 @@ return {
       "hrsh7th/nvim-cmp",
     },
     config = function()
-      require("crates").setup({
+      local crates = require("crates")
+      crates.setup({
         popup = {
           border = "rounded",
+        },
+      })
+
+      local cmp = require("cmp")
+      cmp.setup.filetype("toml", {
+        sources = {
+          { name = "crates" },
+          { name = "nvim_lsp" },
         },
       })
     end,
@@ -2216,15 +2246,35 @@ return {
     --   })
     -- end,
 
+    -- "nvim-java/nvim-java",
+    -- ft = { "java" },
+    -- dependencies = {
+    --   "neovim/nvim-lspconfig",
+    --   "mfussenegger/nvim-dap",
+    --   "mason-org/mason.nvim",
+    -- },
+    -- config = function()
+    --   require("java").setup()
+    --   vim.lsp.enable("jdtls")
+    -- end,
+
     "nvim-java/nvim-java",
     ft = { "java" },
     dependencies = {
-      "neovim/nvim-lspconfig",
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
+      "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      require("java").setup()
+      local capabilities =
+        require("cmp_nvim_lsp").default_capabilities()
+
+      require("java").setup({
+        jdtls = {
+          capabilities = capabilities,
+        },
+      })
+
       vim.lsp.enable("jdtls")
     end,
   },
@@ -2787,7 +2837,7 @@ nano lsp/html.lua
 -- return M
 ```
 
-# 15) lsp/cc.lua
+# 15) lsp/css.lua
 
 ```bash
 vim ls/css.lua
@@ -2799,6 +2849,7 @@ nano lsp/css.lua
 
 ```lua
 -- lsp/css.lua
+
 -- local M = {}
 
 -- M.setup = function(capabilities, no_diagnostics)
