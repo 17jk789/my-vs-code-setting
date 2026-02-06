@@ -495,7 +495,7 @@ confirm-close-surface = false
 # Shell Integration
 shell-integration-features = no-cursor
 
-keybind = shift+m=toggle_fullscreen
+keybind = shift+m=toggleMaximized
 
 window-decoration = auto
 
