@@ -449,10 +449,11 @@ background-blur-radius = 18
 # Kein komisches Scaling bei mehreren Fenstern
 window-inherit-working-directory = true
 
+# Schrift
 font-family = "JetBrainsMono Nerd Font"
 font-size = 13.5
 
-# Wichtig für Neovim Darstellung:
+# Wichtig für Neovim Darstellung
 adjust-cell-height = 0%
 adjust-cell-width = 0%
 
@@ -460,19 +461,21 @@ adjust-cell-width = 0%
 font-feature = liga
 font-feature = calt
 
-# Cursor klar sichtbar
+# Cursor
 cursor-style = block
-cursor-blink = true
+cursor-blink = unknown
 
+# Farben (echtes Schwarz)
 foreground = #cdcecf
-background = #192330
+background = #000000
 
 cursor-color = #81b29a
-cursor-text = #192330
+cursor-text = #000000
 
-selection-foreground = #192330
+selection-foreground = #000000
 selection-background = #cdcecf
 
+# Farbpalette
 palette = 0=#393b44
 palette = 1=#c94f6d
 palette = 2=#81b29a
@@ -491,28 +494,31 @@ palette = 13=#baa1e2
 palette = 14=#7ad5d6
 palette = 15=#e4e4e5
 
-# EXTREM wichtig für LazyVim:
-term = xterm-256color
+# TERM besser für Ghostty + Neovim
+term = ghostty
 
-# GPU Renderer automatisch
+# Renderer stabil (unknown macht oft Probleme)
 renderer = auto
-
-# Keine Input-Lag Probleme:
 vsync = false
 
 # Großes Scrollback für Logs
 scrollback-limit = 100000
 
-# Clipboard Integration:
+# Clipboard Integration
 clipboard-read = allow
 clipboard-write = allow
 
-# Maus sauber für Vim splits:
+# Maus sauber für Vim splits
 mouse-hide-while-typing = true
 
 copy-on-select = true
 confirm-close-surface = false
-shell-integration-features = no-cursor
+
+# Shell Integration NICHT blockierend
+shell-integration-features = none
+
+# Fix damit Ctrl+\ korrekt zu Neovim geht
+keybind = ctrl+\=send_text:\x1c
 
 ```
 
