@@ -433,49 +433,39 @@ vim ~/.config/ghostty/config
 ```
 
 ```bash
-# Rahmen behalten aber minimal (keine doppelte Titelbar)
+# Rahmen minimal
 window-decoration = auto
 
-# Transparenz nur Hintergrund
+# Hintergrund schwarz
+background = #000000
 background-opacity = 0.75
 
-# Kleines Padding -> verhindert fette obere Leiste
+# Padding
 window-padding-x = 6
 window-padding-y = 4
-
-# Optional Blur (Wayland/KDE/GNOME gut)
 background-blur-radius = 18
-
-# Kein komisches Scaling bei mehreren Fenstern
-window-inherit-working-directory = true
 
 # Schrift
 font-family = "JetBrainsMono Nerd Font"
 font-size = 13.5
-
-# Wichtig für Neovim Darstellung
 adjust-cell-height = 0%
 adjust-cell-width = 0%
-
-# Ligatures optional (LazyVim sieht besser aus)
 font-feature = liga
 font-feature = calt
 
 # Cursor
 cursor-style = block
-cursor-blink = unknown
-
-# Farben
-foreground = #cdcecf
-background = #000000
-
+# cursor-blink nicht gesetzt → Ghostty verwendet Standard
+# cursor-color
 cursor-color = #81b29a
 cursor-text = #000000
 
+# Farben
+foreground = #cdcecf
 selection-foreground = #000000
 selection-background = #cdcecf
 
-# Farbpalette
+# Palette
 palette = 0=#393b44
 palette = 1=#c94f6d
 palette = 2=#81b29a
@@ -484,7 +474,6 @@ palette = 4=#719cd6
 palette = 5=#9d79d6
 palette = 6=#63cdcf
 palette = 7=#dfdfe0
-
 palette = 8=#575860
 palette = 9=#d16983
 palette = 10=#8ebaa4
@@ -494,28 +483,27 @@ palette = 13=#baa1e2
 palette = 14=#7ad5d6
 palette = 15=#e4e4e5
 
-# EXTREM wichtig für LazyVim
+# Terminal
 term = ghostty
 
-# Renderer & Sync explizit unknown
-renderer = unknown
-vsync = unknown
+# Renderer & VSync
+renderer = auto
+vsync = false
 
-# Großes Scrollback für Logs
+# Scrollback
 scrollback-limit = 100000
 
-# Clipboard Integration
+# Clipboard
 clipboard-read = allow
 clipboard-write = allow
 
-# Maus sauber für Vim splits
+# Maus
 mouse-hide-while-typing = true
-
 copy-on-select = true
 confirm-close-surface = false
 
-# Shell Integration neutral
-shell-integration-features = none
+# Shell Integration
+shell-integration-features = no-cursor
 
 # Ctrl+\ korrekt senden für Neovim Terminal Mode
 keybind = ctrl+\=send_text:\x1c
