@@ -496,6 +496,7 @@ palette = 17=#ff7eb6
 
 # Terminal
 term = ghostty
+truecolor = yes
 
 # Scrollback
 scrollback-limit = 100000
@@ -518,6 +519,7 @@ keybind = shift+ctrl+left_bracket=previous_tab
 keybind = shift+ctrl+right_bracket=next_tab
 keybind = shift+ctrl+,=move_tab:-1
 keybind = shift+ctrl+.=move_tab:+1
+keybind = ctrl+\\=send_key:<C-\>
 
 ```
 
