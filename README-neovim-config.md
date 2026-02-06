@@ -445,7 +445,6 @@ macos-titlebar-proxy-icon = hidden
 macos-option-as-alt = true
 
 # Hintergrund
-background = #000000           # Alacritty Carbonfox Hintergrund
 background-opacity = 0.80
 background-blur-radius = 40
 
@@ -467,7 +466,7 @@ cursor-text = #f2f4f8
 
 # Auswahl
 selection-foreground = #f2f4f8
-selection-background = #2a2a2a
+selection-background = #000000
 
 # Textfarbe
 foreground = #f2f4f8
@@ -519,9 +518,6 @@ keybind = shift+ctrl+left_bracket=previous_tab
 keybind = shift+ctrl+right_bracket=next_tab
 keybind = shift+ctrl+,=move_tab:-1
 keybind = shift+ctrl+.=move_tab:+1
-
-# Theme (nur zur Referenz)
-theme = carbonfox
 
 ```
 
