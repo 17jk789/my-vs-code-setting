@@ -433,8 +433,8 @@ vim ~/.config/ghostty/config
 ```
 
 ```bash
-# Fensterrahmen
-window-decoration = auto        # Rahmen behalten, keine doppelte Titelbar
+# Fenster
+window-decoration = auto
 window-padding-x = 6
 window-padding-y = 4
 window-inherit-working-directory = true
@@ -442,14 +442,14 @@ window-inherit-working-directory = true
 # Hintergrund
 background = #000000
 background-opacity = 0.75
-background-blur-radius = 18    # optional, gut für Wayland/KDE/GNOME
+background-blur-radius = 18
 
 # Schrift
 font-family = "JetBrainsMono Nerd Font"
 font-size = 13.5
 adjust-cell-height = 0%
 adjust-cell-width = 0%
-font-feature = liga,calt       # Ligaturen und kontextabhängige Ligaturen
+font-feature = liga,calt
 
 # Cursor
 cursor-style = block
@@ -479,10 +479,8 @@ palette = 13=#baa1e2
 palette = 14=#7ad5d6
 palette = 15=#e4e4e5
 
-# Terminal & Renderer
+# Terminal
 term = ghostty
-renderer = auto
-vsync = false
 
 # Scrollback
 scrollback-limit = 100000
@@ -496,9 +494,6 @@ confirm-close-surface = false
 
 # Shell Integration
 shell-integration-features = no-cursor
-
-# Keybinds
-keybind = ctrl+\=send_text:\x1c   # Ctrl+\ → Neovim Terminal Mode
 
 ```
 
