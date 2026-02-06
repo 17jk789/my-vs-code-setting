@@ -449,12 +449,12 @@ background-opacity = 0.80
 background-blur-radius = 40
 
 # Schrift
-font-family = "JetBrainsMono Nerd Font"
-font-family-italic = "JetBrainsMono Nerd Font"
-font-family-bold = "JetBrainsMono Nerd Font"
-font-family-bold-italic = "JetBrainsMono Nerd Font"
+font-family = "JetBrainsMono Nerd Font Complete"
+font-family-italic = "JetBrainsMono Nerd Font Complete"
+font-family-bold = "JetBrainsMono Nerd Font Complete"
+font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
 font-size = 13.5
-window-title-font-family = "JetBrainsMono Nerd Font"
+window-title-font-family = "JetBrainsMono Nerd Font Complete"
 adjust-cell-height = 0%
 # adjust-cell-height = 15%
 adjust-cell-width = 0%
