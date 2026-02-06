@@ -500,7 +500,7 @@ palette = 17=#ff7eb6
 term = ghostty
 
 # Scrollback
-scrollback-limit = 100000
+scrollback-limit = 1000000
 
 # Clipboard & Maus
 clipboard-read = allow
