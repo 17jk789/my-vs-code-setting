@@ -522,51 +522,6 @@ keybind = ctrl+\\=send_key:<C-\>
 
 ```
 
-```bash
-# ==========================================================
-# Professional Ghostty Config for Neovim
-# ==========================================================
-
-# --- Schriftart & Darstellung (Optimiert für Nerd Fonts) ---
-# Erfordert installierte Nerd Fonts (z.B. JetBrainsMono Nerd Font)
-font-family = "JetBrainsMono Nerd Font"
-font-size = 14
-font-feature = "calt,liga" # Ligaturen aktivieren (falls gewünscht)
-adjust-cell-height = 10%    # Bessere Lesbarkeit durch Zeilenabstand
-adjust-cursor-height = 0    # Cursor-Stil
-
-# --- Erscheinungsbild (Theme & UI) ---
-theme = catppuccin-mocha # Sehr populär und professionell
-background-opacity = 0.95 # Leichte Transparenz
-background-blur-radius = 20 # Blur auf macOS, falls gewünscht
-window-decoration = titlebar-only # Oder "hidden" für maximalen Platz
-window-padding-x = 10
-window-padding-y = 10
-cursor-style = block
-cursor-blink = false
-
-# --- Performance & Verhalten ---
-shell-integration = true
-confirm-close-surface = false # Nicht bei jedem Tab/Split fragen
-mouse-hide-while-typing = true
-
-# --- Keybindings (Workflow-Optimierung) ---
-# Neu: cmd+shift+n (macOS) / ctrl+shift+n (Linux) für neuen Split
-keybind = cmd+shift+n=new_split
-keybind = ctrl+shift+n=new_split
-
-# Split-Navigation (falls man keine Tmux/Nvim-Splits nutzt)
-keybind = cmd+shift+h=goto_split:left
-keybind = cmd+shift+l=goto_split:right
-keybind = cmd+shift+k=goto_split:up
-keybind = cmd+shift+j=goto_split:down
-
-# --- Spezial: Neovim Integration ---
-# Deaktiviert Synthetic Styles, wenn Font nicht perfekt passt
-font-synthetic-style = false
-
-```
-
 # 0) Alacritty
 
 ```bash
