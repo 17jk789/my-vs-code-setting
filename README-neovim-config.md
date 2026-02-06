@@ -865,6 +865,14 @@ nano config/options.lua
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+-- vim.cmd [[
+--   augroup NumberToggle
+--     autocmd!
+--     autocmd InsertEnter * set norelativenumber
+--     autocmd InsertLeave * set relativenumber
+--   augroup END
+-- ]]
+
 -- vim.keymap.set("t", "<C-g>", [[>C-\><C-n>]], { noremap = true, silent = true})
 vim.keymap.set("t", "<C-g>", "<C-\\><C-n>", { noremap = true, silent = true })
 
@@ -872,6 +880,9 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
+-- new
+vim.opt.smarttab = true
+vim.opt.autoindent = true
 
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
@@ -880,6 +891,7 @@ vim.opt.clipboard = "unnamedplus"
 vim.opt.updatetime = 250
 
 vim.opt.mouse = "a"
+-- vim.opt.mouse = "nvi"
 
 vim.opt.winbar = "%=%m %f  | %l/%L"
 
