@@ -514,7 +514,7 @@ confirm-close-surface = false
 shell-integration-features = no-cursor
 
 # Keybinds
-keybind = shift+m=toggle_maximize
+keybind = ctrl+m=toggle_maximize
 keybind = ctrl+shift+m=toggle_fullscreen
 keybind = global:cmd+`=toggle_quick_terminal
 keybind = shift+ctrl+left_bracket=previous_tab
