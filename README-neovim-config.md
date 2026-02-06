@@ -458,26 +458,27 @@ cursor-text = #000000
 
 # Farben
 foreground = #cdcecf
+background = #1e1e2e
 selection-foreground = #000000
 selection-background = #cdcecf
 
 # Farbpalette
-palette = 0=#393b44
-palette = 1=#c94f6d
-palette = 2=#81b29a
-palette = 3=#dbc074
-palette = 4=#719cd6
-palette = 5=#9d79d6
-palette = 6=#63cdcf
-palette = 7=#dfdfe0
-palette = 8=#575860
-palette = 9=#d16983
-palette = 10=#8ebaa4
-palette = 11=#e0c989
-palette = 12=#86abdc
-palette = 13=#baa1e2
-palette = 14=#7ad5d6
-palette = 15=#e4e4e5
+palette0 = #393b44
+palette1 = #c94f6d
+palette2 = #81b29a
+palette3 = #dbc074
+palette4 = #719cd6
+palette5 = #9d79d6
+palette6 = #63cdcf
+palette7 = #dfdfe0
+palette8 = #575860
+palette9 = #d16983
+palette10 = #8ebaa4
+palette11 = #e0c989
+palette12 = #86abdc
+palette13 = #baa1e2
+palette14 = #7ad5d6
+palette15 = #e4e4e5
 
 # Terminal
 term = ghostty
