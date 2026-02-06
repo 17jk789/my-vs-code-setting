@@ -459,6 +459,8 @@ adjust-cell-height = 0%
 adjust-cell-width = 0%
 font-feature = liga,calt
 
+background = #000000
+
 # Cursor
 cursor-style = block
 cursor-color = #25be6a
@@ -466,7 +468,7 @@ cursor-text = #f2f4f8
 
 # Auswahl
 selection-foreground = #f2f4f8
-selection-background = #000000
+selection-background = #525253
 
 # Textfarbe
 foreground = #f2f4f8
@@ -863,6 +865,8 @@ nano config/options.lua
 
 vim.opt.number = true
 vim.opt.relativenumber = true
+-- vim.keymap.set("t", "<C-g>", [[>C-\><C-n>]], { noremap = true, silent = true})
+vim.keymap.set("t", "<C-g>", "<C-\\><C-n>", { noremap = true, silent = true })
 
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
