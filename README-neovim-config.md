@@ -452,49 +452,38 @@ adjust-cell-width = 0%
 font-feature = liga,calt
 
 # Cursor
-# cursor-style = block
-# cursor-blink = unknown
-# cursor-color = #81b29a
-# cursor-text = #000000
+cursor-color = #25be6a
+cursor-text = #f2f4f8
 
-# Farben
-# foreground = #cdcecf
-# selection-foreground = #000000
-# selection-background = #cdcecf
-# foreground = #cdcecf
-# background = #000000
+# Auswahl
+selection-foreground = #f2f4f8
+selection-background = #2a2a2a
 
-# cursor-color = #81b29a
-# cursor-text = #000000
-
-# selection-foreground = #000000
-# selection-background = #cdcecf
-foreground = #cdcecf
-background = #192330
-
-selection-foreground = #192330
-selection-background = #cdcecf
-
-cursor-color = #81b29a
-cursor-text = #192330
+# Textfarbe
+foreground = #f2f4f8
 
 # Farbpalette
-palette = 0=#393b44
-palette = 1=#c94f6d
-palette = 2=#81b29a
-palette = 3=#dbc074
-palette = 4=#719cd6
-palette = 5=#9d79d6
-palette = 6=#63cdcf
-palette = 7=#dfdfe0
-palette = 8=#575860
-palette = 9=#d16983
-palette = 10=#8ebaa4
-palette = 11=#e0c989
-palette = 12=#86abdc
-palette = 13=#baa1e2
-palette = 14=#7ad5d6
-palette = 15=#e4e4e5
+palette = 0=#282828   # schwarz
+palette = 1=#ee5396   # rot
+palette = 2=#25be6a   # grün
+palette = 3=#08bdba   # gelb
+palette = 4=#78a9ff   # blau
+palette = 5=#be95ff   # magenta
+palette = 6=#33b1ff   # cyan
+palette = 7=#dfdfe0   # weiß
+
+palette = 8=#484848   # hell-schwarz
+palette = 9=#f16da6   # hell-rot
+palette = 10=#46c880  # hell-grün
+palette = 11=#2dc7c4  # hell-gelb
+palette = 12=#8cb6ff  # hell-blau
+palette = 13=#c8a5ff  # hell-magenta
+palette = 14=#52bdff  # hell-cyan
+palette = 15=#e4e4e5  # hell-weiß
+
+# Indexed Colors (optional für spezielle Töne)
+palette = 16=#3ddbd9
+palette = 17=#ff7eb6
 
 # Terminal
 term = ghostty
@@ -512,10 +501,8 @@ confirm-close-surface = false
 # Shell Integration
 shell-integration-features = no-cursor
 
+# Keybinds
 keybind = shift+m=toggle_maximize
-
-window-decoration = auto
-
 keybind = ctrl+shift+m=toggle_fullscreen
 
 ```
