@@ -433,34 +433,26 @@ vim ~/.config/ghostty/config
 ```
 
 ```bash
-# Rahmen behalten aber minimal (keine doppelte Titelbar)
-window-decoration = auto
-
-# Hintergrund schwarz
-background = #000000
-background-opacity = 0.75
-
-# Padding
+# Fensterrahmen
+window-decoration = auto        # Rahmen behalten, keine doppelte Titelbar
 window-padding-x = 6
 window-padding-y = 4
-
-# Optional Blur (Wayland/KDE/GNOME gut)
-background-blur-radius = 18
-
-# Kein komisches Scaling bei mehreren Fenstern
 window-inherit-working-directory = true
+
+# Hintergrund
+background = #000000
+background-opacity = 0.75
+background-blur-radius = 18    # optional, gut für Wayland/KDE/GNOME
 
 # Schrift
 font-family = "JetBrainsMono Nerd Font"
 font-size = 13.5
 adjust-cell-height = 0%
 adjust-cell-width = 0%
-font-feature = liga
-font-feature = calt
+font-feature = liga,calt       # Ligaturen und kontextabhängige Ligaturen
 
 # Cursor
 cursor-style = block
-# Cursor blink neutral → Standardwert (nicht gesetzt)
 cursor-color = #81b29a
 cursor-text = #000000
 
@@ -487,30 +479,26 @@ palette = 13=#baa1e2
 palette = 14=#7ad5d6
 palette = 15=#e4e4e5
 
-# Terminal
+# Terminal & Renderer
 term = ghostty
-
-# Renderer & VSync → gültige Werte, sicher
 renderer = auto
 vsync = false
 
-# Großes Scrollback für Logs
+# Scrollback
 scrollback-limit = 100000
 
-# Clipboard Integration
+# Clipboard & Maus
 clipboard-read = allow
 clipboard-write = allow
-
-# Maus sauber für Vim splits
 mouse-hide-while-typing = true
 copy-on-select = true
 confirm-close-surface = false
 
-# Shell Integration → gültiger Wert
+# Shell Integration
 shell-integration-features = no-cursor
 
-# Keybind Ctrl+\ für Neovim Terminal Mode → korrekt
-keybind = ctrl+\=send_text:\x1c
+# Keybinds
+keybind = ctrl+\=send_text:\x1c   # Ctrl+\ → Neovim Terminal Mode
 
 ```
 
