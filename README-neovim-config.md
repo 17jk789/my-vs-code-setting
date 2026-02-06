@@ -452,8 +452,8 @@ adjust-cell-width = 0%
 font-feature = liga,calt
 
 # Cursor
-cursor-style = block
-cursor-blink = unknown
+# cursor-style = block
+# cursor-blink = unknown
 # cursor-color = #81b29a
 # cursor-text = #000000
 
@@ -461,14 +461,22 @@ cursor-blink = unknown
 # foreground = #cdcecf
 # selection-foreground = #000000
 # selection-background = #cdcecf
+# foreground = #cdcecf
+# background = #000000
+
+# cursor-color = #81b29a
+# cursor-text = #000000
+
+# selection-foreground = #000000
+# selection-background = #cdcecf
 foreground = #cdcecf
-background = #000000
+background = #192330
+
+selection-foreground = #192330
+selection-background = #cdcecf
 
 cursor-color = #81b29a
-cursor-text = #000000
-
-selection-foreground = #000000
-selection-background = #cdcecf
+cursor-text = #192330
 
 # Farbpalette
 palette = 0=#393b44
