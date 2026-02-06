@@ -53,7 +53,7 @@ Installiere Neovim: [Neovim](https://neovim.io/)
 
 ```bash
 sudo apt update
-sudo apt install curl wget unzip build-essential cmark
+sudo apt install curl wget unzip build-essential cmark fzf
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk maven
@@ -63,7 +63,8 @@ sudo apt install python3-venv
 sudo apt install ripgrep
 sudo apt install nodejs npm
 sudo apt install gzip
-sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
+sudo snap install ghostty --classic
+# sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
 # sudo apt install kitty
 # sudo apt install wezterm
 # sudo apt install default-jre
@@ -426,6 +427,94 @@ echo "✅ Fertig! Projekt '$PROJECT_NAME' ist bereit."
 echo "Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
 ```
 
+# 0) Ghostty
+```bash
+vim ~/.config/ghostty/config
+```
+
+```bash
+# Rahmen behalten aber minimal (keine doppelte Titelbar)
+window-decoration = auto
+
+# Transparenz nur Hintergrund
+background-opacity = 0.75
+
+# Kleines Padding -> verhindert fette obere Leiste
+window-padding-x = 6
+window-padding-y = 4
+
+# Optional Blur (Wayland/KDE/GNOME gut)
+background-blur-radius = 18
+
+# Kein komisches Scaling bei mehreren Fenstern
+window-inherit-working-directory = true
+
+font-family = "JetBrainsMono Nerd Font"
+font-size = 13.5
+
+# Wichtig für Neovim Darstellung:
+adjust-cell-height = 0%
+adjust-cell-width = 0%
+
+# Ligatures optional (LazyVim sieht besser aus)
+font-feature = liga
+font-feature = calt
+
+# Cursor klar sichtbar
+cursor-style = block
+cursor-blink = true
+
+foreground = #cdcecf
+background = #192330
+
+cursor-color = #81b29a
+cursor-text = #192330
+
+selection-foreground = #192330
+selection-background = #cdcecf
+
+palette = 0=#393b44
+palette = 1=#c94f6d
+palette = 2=#81b29a
+palette = 3=#dbc074
+palette = 4=#719cd6
+palette = 5=#9d79d6
+palette = 6=#63cdcf
+palette = 7=#dfdfe0
+
+palette = 8=#575860
+palette = 9=#d16983
+palette = 10=#8ebaa4
+palette = 11=#e0c989
+palette = 12=#86abdc
+palette = 13=#baa1e2
+palette = 14=#7ad5d6
+palette = 15=#e4e4e5
+
+# EXTREM wichtig für LazyVim:
+term = xterm-256color
+
+# GPU Renderer automatisch
+renderer = auto
+
+# Keine Input-Lag Probleme:
+vsync = false
+
+# Großes Scrollback für Logs
+scrollback-limit = 100000
+
+# Clipboard Integration:
+clipboard-read = allow
+clipboard-write = allow
+
+# Maus sauber für Vim splits:
+mouse-hide-while-typing = true
+
+copy-on-select = true
+confirm-close-surface = false
+shell-integration-features = no-cursor
+
+```
 
 # 0) Alacritty
 
