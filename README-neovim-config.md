@@ -465,7 +465,7 @@ font-feature = calt
 cursor-style = block
 cursor-blink = unknown
 
-# Farben (echtes Schwarz)
+# Farben
 foreground = #cdcecf
 background = #000000
 
@@ -494,12 +494,12 @@ palette = 13=#baa1e2
 palette = 14=#7ad5d6
 palette = 15=#e4e4e5
 
-# TERM besser für Ghostty + Neovim
+# EXTREM wichtig für LazyVim
 term = ghostty
 
-# Renderer stabil (unknown macht oft Probleme)
-renderer = auto
-vsync = false
+# Renderer & Sync explizit unknown
+renderer = unknown
+vsync = unknown
 
 # Großes Scrollback für Logs
 scrollback-limit = 100000
@@ -514,10 +514,10 @@ mouse-hide-while-typing = true
 copy-on-select = true
 confirm-close-surface = false
 
-# Shell Integration NICHT blockierend
+# Shell Integration neutral
 shell-integration-features = none
 
-# Fix damit Ctrl+\ korrekt zu Neovim geht
+# Ctrl+\ korrekt senden für Neovim Terminal Mode
 keybind = ctrl+\=send_text:\x1c
 
 ```
