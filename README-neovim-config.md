@@ -495,7 +495,7 @@ confirm-close-surface = false
 # Shell Integration
 shell-integration-features = no-cursor
 
-keybind = shift+m=toggleMaximized
+keybind = shift+m=toggle_maximize
 
 window-decoration = auto
 
