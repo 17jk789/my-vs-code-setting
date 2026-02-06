@@ -456,6 +456,7 @@ font-family-bold-italic = "JetBrainsMono Nerd Font"
 font-size = 13.5
 window-title-font-family = "JetBrainsMono Nerd Font"
 adjust-cell-height = 0%
+# adjust-cell-height = 15%
 adjust-cell-width = 0%
 font-feature = liga,calt
 
