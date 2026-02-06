@@ -439,19 +439,29 @@ window-padding-x = 6
 window-padding-y = 4
 window-inherit-working-directory = true
 
+# macOS-spezifisch
+macos-titlebar-style = tabs
+macos-titlebar-proxy-icon = hidden
+macos-option-as-alt = true
+
 # Hintergrund
-background = #000000
-background-opacity = 0.75
-background-blur-radius = 18
+background = #000000           # Alacritty Carbonfox Hintergrund
+background-opacity = 0.80
+background-blur-radius = 40
 
 # Schrift
 font-family = "JetBrainsMono Nerd Font"
+font-family-italic = "JetBrainsMono Nerd Font"
+font-family-bold = "JetBrainsMono Nerd Font"
+font-family-bold-italic = "JetBrainsMono Nerd Font"
 font-size = 13.5
+window-title-font-family = "JetBrainsMono Nerd Font"
 adjust-cell-height = 0%
 adjust-cell-width = 0%
 font-feature = liga,calt
 
 # Cursor
+cursor-style = block
 cursor-color = #25be6a
 cursor-text = #f2f4f8
 
@@ -462,26 +472,26 @@ selection-background = #2a2a2a
 # Textfarbe
 foreground = #f2f4f8
 
-# Farbpalette
-palette = 0=#282828   # schwarz
-palette = 1=#ee5396   # rot
-palette = 2=#25be6a   # grün
-palette = 3=#08bdba   # gelb
-palette = 4=#78a9ff   # blau
-palette = 5=#be95ff   # magenta
-palette = 6=#33b1ff   # cyan
-palette = 7=#dfdfe0   # weiß
+# Farbpalette (Alacritty Carbonfox)
+palette = 0=#282828
+palette = 1=#ee5396
+palette = 2=#25be6a
+palette = 3=#08bdba
+palette = 4=#78a9ff
+palette = 5=#be95ff
+palette = 6=#33b1ff
+palette = 7=#dfdfe0
 
-palette = 8=#484848   # hell-schwarz
-palette = 9=#f16da6   # hell-rot
-palette = 10=#46c880  # hell-grün
-palette = 11=#2dc7c4  # hell-gelb
-palette = 12=#8cb6ff  # hell-blau
-palette = 13=#c8a5ff  # hell-magenta
-palette = 14=#52bdff  # hell-cyan
-palette = 15=#e4e4e5  # hell-weiß
+palette = 8=#484848
+palette = 9=#f16da6
+palette = 10=#46c880
+palette = 11=#2dc7c4
+palette = 12=#8cb6ff
+palette = 13=#c8a5ff
+palette = 14=#52bdff
+palette = 15=#e4e4e5
 
-# Indexed Colors (optional für spezielle Töne)
+# Indexed Colors (optional)
 palette = 16=#3ddbd9
 palette = 17=#ff7eb6
 
@@ -504,6 +514,14 @@ shell-integration-features = no-cursor
 # Keybinds
 keybind = shift+m=toggle_maximize
 keybind = ctrl+shift+m=toggle_fullscreen
+keybind = global:cmd+`=toggle_quick_terminal
+keybind = shift+ctrl+left_bracket=previous_tab
+keybind = shift+ctrl+right_bracket=next_tab
+keybind = shift+ctrl+,=move_tab:-1
+keybind = shift+ctrl+.=move_tab:+1
+
+# Theme (nur zur Referenz)
+theme = carbonfox
 
 ```
 
