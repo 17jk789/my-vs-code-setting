@@ -497,6 +497,8 @@ shell-integration-features = no-cursor
 
 keybind = shift+m=toggle_fullscreen
 
+window-decoration = auto
+
 keybind = ctrl+shift+m=toggle_fullscreen
 
 ```
