@@ -495,6 +495,10 @@ confirm-close-surface = false
 # Shell Integration
 shell-integration-features = no-cursor
 
+keybind = shift+m=toggle_fullscreen
+
+keybind = ctrl+shift+m=toggle_fullscreen
+
 ```
 
 # 0) Alacritty
