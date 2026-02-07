@@ -498,7 +498,10 @@ palette = 16=#3ddbd9
 palette = 17=#ff7eb6
 
 # Terminal
-term = ghostty
+# term = ghostty
+term = xterm-256color
+
+shell-integration = bash
 
 # Scrollback
 scrollback-limit = 1000000
