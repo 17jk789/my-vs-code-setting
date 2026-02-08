@@ -561,6 +561,13 @@ palette = 15=#e4e4e5
 
 # TERMINAL CORE
 # term = ghostty
+term = xterm
+term = screen-256color
+term = tmux-256color
+term = alacritty
+term = wezterm
+term = kitty
+term = foot
 term = xterm-256color
 shell-integration = bash
 shell-integration-features = no-cursor
