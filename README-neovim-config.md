@@ -428,6 +428,9 @@ echo "Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
 ```
 
 # 0) Ghostty
+
+> [More](https://gist.github.com/hensg/43bc71c21d1f79385892352a390aa2ca)
+
 ```bash
 vim ~/.config/ghostty/config
 ```
@@ -524,6 +527,43 @@ keybind = shift+ctrl+left_bracket=previous_tab
 keybind = shift+ctrl+right_bracket=next_tab
 keybind = shift+ctrl+,=move_tab:-1
 keybind = shift+ctrl+.=move_tab:+1
+
+# Focus splits (statt Ctrl+Super+[ ])
+keybind = ctrl+alt+h=focus_split:left
+keybind = ctrl+alt+j=focus_split:down
+keybind = ctrl+alt+k=focus_split:up
+keybind = ctrl+alt+l=focus_split:right
+
+# Previous / next split cycle
+keybind = ctrl+alt+p=focus_split:previous
+keybind = ctrl+alt+n=focus_split:next
+
+
+# --- SPLIT CREATION ---
+keybind = ctrl+shift+o=new_split:right
+keybind = ctrl+shift+e=new_split:down
+
+
+# --- SPLIT RESIZE ---
+keybind = ctrl+alt+shift+h=resize_split:left
+keybind = ctrl+alt+shift+j=resize_split:down
+keybind = ctrl+alt+shift+k=resize_split:up
+keybind = ctrl+alt+shift+l=resize_split:right
+
+
+# --- SPLIT ZOOM ---
+keybind = ctrl+shift+enter=toggle_split_zoom
+
+
+# --- TAB QUICK NAVIGATION ---
+keybind = ctrl+page_up=previous_tab
+keybind = ctrl+page_down=next_tab
+
+
+# --- WINDOW ---
+keybind = ctrl+shift+n=new_window
+keybind = ctrl+shift+w=close_surface
+keybind = ctrl+shift+q=quit
 
 ```
 
