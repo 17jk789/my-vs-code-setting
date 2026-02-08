@@ -470,6 +470,10 @@ cursor-style = block
 cursor-color = #25be6a
 cursor-text = #f2f4f8
 
+# AUSWAHL 
+selection-foreground = #f2f4f8 
+selection-background = #525253
+
 # COLORS (Carbonfox-like)
 foreground = #f2f4f8
 
@@ -494,6 +498,66 @@ palette = 15=#e4e4e5
 # INDEXED COLORS (optional) 
 # palette = 16=#3ddbd9 
 # palette = 17=#ff7eb6
+
+# CURSOR
+# cursor-style = block
+# cursor-color = #ff9f1c
+# cursor-text = #0f1115
+
+# AUSWAHL
+# selection-foreground = #ffffff
+# selection-background = #3a3f4b
+
+# COLORS (Dark Neon Slate)
+# foreground = #e6eaf2
+
+# palette = 0=#1b1f27
+# palette = 1=#ff5c8a
+# palette = 2=#2ec27e
+# palette = 3=#f6c177
+# palette = 4=#5ea1ff
+# palette = 5=#c678dd
+# palette = 6=#4fd1c5
+# palette = 7=#cfd6e6
+
+# palette = 8=#3a4152
+# palette = 9=#ff7aa2
+# palette = 10=#4be39a
+# palette = 11=#ffd58a
+# palette = 12=#7ab0ff
+# palette = 13=#d59cff
+# palette = 14=#6be6d8
+# palette = 15=#ffffff
+
+# CURSOR
+# cursor-style = block
+# cursor-color = #00e0ff
+# cursor-text = #0b0f14
+
+# AUSWAHL
+# selection-foreground = #e6edf3
+# selection-background = #2a3040
+
+# COLORS (Cyber Abyss)
+# foreground = #dce3ea
+
+# palette = 0=#0b0f14
+# palette = 1=#ff4d6d
+# palette = 2=#2dd4bf
+# palette = 3=#ffd166
+# palette = 4=#4dabf7
+# palette = 5=#b388ff
+# palette = 6=#00e0ff
+# palette = 7=#cdd6f4
+
+# palette = 8=#1c2330
+# palette = 9=#ff758f
+# palette = 10=#5eead4
+# palette = 11=#ffe08a
+# palette = 12=#74c0fc
+# palette = 13=#c8a6ff
+# palette = 14=#6be6ff
+# palette = 15=#ffffff
 
 # TERMINAL CORE
 # term = ghostty
