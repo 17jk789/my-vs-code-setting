@@ -436,48 +436,30 @@ vim ~/.config/ghostty/config
 ```
 
 ```bash
-# Fenster
+# WINDOW / UI
 window-decoration = auto
 window-padding-x = 6
 window-padding-y = 4
 window-inherit-working-directory = true
 
-# macOS-spezifisch
-macos-titlebar-style = tabs
-macos-titlebar-proxy-icon = hidden
-macos-option-as-alt = true
-
-# Hintergrund
-background-opacity = 0.80
-background-blur-radius = 40
-
-# Schrift
-font-family = "JetBrainsMono Nerd Font Complete"
-font-family-italic = "JetBrainsMono Nerd Font Complete"
-font-family-bold = "JetBrainsMono Nerd Font Complete"
-font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
-font-size = 13.5
-window-title-font-family = "JetBrainsMono Nerd Font Complete"
-adjust-cell-height = 0%
-# adjust-cell-height = 15%
-adjust-cell-width = 0%
-font-feature = liga,calt
-
+background-opacity = 0.85
 background = #000000
 
-# Cursor
+# FONT
+font-family = JetBrainsMono Nerd Font
+font-size = 13.5
+
+adjust-cell-height = 0%
+adjust-cell-width = 0%
+
+# CURSOR
 cursor-style = block
 cursor-color = #25be6a
 cursor-text = #f2f4f8
 
-# Auswahl
-selection-foreground = #f2f4f8
-selection-background = #525253
-
-# Textfarbe
+# COLORS (Carbonfox-like)
 foreground = #f2f4f8
 
-# Farbpalette (Alacritty Carbonfox)
 palette = 0=#282828
 palette = 1=#ee5396
 palette = 2=#25be6a
@@ -496,74 +478,66 @@ palette = 13=#c8a5ff
 palette = 14=#52bdff
 palette = 15=#e4e4e5
 
-# Indexed Colors (optional)
-palette = 16=#3ddbd9
-palette = 17=#ff7eb6
-
-# Terminal
-# term = ghostty
+# TERMINAL CORE
 term = xterm-256color
-
 shell-integration = bash
-
-# Scrollback
-scrollback-limit = 1000000
-
-# Clipboard & Maus
-clipboard-read = allow
-clipboard-write = allow
-mouse-hide-while-typing = true
-copy-on-select = true
-confirm-close-surface = false
-
-# Shell Integration
 shell-integration-features = no-cursor
 
-# Keybinds
-keybind = ctrl+m=toggle_maximize
-keybind = ctrl+shift+m=toggle_fullscreen
-keybind = global:cmd+`=toggle_quick_terminal
-keybind = shift+ctrl+left_bracket=previous_tab
-keybind = shift+ctrl+right_bracket=next_tab
-keybind = shift+ctrl+,=move_tab:-1
-keybind = shift+ctrl+.=move_tab:+1
+scrollback-limit = 1000000
 
-# Focus splits (statt Ctrl+Super+[ ])
-keybind = ctrl+alt+h=focus_split:left
-keybind = ctrl+alt+j=focus_split:down
-keybind = ctrl+alt+k=focus_split:up
-keybind = ctrl+alt+l=focus_split:right
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = true
+mouse-hide-while-typing = true
+confirm-close-surface = false
 
-# Previous / next split cycle
-keybind = ctrl+alt+p=focus_split:previous
-keybind = ctrl+alt+n=focus_split:next
+# WINDOW MANAGEMENT
+keybind = ctrl+shift+n=new_window
+keybind = ctrl+shift+q=quit
+keybind = ctrl+enter=toggle_fullscreen
 
+# TABS
+keybind = ctrl+shift+t=new_tab
+keybind = ctrl+shift+w=close_surface
+keybind = ctrl+tab=next_tab
+keybind = ctrl+shift+tab=previous_tab
 
-# --- SPLIT CREATION ---
+# SPLITS CREATE
 keybind = ctrl+shift+o=new_split:right
 keybind = ctrl+shift+e=new_split:down
 
+# SPLIT NAVIGATION (DE-safe)
+keybind = alt+left=goto_split:left
+keybind = alt+right=goto_split:right
+keybind = alt+up=goto_split:up
+keybind = alt+down=goto_split:down
 
-# --- SPLIT RESIZE ---
-keybind = ctrl+alt+shift+h=resize_split:left
-keybind = ctrl+alt+shift+j=resize_split:down
-keybind = ctrl+alt+shift+k=resize_split:up
-keybind = ctrl+alt+shift+l=resize_split:right
+keybind = alt+p=goto_split:previous
+keybind = alt+n=goto_split:next
 
+# SPLIT RESIZE
+keybind = alt+shift+left=resize_split:left,10
+keybind = alt+shift+right=resize_split:right,10
+keybind = alt+shift+up=resize_split:up,10
+keybind = alt+shift+down=resize_split:down,10
 
-# --- SPLIT ZOOM ---
+keybind = alt+shift+equal=equalize_splits
+
+# SPLIT ZOOM
 keybind = ctrl+shift+enter=toggle_split_zoom
 
+# CLIPBOARD
+keybind = performable:ctrl+shift+c=copy_to_clipboard
+keybind = performable:ctrl+shift+v=paste_from_clipboard
 
-# --- TAB QUICK NAVIGATION ---
-keybind = ctrl+page_up=previous_tab
-keybind = ctrl+page_down=next_tab
+# FONT SIZE
+keybind = ctrl+equal=increase_font_size:1
+keybind = ctrl+minus=decrease_font_size:1
+keybind = ctrl+zero=reset_font_size
 
-
-# --- WINDOW ---
-keybind = ctrl+shift+n=new_window
-keybind = ctrl+shift+w=close_surface
-keybind = ctrl+shift+q=quit
+# CONFIG
+keybind = ctrl+comma=open_config
+keybind = ctrl+shift+comma=reload_config
 
 ```
 
