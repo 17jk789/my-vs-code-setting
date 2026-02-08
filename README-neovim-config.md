@@ -442,12 +442,25 @@ window-padding-x = 6
 window-padding-y = 4
 window-inherit-working-directory = true
 
-background-opacity = 0.85
+# macOS-SPEZIFISCH 
+# macos-titlebar-style = tabs 
+# macos-titlebar-proxy-icon = hidden 
+# macos-option-as-alt = true
+
+# HINTERGRUND
+background-opacity = 0.81
 background = #000000
+# background-blur-radius = 10
+# background-opacity = 0.5	
 
 # FONT
-font-family = JetBrainsMono Nerd Font
-font-size = 13.5
+font-family = "JetBrainsMono Nerd Font Complete"
+font-family-italic = "JetBrainsMono Nerd Font Complete"
+font-family-bold = "JetBrainsMono Nerd Font Complete"
+font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
+font-size = 13.5 
+window-title-font-family = "JetBrainsMono Nerd Font Complete"
+# font-feature = liga,calt
 
 adjust-cell-height = 0%
 adjust-cell-width = 0%
@@ -478,18 +491,28 @@ palette = 13=#c8a5ff
 palette = 14=#52bdff
 palette = 15=#e4e4e5
 
+# INDEXED COLORS (optional) 
+# palette = 16=#3ddbd9 
+# palette = 17=#ff7eb6
+
 # TERMINAL CORE
+# term = ghostty
 term = xterm-256color
 shell-integration = bash
 shell-integration-features = no-cursor
 
+# SCROLLBACK
 scrollback-limit = 1000000
 
+# CLIPBOARD & MAUS
 clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
 mouse-hide-while-typing = true
 confirm-close-surface = false
+
+# SHELL INTEGRATION 
+# shell-integration-features = no-cursor
 
 # WINDOW MANAGEMENT
 keybind = ctrl+shift+n=new_window
