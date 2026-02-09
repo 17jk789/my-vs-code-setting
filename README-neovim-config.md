@@ -23,7 +23,58 @@ Use them **at your own risk**.
 
 This repository is released under the **Apache License 2.0**.
 
+# Inhaltsverzeichnis
 
+- [My-neovim-setting](#my-neovim-setting)
+  - [Disclaimer](#disclaimer)
+  - [License](#license)
+- [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Notes](#notes)
+  - [To do](#to-do)
+- [Requirements](#requirements)
+  - [Update Neovim:](#update-neovim)
+  - [LazyVim Löschen](#lazyvim-löschen)
+- [inits](#inits)
+  - [Python](#python)
+    - [create-python-pro.sh](#create-python-prosh)
+  - [Rust](#rust)
+  - [Java](#java)
+    - [crate-java-pro.sh](#crate-java-prosh)
+  - [C++](#c)
+    - [create-cpp-pro.sh](#create-cpp-prosh)
+- [Ghostty](#ghostty)
+- [Alacritty](#alacritty)
+  - [oh-my-posh](#oh-my-posh)
+- [LazyVim configuration](#lazyvim-configuration)
+  - [Struktur](#struktur)
+  - [init.lua (keine Änderungen nötig)](#initlua-keine-änderungen-nötig)
+  - [config/options.lua](#configoptionslua)
+  - [config/keymaps.lua](#configkeymapslua)
+  - [plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)](#pluginslsplua-einmalig--sauber--rust-analyzer--clangd)
+  - [plugins/completion.lua (sicher + stabil)](#pluginscompletionlua-sicher--stabil)
+  - [plugins/rust.lua (Rust IDE + DAP + Crates)](#pluginsrustlua-rust-ide--dap--crates)
+  - [plugins/cpp.lua (nur extras, LSP in lsp.lua)](#pluginscpplua-nur-extras-lsp-in-lsplua)
+  - [plugins/java.lua (Basis + stabil)](#pluginsjavalua-basis--stabil)
+  - [plugins/python.lua](#pluginspythonlua)
+  - [lsp/python.lua](#lsppythonlua)
+  - [lsp/lua.lua](#lsplualua)
+  - [plugins/html.lua](#pluginshtmllua)
+  - [lsp/html.lua](#lsphtmllua)
+  - [lsp/css.lua](#lspcsslua)
+  - [plugins/javascript.lua](#pluginsjavascriptlua)
+  - [plugins/dap.lua (codelldb + Rust/C++ Debug)](#pluginsdaplua-codelldb--rustc-debug)
+  - [config/autocmds.lua](#configautocmdslua)
+  - [plugins/mason.lua](#pluginsmasonlua)
+  - [plugins/theme.lua](#pluginsthemelua)
+  - [plugins/ui.lua](#pluginsuilua)
+  - [plugins/treesitter.lua](#pluginstreesitterlua)
+  - [plugins/markdown.lua](#pluginsmarkdownlua)
+  - [plugins/ltex.lua](#pluginsltexlua)
+  - [plugins/notify.lua](#pluginsnotifylua)
+  - [plugins/git.lua](#pluginsgitlua)
+  - [plugins/alpha.lua](#pluginsalphalua)
+  - [config/lazyvim.lua](#configlazyvimlua)
+  - [plugins/snacks.lua](#pluginssnackslua)
 
 ## Notes
 
@@ -140,7 +191,7 @@ rm -rf ~/.cache/nvim
 
 # inits
 
-## Python:
+## Python
 
 ```bash
 mkdir mein_python_projekt
