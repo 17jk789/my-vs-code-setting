@@ -2720,6 +2720,11 @@ return {
     -- :Mason install jdtls
     -- :Mason install java-debug-adapter
     -- :Mason install java-test
+    
+    -- Bei Problemen mit Inlay Hints:
+    -- :edit
+    -- :lua vim.lsp.inlay_hint.enable(false)
+    -- :lua vim.lsp.inlay_hint.enable(true)
   },
 }
 
