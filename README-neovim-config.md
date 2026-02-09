@@ -2725,6 +2725,8 @@ return {
     -- :edit
     -- :lua vim.lsp.inlay_hint.enable(false)
     -- :lua vim.lsp.inlay_hint.enable(true)
+    -- oder einfach 
+    -- :lua vim.lsp.inlay_hint.enable(false)
   },
 }
 
