@@ -373,7 +373,7 @@ cmake --build .
 nvim .
 ```
 
-create-cpp-pro.sh:
+### create-cpp-pro.sh
 
 ```bash
 #!/usr/bin/env bash
