@@ -23,6 +23,8 @@ Use them **at your own risk**.
 
 This repository is released under the **Apache License 2.0**.
 
+
+
 ## Notes
 
 * Some settings may be system-specific (Windows vs Linux) -Y *Linux - Ubuntu 24.04.03 LTS*.
@@ -43,7 +45,7 @@ This repository is released under the **Apache License 2.0**.
 
 - Probleme mit LuaSnip
 
-# -1)
+# Requirements
 
 Installiere Neovim: [Neovim](https://neovim.io/)
 
@@ -99,7 +101,7 @@ fc-cache -fv
 nvim
 ```
 
-Update Neovim:
+## Update Neovim:
 
 ```bash
 # 1) Alte Version prüfen
@@ -127,7 +129,7 @@ Wenn alles OK:
 sudo rm -rf /opt/nvim.bak
 ```
 
-LazyVim Löschen:
+## LazyVim Löschen
 
 ```bash
 rm -rf ~/.config/nvim
@@ -136,7 +138,7 @@ rm -rf ~/.local/state/nvim
 rm -rf ~/.cache/nvim
 ```
 
-# -1) inits
+# inits
 
 ## Python:
 
@@ -159,7 +161,7 @@ chmod +x create-python-pro.sh
 nvim .
 ```
 
-create-python-pro.sh:
+### create-python-pro.sh
 
 ```bash
 #!/bin/bash
@@ -196,7 +198,7 @@ pip install --upgrade pip
 # pip install 'python-lsp-server[all]' black ruff debugpy
 ```
 
-## Rust:
+## Rust
 
 ```bash
 cargo new mein_rust_projekt
@@ -204,7 +206,7 @@ cd mein_rust_projekt
 nvim .
 ```
 
-## Java:
+## Java
 
 ```bash
 mkdir new my-java-project
@@ -223,7 +225,7 @@ cd ~/my-java-project
 nvim .
 ```
 
-crate-java-pro.sh:
+### crate-java-pro.sh
 
 ```bash
 #!/usr/bin/env bash
@@ -359,7 +361,7 @@ echo "Öffne in Neovim: nvim $PROJECT_NAME"
 
 ```
 
-## C++:
+## C++
 
 ```bash
 vim ~create-cpp-pro.sh
@@ -427,7 +429,7 @@ echo "✅ Fertig! Projekt '$PROJECT_NAME' ist bereit."
 echo "Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
 ```
 
-# 0) Ghostty
+# Ghostty
 
 > [More](https://gist.github.com/hensg/43bc71c21d1f79385892352a390aa2ca)
 
@@ -642,7 +644,7 @@ keybind = ctrl+shift+comma=reload_config
 
 ```
 
-# 0) Alacritty
+# Alacritty
 
 ```bash
 mkdir -p ~/.config/alacritty
@@ -920,7 +922,9 @@ color = "#ff7eb6"
 
 ```
 
-## oh-my-posh – würde ich nicht wirklich empfehlen, aber cool!
+## oh-my-posh 
+
+> würde ich nicht wirklich empfehlen, aber cool!
 
 ```bash
 # curl -s https://ohmyposh.dev/install.sh | bash -s && \
@@ -930,7 +934,9 @@ color = "#ff7eb6"
 # source ~/.bashrc
 ```
 
-# 1) Struktur 
+# LazyVim configuration
+
+## Struktur
 
 ```bash
 cd ~/.config/nvim/lua
@@ -953,8 +959,7 @@ cd ~/.config/nvim/lua
         ├── cpp.lua
         ├── java.lua
         ├── mason.lua
-        ├── github_theme.lua // or nightfox
-        ├── nightfox.lua.lua // or github_theme
+        ├── theme.lua
         ├── ui.lua
         ├── treesitter.lua
         ├── markdown.lua
@@ -965,11 +970,27 @@ cd ~/.config/nvim/lua
         └── alpha.lua
 ```
 
-# 2) init.lua (keine Änderungen nötig)
+## init.lua (keine Änderungen nötig)
 
 LazyVim lädt automatisch alles aus `lua/config/` und `lua/plugins/`.
 
-# 3) config/options.lua
+```bash
+cd ~/.config/nvim
+```
+
+```bash
+vim init.lua
+```
+
+```bash
+nano init.lua
+```
+
+## config/options.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim config/options.lua
@@ -1016,7 +1037,11 @@ vim.opt.winbar = "%=%m %f  | %l/%L"
 
 ```
 
-# 4) config/keymaps.lua
+## config/keymaps.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim config/keymaps.lua
@@ -1083,7 +1108,11 @@ vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, { desc = "Range Code 
 
 ```
 
-# 5) plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)
+## plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/lsp.lua
@@ -1473,7 +1502,11 @@ return {
 
 ```
 
-# 6) plugins/completion.lua (sicher + stabil)
+## plugins/completion.lua (sicher + stabil)
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/completion.lua
@@ -1657,9 +1690,13 @@ return {
 
 ```
 
-# 7) plugins/rust.lua (Rust IDE + DAP + Crates)
+## plugins/rust.lua (Rust IDE + DAP + Crates)
 
 Wichtig: **Keine doppelte rust-analyzer Konfiguration** — das macht nur LSPConfig.
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/rust.lua
@@ -1955,7 +1992,11 @@ return {
 
 ```
 
-# 8) plugins/cpp.lua (nur extras, LSP in lsp.lua)
+## plugins/cpp.lua (nur extras, LSP in lsp.lua)
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/cpp.lua
@@ -2000,9 +2041,9 @@ return {
 
 ```
 
-# 9) plugins/java.lua (Basis + stabil)
+## plugins/java.lua (Basis + stabil)
 
-https://github.com/nvim-java/nvim-java -> top, bringrt alles mit für Java!
+https://github.com/nvim-java/nvim-java -> top, bringrt alles mit, für Java!
 
 ```bash
 mkdir -p ~/.config/nvim/lang-servers
@@ -2010,6 +2051,10 @@ mkdir -p ~/.config/nvim/lang-servers
 curl -L \
 https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml \
 -o ~/.config/nvim/lang-servers/intellij-java-google-style.xml
+```
+
+```bash
+cd ~/.config/nvim/lua
 ```
 
 ```bash
@@ -2732,7 +2777,11 @@ return {
 
 ```
 
-# 10) plugins/python.lua
+## plugins/python.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/python.lua
@@ -2906,7 +2955,11 @@ nano plugins/python.lua
 -- }
 ```
 
-# 11 lsp/python.lua
+## lsp/python.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim lsp/python.lua
@@ -2993,7 +3046,11 @@ end
 return M
 ```
 
-# 12) lsp/lua.lua
+## lsp/lua.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim lsp/lua.lua
@@ -3070,7 +3127,11 @@ nano lsp/lua.lua
 
 ```
 
-# 13) plugins/html.lua
+## plugins/html.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/html.lua
@@ -3222,7 +3283,11 @@ nano plugins/html.lua
 
 ```
 
-# 14) lsp/html.lua
+## lsp/html.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim ls/html.lua
@@ -3287,7 +3352,11 @@ nano lsp/html.lua
 -- return M
 ```
 
-# 15) lsp/css.lua
+## lsp/css.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim ls/css.lua
@@ -3370,7 +3439,11 @@ nano lsp/css.lua
 ```
 
 
-# 16) plugins/javascript.lua
+## plugins/javascript.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/javascript.lua
@@ -3460,7 +3533,11 @@ nano plugins/javascript.lua
 
 ```
 
-# 17) plugins/dap.lua (codelldb + Rust/C++ Debug)
+## plugins/dap.lua (codelldb + Rust/C++ Debug)
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/dap.lua
@@ -3879,7 +3956,11 @@ return {
 
 ```
 
-# 18) config/autocmds.lua
+## config/autocmds.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim config/autocmds.lua
@@ -4162,7 +4243,11 @@ vim.api.nvim_create_autocmd("FileType", {
 
 ```
 
-# 19) plugins/mason.lua
+## plugins/mason.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/mason.lua
@@ -4230,18 +4315,24 @@ return {
 
 ```
 
-# 20) plugins/github_theme.lua
+## plugins/theme.lua
 
 ```bash
-vim plugins/github_theme.lua
+cd ~/.config/nvim/lua
 ```
 
 ```bash
-nano plugins/github_theme.lua
+vim plugins/theme.lua
+```
+
+```bash
+nano plugins/theme.lua
 ```
 
 ```lua
--- plugins/github_theme.lua
+-- plugins/theme.lua
+
+-- GitHub Theme
 
 -- return {
 --   {
@@ -4256,20 +4347,49 @@ nano plugins/github_theme.lua
 --   },
 -- }
 
-```
+-- return {
+--   {
+--     "projekt0n/github-nvim-theme",
+--     name = "github-theme",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       require("github-theme").setup({
+--         options = {
+--           transparent = true,
+--         },
+--       })
 
-# 21) plugins/nightfox.lua
+--       vim.cmd("colorscheme github_dark_dimmed")
 
-```bash
-vim plugins/nightfox.lua
-```
+--       local groups = {
+--         "Normal",
+--         "NormalNC",
+--         "NormalFloat",
+--         "FloatBorder",
+--         "SignColumn",
+--         "EndOfBuffer",
+--         "LineNr",
+--         "CursorLineNr",
+--         "VertSplit",
+--         "WinSeparator",
+--         "TabLine",
+--         "TabLineSel",
+--         "TabLineFill",
+--         "StatusLine",
+--         "StatusLineNC",
+--         "WinBar",
+--         "WinBarNC",
+--       }
 
-```bash
-nano plugins/nightfox.lua
-```
+--       for _, group in ipairs(groups) do
+--         vim.api.nvim_set_hl(0, group, { bg = "none" })
+--       end
+--     end,
+--   },
+-- }
 
-```lua
--- plugins/nightfox.lua
+-- Nightfox
 
 -- return {
 --   {
@@ -4348,9 +4468,151 @@ return {
   },
 }
 
+-- Tokyo Night
+
+-- return {
+--   {
+--     "folke/tokyonight.nvim",
+--     name = "tokyonight",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       require("tokyonight").setup({
+--         style = "night", -- storm / moon / night / day möglich
+--         transparent = true,
+--         terminal_colors = true,
+--       })
+
+--       vim.cmd("colorscheme tokyonight")
+
+--       local groups = {
+--         "Normal",
+--         "NormalNC",
+--         "NormalFloat",
+--         "FloatBorder",
+--         "SignColumn",
+--         "EndOfBuffer",
+--         "LineNr",
+--         "CursorLineNr",
+--         "VertSplit",
+--         "WinSeparator",
+--         "TabLine",
+--         "TabLineSel",
+--         "TabLineFill",
+--         "StatusLine",
+--         "StatusLineNC",
+--         "WinBar",
+--         "WinBarNC",
+--       }
+
+--       for _, group in ipairs(groups) do
+--         vim.api.nvim_set_hl(0, group, { bg = "none" })
+--       end
+--     end,
+--   },
+-- }
+
+-- Catppuccin
+
+-- return {
+--   {
+--     "catppuccin/nvim",
+--     name = "catppuccin",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       require("catppuccin").setup({
+--         flavour = "mocha", -- latte / frappe / macchiato / mocha
+--         transparent_background = true,
+--         term_colors = true,
+--       })
+
+--       vim.cmd("colorscheme catppuccin")
+
+--       local groups = {
+--         "Normal",
+--         "NormalNC",
+--         "NormalFloat",
+--         "FloatBorder",
+--         "SignColumn",
+--         "EndOfBuffer",
+--         "LineNr",
+--         "CursorLineNr",
+--         "VertSplit",
+--         "WinSeparator",
+--         "TabLine",
+--         "TabLineSel",
+--         "TabLineFill",
+--         "StatusLine",
+--         "StatusLineNC",
+--         "WinBar",
+--         "WinBarNC",
+--       }
+
+--       for _, group in ipairs(groups) do
+--         vim.api.nvim_set_hl(0, group, { bg = "none" })
+--       end
+--     end,
+--   },
+-- }
+
+-- Kanagawa
+
+-- return {
+--   {
+--     "rebelot/kanagawa.nvim",
+--     name = "kanagawa",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       require("kanagawa").setup({
+--         compile = true,
+--         undercurl = true,
+--         commentStyle = { italic = true },
+--         functionStyle = {},
+--         keywordStyle = { italic = true },
+--         statementStyle = { bold = true },
+--         typeStyle = {},
+--         transparent = true, -- transparent background
+--         terminalColors = true,
+--       })
+
+--       vim.cmd("colorscheme kanagawa")
+
+--       local groups = {
+--         "Normal",
+--         "NormalNC",
+--         "NormalFloat",
+--         "FloatBorder",
+--         "SignColumn",
+--         "EndOfBuffer",
+--         "LineNr",
+--         "CursorLineNr",
+--         "VertSplit",
+--         "WinSeparator",
+--         "TabLine",
+--         "TabLineSel",
+--         "TabLineFill",
+--         "StatusLine",
+--         "StatusLineNC",
+--         "WinBar",
+--         "WinBarNC",
+--       }
+
+--       for _, group in ipairs(groups) do
+--         vim.api.nvim_set_hl(0, group, { bg = "none" })
+--       end
+--     end,
+--   },
+-- }
+
 ```
 
-# 22) plugins/ui.lua
+## plugins/ui.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/ui.lua
@@ -4412,7 +4674,11 @@ return {
 
 ```
 
-# 23) plugins/treesitter.lua
+## plugins/treesitter.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/treesitter.lua
@@ -4445,7 +4711,11 @@ return {
 
 ```
 
-# 24) plugins/markdown.lua
+## plugins/markdown.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/markdown.lua
@@ -4483,7 +4753,11 @@ nano plugins/markdown.lua
 
 ```
 
-# 25) plugins/ltex.lua
+## plugins/ltex.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/ltex.lua
@@ -4537,7 +4811,11 @@ return {
 
 ```
 
-# 26) plugins/notify.lua
+## plugins/notify.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/notify.lua
@@ -4576,7 +4854,11 @@ nano plugins/notify.lua
 
 ```
 
-# 27) plugins/git.lua
+## plugins/git.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/git.lua
@@ -4603,7 +4885,11 @@ return {
 
 ```
 
-# 28) plugins/alpha.lua
+## plugins/alpha.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/alpha.lua
@@ -4850,9 +5136,13 @@ return {
 
 ```
 
-# 29) config/lazyvim.lua
+## config/lazyvim.lua
 
 Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim config/lazyvim.lua
@@ -4874,7 +5164,11 @@ Lösung:
 
 ```
 
-# 30) plugins/snacks.lua
+## plugins/snacks.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
 
 ```bash
 vim plugins/snacks.lua
