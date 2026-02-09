@@ -2002,6 +2002,14 @@ return {
 https://github.com/nvim-java/nvim-java -> top, bringrt alles mit für Java!
 
 ```bash
+mkdir -p ~/.config/nvim/lang-servers
+
+curl -L \
+https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml \
+-o ~/.config/nvim/lang-servers/intellij-java-google-style.xml
+```
+
+```bash
 vim plugins/java.lua
 ```
 
@@ -2542,9 +2550,10 @@ return {
                 format = {
                   enabled = true,
                   -- Bei Rroblemen
-                  -- enabled = false
+                  -- enabled = false,
                   settings = {
                     profile = "GoogleStyle",
+                    -- ~/.config/nvim/lang-servers/intellij-java-google-style.xml
                     url = vim.fn.stdpath("config")
                       .. "/lang-servers/intellij-java-google-style.xml",
                   },
