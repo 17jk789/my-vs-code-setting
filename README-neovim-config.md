@@ -23,18 +23,18 @@ Use them **at your own risk**.
 
 This repository is released under the **Apache License 2.0**.
 
-# Inhaltsverzeichnis
+## Inhaltsverzeichnis
 
 - [My-neovim-setting](#my-neovim-setting)
   - [Disclaimer](#disclaimer)
   - [License](#license)
-- [Inhaltsverzeichnis](#inhaltsverzeichnis)
+  - [Inhaltsverzeichnis](#inhaltsverzeichnis)
   - [Notes](#notes)
   - [To do](#to-do)
 - [Requirements](#requirements)
   - [Update Neovim:](#update-neovim)
   - [LazyVim Löschen](#lazyvim-löschen)
-- [inits](#inits)
+- [Inits](#inits)
   - [Python](#python)
     - [create-python-pro.sh](#create-python-prosh)
   - [Rust](#rust)
@@ -189,7 +189,7 @@ rm -rf ~/.local/state/nvim
 rm -rf ~/.cache/nvim
 ```
 
-# inits
+# Inits
 
 ## Python
 
