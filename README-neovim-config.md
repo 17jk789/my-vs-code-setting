@@ -585,6 +585,13 @@ confirm-close-surface = false
 # SHELL INTEGRATION 
 # shell-integration-features = no-cursor
 
+# KEYBINDS 
+keybind = shift+m=toggle_maximize 
+keybind = ctrl+shift+m=toggle_fullscreen 
+keybind = global:cmd+=toggle_quick_terminal 
+keybind = shift+ctrl+,=move_tab:-1 
+keybind = shift+ctrl+.=move_tab:+1
+
 # WINDOW MANAGEMENT
 keybind = ctrl+shift+n=new_window
 keybind = ctrl+shift+q=quit
