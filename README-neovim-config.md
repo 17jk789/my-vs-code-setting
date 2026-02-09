@@ -595,7 +595,7 @@ keybind = shift+ctrl+.=move_tab:+1
 # WINDOW MANAGEMENT
 keybind = ctrl+shift+n=new_window
 keybind = ctrl+shift+q=quit
-keybind = ctrl+enter=toggle_fullscreen
+# keybind = ctrl+enter=toggle_fullscreen
 
 # TABS
 keybind = ctrl+shift+t=new_tab
