@@ -2483,10 +2483,209 @@ return {
     --   })
     -- end,
 
+    -- "nvim-java/nvim-java",
+    -- ft = { "java" },
+    -- dependencies = {
+    --   "neovim/nvim-lspconfig",
+    --   "mfussenegger/nvim-dap",
+    --   "mason-org/mason.nvim",
+    -- },
+    -- config = function()
+    --   require("java").setup()
+    --   vim.lsp.enable("jdtls")
+    -- end,
+    
     "nvim-java/nvim-java",
     ft = { "java" },
     dependencies = {
       "neovim/nvim-lspconfig",
+      opts = {
+        servers = {
+          jdtls = {
+            settings = {
+              java = {
+                eclipse = {
+                  downloadSources = true,
+                },
+
+                configuration = {
+                  updateBuildConfiguration = "interactive",
+                  runtimes = {
+                    -- {
+                    --   name = "JavaSE-17",
+                    --   path = "/usr/lib/jvm/java-17-openjdk/",
+                    -- },
+                    {
+                      name = "JavaSE-21",
+                      path = "/usr/lib/jvm/java-21-openjdk/",
+                    },
+                  },
+                },
+
+                maven = {
+                  downloadSources = true,
+                  updateSnapshots = true,
+                },
+
+                implementationsCodeLens = {
+                  enabled = true,
+                },
+
+                referencesCodeLens = {
+                  enabled = true,
+                },
+
+                references = {
+                  includeDecompiledSources = true,
+                },
+
+                format = {
+                  enabled = true,
+                  -- Bei Rroblemen
+                  -- enabled = false
+                  settings = {
+                    profile = "GoogleStyle",
+                    url = vim.fn.stdpath("config")
+                      .. "/lang-servers/intellij-java-google-style.xml",
+                  },
+                },
+
+                signatureHelp = { enabled = true },
+
+                completion = {
+                  favoriteStaticMembers = {
+                    "org.hamcrest.MatcherAssert.assertThat",
+                    "org.hamcrest.Matchers.*",
+                    "org.junit.jupiter.api.Assertions.*",
+                    "org.mockito.Mockito.*",
+                    "java.util.Objects.requireNonNull",
+                    "java.util.Objects.requireNonNullElse",
+                  },
+
+                  importOrder = {
+                    "java",
+                    "javax",
+                    "com",
+                    "org",
+                  },
+                  
+                  -- Extended Completion Settings
+                  -- guessMethodArguments = true,
+                  -- filteredTypes = {
+                  --   "com.sun.*",
+                  --   "sun.*",
+                  -- },
+                },
+
+                sources = {
+                  organizeImports = {
+                    starThreshold = 9999,
+                    staticStarThreshold = 9999,
+                  },
+                },
+
+                codeGeneration = {
+                  useBlocks = true,
+                  toString = {
+                    template =
+                    "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                  },
+                },
+
+                inlayHints = {
+                  parameterNames = { enabled = "all" },
+                },
+
+                -- Gradle explizit konfigurieren (wichtig!)
+                -- gradle = {
+                --   enabled = true,
+                --   offlineMode = false,
+                -- },
+
+                -- Autobuild / Autobuild Watcher
+                -- autobuild = {
+                --   enabled = true,
+                -- },
+
+                -- Null Analysis Mode (Performance)
+                -- project = {
+                --   referencedLibraries = {
+                --     "lib/**/*.jar",
+                --   },
+                -- },
+
+                -- Import Completion Advanced
+                import = {
+                  maven = {
+                    enabled = true,
+                  },
+                  gradle = {
+                    enabled = true,
+                  },
+                },
+
+                -- Decompiler Support
+                -- contentProvider = { preferred = "fernflower" },
+
+                -- Semantic Highlighting (optisch besser)
+                -- semanticHighlighting = {
+                --   enabled = true,
+                -- },
+
+                -- Folding / Symbols Advanced
+                -- foldingRange = {
+                --   enabled = true,
+                -- },
+
+                -- Save Actions (extrem praktisch)
+                -- saveActions = {
+                --   organizeImports = true,
+                -- },
+              },
+            },
+
+            flags = {
+              allow_incremental_sync = true,
+            },
+
+            -- Wird von nvim-java/nvim-java Zum Teil übernommen
+            -- init_options = {
+            --   bundles = {},
+            -- },
+          },
+        },
+
+        setup = {
+          jdtls = function()
+            require("java").setup({
+              jdk = {
+                auto_install = false,
+              },
+
+              java_test = {
+                enable = true,
+              },
+
+              java_debug_adapter = {
+                enable = true,
+              },
+
+              spring_boot_tools = {
+                enable = true,
+              },
+
+              lombok = {
+                enable = true,
+              },
+
+              notifications = {
+                dap = true,
+              },
+            })
+          end,
+        },
+      },
+
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
     },
@@ -2494,6 +2693,11 @@ return {
       require("java").setup()
       vim.lsp.enable("jdtls")
     end,
+
+    -- Bei Problemen:
+    -- :Mason install jdtls
+    -- :Mason install java-debug-adapter
+    -- :Mason install java-test
   },
 }
 
