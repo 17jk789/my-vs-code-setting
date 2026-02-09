@@ -4711,6 +4711,7 @@ return {
  `''                                                                      ``'
           ]],
 
+          -- Von https://github.com/MaximilianLloyd/ascii.nvim/
 --           [[
 --                                                                       
 --                                                                     
@@ -4726,6 +4727,7 @@ return {
 --                                                                      
 --           ]],
 
+          -- Von https://github.com/MaximilianLloyd/ascii.nvim/
 --           [[
 --             :h-                                  Nhy`               
 --            -mh.                           h.    `Ndho               
