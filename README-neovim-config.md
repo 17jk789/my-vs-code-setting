@@ -47,14 +47,14 @@ This repository is released under the **Apache License 2.0**.
   - [oh-my-posh](#oh-my-posh)
 - [LazyVim Configuration](#lazyvim-configuration)
   - [Struktur](#struktur)
-  - [init.lua (keine Änderungen nötig)](#initlua-keine-änderungen-nötig)
+  - [init.lua](#initlua)
   - [config/options.lua](#configoptionslua)
   - [config/keymaps.lua](#configkeymapslua)
-  - [plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)](#pluginslsplua-einmalig--sauber--rust-analyzer--clangd)
-  - [plugins/completion.lua (sicher + stabil)](#pluginscompletionlua-sicher--stabil)
-  - [plugins/rust.lua (Rust IDE + DAP + Crates)](#pluginsrustlua-rust-ide--dap--crates)
-  - [plugins/cpp.lua (nur extras, LSP in lsp.lua)](#pluginscpplua-nur-extras-lsp-in-lsplua)
-  - [plugins/java.lua (Basis + stabil)](#pluginsjavalua-basis--stabil)
+  - [plugins/lsp.lua](#pluginslsplua)
+  - [plugins/completion.lua](#pluginscompletionlua)
+  - [plugins/rust.lua](#pluginsrustlua)
+  - [plugins/cpp.lua](#pluginscpplua)
+  - [plugins/java.lua](#pluginsjavalua)
   - [plugins/python.lua](#pluginspythonlua)
   - [lsp/python.lua](#lsppythonlua)
   - [lsp/lua.lua](#lsplualua)
@@ -62,7 +62,7 @@ This repository is released under the **Apache License 2.0**.
   - [lsp/html.lua](#lsphtmllua)
   - [lsp/css.lua](#lspcsslua)
   - [plugins/javascript.lua](#pluginsjavascriptlua)
-  - [plugins/dap.lua (codelldb + Rust/C++ Debug)](#pluginsdaplua-codelldb--rustc-debug)
+  - [plugins/dap.lua](#pluginsdaplua)
   - [config/autocmds.lua](#configautocmdslua)
   - [plugins/mason.lua](#pluginsmasonlua)
   - [plugins/theme.lua](#pluginsthemelua)
@@ -1021,7 +1021,7 @@ cd ~/.config/nvim/lua
         └── alpha.lua
 ```
 
-## init.lua (keine Änderungen nötig)
+## init.lua
 
 LazyVim lädt automatisch alles aus `lua/config/` und `lua/plugins/`.
 
@@ -1159,7 +1159,7 @@ vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, { desc = "Range Code 
 
 ```
 
-## plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)
+## plugins/lsp.lua
 
 ```bash
 cd ~/.config/nvim/lua
@@ -1553,7 +1553,7 @@ return {
 
 ```
 
-## plugins/completion.lua (sicher + stabil)
+## plugins/completion.lua
 
 ```bash
 cd ~/.config/nvim/lua
@@ -1741,7 +1741,7 @@ return {
 
 ```
 
-## plugins/rust.lua (Rust IDE + DAP + Crates)
+## plugins/rust.lua
 
 Wichtig: **Keine doppelte rust-analyzer Konfiguration** — das macht nur LSPConfig.
 
@@ -2043,7 +2043,7 @@ return {
 
 ```
 
-## plugins/cpp.lua (nur extras, LSP in lsp.lua)
+## plugins/cpp.lua
 
 ```bash
 cd ~/.config/nvim/lua
@@ -2092,7 +2092,7 @@ return {
 
 ```
 
-## plugins/java.lua (Basis + stabil)
+## plugins/java.lua
 
 https://github.com/nvim-java/nvim-java -> top, bringrt alles mit, für Java!
 
@@ -3584,7 +3584,7 @@ nano plugins/javascript.lua
 
 ```
 
-## plugins/dap.lua (codelldb + Rust/C++ Debug)
+## plugins/dap.lua
 
 ```bash
 cd ~/.config/nvim/lua
