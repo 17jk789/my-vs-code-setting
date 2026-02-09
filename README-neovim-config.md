@@ -42,10 +42,10 @@ This repository is released under the **Apache License 2.0**.
     - [crate-java-pro.sh](#crate-java-prosh)
   - [C++](#c)
     - [create-cpp-pro.sh](#create-cpp-prosh)
-- [Ghostty](#ghostty)
-- [Alacritty](#alacritty)
+- [Ghostty Configuration](#ghostty-configuration)
+- [Alacritty Configuration](#alacritty-configuration)
   - [oh-my-posh](#oh-my-posh)
-- [LazyVim configuration](#lazyvim-configuration)
+- [LazyVim Configuration](#lazyvim-configuration)
   - [Struktur](#struktur)
   - [init.lua (keine Änderungen nötig)](#initlua-keine-änderungen-nötig)
   - [config/options.lua](#configoptionslua)
@@ -480,7 +480,7 @@ echo "✅ Fertig! Projekt '$PROJECT_NAME' ist bereit."
 echo "Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
 ```
 
-# Ghostty
+# Ghostty Configuration
 
 > [More](https://gist.github.com/hensg/43bc71c21d1f79385892352a390aa2ca)
 
@@ -695,7 +695,7 @@ keybind = ctrl+shift+comma=reload_config
 
 ```
 
-# Alacritty
+# Alacritty Configuration
 
 ```bash
 mkdir -p ~/.config/alacritty
@@ -985,7 +985,7 @@ color = "#ff7eb6"
 # source ~/.bashrc
 ```
 
-# LazyVim configuration
+# LazyVim Configuration
 
 ## Struktur
 
