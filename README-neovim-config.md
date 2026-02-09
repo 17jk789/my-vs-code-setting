@@ -1078,6 +1078,9 @@ vim.keymap.set({ "n", "o" }, "yy", '"+yy', { noremap = true, silent = true })
 vim.keymap.set({ "n", "v" }, "d", '"_d', { noremap = true, silent = true })
 vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, { desc = "Range Code Action" })
+
 ```
 
 # 5) plugins/lsp.lua (einmalig + sauber + rust-analyzer + clangd)
@@ -2579,7 +2582,7 @@ return {
                   },
                   
                   -- Extended Completion Settings
-                  -- guessMethodArguments = true,
+                  guessMethodArguments = true,
                   -- filteredTypes = {
                   --   "com.sun.*",
                   --   "sun.*",
@@ -2594,10 +2597,20 @@ return {
                 },
 
                 codeGeneration = {
+                  -- useBlocks = true,
+                  -- toString = {
+                  --   template =
+                  --   "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                  -- },
+
                   useBlocks = true,
+                  generateComments = true,
+                  hashCodeEquals = {
+                    useJava7Objects = true,
+                  },
                   toString = {
                     template =
-                    "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+                      "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
                   },
                 },
 
@@ -2612,9 +2625,9 @@ return {
                 -- },
 
                 -- Autobuild / Autobuild Watcher
-                -- autobuild = {
-                --   enabled = true,
-                -- },
+                autobuild = {
+                  enabled = true,
+                },
 
                 -- Null Analysis Mode (Performance)
                 -- project = {
@@ -2637,9 +2650,9 @@ return {
                 -- contentProvider = { preferred = "fernflower" },
 
                 -- Semantic Highlighting (optisch besser)
-                -- semanticHighlighting = {
-                --   enabled = true,
-                -- },
+                semanticHighlighting = {
+                  enabled = true,
+                },
 
                 -- Folding / Symbols Advanced
                 -- foldingRange = {
@@ -2647,9 +2660,9 @@ return {
                 -- },
 
                 -- Save Actions (extrem praktisch)
-                -- saveActions = {
-                --   organizeImports = true,
-                -- },
+                saveActions = {
+                  organizeImports = true,
+                },
               },
             },
 
