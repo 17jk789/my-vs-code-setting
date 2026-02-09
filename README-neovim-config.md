@@ -4411,7 +4411,23 @@ nano plugins/theme.lua
 --         },
 --       })
 
+--       -- Hier einfach die Variante ändern:
+--       -- github_dark, github_dark_dimmed, github_dark_default
+--       -- github_light, github_light_high_contrast, github_light_default
 --       vim.cmd("colorscheme github_dark_dimmed")
+
+--       -- local groups = {
+--       --   "Normal",
+--       --   "NormalNC",
+--       --   "NormalFloat",
+--       --   "FloatBorder",
+--       --   "SignColumn",
+--       --   "EndOfBuffer",
+--       --   "LineNr",
+--       --   "CursorLineNr",
+--       --   "VertSplit",
+--       --   "WinSeparator",
+--       -- }
 
 --       local groups = {
 --         "Normal",
@@ -4454,9 +4470,7 @@ nano plugins/theme.lua
 --           transparent = false,
 --           terminal_colors = true,
 --         },
---         -- andere Optionen hier falls gewünscht
 --       })
---       -- Setze Carbonfox als Farben-Schema
 --       vim.cmd("colorscheme carbonfox")
 --     end
 --   },
@@ -4476,9 +4490,9 @@ return {
         },
       })
 
+      -- Hier einfach die Variante ändern: carbonfox, duskfox, nordfox, terafox, dayfox
       vim.cmd("colorscheme carbonfox")
 
-      -- GLOBAL: alles transparent machen
       -- local groups = {
       --   "Normal",
       --   "NormalNC",
@@ -4536,6 +4550,19 @@ return {
 
 --       vim.cmd("colorscheme tokyonight")
 
+--       -- local groups = {
+--       --   "Normal",
+--       --   "NormalNC",
+--       --   "NormalFloat",
+--       --   "FloatBorder",
+--       --   "SignColumn",
+--       --   "EndOfBuffer",
+--       --   "LineNr",
+--       --   "CursorLineNr",
+--       --   "VertSplit",
+--       --   "WinSeparator",
+--       -- }
+
 --       local groups = {
 --         "Normal",
 --         "NormalNC",
@@ -4579,6 +4606,19 @@ return {
 --       })
 
 --       vim.cmd("colorscheme catppuccin")
+
+--       -- local groups = {
+--       --   "Normal",
+--       --   "NormalNC",
+--       --   "NormalFloat",
+--       --   "FloatBorder",
+--       --   "SignColumn",
+--       --   "EndOfBuffer",
+--       --   "LineNr",
+--       --   "CursorLineNr",
+--       --   "VertSplit",
+--       --   "WinSeparator",
+--       -- }
 
 --       local groups = {
 --         "Normal",
@@ -4629,6 +4669,249 @@ return {
 --       })
 
 --       vim.cmd("colorscheme kanagawa")
+
+--       -- local groups = {
+--       --   "Normal",
+--       --   "NormalNC",
+--       --   "NormalFloat",
+--       --   "FloatBorder",
+--       --   "SignColumn",
+--       --   "EndOfBuffer",
+--       --   "LineNr",
+--       --   "CursorLineNr",
+--       --   "VertSplit",
+--       --   "WinSeparator",
+--       -- }
+
+--       local groups = {
+--         "Normal",
+--         "NormalNC",
+--         "NormalFloat",
+--         "FloatBorder",
+--         "SignColumn",
+--         "EndOfBuffer",
+--         "LineNr",
+--         "CursorLineNr",
+--         "VertSplit",
+--         "WinSeparator",
+--         "TabLine",
+--         "TabLineSel",
+--         "TabLineFill",
+--         "StatusLine",
+--         "StatusLineNC",
+--         "WinBar",
+--         "WinBarNC",
+--       }
+
+--       for _, group in ipairs(groups) do
+--         vim.api.nvim_set_hl(0, group, { bg = "none" })
+--       end
+--     end,
+--   },
+-- }
+
+-- Gruvbox Material
+
+-- return {
+--   {
+--     "sainnhe/gruvbox-material",
+--     name = "gruvbox-material",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       vim.g.gruvbox_material_background = "soft" -- soft / medium / hard
+--       vim.g.gruvbox_material_foreground = "material" 
+--       vim.g.gruvbox_material_enable_italic = 1
+--       vim.g.gruvbox_material_transparent_background = 1 -- transparent background
+--       vim.g.gruvbox_material_enable_bold = 1
+
+--       vim.cmd("colorscheme gruvbox-material")
+
+--       -- local groups = {
+--       --   "Normal",
+--       --   "NormalNC",
+--       --   "NormalFloat",
+--       --   "FloatBorder",
+--       --   "SignColumn",
+--       --   "EndOfBuffer",
+--       --   "LineNr",
+--       --   "CursorLineNr",
+--       --   "VertSplit",
+--       --   "WinSeparator",
+--       -- }
+
+--       local groups = {
+--         "Normal",
+--         "NormalNC",
+--         "NormalFloat",
+--         "FloatBorder",
+--         "SignColumn",
+--         "EndOfBuffer",
+--         "LineNr",
+--         "CursorLineNr",
+--         "VertSplit",
+--         "WinSeparator",
+--         "TabLine",
+--         "TabLineSel",
+--         "TabLineFill",
+--         "StatusLine",
+--         "StatusLineNC",
+--         "WinBar",
+--         "WinBarNC",
+--       }
+
+--       for _, group in ipairs(groups) do
+--         vim.api.nvim_set_hl(0, group, { bg = "none" })
+--       end
+--     end,
+--   },
+-- }
+
+-- Everforest
+
+-- return {
+--   {
+--     "sainnhe/everforest",
+--     name = "everforest",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       vim.g.everforest_background = "hard"   -- soft / medium / hard
+--       vim.g.everforest_enable_italic = 1
+--       vim.g.everforest_enable_bold = 1
+--       vim.g.everforest_transparent_background = 1 -- transparent
+
+--       vim.cmd("colorscheme everforest")
+
+--       -- local groups = {
+--       --   "Normal",
+--       --   "NormalNC",
+--       --   "NormalFloat",
+--       --   "FloatBorder",
+--       --   "SignColumn",
+--       --   "EndOfBuffer",
+--       --   "LineNr",
+--       --   "CursorLineNr",
+--       --   "VertSplit",
+--       --   "WinSeparator",
+--       -- }
+
+--       local groups = {
+--         "Normal",
+--         "NormalNC",
+--         "NormalFloat",
+--         "FloatBorder",
+--         "SignColumn",
+--         "EndOfBuffer",
+--         "LineNr",
+--         "CursorLineNr",
+--         "VertSplit",
+--         "WinSeparator",
+--         "TabLine",
+--         "TabLineSel",
+--         "TabLineFill",
+--         "StatusLine",
+--         "StatusLineNC",
+--         "WinBar",
+--         "WinBarNC",
+--       }
+
+--       for _, group in ipairs(groups) do
+--         vim.api.nvim_set_hl(0, group, { bg = "none" })
+--       end
+--     end,
+--   },
+-- }
+
+-- Rose-Pine
+
+-- return {
+--   {
+--     "rose-pine/neovim",
+--     name = "rose-pine",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       require("rose-pine").setup({
+--         variant = "moon",          -- moon / dawn / main
+--         dark_variant = "moon",     -- optional, für dunkle Mode
+--         transparent = true,        -- transparent background
+--         disable_background = true, -- extra Sicherheit für Transparenz
+--         highlight_groups = {},     -- kann für Plugin-Anpassungen genutzt werden
+--       })
+
+--       vim.cmd("colorscheme rose-pine")
+
+--       -- local groups = {
+--       --   "Normal",
+--       --   "NormalNC",
+--       --   "NormalFloat",
+--       --   "FloatBorder",
+--       --   "SignColumn",
+--       --   "EndOfBuffer",
+--       --   "LineNr",
+--       --   "CursorLineNr",
+--       --   "VertSplit",
+--       --   "WinSeparator",
+--       -- }
+
+--       local groups = {
+--         "Normal",
+--         "NormalNC",
+--         "NormalFloat",
+--         "FloatBorder",
+--         "SignColumn",
+--         "EndOfBuffer",
+--         "LineNr",
+--         "CursorLineNr",
+--         "VertSplit",
+--         "WinSeparator",
+--         "TabLine",
+--         "TabLineSel",
+--         "TabLineFill",
+--         "StatusLine",
+--         "StatusLineNC",
+--         "WinBar",
+--         "WinBarNC",
+--       }
+
+--       for _, group in ipairs(groups) do
+--         vim.api.nvim_set_hl(0, group, { bg = "none" })
+--       end
+--     end,
+--   },
+-- }
+
+-- Cyberdream
+
+-- return {
+--   {
+--     "scottmckendry/cyberdream.nvim",
+--     name = "cyberdream",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       require("cyberdream").setup({
+--         transparent = true,         -- transparent background
+--         terminal_colors = true,     -- Terminalfarben aktivieren
+--         italic_comments = true,     -- optional, wenn du italics willst
+--         borderless_telescope = true,-- optional für borderloses Telescope
+--       })
+
+--       vim.cmd("colorscheme cyberdream")
+
+--       -- local groups = {
+--       --   "Normal",
+--       --   "NormalNC",
+--       --   "NormalFloat",
+--       --   "FloatBorder",
+--       --   "SignColumn",
+--       --   "EndOfBuffer",
+--       --   "LineNr",
+--       --   "CursorLineNr",
+--       --   "VertSplit",
+--       --   "WinSeparator",
+--       -- }
 
 --       local groups = {
 --         "Normal",
