@@ -32,7 +32,7 @@ This repository is released under the **Apache License 2.0**.
   - [Notes](#notes)
   - [To do](#to-do)
 - [Requirements](#requirements)
-  - [Update Neovim:](#update-neovim)
+  - [Update Neovim](#update-neovim)
   - [LazyVim Löschen](#lazyvim-löschen)
 - [Inits](#inits)
   - [Python](#python)
@@ -152,7 +152,7 @@ fc-cache -fv
 nvim
 ```
 
-## Update Neovim:
+## Update Neovim
 
 ```bash
 # 1) Alte Version prüfen
