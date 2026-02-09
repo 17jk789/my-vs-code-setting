@@ -4688,7 +4688,11 @@ return {
     opts = {
       dashboard = {
         preset = {
-          -- Von https://github.com/MaximilianLloyd/ascii.nvim/
+          -- ASCII art found in:
+          -- https://github.com/MaximilianLloyd/ascii.nvim/
+          -- Also appears in:
+          -- https://github.com/doomemacs/doomemacs (MIT)
+          -- Original author unknown.
           header = [[
 =================     ===============     ===============   ========  ========
 \\ . . . . . . .\\   //. . . . . . .\\   //. . . . . . .\\  \\. . .\\// . . //
@@ -4712,6 +4716,7 @@ return {
           ]],
 
           -- Von https://github.com/MaximilianLloyd/ascii.nvim/
+          -- Original author unknown.
 --           [[
 --                                                                       
 --                                                                     
@@ -4728,6 +4733,7 @@ return {
 --           ]],
 
           -- Von https://github.com/MaximilianLloyd/ascii.nvim/
+          -- Original author unknown.
 --           [[
 --             :h-                                  Nhy`               
 --            -mh.                           h.    `Ndho               
