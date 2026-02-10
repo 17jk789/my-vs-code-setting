@@ -5077,7 +5077,31 @@ return {
 
       hipatterns.setup({
         highlighters = {
+          -- HEX colors (#fff, #ffffff etc.)
           hex_color = hipatterns.gen_highlighter.hex_color(),
+
+          -- rgb() / rgba()
+          rgb_color = {
+            pattern = "rgb%((%d+),%s*(%d+),%s*(%d+)%)",
+            group = function(_, match)
+              local r, g, b = match:match("rgb%((%d+),%s*(%d+),%s*(%d+)%)")
+              return hipatterns.compute_hex_color_group(
+                string.format("#%02x%02x%02x", r, g, b),
+                "bg"
+              )
+            end,
+          },
+
+          rgba_color = {
+            pattern = "rgba%((%d+),%s*(%d+),%s*(%d+),%s*[%d%.]+%)",
+            group = function(_, match)
+              local r, g, b = match:match("rgba%((%d+),%s*(%d+),%s*(%d+),")
+              return hipatterns.compute_hex_color_group(
+                string.format("#%02x%02x%02x", r, g, b),
+                "bg"
+              )
+            end,
+          },
         },
       })
     end,
