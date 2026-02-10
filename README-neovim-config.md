@@ -1007,8 +1007,7 @@ cd ~/.config/nvim/lua
     │   ├── python.lua
     │   ├── lua.lua
     │   ├── html.lua
-    │   ├── css.lua
-    │   └── javascript.lua
+    │   └── css.lua
     └── plugins/
         ├── lsp.lua
         ├── completion.lua
@@ -1016,6 +1015,7 @@ cd ~/.config/nvim/lua
         ├── rust.lua
         ├── cpp.lua
         ├── java.lua
+        ├── javascript.lua
         ├── mason.lua
         ├── theme.lua
         ├── ui.lua
@@ -5686,7 +5686,7 @@ return {
             { icon = " ", key = "s", desc = "Restore Session", section = "session" },
             { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-            { icon = " ", key = "y", desc = "Lazy Diagnostics", action = ":Lazy diagnostics" },
+            { icon = " ", key = "y", desc = ":Lazy health", action = ":Lazy diagnostics" },
             { icon = " ", key = "m", desc = "Mason", action = ":Mason" },
             {
               icon = " ",
