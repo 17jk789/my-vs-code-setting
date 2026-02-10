@@ -1003,6 +1003,12 @@ cd ~/.config/nvim/lua
     │   ├── keymaps.lua
     │   ├── lazyvim.lua
     │   └── autocmds.lua
+    ├── lsp/
+    │   ├── python.lua
+    │   ├── lua.lua
+    │   ├── html.lua
+    │   ├── css.lua
+    │   └── javascript.lua
     └── plugins/
         ├── lsp.lua
         ├── completion.lua
@@ -1015,6 +1021,7 @@ cd ~/.config/nvim/lua
         ├── ui.lua
         ├── treesitter.lua
         ├── markdown.lua
+        ├── latex.lua
         ├── ltex.lua
         ├── git.lua
         ├── notify.lua
