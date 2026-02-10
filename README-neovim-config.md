@@ -5183,6 +5183,11 @@ return {
   },
 }
 
+-- :TableModeToggle
+-- :TableModeRealign
+-- :GenTocGFM
+-- :UpdateToc
+
 ```
 
 ## plugins/ltex.lua
