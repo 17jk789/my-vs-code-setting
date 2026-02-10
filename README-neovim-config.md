@@ -66,6 +66,7 @@ This repository is released under the **Apache License 2.0**.
   - [config/autocmds.lua](#configautocmdslua)
   - [plugins/mason.lua](#pluginsmasonlua)
   - [plugins/theme.lua](#pluginsthemelua)
+  - [plugins/latex.lua](#pluginslatexlua)
   - [plugins/ui.lua](#pluginsuilua)
   - [plugins/treesitter.lua](#pluginstreesitterlua)
   - [plugins/markdown.lua](#pluginsmarkdownlua)
@@ -4942,6 +4943,47 @@ return {
 
 ```
 
+## plugins/latex.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/latex.lua
+```
+
+```bash
+nano plugins/latex.lua
+```
+
+```lua
+-- plugins/latex.lua
+
+return {
+  {
+    "lervag/vimtex",
+    ft = { "tex" },
+
+    init = function()
+      -- Compiler (TeX Live Standard)
+      vim.g.vimtex_compiler_method = "latexmk"
+
+      -- PDF Viewer (Linux Empfehlung)
+      vim.g.vimtex_view_method = "zathura"
+
+      -- Quickfix nicht automatisch aufspringen lassen
+      vim.g.vimtex_quickfix_mode = 0
+
+      -- Conceal deaktivieren (bessere Lesbarkeit)
+      vim.g.tex_conceal = ""
+      vim.g.vimtex_syntax_conceal_disable = 1
+    end,
+  },
+}
+
+```
+
 ## plugins/ui.lua
 
 ```bash
@@ -5003,7 +5045,21 @@ return {
         show_close_icon = false,
       },
     },
-  }
+  },
+
+  {
+    "echasnovski/mini.hipatterns",
+    version = false,
+    config = function()
+      local hipatterns = require("mini.hipatterns")
+
+      hipatterns.setup({
+        highlighters = {
+          hex_color = hipatterns.gen_highlighter.hex_color(),
+        },
+      })
+    end,
+  },
 }
 
 ```
@@ -5062,7 +5118,7 @@ nano plugins/markdown.lua
 ```lua
 -- plugins/markdown.lua
 
--- return {
+return {
 --   {
 --     "iamcco/markdown-preview.nvim",
 --     ft = { "markdown" },
@@ -5075,15 +5131,35 @@ nano plugins/markdown.lua
 --       vim.g.mkdp_theme = "dark"
 --     end,
 --   },
---   {
---     "preservim/vim-markdown",
---     ft = { "markdown" },
---     config = function()
---       vim.g.vim_markdown_folding_disabled = 1
---       vim.g.vim_markdown_conceal = 0
---     end,
---   },
--- }
+
+  -- Markdown Syntax + Verbesserungen
+  {
+    "preservim/vim-markdown",
+    ft = { "markdown" },
+    config = function()
+      vim.g.vim_markdown_folding_disabled = 1
+      vim.g.vim_markdown_conceal = 0
+      vim.g.vim_markdown_frontmatter = 1
+      vim.g.vim_markdown_strikethrough = 1
+      vim.g.vim_markdown_toc_autofit = 1
+    end,
+  },
+
+  -- Inhaltsverzeichnis Generator
+  {
+    "mzlogin/vim-markdown-toc",
+    ft = { "markdown" },
+  },
+
+  -- Tabellen Editing
+  {
+    "dhruvasagar/vim-table-mode",
+    ft = { "markdown" },
+    config = function()
+      vim.g.table_mode_corner = "|"
+    end,
+  },
+}
 
 ```
 
