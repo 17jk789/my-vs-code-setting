@@ -1165,6 +1165,21 @@ vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, { desc = "Range Code Action" })
 
+-- :Open <file> → öffnet Datei mit xdg-open / OS Default App
+vim.api.nvim_create_user_command("Open", function(opts)
+  local file = opts.args ~= "" and opts.args or vim.fn.expand("%:p")
+
+  if vim.fn.filereadable(file) == 0 then
+    vim.notify("File not found: " .. file, vim.log.levels.ERROR)
+    return
+  end
+
+  vim.fn.jobstart({ "xdg-open", file }, { detach = true })
+end, {
+  nargs = "?",
+  complete = "file",
+})
+
 ```
 
 ## plugins/lsp.lua
