@@ -5075,20 +5075,23 @@ return {
     config = function()
       local hipatterns = require("mini.hipatterns")
 
+      local function rgb_to_hex(r, g, b)
+        r, g, b = tonumber(r), tonumber(g), tonumber(b)
+        if not (r and g and b) then return nil end
+        return string.format("#%02x%02x%02x", r, g, b)
+      end
+
       hipatterns.setup({
         highlighters = {
-          -- HEX colors (#fff, #ffffff etc.)
           hex_color = hipatterns.gen_highlighter.hex_color(),
 
-          -- rgb() / rgba()
           rgb_color = {
             pattern = "rgb%((%d+),%s*(%d+),%s*(%d+)%)",
             group = function(_, match)
               local r, g, b = match:match("rgb%((%d+),%s*(%d+),%s*(%d+)%)")
-              return hipatterns.compute_hex_color_group(
-                string.format("#%02x%02x%02x", r, g, b),
-                "bg"
-              )
+              local hex = rgb_to_hex(r, g, b)
+              if not hex then return end
+              return hipatterns.compute_hex_color_group(hex, "bg")
             end,
           },
 
@@ -5096,10 +5099,9 @@ return {
             pattern = "rgba%((%d+),%s*(%d+),%s*(%d+),%s*[%d%.]+%)",
             group = function(_, match)
               local r, g, b = match:match("rgba%((%d+),%s*(%d+),%s*(%d+),")
-              return hipatterns.compute_hex_color_group(
-                string.format("#%02x%02x%02x", r, g, b),
-                "bg"
-              )
+              local hex = rgb_to_hex(r, g, b)
+              if not hex then return end
+              return hipatterns.compute_hex_color_group(hex, "bg")
             end,
           },
         },
