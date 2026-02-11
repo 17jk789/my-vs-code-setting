@@ -5228,6 +5228,7 @@ nano plugins/ltex.lua
 
 ```lua
 -- plugins/ltex.lua
+
 return {
   {
     "neovim/nvim-lspconfig",
@@ -5237,21 +5238,50 @@ return {
           settings = {
             ltex = {
               language = "auto",
-              additionalRules = {
-                enablePickyRules = true,
-              },
+
               checkFrequency = "save",
 
-              -- Beide Wörterbücher aktiv:
+              additionalRules = {
+                enablePickyRules = true,
+                motherTongue = "de-DE", -- bessere Grammatik für Deutsche
+              },
+
               dictionary = {
                 ["en-US"] = {},
                 ["de-DE"] = {},
               },
+
+              disabledRules = {
+                ["en-US"] = { "OXFORD_SPELLING_Z_NOT_S" },
+              },
+
+              enabled = {
+                "spelling",
+                "grammar",
+                "typography",
+                "style",
+              },
+
+              latex = {
+                commands = {
+                  ["cite"] = false,
+                  ["ref"] = false,
+                  ["label"] = false,
+                },
+                environments = {
+                  ["equation"] = false,
+                  ["align"] = false,
+                },
+              },
             },
           },
+
           filetypes = {
             "tex",
+            "plaintex",
+            "bib",
             "markdown",
+            "html",
             "text",
             "gitcommit",
           },
