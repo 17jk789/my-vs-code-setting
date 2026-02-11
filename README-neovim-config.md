@@ -119,8 +119,9 @@ sudo apt install nodejs npm
 sudo apt install gzip
 # sudo apt install texlive-full latexmk zathura zathura-pdf-poppler
 sudo apt install texlive-base texlive-latex-recommended texlive-fonts-recommended latexmk zathura zathura-pdf-poppler
-sudo snap install ghostty --classic
-# sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
+sudo apt install hunspell-de-de hunspell-en-us
+sudo snap install ghostty --classic  # besser für Lazyvim als gnome-terminal oder konsole (KDE)
+# sudo apt install alacritty
 # sudo apt install kitty
 # sudo apt install wezterm
 # sudo apt install default-jre
@@ -5227,7 +5228,6 @@ nano plugins/ltex.lua
 
 ```lua
 -- plugins/ltex.lua
-
 return {
   {
     "neovim/nvim-lspconfig",
@@ -5236,26 +5236,24 @@ return {
         ltex = {
           settings = {
             ltex = {
-              language = "en-US",
-              -- language = "de-DE",
+              language = "auto",
               additionalRules = {
                 enablePickyRules = true,
               },
-              checkFrequency = "save", -- nicht bei jedem Tastendruck
+              checkFrequency = "save",
+
+              -- Beide Wörterbücher aktiv:
+              dictionary = {
+                ["en-US"] = {},
+                ["de-DE"] = {},
+              },
             },
           },
           filetypes = {
-            -- Docs
+            "tex",
             "markdown",
             "text",
-            "tex",
             "gitcommit",
-            -- "rust",
-            -- "c",
-            -- "cpp",
-            -- "java",
-            -- "lua",
-            -- "python",
           },
         },
       },
