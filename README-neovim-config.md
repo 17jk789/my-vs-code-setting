@@ -5229,8 +5229,6 @@ nano plugins/ltex.lua
 ```lua
 -- plugins/ltex.lua
 
-local util = require("lspconfig.util")
-
 return {
   {
     "neovim/nvim-lspconfig",
@@ -5240,36 +5238,24 @@ return {
           settings = {
             ltex = {
               language = "auto",
-              checkFrequency = "save",
               additionalRules = {
                 enablePickyRules = true,
-                motherTongue = "de-DE",
               },
+              checkFrequency = "save",
+
+              -- Beide Wörterbücher aktiv:
               dictionary = {
                 ["en-US"] = {},
                 ["de-DE"] = {},
               },
-              enabled = { "spelling", "grammar", "typography", "style" },
-              latex = {
-                commands = { cite = false, ref = false, label = false },
-                environments = { equation = false, align = false },
-              },
             },
           },
-
-          filetypes = { "tex", "plaintex", "bib", "markdown", "html", "text", "gitcommit" },
-
-          -- Root Directory nur für LaTeX / echte Projektfiles
-          root_dir = function(fname)
-            local ft = vim.bo.filetype
-            if ft == "tex" or ft == "plaintex" or ft == "bib" then
-              -- sucht nach .git, main.tex oder irgendeiner .tex Datei
-              return util.root_pattern(".git", "main.tex", "*.tex")(fname) or vim.loop.cwd()
-            else
-              -- für markdown, html etc. einfach aktuelles Arbeitsverzeichnis
-              return vim.loop.cwd()
-            end
-          end,
+          filetypes = {
+            "tex",
+            "markdown",
+            "text",
+            "gitcommit",
+          },
         },
       },
     },
