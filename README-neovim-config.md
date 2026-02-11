@@ -662,7 +662,8 @@ font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
 font-size = 13.5 
 window-title-font-family = "JetBrainsMono Nerd Font Complete"
 # font-feature = liga,calt
-grapheme-width-method = "unicode"
+# grapheme-width-method = "unicode"
+# font-family = "Noto Color Emoji" 
 
 adjust-cell-height = 0%
 adjust-cell-width = 0%
