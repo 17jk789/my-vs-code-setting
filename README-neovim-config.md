@@ -3048,9 +3048,89 @@ nano lsp/python.lua
 
 ```lua
 -- lsp/python.lua
+
+-- local M = {}
+
+-- M.setup = function(capabilities, no_diagnostics)
+--     local lspconfig = require('lspconfig')
+
+--     -- bessere Completion-Capabilities
+--     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+--     lspconfig.pylsp.setup({
+--         capabilities = capabilities,
+--         handlers = no_diagnostics,
+
+--         -- handlers = {
+--         --   ["textDocument/publishDiagnostics"] = function() end
+--         -- }
+
+--         settings = {
+--             pylsp = {
+--                 plugins = {
+--                     -- klassische Linters AUS
+--                     pycodestyle = { enabled = false },
+--                     pyflakes    = { enabled = false },
+--                     pylint      = { enabled = false },
+--                     mccabe      = { enabled = false },
+
+--                     -- Completion
+--                     rope_completion = { enabled = false },
+--                     jedi_completion = { enabled = true },
+
+--                     -- Formatierung
+--                     black = {
+--                         enabled = true,
+--                         line_length = 88,
+--                     },
+--                     yapf = { enabled = false },
+
+--                     -- ruff im pylsp: lieber AUS
+--                     ruff = { enabled = false },
+--                 },
+--             },
+--         },
+
+--         on_attach = function(client, bufnr)
+--             -- Diagnostics wirklich abschalten
+--             -- client.server_capabilities.diagnosticProvider = false
+--             client.server_capabilities.diagnosticProvider = true
+
+--             -- nur pylsp formatiert
+--             client.server_capabilities.documentFormattingProvider = true
+
+--             -- Semantic Tokens aus (optional, aber oft angenehmer)
+--             client.server_capabilities.semanticTokensProvider = nil
+
+--             local buf_map = function(mode, lhs, rhs, opts)
+--                 opts = opts or {}
+--                 opts.buffer = bufnr
+--                 vim.keymap.set(mode, lhs, rhs, opts)
+--             end
+
+--             buf_map('n', 'gd', vim.lsp.buf.definition)
+--             buf_map('n', 'K', vim.lsp.buf.hover)
+--             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
+--             buf_map('n', '<leader>ca', vim.lsp.buf.code_action)
+--             buf_map('n', '<leader>f', function()
+--                 vim.lsp.buf.format({ async = true })
+--             end)
+
+--             buf_map('n', '<leader>oi', function()
+--                 vim.lsp.buf.execute_command({
+--                     command = 'pylsp.organizeImports',
+--                     arguments = { vim.api.nvim_buf_get_name(0) },
+--                 })
+--             end)
+--         end,
+--     })
+-- end
+
+-- return M
+
 local M = {}
 
-M.setup = function(capabilities, no_diagnostics)
+M.setup = function(capabilities)
     local lspconfig = require('lspconfig')
 
     -- bessere Completion-Capabilities
@@ -3058,7 +3138,6 @@ M.setup = function(capabilities, no_diagnostics)
 
     lspconfig.pylsp.setup({
         capabilities = capabilities,
-        handlers = no_diagnostics,
 
         settings = {
             pylsp = {
@@ -3073,35 +3152,31 @@ M.setup = function(capabilities, no_diagnostics)
                     rope_completion = { enabled = false },
                     jedi_completion = { enabled = true },
 
-                    -- Formatierung
-                    black = {
-                        enabled = true,
-                        line_length = 88,
-                    },
+                    -- andere Formatierer deaktiviert
                     yapf = { enabled = false },
-
-                    -- ruff im pylsp: lieber AUS
                     ruff = { enabled = false },
                 },
             },
         },
 
         on_attach = function(client, bufnr)
-            -- Diagnostics wirklich abschalten
-            client.server_capabilities.diagnosticProvider = false
+            -- Diagnostics anlassen
+            client.server_capabilities.diagnosticProvider = true
 
-            -- nur pylsp formatiert
+            -- Formatierung über pylsp (falls verfügbar)
             client.server_capabilities.documentFormattingProvider = true
 
-            -- Semantic Tokens aus (optional, aber oft angenehmer)
+            -- Semantic Tokens deaktivieren (optional)
             client.server_capabilities.semanticTokensProvider = nil
 
+            -- Hilfsfunktion für Buffer-Local Keymaps
             local buf_map = function(mode, lhs, rhs, opts)
                 opts = opts or {}
                 opts.buffer = bufnr
                 vim.keymap.set(mode, lhs, rhs, opts)
             end
 
+            -- LSP Keymaps
             buf_map('n', 'gd', vim.lsp.buf.definition)
             buf_map('n', 'K', vim.lsp.buf.hover)
             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
@@ -3109,7 +3184,6 @@ M.setup = function(capabilities, no_diagnostics)
             buf_map('n', '<leader>f', function()
                 vim.lsp.buf.format({ async = true })
             end)
-
             buf_map('n', '<leader>oi', function()
                 vim.lsp.buf.execute_command({
                     command = 'pylsp.organizeImports',
@@ -3121,6 +3195,7 @@ M.setup = function(capabilities, no_diagnostics)
 end
 
 return M
+
 ```
 
 ## lsp/lua.lua
@@ -3139,6 +3214,7 @@ nano lsp/lua.lua
 
 ```lua
 -- lsp/lua.lua
+
 -- local M = {}
 
 -- M.setup = function(capabilities, no_diagnostics)
@@ -3205,6 +3281,8 @@ nano lsp/lua.lua
 ```
 
 ## plugins/html.lua
+
+> Unnötig!
 
 ```bash
 cd ~/.config/nvim/lua
@@ -3376,6 +3454,7 @@ nano lsp/html.lua
 
 ```lua
 -- lsp/html.lua
+
 -- local M = {}
 
 -- M.setup = function(capabilities, no_diagnostics)
@@ -3427,6 +3506,7 @@ nano lsp/html.lua
 -- end
 
 -- return M
+
 ```
 
 ## lsp/css.lua
@@ -4361,6 +4441,8 @@ return {
         -- Python:
         -- "pyright", 
         "python-lsp-server", -- früber "pylsp",
+        -- "pylsp-mypy" -- optional, für Typ-Prüfung
+        -- "python-lsp-black",
         -- "black",
         -- "ruff",
         -- "debugpy",
