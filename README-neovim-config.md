@@ -495,12 +495,15 @@ if [[ "$COMMAND" != "new" ]] || [[ -z "$PROJECT_NAME" ]]; then
 fi
 
 PROJECT_DIR="$HOME/$PROJECT_NAME"
-mkdir -p "$PROJECT_DIR"
-cd "$PROJECT_DIR"
-echo "Projektverzeichnis erstellt: $PROJECT_DIR"
 
-mkdir -p src include build
-echo "C/C++ Standardstruktur erstellt: src/, include/, build/"
+# Sicherheit: Nicht in bestehende Ordner schreiben
+if [[ -d "$PROJECT_DIR" ]]; then
+  echo "❌ Fehler: Verzeichnis $PROJECT_DIR existiert bereits!"
+  exit 1
+fi
+
+mkdir -p "$PROJECT_DIR/src" "$PROJECT_DIR/include" "$PROJECT_DIR/build"
+cd "$PROJECT_DIR"
 
 # Beispiel main.cpp
 cat > src/main.cpp <<EOF
@@ -511,23 +514,38 @@ int main() {
     return 0;
 }
 EOF
-echo "Beispiel main.cpp erstellt"
 
-# CMakeLists.txt
+# CMakeLists.txt - Optimiert für Neovim & DAP
 cat > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 3.10)
-project(${PROJECT_NAME})
+project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)
+
+# Wichtig für LSP (clangd) in Neovim
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Standard auf C++17 setzen
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Binary wird direkt in build/ erstellt (einfacher für DAP)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \${CMAKE_BINARY_DIR})
 
 add_executable(${PROJECT_NAME} src/main.cpp)
+target_include_directories(${PROJECT_NAME} PUBLIC include)
 EOF
-echo "CMakeLists.txt erstellt"
 
+# Projekt initialisieren und kompilieren
+# Debug-Flags sind essentiell für CodeLLDB!
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
 
+# LSP Support: Symlink für clangd, damit Autocomplete sofort klappt
+ln -s build/compile_commands.json .
+
 echo ""
-echo "✅ Fertig! Projekt '$PROJECT_NAME' ist bereit."
-echo "Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
+echo "✅ Projekt '$PROJECT_NAME' ist bereit für Neovim + DAP!"
+echo "Pfad zur Binary für nvim-dap: $PROJECT_DIR/build/$PROJECT_NAME"
+echo "Öffne Neovim: cd $PROJECT_DIR && nvim src/main.cpp"
 
 ```
 
