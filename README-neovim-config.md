@@ -44,6 +44,9 @@ This repository is released under the **Apache License 2.0**.
     - [crate-java-pro.sh](#crate-java-prosh)
   - [C++](#c)
     - [create-cpp-pro.sh](#create-cpp-prosh)
+  - [C](#c-1)
+    - [create-c-pro.sh](#create-c-prosh)
+    - [create-c-pro.sh](#create-c-prosh-1)
 - [Ghostty Configuration](#ghostty-configuration)
 - [Alacritty Configuration](#alacritty-configuration)
   - [oh-my-posh](#oh-my-posh)
@@ -424,9 +427,7 @@ echo "Öffne in Neovim: nvim $PROJECT_NAME"
 vim ~create-cpp-pro.sh
 chmod +x ~/create-cpp-pro.sh
 ~/create-cpp-pro.sh new my-cpp-project
-cd ~/my-cpp-project/build
-cmake ..
-cmake --build .
+cd ~/my-cpp-project
 nvim .
 ```
 
@@ -540,6 +541,84 @@ echo "✅ Projekt '$PROJECT_NAME' bereit!"
 echo "Binary: $PROJECT_DIR/build/app"
 
 ```
+
+## C
+
+```bash
+vim ~create-c-pro.sh
+chmod +x ~/create-c-pro.sh
+~/create-c-pro.sh new my-c-project
+cd ~/my-c-project
+nvim .
+```
+
+### create-c-pro.sh
+
+```bash
+#!/bin/bash
+
+# create-c-pro.sh
+
+set -e
+
+# Usage: ./create-c-pro.sh new <project-name>
+COMMAND=$1
+PROJECT_NAME=$2
+
+if [[ "$COMMAND" != "new" ]] || [[ -z "$PROJECT_NAME" ]]; then
+  echo "Usage: $0 new <project-name>"
+  exit 1
+fi
+
+PROJECT_DIR="$HOME/$PROJECT_NAME"
+
+if [[ -d "$PROJECT_DIR" ]]; then
+  echo "❌ Fehler: $PROJECT_DIR existiert schon!"
+  exit 1
+fi
+
+mkdir -p "$PROJECT_DIR/src" "$PROJECT_DIR/include" "$PROJECT_DIR/build"
+cd "$PROJECT_DIR"
+
+# Beispiel main.c (C statt C++)
+cat > src/main.c <<EOF
+#include <stdio.h>
+
+int main() {
+    printf("Hello C from Julian!\n");
+    return 0;
+}
+EOF
+
+# CMakeLists.txt angepasst für C
+cat > CMakeLists.txt <<EOF
+cmake_minimum_required(VERSION 3.10)
+# Sprache auf C umstellen
+project(${PROJECT_NAME} VERSION 1.0 LANGUAGES C)
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# C-Standard statt CXX-Standard setzen
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \${CMAKE_BINARY_DIR})
+
+# Binary nutzt nun src/main.c
+add_executable(app src/main.c)
+target_include_directories(app PUBLIC include)
+EOF
+
+# Build-Prozess (identisch)
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build
+ln -s build/compile_commands.json .
+
+echo ""
+echo "✅ C-Projekt '$PROJECT_NAME' bereit!"
+echo "Binary: $PROJECT_DIR/build/app"
+
+```
+
+### create-c-pro.sh
 
 # Ghostty Configuration
 
