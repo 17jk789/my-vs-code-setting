@@ -496,7 +496,6 @@ fi
 
 PROJECT_DIR="$HOME/$PROJECT_NAME"
 
-# Verhindert Überschreiben
 if [[ -d "$PROJECT_DIR" ]]; then
   echo "❌ Fehler: $PROJECT_DIR existiert schon!"
   exit 1
@@ -505,7 +504,7 @@ fi
 mkdir -p "$PROJECT_DIR/src" "$PROJECT_DIR/include" "$PROJECT_DIR/build"
 cd "$PROJECT_DIR"
 
-# 1. Beispiel main.cpp (Dein Wunsch-Inhalt)
+# Beispiel main.cpp
 cat > src/main.cpp <<EOF
 #include <iostream>
 
@@ -515,37 +514,29 @@ int main() {
 }
 EOF
 
-# 2. CMakeLists.txt (Perfekt für DAP & Deine Keybinds)
+# CMakeLists.txt mit fester "app" Binary
 cat > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 3.10)
 project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)
 
-# WICHTIG: Damit Neovim LSP (clangd) alles findet
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Erzwingt, dass die Binary direkt in /build/ landet (für dein nvim-dap)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \${CMAKE_BINARY_DIR})
 
-add_executable(${PROJECT_NAME} src/main.cpp)
-target_include_directories(${PROJECT_NAME} PUBLIC include)
+# Die Binary heißt IMMER app
+add_executable(app src/main.cpp)
+target_include_directories(app PUBLIC include)
 EOF
 
-# 3. Initialer Build (Debug-Modus ist Pflicht für CodeLLDB!)
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
-
-# 4. Symlink für den LSP (damit clangd sofort funktioniert)
 ln -s build/compile_commands.json .
 
 echo ""
-echo "✅ C++ Projekt '$PROJECT_NAME' erfolgreich erstellt!"
-echo "--------------------------------------------------"
-echo "DAP: F5 findet die Binary jetzt in $PROJECT_DIR/build/$PROJECT_NAME"
-echo "LSP: Autocomplete ist aktiv (compile_commands.json verlinkt)"
-echo "Keybinds: <leader>rra funktioniert sofort im Terminal"
+echo "✅ Projekt '$PROJECT_NAME' bereit!"
+echo "Binary: $PROJECT_DIR/build/app"
+
 ```
 
 # Ghostty Configuration
