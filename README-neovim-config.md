@@ -3152,6 +3152,12 @@ M.setup = function(capabilities)
                     rope_completion = { enabled = false },
                     jedi_completion = { enabled = true },
 
+                    -- Formatierung
+                    -- black = {
+                    --     enabled = true,
+                    --     line_length = 88,
+                    -- },
+
                     -- andere Formatierer deaktiviert
                     yapf = { enabled = false },
                     ruff = { enabled = false },
