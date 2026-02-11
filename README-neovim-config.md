@@ -424,7 +424,7 @@ echo "Öffne in Neovim: nvim $PROJECT_NAME"
 ## C++
 
 ```bash
-vim ~create-cpp-pro.sh
+vim ~/create-cpp-pro.sh
 chmod +x ~/create-cpp-pro.sh
 ~/create-cpp-pro.sh new my-cpp-project
 cd ~/my-cpp-project
@@ -545,7 +545,7 @@ echo "Binary: $PROJECT_DIR/build/app"
 ## C
 
 ```bash
-vim ~create-c-pro.sh
+vim ~/create-c-pro.sh
 chmod +x ~/create-c-pro.sh
 ~/create-c-pro.sh new my-c-project
 cd ~/my-c-project
