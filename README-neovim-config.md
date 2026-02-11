@@ -4,11 +4,11 @@
 - 90% **C und C++** Support (VS Code Level + C/C++ Plugins)
 - 90% **Java** Support (VS Code Level + Java Plugins)
 - 80% **Python** (VS Code Level + basic Python Plugins)
-- 60% **HTML** (VS Code Level + No HTML Plugins)
-- 60% **CSS** (VS Code Level + No CSS Plugins)
-- 60% **JavaScript** (VS Code Level + basic JavaScript Plugins)
+- 80% **HTML** (VS Code Level + No HTML Plugins)
+- 80% **CSS** (VS Code Level + No CSS Plugins)
+- 80% **JavaScript** (VS Code Level + basic JavaScript Plugins)
 - 60% **Lua** (VS Code Level + basic Lua Plugins)
-- 60% **Latex** (VS Code Level + basic Latex Plugins)
+- 80% **Latex** (VS Code Level + basic Latex Plugins)
 
 This repository contains my personal **Neovim settings**.
 
