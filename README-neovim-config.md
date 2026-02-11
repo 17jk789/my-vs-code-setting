@@ -431,7 +431,7 @@ nvim .
 ### create-cpp-pro.sh
 
 ```bash
-#!/usr/bin/env bash
+#!/usr/bin
 
 # create-cpp-pro.sh
 
