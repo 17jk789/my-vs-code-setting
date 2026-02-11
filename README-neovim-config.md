@@ -435,6 +435,54 @@ nvim .
 
 # create-cpp-pro.sh
 
+# set -e
+
+# # Usage: ./create-cpp-pro.sh new <project-name>
+# COMMAND=$1
+# PROJECT_NAME=$2
+
+# if [[ "$COMMAND" != "new" ]] || [[ -z "$PROJECT_NAME" ]]; then
+#   echo "Usage: $0 new <project-name>"
+#   exit 1
+# fi
+
+# PROJECT_DIR="$HOME/$PROJECT_NAME"
+# mkdir -p "$PROJECT_DIR"
+# cd "$PROJECT_DIR"
+# echo "Projektverzeichnis erstellt: $PROJECT_DIR"
+
+# mkdir -p src include build
+# echo "C/C++ Standardstruktur erstellt: src/, include/, build/"
+
+# # Beispiel main.cpp
+# cat > src/main.cpp <<EOF
+# #include <iostream>
+
+# int main() {
+#     std::cout << "Hello C++ from LazyVim!" << std::endl;
+#     return 0;
+# }
+# EOF
+# echo "Beispiel main.cpp erstellt"
+
+# # CMakeLists.txt
+# cat > CMakeLists.txt <<EOF
+# cmake_minimum_required(VERSION 3.16)
+# project(${PROJECT_NAME})
+
+# set(CMAKE_CXX_STANDARD 23)
+# set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# include_directories(include)
+
+# add_executable(${PROJECT_NAME} src/main.cpp)
+# EOF
+# echo "CMakeLists.txt erstellt"
+
+# echo ""
+# echo "✅ Fertig! Projekt '$PROJECT_NAME' ist bereit."
+# echo "Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
+
 set -e
 
 # Usage: ./create-cpp-pro.sh new <project-name>
@@ -459,7 +507,7 @@ cat > src/main.cpp <<EOF
 #include <iostream>
 
 int main() {
-    std::cout << "Hello C++ from LazyVim!" << std::endl;
+    std::cout << "Hello C++ from Julian!" << std::endl;
     return 0;
 }
 EOF
@@ -467,21 +515,20 @@ echo "Beispiel main.cpp erstellt"
 
 # CMakeLists.txt
 cat > CMakeLists.txt <<EOF
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.10)
 project(${PROJECT_NAME})
-
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-include_directories(include)
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 EOF
 echo "CMakeLists.txt erstellt"
 
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build
+
 echo ""
 echo "✅ Fertig! Projekt '$PROJECT_NAME' ist bereit."
 echo "Build: cd $PROJECT_DIR/build && cmake .. && cmake --build ."
+
 ```
 
 # Ghostty Configuration
