@@ -662,7 +662,7 @@ font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
 font-size = 13.5 
 window-title-font-family = "JetBrainsMono Nerd Font Complete"
 # font-feature = liga,calt
-grapheme-width-method = "wcswidth"
+grapheme-width-method = "unicode"
 
 adjust-cell-height = 0%
 adjust-cell-width = 0%
