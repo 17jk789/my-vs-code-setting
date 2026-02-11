@@ -496,16 +496,16 @@ fi
 
 PROJECT_DIR="$HOME/$PROJECT_NAME"
 
-# Sicherheit: Nicht in bestehende Ordner schreiben
+# Verhindert Überschreiben
 if [[ -d "$PROJECT_DIR" ]]; then
-  echo "❌ Fehler: Verzeichnis $PROJECT_DIR existiert bereits!"
+  echo "❌ Fehler: $PROJECT_DIR existiert schon!"
   exit 1
 fi
 
 mkdir -p "$PROJECT_DIR/src" "$PROJECT_DIR/include" "$PROJECT_DIR/build"
 cd "$PROJECT_DIR"
 
-# Beispiel main.cpp
+# 1. Beispiel main.cpp (Dein Wunsch-Inhalt)
 cat > src/main.cpp <<EOF
 #include <iostream>
 
@@ -515,38 +515,37 @@ int main() {
 }
 EOF
 
-# CMakeLists.txt - Optimiert für Neovim & DAP
+# 2. CMakeLists.txt (Perfekt für DAP & Deine Keybinds)
 cat > CMakeLists.txt <<EOF
 cmake_minimum_required(VERSION 3.10)
 project(${PROJECT_NAME} VERSION 1.0 LANGUAGES CXX)
 
-# Wichtig für LSP (clangd) in Neovim
+# WICHTIG: Damit Neovim LSP (clangd) alles findet
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-# Standard auf C++17 setzen
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Binary wird direkt in build/ erstellt (einfacher für DAP)
+# Erzwingt, dass die Binary direkt in /build/ landet (für dein nvim-dap)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY \${CMAKE_BINARY_DIR})
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 EOF
 
-# Projekt initialisieren und kompilieren
-# Debug-Flags sind essentiell für CodeLLDB!
+# 3. Initialer Build (Debug-Modus ist Pflicht für CodeLLDB!)
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
 
-# LSP Support: Symlink für clangd, damit Autocomplete sofort klappt
+# 4. Symlink für den LSP (damit clangd sofort funktioniert)
 ln -s build/compile_commands.json .
 
 echo ""
-echo "✅ Projekt '$PROJECT_NAME' ist bereit für Neovim + DAP!"
-echo "Pfad zur Binary für nvim-dap: $PROJECT_DIR/build/$PROJECT_NAME"
-echo "Öffne Neovim: cd $PROJECT_DIR && nvim src/main.cpp"
-
+echo "✅ C++ Projekt '$PROJECT_NAME' erfolgreich erstellt!"
+echo "--------------------------------------------------"
+echo "DAP: F5 findet die Binary jetzt in $PROJECT_DIR/build/$PROJECT_NAME"
+echo "LSP: Autocomplete ist aktiv (compile_commands.json verlinkt)"
+echo "Keybinds: <leader>rra funktioniert sofort im Terminal"
 ```
 
 # Ghostty Configuration
