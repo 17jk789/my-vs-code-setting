@@ -117,6 +117,8 @@ sudo apt install python3-venv
 sudo apt install ripgrep
 sudo apt install nodejs npm
 sudo apt install gzip
+# sudo apt install texlive-full latexmk zathura zathura-pdf-poppler
+sudo apt install texlive-base texlive-latex-recommended texlive-fonts-recommended latexmk zathura zathura-pdf-poppler
 sudo snap install ghostty --classic
 # sudo apt install alacritty # besser für Lazyvim als gnome-terminal oder konsole (KDE)
 # sudo apt install kitty
