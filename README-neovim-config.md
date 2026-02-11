@@ -1,6 +1,6 @@
 # My-neovim-setting
 
-100% **Rust** Support (Perfect IDE) / 90% **C++** Support (VS Code Level + C++ Plugins) / 90% **Java** Support (VS Code Level + Java Plugins) / **Python** 80% (VS Code Level + basic Python Plugins) / **HTML** 60% (VS Code Level + No HTML Plugins) / **CSS** 60% (VS Code Level + No CSS Plugins) / 60% **JavaScript** (VS Code Level + basic JavaScript Plugins) / **Lua** (VS Code Level + basic Lua Plugins) / **Latex** 60 % (VS Code Level + basic Latex Plugins) 
+100% **Rust** Support (Perfect IDE) / 90% **C und C++** Support (VS Code Level + C/C++ Plugins) / 90% **Java** Support (VS Code Level + Java Plugins) / **Python** 80% (VS Code Level + basic Python Plugins) / **HTML** 60% (VS Code Level + No HTML Plugins) / **CSS** 60% (VS Code Level + No CSS Plugins) / 60% **JavaScript** (VS Code Level + basic JavaScript Plugins) / **Lua** (VS Code Level + basic Lua Plugins) / **Latex** 60 % (VS Code Level + basic Latex Plugins) 
 
 This repository contains my personal **Neovim settings**.
 
