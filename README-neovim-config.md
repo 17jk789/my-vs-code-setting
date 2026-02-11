@@ -6106,7 +6106,7 @@ N E O V I M - J U L I A N
             { icon = " ", key = "s", desc = "Restore Session", section = "session" },
             { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
-            { icon = " ", key = "y", desc = "Lazy health", action = ":Lazy health" },
+            { icon = " ", key = "y", desc = "Lazy Health", action = ":Lazy health" },
             { icon = " ", key = "m", desc = "Mason", action = ":Mason" },
             {
               icon = " ",
