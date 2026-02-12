@@ -188,7 +188,7 @@ nvim
 # 1) Alte Version prüfen
 /opt/nvim/bin/nvim --version
 
-# 2) Neue Version laden
+# 2) Neue Version laden oder von https://neovim.io/
 cd ~/Downloads
 wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
 
@@ -6422,7 +6422,7 @@ return {
 
     picker = {
       sources = {
-        -- Explorer (oben)
+        -- Explorer
         explorer = {
           hidden = true,
           ignored = true,
@@ -6434,7 +6434,7 @@ return {
           },
         },
 
-        -- Git Status (darunter)
+        -- Git Status
         git_status = {
           layout = {
             layout = {
