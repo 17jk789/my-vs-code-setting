@@ -102,7 +102,6 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/alpha.lua](#pluginsalphalua)
   - [config/lazyvim.lua](#configlazyvimlua)
   - [plugins/snacks.lua](#pluginssnackslua)
-  - [plugins/neotree.lua](#pluginsneotreelua)
 
 ## Notes
 
@@ -1351,11 +1350,6 @@ vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>")
 vim.keymap.set("n", "<leader>gc", "<cmd>Git commit<cr>")
 vim.keymap.set("n", "<leader>gp", "<cmd>Git push<cr>")
 vim.keymap.set("n", "<leader>gl", "<cmd>Git pull<cr>")
-
-vim.keymap.set("n", "<leader>e", "<cmd>Neotree filesystem toggle right<CR>")
-vim.keymap.set("n", "<leader>g", "<cmd>Neotree git_status<CR>")
-vim.keymap.set("n", "<leader>b", "<cmd>Neotree buffers<CR>")
-vim.keymap.set("n", "<leader>o", "<cmd>Outline<CR>")
 
 ```
 
@@ -6419,63 +6413,54 @@ nano plugins/snacks.lua
 --   },
 -- }
 
--- plugins/snacks.lua
 return {
   "folke/snacks.nvim",
   opts = {
-    explorer = { enabled = false },
-  },
-}
+    explorer = {
+      replace_netrw = true,
+    },
 
-```
+    picker = {
+      sources = {
+        -- Explorer
+        explorer = {
+          hidden = true,
+          ignored = true,
+          layout = {
+            layout = {
+              position = "right",
+              width = 40,
+            },
+          },
+        },
 
-## plugins/neotree.lua
+        -- Git picker (VSCode Source Control ähnlich)
+        git_status = {
+          layout = {
+            layout = {
+              position = "right",
+            },
+          },
+        },
 
-```bash
-cd ~/.config/nvim/lua
-```
+        -- Buffers (Open Editors ähnlich VSCode)
+        buffers = {
+          layout = {
+            layout = {
+              position = "right",
+            },
+          },
+        },
 
-```bash
-vim plugins/neotree.lua
-```
-
-```bash
-nano plugins/neotree.lua
-```
-
-```lua
--- plugins/neotree.lua
-
-return {
-  "nvim-neo-tree/neo-tree.nvim",
-  branch = "v3.x",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",
-    "MunifTanjim/nui.nvim",
-  },
-  opts = {
-    filesystem = {
-      filtered_items = {
-        visible = true, -- versteckte Dateien anzeigen
-        hide_gitignored = false,
+        -- Outline (LSP Symbols)
+        lsp_symbols = {
+          layout = {
+            layout = {
+              position = "right",
+            },
+          },
+        },
       },
-    },
-
-    buffers = {
-      follow_current_file = true,
-      group_empty_dirs = true,
-    },
-
-    git_status = {
-      window = {
-        position = "float",
-      },
-    },
-
-    window = {
-      position = "right",
-      width = 35,
     },
   },
 }
