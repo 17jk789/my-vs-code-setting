@@ -1,4 +1,4 @@
-# My NeoVim Setting
+# My NeoVim Settings
 
 ```bash
 ██████╗       ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗         Z
@@ -11,7 +11,7 @@
 N E O V I M - J U L I A N
 ```
 
-This repository contains my personal **Neovim settings**.
+This repository contains my personal **NeoVim settings**.
 
 > ⚠️ **Important:**
 > This repo was not created for public distribution.
@@ -48,7 +48,7 @@ This repository is released under the **Apache License 2.0**.
 
 ## Inhaltsverzeichnis
 
-- [My NeoVim Setting](#my-neovim-setting)
+- [My NeoVim Settings](#my-neovim-settings)
   - [Disclaimer](#disclaimer)
   - [License](#license)
   - [Inhaltsverzeichnis](#inhaltsverzeichnis)
