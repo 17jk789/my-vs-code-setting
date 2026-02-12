@@ -1359,14 +1359,6 @@ vim.keymap.set("n", "<leader>g", function()
   Snacks.picker.git_status()
 end)
 
-vim.keymap.set("n", "<leader>b", function()
-  Snacks.picker.buffers()
-end)
-
-vim.keymap.set("n", "<leader>o", function()
-  Snacks.picker.lsp_symbols()
-end)
-
 ```
 
 ## plugins/lsp.lua
@@ -6459,43 +6451,9 @@ return {
             },
           },
         },
-
-        -- Buffers (darunter)
-        buffers = {
-          layout = {
-            layout = {
-              position = "right",
-              -- size = 8,
-            },
-          },
-        },
-
-        -- LSP Outline (unten)
-        lsp_symbols = {
-          layout = {
-            layout = {
-              position = "right",
-              -- size = 12,
-            },
-          },
-        },
       },
     },
   },
-
-  -- -- automatische Anzeige beim Start
-  -- config = function(_, opts)
-  --   local Snacks = require("snacks")
-  --   Snacks.setup(opts)
-
-  --   -- beim Start alles öffnen
-  --   vim.schedule(function()
-  --     Snacks.picker.explorer()
-  --     Snacks.picker.git_status()
-  --     Snacks.picker.buffers()
-  --     Snacks.picker.lsp_symbols()
-  --   end)
-  -- end,
 }
 
 ```
