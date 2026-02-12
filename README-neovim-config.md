@@ -1,4 +1,15 @@
-# My-neovim-setting
+# My NeoVim Setting
+
+```bash
+██████╗       ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗         Z
+██╔══██╗      ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║     Z    
+██████╔╝█████╗██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║  z       
+██╔═══╝ ╚════╝██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║z         
+██║           ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║          
+╚═╝           ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝          
+
+N E O V I M - J U L I A N
+```
 
 - 100% **Rust** Support (Perfect IDE + VS Code Level + Rust Plugins + extras)
 - 90% **C und C++** Support (VS Code Level + C/C++ Plugins)
@@ -37,7 +48,7 @@ This repository is released under the **Apache License 2.0**.
 
 ## Inhaltsverzeichnis
 
-- [My-neovim-setting](#my-neovim-setting)
+- [My NeoVim Setting](#my-neovim-setting)
   - [Disclaimer](#disclaimer)
   - [License](#license)
   - [Inhaltsverzeichnis](#inhaltsverzeichnis)
