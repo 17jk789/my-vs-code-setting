@@ -195,6 +195,7 @@ sudo mv nvim-linux-x86_64 /opt/nvim
 ```
 
 Wenn alles OK:
+
 ```bash
 sudo rm -rf /opt/nvim.bak
 ```
