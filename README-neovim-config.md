@@ -5633,7 +5633,8 @@ return {
     opts = {
       signcolumn = true,
       numhl = true,
-      linehl = true,
+      -- linehl = true,
+      linehl = false,
       word_diff = true,
 
       -- Inline blame automatisch aktiv
