@@ -1351,6 +1351,22 @@ vim.keymap.set("n", "<leader>gc", "<cmd>Git commit<cr>")
 vim.keymap.set("n", "<leader>gp", "<cmd>Git push<cr>")
 vim.keymap.set("n", "<leader>gl", "<cmd>Git pull<cr>")
 
+vim.keymap.set("n", "<leader>e", function()
+  Snacks.picker.explorer()
+end)
+
+vim.keymap.set("n", "<leader>g", function()
+  Snacks.picker.git_status()
+end)
+
+vim.keymap.set("n", "<leader>b", function()
+  Snacks.picker.buffers()
+end)
+
+vim.keymap.set("n", "<leader>o", function()
+  Snacks.picker.lsp_symbols()
+end)
+
 ```
 
 ## plugins/lsp.lua
@@ -6467,19 +6483,19 @@ return {
     },
   },
 
-  -- automatische Anzeige beim Start
-  config = function(_, opts)
-    local Snacks = require("snacks")
-    Snacks.setup(opts)
+  -- -- automatische Anzeige beim Start
+  -- config = function(_, opts)
+  --   local Snacks = require("snacks")
+  --   Snacks.setup(opts)
 
-    -- beim Start alles öffnen
-    vim.schedule(function()
-      Snacks.picker.explorer()
-      Snacks.picker.git_status()
-      Snacks.picker.buffers()
-      Snacks.picker.lsp_symbols()
-    end)
-  end,
+  --   -- beim Start alles öffnen
+  --   vim.schedule(function()
+  --     Snacks.picker.explorer()
+  --     Snacks.picker.git_status()
+  --     Snacks.picker.buffers()
+  --     Snacks.picker.lsp_symbols()
+  --   end)
+  -- end,
 }
 
 ```
