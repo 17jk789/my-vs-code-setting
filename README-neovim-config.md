@@ -1329,6 +1329,14 @@ end, {
   complete = "file",
 })
 
+-- Git
+vim.keymap.set("n", "<leader>gb", "<cmd>G blame<cr>")
+vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<cr>")
+vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>")
+vim.keymap.set("n", "<leader>gc", "<cmd>Git commit<cr>")
+vim.keymap.set("n", "<leader>gp", "<cmd>Git push<cr>")
+vim.keymap.set("n", "<leader>gl", "<cmd>Git pull<cr>")
+
 ```
 
 ## plugins/lsp.lua
@@ -5561,10 +5569,112 @@ nano plugins/git.lua
 
 ```lua
 -- plugins/git.lua
+
+-- return {
+--   {
+--     "lewis6991/gitsigns.nvim",
+--     opts = {},
+--   },
+-- }
+
+-- return {
+--   {
+--     "lewis6991/gitsigns.nvim",
+--     event = "BufReadPre",
+--     opts = {
+--       -- Git signs immer aktiv
+--       signcolumn = true,
+--       numhl = true,
+--       linehl = true,
+--       word_diff = true,
+
+--       -- Inline blame wie GitLens
+--       current_line_blame = true,
+--       current_line_blame_opts = {
+--         delay = 300,
+--         virt_text_pos = "eol",
+--         ignore_whitespace = false,
+--       },
+
+--       current_line_blame_formatter =
+--         "<author>, <author_time:%Y-%m-%d> • <summary>",
+
+--       -- Performance / UX
+--       watch_gitdir = { interval = 1000 },
+--       update_debounce = 100,
+
+--       -- Preview Fenster schöner
+--       preview_config = {
+--         border = "rounded",
+--       },
+--     },
+--   },
+-- }
+
 return {
+  -- GITSIGNS (GitLens Inline Blame + Signs)
   {
     "lewis6991/gitsigns.nvim",
-    opts = {},
+    event = "BufReadPre",
+    opts = {
+      signcolumn = true,
+      numhl = true,
+      linehl = true,
+      word_diff = true,
+
+      -- Inline blame automatisch aktiv
+      current_line_blame = true,
+      current_line_blame_opts = {
+        delay = 250,
+        virt_text_pos = "eol",
+        ignore_whitespace = false,
+      },
+
+      current_line_blame_formatter =
+        " <author>, <author_time:%Y-%m-%d> • <summary>",
+
+      watch_gitdir = { interval = 1000 },
+      update_debounce = 100,
+
+      preview_config = {
+        border = "rounded",
+        style = "minimal",
+      },
+
+      signs = {
+        add          = { text = "│" },
+        change       = { text = "│" },
+        delete       = { text = "_" },
+        topdelete    = { text = "‾" },
+        changedelete = { text = "~" },
+        untracked    = { text = "┆" },
+      },
+    },
+  },
+
+  -- DIFFVIEW (GitLens Diff UI Ersatz)
+  {
+    "sindrets/diffview.nvim",
+    dependencies = "nvim-lua/plenary.nvim",
+    cmd = {
+      "DiffviewOpen",
+      "DiffviewClose",
+      "DiffviewFileHistory",
+    },
+    opts = {
+      enhanced_diff_hl = true,
+      use_icons = true,
+      show_help_hints = true,
+    },
+  },
+
+  -- FUGITIVE (Power Git Commands)
+  {
+    "tpope/vim-fugitive",
+    cmd = {
+      "Git",
+      "G",
+    },
   },
 }
 
