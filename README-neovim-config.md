@@ -9,6 +9,8 @@
 - 80% **JavaScript** (VS Code Level + basic JavaScript Plugins)
 - 60% **Lua** (VS Code Level + basic Lua Plugins)
 - 80% **Latex** (VS Code Level + basic Latex Plugins)
+- 80% **Markdown** (VS Code Level + basic Markdown Plugins)
+- 80% **Git** (VS Code Level + basic Git Plugins)
 
 This repository contains my personal **Neovim settings**.
 
