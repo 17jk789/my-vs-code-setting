@@ -6447,7 +6447,7 @@ return {
           layout = {
             layout = {
               position = "right",
-              -- size = 8,
+              size = 0,
             },
           },
         },
