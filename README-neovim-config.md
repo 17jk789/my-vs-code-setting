@@ -6438,8 +6438,8 @@ return {
         git_status = {
           layout = {
             layout = {
-              position = "right",
-              size = 0,
+              -- position = "right",
+              -- size = 8,
             },
           },
         },
