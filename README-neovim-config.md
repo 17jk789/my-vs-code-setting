@@ -11,6 +11,12 @@
 N E O V I M - J U L I A N
 ```
 
+This repository contains my personal **Neovim settings**.
+
+> ⚠️ **Important:**
+> This repo was not created for public distribution.
+> It is intended only for my own use, so I can use my settings on another computer without logging into my GitHub account.
+
 - 100% **Rust** Support (Perfect IDE + VS Code Level + Rust Plugins + extras)
 - 90% **C und C++** Support (VS Code Level + C/C++ Plugins)
 - 90% **Java** Support (VS Code Level + Java Plugins)
@@ -22,12 +28,6 @@ N E O V I M - J U L I A N
 - 80% **Latex** (VS Code Level + basic Latex Plugins)
 - 80% **Markdown** (VS Code Level + basic Markdown Plugins)
 - 80% **Git** (VS Code Level + basic Git Plugins)
-
-This repository contains my personal **Neovim settings**.
-
-> ⚠️ **Important:**
-> This repo was not created for public distribution.
-> It is intended only for my own use, so I can use my settings on another computer without logging into my GitHub account.
 
 ## Disclaimer
 
