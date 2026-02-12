@@ -5369,26 +5369,17 @@ return {
     end,
   },
   {
-    "folke/snacks.nvim",
+  "folke/snacks.nvim",
     opts = {
       terminal = {
-        enabled = true,
-      },
-      lazygit = {
-        enabled = true,
-        configure = true,
+        enabled = true,  -- Snacks Terminal aktivieren
       },
     },
     keys = {
       {
         "<leader>tt",
-        function() Snacks.terminal() end,
+        function() require("snacks").terminal() end, -- Terminal aufrufen
         desc = "Terminal",
-      },
-      {
-        "<leader>gg",
-        function() Snacks.lazygit() end,
-        desc = "LazyGit",
       },
     },
   },
