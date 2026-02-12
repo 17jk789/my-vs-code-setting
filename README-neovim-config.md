@@ -6445,7 +6445,7 @@ return {
           layout = {
             layout = {
               position = "right",
-              size = 15, -- Höhe in Zeilen
+              -- size = 15, -- Höhe in Zeilen
             },
           },
         },
@@ -6455,7 +6455,7 @@ return {
           layout = {
             layout = {
               position = "right",
-              size = 8,
+              -- size = 8,
             },
           },
         },
@@ -6465,7 +6465,7 @@ return {
           layout = {
             layout = {
               position = "right",
-              size = 8,
+              -- size = 8,
             },
           },
         },
@@ -6475,7 +6475,7 @@ return {
           layout = {
             layout = {
               position = "right",
-              size = 12,
+              -- size = 12,
             },
           },
         },
