@@ -5691,6 +5691,29 @@ return {
       "G",
     },
   },
+
+  -- LAZYGIT via snacks.nvim
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      lazygit = {
+        enabled = true,
+        configure = true, -- auto colorscheme etc.
+      },
+    },
+
+    keys = {
+      {
+        "<leader>gg",
+        function()
+          Snacks.lazygit()
+        end,
+        desc = "LazyGit",
+      },
+    },
+  },
 }
 
 -- :Gitsigns toggle_current_line_blame
