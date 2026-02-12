@@ -6422,47 +6422,64 @@ return {
 
     picker = {
       sources = {
-        -- Explorer
+        -- Explorer (oben)
         explorer = {
           hidden = true,
           ignored = true,
           layout = {
             layout = {
               position = "right",
-              width = 40,
+              size = 15, -- Höhe in Zeilen
             },
           },
         },
 
-        -- Git picker (VSCode Source Control ähnlich)
+        -- Git Status (darunter)
         git_status = {
           layout = {
             layout = {
               position = "right",
+              size = 8,
             },
           },
         },
 
-        -- Buffers (Open Editors ähnlich VSCode)
+        -- Buffers (darunter)
         buffers = {
           layout = {
             layout = {
               position = "right",
+              size = 8,
             },
           },
         },
 
-        -- Outline (LSP Symbols)
+        -- LSP Outline (unten)
         lsp_symbols = {
           layout = {
             layout = {
               position = "right",
+              size = 12,
             },
           },
         },
       },
     },
   },
+
+  -- automatische Anzeige beim Start
+  config = function(_, opts)
+    local Snacks = require("snacks")
+    Snacks.setup(opts)
+
+    -- beim Start alles öffnen
+    vim.schedule(function()
+      Snacks.picker.explorer()
+      Snacks.picker.git_status()
+      Snacks.picker.buffers()
+      Snacks.picker.lsp_symbols()
+    end)
+  end,
 }
 
 ```
