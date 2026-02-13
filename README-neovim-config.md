@@ -1282,16 +1282,21 @@ local opts = { noremap = true, silent = true }
 map("n", "<C-p>", ":Telescope find_files<CR>", opts)
 map("n", "<C-f>", ":Telescope live_grep<CR>", opts)
 map("n", "<C-o>", ":Telescope lsp_document_symbols<CR>", opts)
-map("n", "<C-m>", ":TroubleToggle<CR>", opts)
+-- map("n", "<C-m>", ":TroubleToggle<CR>", opts)
+map("n", "<leader>xx", ":TroubleToggle<CR>", opts)
 map("n", "<C-b>", ":NvimTreeToggle<CR>", opts)
 
-map("n", "<C-_>", "gcc", opts)
-map("v", "<C-_>", "gc", opts)
+-- map("n", "<C-_>", "gcc", opts)
+map("n", "<leader>/", "gcc", opts)
+-- map("v", "<C-_>", "gc", opts)
+map("v", "<leader>/", "gc", opts)
 
 map("n", "<C-S-p>", ":Telescope commands<CR>", opts)
 
-map("n", "<C-Tab>", ":bnext<CR>", opts)
-map("n", "<C-S-Tab>", ":bprevious<CR>", opts)
+-- map("n", "<C-Tab>", ":bnext<CR>", opts)
+map("n", "<leader>bn", ":bnext<CR>", opts)
+-- map("n", "<C-S-Tab>", ":bprevious<CR>", opts)
+map("n", "<leader>bp", ":bprevious<CR>", opts)
 
 map("n", "<C-s>", ":w<CR>", opts)
 map("i", "<C-s>", "<Esc>:w<CR>a", opts)
@@ -1312,7 +1317,8 @@ map("n", "<F10>", "<cmd>lua require'dap'.step_over()<CR>", opts)
 map("n", "<F11>", "<cmd>lua require'dap'.step_into()<CR>", opts)
 map("n", "<F12>", "<cmd>lua require'dap'.step_out()<CR>", opts)
 
-map("n", "<C-d>", "<cmd>lua require('dapui').toggle()<CR>", opts)
+-- map("n", "<C-d>", "<cmd>lua require('dapui').toggle()<CR>", opts)
+map("n", "<leader>du", "<cmd>lua require('dapui').toggle()<CR>", opts)
 map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", opts)
 
 -- Clipboard yanking (system clipboard)
