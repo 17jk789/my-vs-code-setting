@@ -5681,7 +5681,8 @@ return {
       numhl = true,
       -- linehl = true,
       linehl = false,
-      word_diff = true,
+      -- word_diff = true,
+      word_diff = false,
 
       -- Inline blame automatisch aktiv
       current_line_blame = true,
