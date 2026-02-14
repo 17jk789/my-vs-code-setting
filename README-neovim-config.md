@@ -133,6 +133,7 @@ Installiere Neovim: [Neovim](https://neovim.io/)
 
 ```bash
 sudo apt update
+sudo ufw enable # Wichtig -> Firewall aktivieren!!!
 sudo apt install curl wget unzip build-essential cmark fzf
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 sudo apt install clang cmake ninja-build gdb
