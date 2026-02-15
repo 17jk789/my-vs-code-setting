@@ -279,6 +279,7 @@ touch main.py
 source venv/bin/activate
 pip install --upgrade pip
 # pip install 'python-lsp-server[all]' black ruff debugpy
+
 ```
 
 ## Rust
@@ -3348,6 +3349,7 @@ nano plugins/python.lua
 --     },
 --   },
 -- }
+
 ```
 
 ## lsp/python.lua
