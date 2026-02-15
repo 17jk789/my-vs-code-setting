@@ -1366,6 +1366,10 @@ end, {
   complete = "file",
 })
 
+-- Explorer öffnen, sollte schon gehen.
+-- map_if_free("n", "<leader>e", Snacks.picker.explorer)
+-- vim.keymap.set("n", "<leader>e", function() Snacks.explorer() end, { desc = "File Explorer" })
+
 -- Git Basics
 map_if_free("n", "<leader>gb", "<cmd>G blame<cr>")
 map_if_free("n", "<leader>gd", "<cmd>DiffviewOpen<cr>")
@@ -1374,12 +1378,8 @@ map_if_free("n", "<leader>gc", "<cmd>Git commit<cr>")
 map_if_free("n", "<leader>gp", "<cmd>Git push<cr>")
 map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>")
 
--- map_if_free("n", "<leader>e", Snacks.picker.explorer)
--- map_if_free("n", "<leader>g", Snacks.picker.git_status)
--- Explorer öffnen, sollte schon gehen.
--- vim.keymap.set("n", "<leader>e", function() Snacks.explorer() end, { desc = "File Explorer" })
-
 -- Git Status öffnen
+-- map_if_free("n", "<leader>g", Snacks.picker.git_status)
 vim.keymap.set("n", "<leader>g", function() Snacks.picker.git_status() end, { desc = "Git Status" })
 
 -- Hunks
