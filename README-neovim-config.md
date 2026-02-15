@@ -2036,9 +2036,18 @@ return {
 
         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
 
+        -- ["<CR>"] = {
+        --   "accept",
+        --   auto_select = false,
+        -- },
+
         ["<CR>"] = {
-          "accept",
-          auto_select = false,
+          function(cmp)
+            if cmp.is_visible() and cmp.get_selected_item() then
+              return cmp.accept()
+            end
+          end,
+          "fallback",
         },
 
         ["<Tab>"] = {
