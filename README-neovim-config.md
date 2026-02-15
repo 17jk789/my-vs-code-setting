@@ -1376,13 +1376,11 @@ map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>")
 
 -- map_if_free("n", "<leader>e", Snacks.picker.explorer)
 -- map_if_free("n", "<leader>g", Snacks.picker.git_status)
-vim.keymap.set("n", "<leader>e", function()
-  require("Snacks.picker").explorer()
-end, { noremap = true, silent = true })
+-- Explorer öffnen
+vim.keymap.set("n", "<leader>e", function() Snacks.explorer() end, { desc = "File Explorer" })
 
-vim.keymap.set("n", "<leader>g", function()
-  require("Snacks.picker").git_status()
-end, { noremap = true, silent = true })
+-- Git Status öffnen
+vim.keymap.set("n", "<leader>g", function() Snacks.picker.git_status() end, { desc = "Git Status" })
 
 -- Hunks
 -- map_if_free("n", "]h", "<cmd>Gitsigns next_hunk<CR>")
