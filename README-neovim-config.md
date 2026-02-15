@@ -1422,36 +1422,36 @@ map_if_free("n", "<leader>gr", "<cmd>Git remote -v<CR>")
 map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph --decorate --all<CR>")
 map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<CR>")
 
--- keymaps.lua
+-- Nur wen du neotes verwendest:
 
--- Funktion zum sicheren Laden von Neotest
-local function get_neotest()
-  -- Falls Neotest noch nicht geladen ist, erzwinge das Laden (Lazy.nvim)
-  if not package.loaded["neotest"] then
-    require("lazy").load({ plugins = { "nvim-neotest/neotest", "rcasia/neotest-java" } })
-  end
-  return require("neotest")
-end
+-- -- Funktion zum sicheren Laden von Neotest
+-- local function get_neotest()
+--   -- Falls Neotest noch nicht geladen ist, erzwinge das Laden (Lazy.nvim)
+--   if not package.loaded["neotest"] then
+--     require("lazy").load({ plugins = { "nvim-neotest/neotest", "rcasia/neotest-java" } })
+--   end
+--   return require("neotest")
+-- end
 
--- Aktuellen Test ausführen
-vim.keymap.set("n", "<leader>t", function()
-  get_neotest().run.run()
-end, { desc = "Run current test" })
+-- -- Aktuellen Test ausführen
+-- vim.keymap.set("n", "<leader>t", function()
+--   get_neotest().run.run()
+-- end, { desc = "Run current test" })
 
--- Alle Tests in der Datei ausführen
-vim.keymap.set("n", "<leader>T", function()
-  get_neotest().run.run(vim.fn.expand("%"))
-end, { desc = "Run all tests in file" })
+-- -- Alle Tests in der Datei ausführen
+-- vim.keymap.set("n", "<leader>T", function()
+--   get_neotest().run.run(vim.fn.expand("%"))
+-- end, { desc = "Run all tests in file" })
 
--- Letzten Test erneut ausführen
-vim.keymap.set("n", "<leader>l", function()
-  get_neotest().run.run_last()
-end, { desc = "Run last test" })
+-- -- Letzten Test erneut ausführen
+-- vim.keymap.set("n", "<leader>l", function()
+--   get_neotest().run.run_last()
+-- end, { desc = "Run last test" })
 
--- Test-UI öffnen
-vim.keymap.set("n", "<leader>o", function()
-  get_neotest().summary.open()
-end, { desc = "Open test summary" })
+-- -- Test-UI öffnen
+-- vim.keymap.set("n", "<leader>o", function()
+--   get_neotest().summary.open()
+-- end, { desc = "Open test summary" })
 
 ```
 
@@ -3272,9 +3272,28 @@ return {
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
       -- Nur nötig, wenn du die Test-UI direkt in Neovim haben willst.
-      "nvim-neotest/neotest",
-      "rcasia/neotest-java",
-      "nvim-lua/plenary.nvim", -- notwendig für neotest
+      -- "nvim-neotest/neotest",
+      -- Ich würde aber eine plugins/neotest.lua schreiben:
+      -- return {
+      --   -- Nur nötig, wenn du die Test-UI direkt in Neovim haben willst
+      --   {
+      --     "nvim-neotest/neotest",
+      --     enabled = false, -- auf true setzen, wenn du Tests in Neovim nutzen willst
+      --     dependencies = {
+      --       "rcasia/neotest-java",
+      --       "nvim-lua/plenary.nvim",
+      --     },
+      --     config = function()
+      --       require("neotest").setup({
+      --         adapters = {
+      --           require("neotest-java")({}),
+      --         },
+      --       })
+      --     end,
+      --   },
+      -- }
+      -- "rcasia/neotest-java",
+      -- "nvim-lua/plenary.nvim", -- notwendig für neotest
     },
     config = function()
       require("java").setup()
