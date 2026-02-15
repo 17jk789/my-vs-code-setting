@@ -6518,6 +6518,8 @@ N E O V I M - J U L I A N
 
 Es gab: completion.cmp.enable is now deperecated, the nvim-cmp source will be romoved soon. Use the in-process la...
 
+Sollte aber in plugins/completion.lua gefixt worden sein!
+
 ```bash
 cd ~/.config/nvim/lua
 ```
