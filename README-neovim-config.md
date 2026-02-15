@@ -6059,6 +6059,7 @@ code plugins/alpha.lua
 ```lua
 -- plugins/alpha.lua
 
+-- Alte Desktop Version von https://www.lazyvim.org/plugins
 -- return {
 --   "nvimdev/dashboard-nvim",
 --   lazy = false, -- As https://github.com/nvimdev/dashboard-nvim/pull/450, dashboard-nvim shouldn't be lazy-loaded to properly handle stdin.
