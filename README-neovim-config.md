@@ -3243,6 +3243,7 @@ return {
       -- Nur nötig, wenn du die Test-UI direkt in Neovim haben willst.
       "nvim-neotest/neotest",
       "rcasia/neotest-java",
+      "nvim-lua/plenary.nvim", -- notwendig für neotest
     },
     config = function()
       require("java").setup()
