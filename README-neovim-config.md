@@ -5552,10 +5552,11 @@ return {
     opts = {},
   },
 
-  {
-    "tpope/vim-fugitive",
-    cmd = { "Git", "G" },
-  },
+  -- wird schon in plugins/git.lua geladen
+  -- {
+  --   "tpope/vim-fugitive",
+  --   cmd = { "Git", "G" },
+  -- },
 
   {
     "akinsho/bufferline.nvim",
