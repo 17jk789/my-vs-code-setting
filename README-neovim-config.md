@@ -1501,7 +1501,10 @@ return {
               },
 
               checkOnSave = {
-                command = "clippy",
+                command = "clippy",  -- Linter: Findet Stilfehler und logische Patzer (sehr gründlich)
+                -- command = "check", -- Standard: Prüft nur, ob der Code kompiliert (schnellste Option)
+                -- command = "test", -- Tests: Validiert auch den Code innerhalb deiner Test-Module
+                -- command = "build", -- Kompilieren: Erstellt das komplette Binary (langsam, meist unnötig für LSP)
               },
 
               inlayHints = {
