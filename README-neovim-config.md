@@ -3247,7 +3247,8 @@ return {
     },
     config = function()
       require("java").setup()
-      vim.lsp.enable("jdtls")
+      vim.lsp.enable("jdtls") -- Wird von nvim-java intern genutzt
+      -- require("lspconfig").jdtls.setup({}) -- Das ist die Standardmethode für LSPs über nvim-lspconfig, aber wenn du nvim-java benutzt -> bleib bei vim.lsp.enable("jdtls")
     end,
 
     -- Bei Problemen:
