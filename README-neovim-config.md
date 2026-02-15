@@ -1376,8 +1376,8 @@ map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>")
 
 -- map_if_free("n", "<leader>e", Snacks.picker.explorer)
 -- map_if_free("n", "<leader>g", Snacks.picker.git_status)
--- Explorer öffnen
-vim.keymap.set("n", "<leader>e", function() Snacks.explorer() end, { desc = "File Explorer" })
+-- Explorer öffnen, sollte schon gehen.
+-- vim.keymap.set("n", "<leader>e", function() Snacks.explorer() end, { desc = "File Explorer" })
 
 -- Git Status öffnen
 vim.keymap.set("n", "<leader>g", function() Snacks.picker.git_status() end, { desc = "Git Status" })
