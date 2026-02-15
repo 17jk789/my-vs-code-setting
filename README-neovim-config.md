@@ -105,7 +105,7 @@ This repository is released under the **Apache License 2.0**.
 
 ## Notes
 
-* Some settings may be system-specific (Windows vs Linux) -Y *Linux - Ubuntu 24.04.03 LTS*.
+* Some settings may be system-specific (Windows vs Linux) -Y *Linux - Ubuntu 24.04.03/24.04.04 LTS*.
 * This configuration is tailored to my personal workflow and may not suit everyone.
 
 <details>
