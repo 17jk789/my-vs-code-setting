@@ -6009,8 +6009,8 @@ return {
       current_line_blame_formatter =
         -- " <author>, <author_time:%Y-%m-%d> • <summary>",
         -- " <author>, <author_time:%Y-%m-%d %H:%M> • <summary>",
-        -- " <author> (<abbrev_sha>), <author_time:%Y-%m-%d %H:%M> • <summary>",
-        " <author> <abbrev_sha> • <author_time:%Y-%m-%d %H:%M> • <summary>",
+        "    <author> (<abbrev_sha>), <author_time:%Y-%m-%d %H:%M> • <summary>",
+        -- "    <author> <abbrev_sha> • <author_time:%Y-%m-%d %H:%M> • <summary>",
 
       watch_gitdir = { interval = 1000 },
       update_debounce = 100,
