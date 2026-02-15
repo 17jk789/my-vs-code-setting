@@ -1,4 +1,4 @@
-# My NeoVim Settings
+# My NeoVim "Settings"
 
 ```bash
 ██████╗       ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗         Z
@@ -48,7 +48,7 @@ This repository is released under the **Apache License 2.0**.
 
 ## Inhaltsverzeichnis
 
-- [My NeoVim Settings](#my-neovim-settings)
+- [My NeoVim "Settings"](#my-neovim-settings)
   - [Disclaimer](#disclaimer)
   - [License](#license)
   - [Inhaltsverzeichnis](#inhaltsverzeichnis)
