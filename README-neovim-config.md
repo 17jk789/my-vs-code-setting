@@ -1888,63 +1888,198 @@ nano plugins/completion.lua
 --   },
 -- }
 
+-- return {
+--   {
+--     "hrsh7th/nvim-cmp",
+--     dependencies = {
+--       "hrsh7th/cmp-nvim-lsp",
+--       "hrsh7th/cmp-buffer",
+--       "hrsh7th/cmp-path",
+--       "L3MON4D3/LuaSnip",
+--     },
+--     opts = function(_, opts)
+--       local cmp = require("cmp")
+
+--       opts.completion = {
+--         completeopt = "menu,menuone,noselect",
+--       }
+
+--       -- IntelliSense-ähnliche Priorisierung
+--       opts.sources = cmp.config.sources({
+--         { name = "nvim_lsp", priority = 1000 },
+--         { name = "path", priority = 750 },
+--         { name = "buffer", priority = 500, keyword_length = 3 },
+--       })
+
+--       opts.mapping = cmp.mapping.preset.insert({
+--         ["<C-Space>"] = cmp.mapping.complete(),
+
+--         -- Kein Auto-Accept → sicher
+--         ["<CR>"] = cmp.mapping.confirm({
+--           select = false,
+--           behavior = cmp.ConfirmBehavior.Insert,
+--         }),
+
+--         -- Tab nur wenn Menü sichtbar
+--         ["<Tab>"] = cmp.mapping(function(fallback)
+--           if cmp.visible() then
+--             cmp.select_next_item()
+--           else
+--             fallback()
+--           end
+--         end, { "i", "s" }),
+
+--         ["<S-Tab>"] = cmp.mapping(function(fallback)
+--           if cmp.visible() then
+--             cmp.select_prev_item()
+--           else
+--             fallback()
+--           end
+--         end, { "i", "s" }),
+--       })
+
+--       -- Kein Ghost-Text (IntelliSense-Style)
+--       opts.experimental = {
+--         ghost_text = false,
+--       }
+
+--       return opts
+--     end,
+--   },
+-- }
+
+-- return {
+--   {
+--     "saghen/blink.cmp",
+--     event = "InsertEnter",
+--     dependencies = {
+--       "rafamadriz/friendly-snippets",
+--     },
+
+--     opts = {
+--       keymap = {
+--         preset = "default",
+
+--         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+
+--         ["<CR>"] = {
+--           "accept",
+--           auto_select = false, -- kein auto accept
+--         },
+
+--         ["<Tab>"] = {
+--           function(cmp)
+--             if cmp.is_visible() then
+--               return cmp.select_next()
+--             end
+--           end,
+--           "snippet_forward",
+--           "fallback",
+--         },
+
+--         ["<S-Tab>"] = {
+--           function(cmp)
+--             if cmp.is_visible() then
+--               return cmp.select_prev()
+--             end
+--           end,
+--           "snippet_backward",
+--           "fallback",
+--         },
+--       },
+
+--       completion = {
+--         menu = {
+--           auto_show = true,
+--         },
+--         ghost_text = {
+--           enabled = false, -- IntelliSense Style
+--         },
+--       },
+
+--       sources = {
+--         default = { "lsp", "path", "buffer" },
+
+--         providers = {
+--           lsp = {
+--             score_offset = 1000,
+--           },
+--           path = {
+--             score_offset = 750,
+--           },
+--           buffer = {
+--             score_offset = 500,
+--             min_keyword_length = 3,
+--           },
+--         },
+--       },
+
+--       signature = {
+--         enabled = true, -- wichtig für Rust/C++ etc.
+--       },
+--     },
+--   },
+-- }
+
 return {
   {
-    "hrsh7th/nvim-cmp",
+    "saghen/blink.cmp",
+    event = "InsertEnter",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-path",
-      "L3MON4D3/LuaSnip",
+      "rafamadriz/friendly-snippets",
     },
-    opts = function(_, opts)
-      local cmp = require("cmp")
 
-      opts.completion = {
-        completeopt = "menu,menuone,noselect",
-      }
+    opts = {
+      keymap = {
+        preset = "default",
 
-      -- IntelliSense-ähnliche Priorisierung
-      opts.sources = cmp.config.sources({
-        { name = "nvim_lsp", priority = 1000 },
-        { name = "path", priority = 750 },
-        { name = "buffer", priority = 500, keyword_length = 3 },
-      })
+        ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
 
-      opts.mapping = cmp.mapping.preset.insert({
-        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<CR>"] = {
+          "accept",
+          auto_select = false,
+        },
 
-        -- Kein Auto-Accept → sicher
-        ["<CR>"] = cmp.mapping.confirm({
-          select = false,
-          behavior = cmp.ConfirmBehavior.Insert,
-        }),
+        ["<Tab>"] = {
+          function(cmp)
+            if cmp.is_visible() then
+              return cmp.select_next()
+            end
+          end,
+          "snippet_forward",
+          "fallback",
+        },
 
-        -- Tab nur wenn Menü sichtbar
-        ["<Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
+        ["<S-Tab>"] = {
+          function(cmp)
+            if cmp.is_visible() then
+              return cmp.select_prev()
+            end
+          end,
+          "snippet_backward",
+          "fallback",
+        },
+      },
 
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          else
-            fallback()
-          end
-        end, { "i", "s" }),
-      })
+      completion = {
+        menu = { auto_show = true },
+        ghost_text = { enabled = false },
+      },
 
-      -- Kein Ghost-Text (IntelliSense-Style)
-      opts.experimental = {
-        ghost_text = false,
-      }
+      sources = {
+        default = { "lsp", "path", "buffer" },
+        providers = {
+          lsp = { score_offset = 1000 },
+          path = { score_offset = 750 },
+          buffer = {
+            score_offset = 500,
+            min_keyword_length = 3,
+          },
+        },
+      },
 
-      return opts
-    end,
+      signature = { enabled = true },
+    },
   },
 }
 
@@ -2238,7 +2373,7 @@ return {
     ft = { "toml" },
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "hrsh7th/nvim-cmp",
+      -- "hrsh7th/nvim-cmp", -- blink.cmp braucht das nicht, sonst lädst du unnötig nvim-cmp mit
     },
     config = function()
       require("crates").setup({
@@ -5530,11 +5665,26 @@ return {
               },
               checkFrequency = "save",
 
+              -- diagnosticSeverity = "information",
+
+              -- completionEnabled = false,
+
               -- Beide Wörterbücher aktiv:
               dictionary = {
                 ["en-US"] = {},
                 ["de-DE"] = {},
               },
+              -- dictionary = {
+              --   ["en-US"] = { "Neovim", "LazyVim" },
+              --   ["de-DE"] = { "Neovim", "LazyVim" },
+              -- },
+
+              -- latex = {
+              --   commands = {
+              --     ["\\cite"] = "dummy",
+              --     ["\\ref"] = "dummy",
+              --   },
+              -- },
             },
           },
           filetypes = {
