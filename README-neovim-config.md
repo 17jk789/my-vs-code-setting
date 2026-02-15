@@ -5814,6 +5814,8 @@ return {
 
 ## plugins/notify.lua
 
+Die Datei plugins/notify.lua überschreibt Neovims vim.notify, um bestimmte Meldungen wie „reload Cargo workspace“ zu unterdrücken, während alle anderen Benachrichtigungen normal angezeigt oder sicher über einen Fallback ausgegeben werden. -> **Weniger nervige Meldungen**.
+
 ```bash
 cd ~/.config/nvim/lua
 ```
