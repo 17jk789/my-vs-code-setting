@@ -1325,8 +1325,8 @@ map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", opts)
 map("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
 
 -- map("n", "<C-m>", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
-map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
-map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+-- map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
+-- map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
 map("n", "<F5>", "<cmd>lua require'dap'.continue()<CR>", opts)
 map("n", "<F9>", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", opts)
@@ -1377,10 +1377,9 @@ map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>")
 map_if_free("n", "<leader>e", Snacks.picker.explorer)
 map_if_free("n", "<leader>g", Snacks.picker.git_status)
 
-
 -- Hunks
-map_if_free("n", "]h", "<cmd>Gitsigns next_hunk<CR>")
-map_if_free("n", "[h", "<cmd>Gitsigns prev_hunk<CR>")
+-- map_if_free("n", "]h", "<cmd>Gitsigns next_hunk<CR>")
+-- map_if_free("n", "[h", "<cmd>Gitsigns prev_hunk<CR>")
 map_if_free("n", "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>")
 map_if_free("n", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>")
 map_if_free("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<CR>")
