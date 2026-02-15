@@ -1289,6 +1289,13 @@ code config/keymaps.lua
 local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
+-- Safe Keymap Helper (setzt nur wenn frei)
+local function map_if_free(mode, lhs, rhs, opts)
+  if vim.fn.mapcheck(lhs, mode) == "" then
+    vim.keymap.set(mode, lhs, rhs, opts or { noremap = true, silent = true })
+  end
+end
+
 map("n", "<C-p>", ":Telescope find_files<CR>", opts)
 map("n", "<C-f>", ":Telescope live_grep<CR>", opts)
 map("n", "<C-o>", ":Telescope lsp_document_symbols<CR>", opts)
@@ -1359,21 +1366,57 @@ end, {
   complete = "file",
 })
 
--- Git
-vim.keymap.set("n", "<leader>gb", "<cmd>G blame<cr>")
-vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<cr>")
-vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>")
-vim.keymap.set("n", "<leader>gc", "<cmd>Git commit<cr>")
-vim.keymap.set("n", "<leader>gp", "<cmd>Git push<cr>")
-vim.keymap.set("n", "<leader>gl", "<cmd>Git pull<cr>")
+-- Git Basics
+map_if_free("n", "<leader>gb", "<cmd>G blame<cr>")
+map_if_free("n", "<leader>gd", "<cmd>DiffviewOpen<cr>")
+map_if_free("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>")
+map_if_free("n", "<leader>gc", "<cmd>Git commit<cr>")
+map_if_free("n", "<leader>gp", "<cmd>Git push<cr>")
+map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>")
 
-vim.keymap.set("n", "<leader>e", function()
-  Snacks.picker.explorer()
-end)
+map_if_free("n", "<leader>e", Snacks.picker.explorer)
+map_if_free("n", "<leader>g", Snacks.picker.git_status)
 
-vim.keymap.set("n", "<leader>g", function()
-  Snacks.picker.git_status()
+
+-- Hunks
+map_if_free("n", "]h", "<cmd>Gitsigns next_hunk<CR>")
+map_if_free("n", "[h", "<cmd>Gitsigns prev_hunk<CR>")
+map_if_free("n", "<leader>hs", "<cmd>Gitsigns stage_hunk<CR>")
+map_if_free("n", "<leader>hr", "<cmd>Gitsigns reset_hunk<CR>")
+map_if_free("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<CR>")
+map_if_free("n", "<leader>hb", "<cmd>Gitsigns blame_line<CR>")
+map_if_free("n", "<leader>hS", "<cmd>Gitsigns stage_buffer<CR>")
+map_if_free("n", "<leader>hR", "<cmd>Gitsigns reset_buffer<CR>")
+map_if_free("n", "<leader>hd", "<cmd>Gitsigns diffthis<CR>")
+map_if_free("n", "<leader>hD", "<cmd>Gitsigns diffthis ~<CR>")
+
+
+-- Toggle Git UI
+map_if_free("n", "<leader>tb", "<cmd>Gitsigns toggle_current_line_blame<CR>")
+map_if_free("n", "<leader>ts", "<cmd>Gitsigns toggle_signs<CR>")
+map_if_free("n", "<leader>tn", "<cmd>Gitsigns toggle_numhl<CR>")
+map_if_free("n", "<leader>tl", "<cmd>Gitsigns toggle_linehl<CR>")
+map_if_free("n", "<leader>tw", "<cmd>Gitsigns toggle_word_diff<CR>")
+
+
+-- Extra Git Commands (nicht typisch in LazyVim)
+map_if_free("n", "<leader>gco", "<cmd>Git checkout<CR>")
+-- map_if_free("n", "<leader>gcb", "<cmd>Git checkout -b ")
+map_if_free("n", "<leader>gcb", function()
+  vim.ui.input({ prompt = "New branch name: " }, function(branch)
+    if branch and branch ~= "" then
+      vim.cmd("Git checkout -b " .. branch)
+    end
+  end)
 end)
+map_if_free("n", "<leader>gca", "<cmd>Git commit --amend<CR>")
+map_if_free("n", "<leader>gss", "<cmd>Git stash<CR>")
+map_if_free("n", "<leader>gsp", "<cmd>Git stash pop<CR>")
+map_if_free("n", "<leader>gf", "<cmd>Git fetch<CR>")
+map_if_free("n", "<leader>gr", "<cmd>Git remote -v<CR>")
+-- map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph<CR>")
+map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph --decorate --all<CR>")
+map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<CR>")
 
 ```
 
@@ -5960,7 +6003,10 @@ return {
       },
 
       current_line_blame_formatter =
-        " <author>, <author_time:%Y-%m-%d> • <summary>",
+        -- " <author>, <author_time:%Y-%m-%d> • <summary>",
+        -- " <author>, <author_time:%Y-%m-%d %H:%M> • <summary>",
+        -- " <author> (<abbrev_sha>), <author_time:%Y-%m-%d %H:%M> • <summary>",
+        " <author> <abbrev_sha> • <author_time:%Y-%m-%d %H:%M> • <summary>",
 
       watch_gitdir = { interval = 1000 },
       update_debounce = 100,
