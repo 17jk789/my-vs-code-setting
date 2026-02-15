@@ -3188,6 +3188,7 @@ return {
                 -- },
 
                 -- Save Actions (extrem praktisch)
+                -- Achtung: organizeImports beim Speichern kann in Teamprojekten unnötige Änderungen und Merge-Konflikte erzeugen
                 saveActions = {
                   organizeImports = true,
                 },
@@ -3212,6 +3213,7 @@ return {
                 auto_install = false,
               },
 
+              -- Achte darauf, dass java_test.enable nicht doppelt Konfigurationen ausführt, sonst gibt es Konflikte beim Debuggen
               java_test = {
                 enable = true,
               },
@@ -3238,6 +3240,9 @@ return {
 
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
+      -- Nur nötig, wenn du die Test-UI direkt in Neovim haben willst.
+      "nvim-neotest/neotest",
+      "rcasia/neotest-java",
     },
     config = function()
       require("java").setup()
@@ -3245,9 +3250,9 @@ return {
     end,
 
     -- Bei Problemen:
-    -- :Mason install jdtls
-    -- :Mason install java-debug-adapter
-    -- :Mason install java-test
+    -- :MasonInstall jdtls
+    -- :MasonInstall java-debug-adapter
+    -- :MasonInstall java-test
     
     -- Bei Problemen mit Inlay Hints:
     -- :edit
