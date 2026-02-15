@@ -1224,6 +1224,10 @@ vim config/options.lua
 nano config/options.lua
 ```
 
+```bash
+code config/options.lua
+```
+
 ```lua
 -- config/options.lua
 
@@ -1273,6 +1277,10 @@ vim config/keymaps.lua
 
 ```bash
 nano config/keymaps.lua
+```
+
+```bash
+code config/keymaps.lua
 ```
 
 ```lua
@@ -1381,6 +1389,10 @@ vim plugins/lsp.lua
 
 ```bash
 nano plugins/lsp.lua
+```
+
+```bash
+code plugins/lsp.lua
 ```
 
 ```lua
@@ -1777,6 +1789,10 @@ vim plugins/completion.lua
 nano plugins/completion.lua
 ```
 
+```bash
+code plugins/completion.lua
+```
+
 ```lua
 -- plugins/completion.lua
 
@@ -2111,6 +2127,10 @@ vim plugins/rust.lua
 nano plugins/rust.lua
 ```
 
+```bash
+code plugins/rust.lua
+```
+
 ```lua
 -- plugins/rust.lua
 
@@ -2411,6 +2431,10 @@ vim plugins/cpp.lua
 nano plugins/cpp.lua
 ```
 
+```bash
+code plugins/cpp.lua
+```
+
 ```lua
 -- plugins/cpp.lua
 
@@ -2468,6 +2492,10 @@ vim plugins/java.lua
 
 ```bash
 nano plugins/java.lua
+```
+
+```bash
+code plugins/java.lua
 ```
 
 ```lua
@@ -3196,6 +3224,10 @@ vim plugins/python.lua
 nano plugins/python.lua
 ```
 
+```bash
+code plugins/python.lua
+```
+
 ```lua
 -- plugins/python.lua
 
@@ -3375,6 +3407,10 @@ vim lsp/python.lua
 nano lsp/python.lua
 ```
 
+```bash
+code lsp/python.lua
+```
+
 ```lua
 -- lsp/python.lua
 
@@ -3547,6 +3583,10 @@ vim lsp/lua.lua
 nano lsp/lua.lua
 ```
 
+```bash
+code lsp/lua.lua
+```
+
 ```lua
 -- lsp/lua.lua
 
@@ -3629,6 +3669,10 @@ vim plugins/html.lua
 
 ```bash
 nano plugins/html.lua
+```
+
+```bash
+code plugins/html.lua
 ```
 
 ```lua
@@ -3787,6 +3831,10 @@ vim ls/html.lua
 nano lsp/html.lua
 ```
 
+```bash
+code lsp/html.lua
+```
+
 ```lua
 -- lsp/html.lua
 
@@ -3856,6 +3904,10 @@ vim ls/css.lua
 
 ```bash
 nano lsp/css.lua
+```
+
+```bash
+code lsp/css.lua
 ```
 
 ```lua
@@ -3943,6 +3995,10 @@ vim plugins/javascript.lua
 
 ```bash
 nano plugins/javascript.lua
+```
+
+```bash
+code plugins/javascript.lua
 ```
 
 ```lua
@@ -4037,6 +4093,10 @@ vim plugins/dap.lua
 
 ```bash
 nano plugins/dap.lua
+```
+
+```bash
+code plugins/dap.lua
 ```
 
 ```lua
@@ -4462,6 +4522,10 @@ vim config/autocmds.lua
 nano config/autocmds.lua
 ```
 
+```bash
+code config/autocmds.lua
+```
+
 ```lua
 -- config/autocmds.lua
 
@@ -4749,6 +4813,10 @@ vim plugins/mason.lua
 nano plugins/mason.lua
 ```
 
+```bash
+code plugins/mason.lua
+```
+
 ```lua
 -- plugins/mason.lua
 
@@ -4821,6 +4889,10 @@ vim plugins/theme.lua
 
 ```bash
 nano plugins/theme.lua
+```
+
+```bash
+code plugins/theme.lua
 ```
 
 ```lua
@@ -5399,6 +5471,10 @@ vim plugins/latex.lua
 nano plugins/latex.lua
 ```
 
+```bash
+code plugins/latex.lua
+```
+
 ```lua
 -- plugins/latex.lua
 
@@ -5438,6 +5514,10 @@ vim plugins/ui.lua
 
 ```bash
 nano plugins/ui.lua
+```
+
+```bash
+code plugins/ui.lua
 ```
 
 ```lua
@@ -5555,6 +5635,10 @@ vim plugins/treesitter.lua
 nano plugins/treesitter.lua
 ```
 
+```bash
+code plugins/treesitter.lua
+```
+
 ```lua
 -- plugins/treesitter.lua
 
@@ -5590,6 +5674,10 @@ vim plugins/markdown.lua
 
 ```bash
 nano plugins/markdown.lua
+```
+
+```bash
+code plugins/markdown.lua
 ```
 
 ```lua
@@ -5657,6 +5745,10 @@ vim plugins/ltex.lua
 
 ```bash
 nano plugins/ltex.lua
+```
+
+```bash
+code plugins/ltex.lua
 ```
 
 ```lua
@@ -5730,6 +5822,10 @@ vim plugins/notify.lua
 nano plugins/notify.lua
 ```
 
+```bash
+code plugins/notify.lua
+```
+
 ```lua
 -- plugins/notify.lua
 
@@ -5786,6 +5882,10 @@ vim plugins/git.lua
 
 ```bash
 nano plugins/git.lua
+```
+
+```bash
+code plugins/git.lua
 ```
 
 ```lua
@@ -5944,6 +6044,10 @@ vim plugins/alpha.lua
 
 ```bash
 nano plugins/alpha.lua
+```
+
+```bash
+code plugins/alpha.lua
 ```
 
 ```lua
@@ -6532,6 +6636,10 @@ vim config/lazyvim.lua
 nano config/lazyvim.lua
 ```
 
+```bash
+code config/lazyvim.lua
+```
+
 Lösung:
 
 ```lua
@@ -6556,6 +6664,10 @@ vim plugins/snacks.lua
 
 ```bash
 nano plugins/snacks.lua
+```
+
+```bash
+code plugins/snacks.lua
 ```
 
 ```lua
