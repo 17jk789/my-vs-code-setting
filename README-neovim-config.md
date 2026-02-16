@@ -4931,8 +4931,11 @@ vim.api.nvim_create_autocmd("FileType", {
       run_in_term("idea .") 
     end, opts)
 
+    -- Achtung: Diese Mappings sind für einfache Java-Dateien gedacht!
+    -- Nicht in Gradle-, Maven- oder komplexen Projekten verwenden!
+
     vim.keymap.set("n", "<leader>jcr",
-      ":split | terminal javac % && java %:r<CR>",
+      ":split | terminal javac % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
@@ -4942,32 +4945,32 @@ vim.api.nvim_create_autocmd("FileType", {
     )
 
     vim.keymap.set("n", "<leader>jcd",
-      ":split | terminal javac -g % && java %:r<CR>",
+      ":split | terminal javac -g % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>jco",
-      ":split | terminal javac -d . % && java %:r<CR>",
+      ":split | terminal javac -d . % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>jcl",
-      ":split | terminal javac -Xlint % && java %:r<CR>",
+      ":split | terminal javac -Xlint % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>jcw",
-      ":split | terminal javac -Werror % && java %:r<CR>",
+      ":split | terminal javac -Werror % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>jcp",
-      ":split | terminal javac -classpath . % && java -classpath . %:r<CR>",
+      ":split | terminal javac -classpath . % && java -classpath . %:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>jcs",
-      ":split | terminal javac -sourcepath . % && java %:r<CR>",
+      ":split | terminal javac -sourcepath . % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
@@ -4982,7 +4985,7 @@ vim.api.nvim_create_autocmd("FileType", {
     )
 
     vim.keymap.set("n", "<leader>jct",
-      ":split | terminal javac --release 17 % && java %:r<CR>",
+      ":split | terminal javac --release 17 % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
