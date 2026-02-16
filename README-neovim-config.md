@@ -137,7 +137,8 @@ sudo ufw enable # Wichtig -> Firewall aktivieren!!!
 sudo apt install curl wget unzip build-essential cmark fzf
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
-cargo install --locked cargo-nextest cargo-audit critcmp
+# cargo install --locked critcmp
+cargo install --locked cargo-nextest cargo-audit
 # cargo install --locked cargo-watch cargo-expand 
 # rustup component add rustfmt
 sudo apt install clang cmake ninja-build gdb
@@ -4874,6 +4875,18 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrf", function()
       cargo("test " .. vim.fn.expand("<cword>"))
     end, opts) -- Test unter Cursor
+
+    -- Security Audit
+    vim.keymap.set("n", "<leader>rraa", function() cargo("audit") end, opts) -- Projekt auf Lücken prüfen
+
+    -- Benchmarks & Performance
+    vim.keymap.set("n", "<leader>rrbb", function() cargo("bench") end, opts) -- Alle Benchmarks ausführen
+
+    -- Benchmark-Vergleiche (critcmp)
+    vim.keymap.set("n", "<leader>rrcc", function()
+      -- Führt critcmp für die zwei Standard-Baselines aus
+      vim.cmd("split | term critcmp main feature")
+    end, opts)
 
     -- Nextest (falls installiert – deutlich schneller)
     vim.keymap.set("n", "<leader>rrn", function()
