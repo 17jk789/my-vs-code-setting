@@ -4761,57 +4761,57 @@ vim.api.nvim_create_autocmd("FileType", {
     -- vim.keymap.set("n", "<leader>rrc", ":edit Cargo.toml<CR>", opts)
 
     vim.keymap.set("n", "<leader>rcr",
-      ":split | terminal rustc % -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rco",
-      ":split | terminal rustc % -O -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -O -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rcd",
-      ":split | terminal rustc % -g -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -g -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rcn",
-      ":split | terminal rustc % -C target-cpu=native -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -C target-cpu=native -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rcl",
-      ":split | terminal rustc % -C lto -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -C lto -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rcs",
-      ":split | terminal rustc % -C strip=symbols -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -C strip=symbols -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rcp",
-      ":split | terminal rustc % -C panic=abort -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -C panic=abort -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rci",
-      ":split | terminal rustc % -C incremental=target/ -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -C incremental=target/ -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rcc",
-      ":split | terminal rustc % -C codegen-units=1 -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -C codegen-units=1 -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rce",
-      ":split | terminal rustc % --edition=2021 -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % --edition=2021 -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
     vim.keymap.set("n", "<leader>rcw",
-      ":split | terminal rustc % -D warnings -o %:r && ./%:r<CR>",
+      ":split | terminal rustc % -D warnings -o %:t:r && ./%:t:r<CR>",
       opts
     )
 
@@ -4836,7 +4836,7 @@ vim.api.nvim_create_autocmd("FileType", {
     )
 
     vim.keymap.set("n", "<leader>rct",
-      ":split | terminal rustc % --target x86_64-unknown-linux-gnu -o %:r<CR>",
+      ":split | terminal rustc % --target x86_64-unknown-linux-gnu -o %:t:r<CR>",
       opts
     )
 
