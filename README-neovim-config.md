@@ -665,9 +665,10 @@ window-inherit-working-directory = true
 # macos-option-as-alt = true
 
 # HINTERGRUND
-background-opacity = 0.81
+background-opacity = 0.81 # Transparenz
 background = #000000
-# background-blur-radius = 10
+# background-blur-radius = 10 # Weichzeichner-Radius
+# background-blur = macos-glass-regular
 # background-opacity = 0.5	
 
 # FONT
@@ -788,7 +789,9 @@ palette = 15=#e4e4e5
 # term = kitty
 # term = foot
 term = xterm-256color
+# cursor-style = block
 shell-integration = bash
+# cursor-style-blink = false
 shell-integration-features = no-cursor
 
 # SCROLLBACK
