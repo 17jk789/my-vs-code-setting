@@ -4750,11 +4750,52 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("idea .") 
     end, opts) -- IntelliJ
-    vim.keymap.set("n", "<leader>rra", ":split | terminal cargo build && cargo run<CR>", opts)
-    vim.keymap.set("n", "<leader>rrr", ":split | terminal cargo run<CR>", opts)
-    vim.keymap.set("n", "<leader>rrb", ":split | terminal cargo build<CR>", opts)
-    vim.keymap.set("n", "<leader>rrt", ":split | terminal cargo test<CR>", opts)
-    vim.keymap.set("n", "<leader>rrc", ":edit Cargo.toml<CR>", opts)
+
+    -- vim.keymap.set("n", "<leader>rra", ":split | terminal cargo build && cargo run<CR>", opts) vim.keymap.set("n", "<leader>rrr", ":split | terminal cargo run<CR>", opts) 
+    -- vim.keymap.set("n", "<leader>rrb", ":split | terminal cargo build<CR>", opts) 
+    -- vim.keymap.set("n", "<leader>rrt", ":split | terminal cargo test<CR>", opts) 
+    -- vim.keymap.set("n", "<leader>rrc", ":edit Cargo.toml<CR>", opts)
+
+    -- Cargo command im Split-Terminal ausführen
+    local function cargo(cmd)
+      vim.cmd("split | terminal cargo " .. cmd)
+    end
+
+    -- Run / Build Basics
+    vim.keymap.set("n", "<leader>rrr", function() cargo("run") end, opts)
+    vim.keymap.set("n", "<leader>rrb", function() cargo("build") end, opts)
+    vim.keymap.set("n", "<leader>rra", function() cargo("build && cargo run") end, opts)
+
+    -- Release Mode
+    vim.keymap.set("n", "<leader>rrR", function() cargo("run --release") end, opts)
+    vim.keymap.set("n", "<leader>rrB", function() cargo("build --release") end, opts)
+
+    -- Tests (professionell erweitert)
+    vim.keymap.set("n", "<leader>rrt", function() cargo("test") end, opts)
+    vim.keymap.set("n", "<leader>rrT", function() cargo("test -- --nocapture") end, opts)
+    vim.keymap.set("n", "<leader>rrf", function()
+      cargo("test " .. vim.fn.expand("<cword>"))
+    end, opts) -- Test unter Cursor
+
+    -- Nextest (falls installiert – deutlich schneller)
+    vim.keymap.set("n", "<leader>rrn", function()
+      cargo("nextest run")
+    end, opts)
+
+    -- Quality / Professional Dev Tools
+    vim.keymap.set("n", "<leader>rrc", function() cargo("check") end, opts)
+    vim.keymap.set("n", "<leader>rrl", function() cargo("clippy") end, opts)
+    vim.keymap.set("n", "<leader>rrF", function() cargo("fmt") end, opts)
+
+    -- Cleanup / Docs / Benchmarks
+    vim.keymap.set("n", "<leader>rrx", function() cargo("clean") end, opts)
+    vim.keymap.set("n", "<leader>rrd", function() cargo("doc --open") end, opts)
+    vim.keymap.set("n", "<leader>rrbM", function() cargo("bench") end, opts)
+
+    -- Cargo Files schnell öffnen
+    vim.keymap.set("n", "<leader>rrC", ":edit Cargo.toml<CR>", opts)
+    vim.keymap.set("n", "<leader>rrL", ":edit Cargo.lock<CR>", opts)
+
     vim.keymap.set("n", "<F5>", function()
       require("dap").continue()
     end, opts)
@@ -4795,6 +4836,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("idea .") 
     end, opts)
+
     vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", opts)
     vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", opts)
     vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", opts)
@@ -4894,40 +4936,115 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("eclipse") 
     end, opts)
-    vim.keymap.set(
-      "n",
-      "<leader>rra",
-      ":split | terminal sh -c 'cmake -S . -B build && cmake --build build && ./build/app'<CR>",
-      opts
-    )
 
-    vim.keymap.set(
-      "n",
-      "<leader>rrr",
-      ":split | terminal ./build/app<CR>",
-      opts
-    )
+    -- vim.keymap.set(
+    --   "n",
+    --   "<leader>rra",
+    --   ":split | terminal sh -c 'cmake -S . -B build && cmake --build build && ./build/app'<CR>",
+    --   opts
+    -- )
 
-    vim.keymap.set(
-      "n",
-      "<leader>rrb",
-      ":split | terminal cmake --build build<CR>",
-      opts
-    )
+    -- vim.keymap.set(
+    --   "n",
+    --   "<leader>rrr",
+    --   ":split | terminal ./build/app<CR>",
+    --   opts
+    -- )
 
-    vim.keymap.set(
-      "n",
-      "<leader>rrt",
-      ":split | terminal sh -c 'cd build && ctest'<CR>",
-      opts
-    )
+    -- vim.keymap.set(
+    --   "n",
+    --   "<leader>rrb",
+    --   ":split | terminal cmake --build build<CR>",
+    --   opts
+    -- )
 
-    vim.keymap.set(
-      "n",
-      "<leader>rrg",
-      ":edit CMakeLists.txt<CR>",
-      opts
-    )
+    -- vim.keymap.set(
+    --   "n",
+    --   "<leader>rrt",
+    --   ":split | terminal sh -c 'cd build && ctest'<CR>",
+    --   opts
+    -- )
+
+    -- vim.keymap.set(
+    --   "n",
+    --   "<leader>rrg",
+    --   ":edit CMakeLists.txt<CR>",
+    --   opts
+    -- )
+
+    -- Terminal-Split mit Shell-Command
+    local function run(cmd)
+      vim.cmd("split | terminal " .. cmd)
+    end
+
+    -- Configure + Build + Run (Full Pipeline)
+    vim.keymap.set("n", "<leader>rra", function()
+      run("sh -c 'cmake -S . -B build && cmake --build build && ./build/app'")
+    end, opts)
+
+    -- Run only
+    vim.keymap.set("n", "<leader>rrr", function()
+      run("./build/app")
+    end, opts)
+
+    -- Build only
+    vim.keymap.set("n", "<leader>rrb", function()
+      run("cmake --build build")
+    end, opts)
+
+    -- Configure only (sehr wichtig bei neuen Flags)
+    vim.keymap.set("n", "<leader>rrc", function()
+      run("cmake -S . -B build")
+    end, opts)
+
+    -- Debug / Release Builds
+    vim.keymap.set("n", "<leader>rrd", function()
+      run("cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug")
+    end, opts)
+
+    vim.keymap.set("n", "<leader>rrR", function()
+      run("cmake -S . -B build -DCMAKE_BUILD_TYPE=Release")
+    end, opts)
+
+    -- Tests
+    vim.keymap.set("n", "<leader>rrt", function()
+      run("sh -c 'cd build && ctest'")
+    end, opts)
+
+    -- Verbose Tests (sehr hilfreich)
+    vim.keymap.set("n", "<leader>rrT", function()
+      run("sh -c 'cd build && ctest --output-on-failure'")
+    end, opts)
+
+    -- Einzelnen Test ausführen (Name unter Cursor)
+    vim.keymap.set("n", "<leader>rrf", function()
+      local test = vim.fn.expand("<cword>")
+      run("sh -c 'cd build && ctest -R " .. test .. "'")
+    end, opts)
+
+    -- Clean Build
+    vim.keymap.set("n", "<leader>rrx", function()
+      run("rm -rf build")
+    end, opts)
+
+    -- Reconfigure komplett
+    vim.keymap.set("n", "<leader>rrA", function()
+      run("rm -rf build && cmake -S . -B build")
+    end, opts)
+
+    -- Format Code (wenn clang-format vorhanden)
+    vim.keymap.set("n", "<leader>rrF", function()
+      run("clang-format -i $(find . -name '*.[ch]pp' -o -name '*.c' -o -name '*.h')")
+    end, opts)
+
+    -- Static Analysis optional
+    vim.keymap.set("n", "<leader>rrl", function()
+      run("clang-tidy $(find . -name '*.cpp')")
+    end, opts)
+
+    -- Wichtige Files schnell öffnen
+    vim.keymap.set("n", "<leader>rrg", ":edit CMakeLists.txt<CR>", opts)
+    vim.keymap.set("n", "<leader>rrC", ":edit build/CMakeCache.txt<CR>", opts)
   end,
 })
 
@@ -4949,24 +5066,24 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup,
-  pattern = "c",
-  callback = function()
-    vim.keymap.set("n", "<leader>rid", function() 
-      run_in_term("code .") 
-    end, opts) -- VS Code
-    vim.keymap.set("n", "<leader>rir", function() 
-      run_in_term("eclipse") 
-    end, opts) -- Eclipse
-    vim.keymap.set("n", "<leader>rrb", function() 
-      run_in_term("gcc % -o %:r") 
-    end, opts)
-    vim.keymap.set("n", "<leader>rrr", function() 
-      run_in_term("./%:r") 
-    end, opts)
-  end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   group = augroup,
+--   pattern = "c",
+--   callback = function()
+--     vim.keymap.set("n", "<leader>rid", function() 
+--       run_in_term("code .") 
+--     end, opts) -- VS Code
+--     vim.keymap.set("n", "<leader>rir", function() 
+--       run_in_term("eclipse") 
+--     end, opts) -- Eclipse
+--     vim.keymap.set("n", "<leader>rrb", function() 
+--       run_in_term("gcc % -o %:r") 
+--     end, opts)
+--     vim.keymap.set("n", "<leader>rrr", function() 
+--       run_in_term("./%:r") 
+--     end, opts)
+--   end,
+-- })
 
 ```
 
