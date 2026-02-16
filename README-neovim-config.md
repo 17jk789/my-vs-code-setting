@@ -4754,10 +4754,101 @@ vim.api.nvim_create_autocmd("FileType", {
       run_in_term("idea .") 
     end, opts) -- IntelliJ
 
-    -- vim.keymap.set("n", "<leader>rra", ":split | terminal cargo build && cargo run<CR>", opts) vim.keymap.set("n", "<leader>rrr", ":split | terminal cargo run<CR>", opts) 
+    -- vim.keymap.set("n", "<leader>rra", ":split | terminal cargo build && cargo run<CR>", opts) 
+    -- vim.keymap.set("n", "<leader>rrr", ":split | terminal cargo run<CR>", opts) 
     -- vim.keymap.set("n", "<leader>rrb", ":split | terminal cargo build<CR>", opts) 
     -- vim.keymap.set("n", "<leader>rrt", ":split | terminal cargo test<CR>", opts) 
     -- vim.keymap.set("n", "<leader>rrc", ":edit Cargo.toml<CR>", opts)
+
+    vim.keymap.set("n", "<leader>rcr",
+      ":split | terminal rustc % -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rco",
+      ":split | terminal rustc % -O -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcd",
+      ":split | terminal rustc % -g -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcn",
+      ":split | terminal rustc % -C target-cpu=native -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcl",
+      ":split | terminal rustc % -C lto -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcs",
+      ":split | terminal rustc % -C strip=symbols -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcp",
+      ":split | terminal rustc % -C panic=abort -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rci",
+      ":split | terminal rustc % -C incremental=target/ -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcc",
+      ":split | terminal rustc % -C codegen-units=1 -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rce",
+      ":split | terminal rustc % --edition=2021 -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcw",
+      ":split | terminal rustc % -D warnings -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rca",
+      ":split | terminal rustc % --emit=asm<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcll",
+      ":split | terminal rustc % --emit=llvm-ir<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcoj",
+      ":split | terminal rustc % --emit=obj<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rchk",
+      ":split | terminal rustc % --emit=metadata<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rct",
+      ":split | terminal rustc % --target x86_64-unknown-linux-gnu -o %:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rclib",
+      ":split | terminal rustc % --crate-type=staticlib<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>rcdy",
+      ":split | terminal rustc % --crate-type=dylib<CR>",
+      opts
+    )
 
     -- Cargo command im Split-Terminal ausführen
     local function cargo(cmd)
@@ -4839,6 +4930,61 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("idea .") 
     end, opts)
+
+    vim.keymap.set("n", "<leader>jcr",
+      ":split | terminal javac % && java %:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jcc",
+      ":split | terminal javac %<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jcd",
+      ":split | terminal javac -g % && java %:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jco",
+      ":split | terminal javac -d . % && java %:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jcl",
+      ":split | terminal javac -Xlint % && java %:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jcw",
+      ":split | terminal javac -Werror % && java %:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jcp",
+      ":split | terminal javac -classpath . % && java -classpath . %:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jcs",
+      ":split | terminal javac -sourcepath . % && java %:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jcv",
+      ":split | terminal javac -verbose %<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jci",
+      ":split | terminal javac -implicit:none %<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>jct",
+      ":split | terminal javac --release 17 % && java %:r<CR>",
+      opts
+    )
 
     vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", opts)
     vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", opts)
@@ -5087,6 +5233,82 @@ vim.api.nvim_create_autocmd("FileType", {
 --     end, opts)
 --   end,
 -- })
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "c",
+  callback = function()
+    local opts = { noremap = true, silent = true, buffer = true }
+
+    vim.keymap.set("n", "<leader>ccr",
+      ":split | terminal gcc % -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>cco",
+      ":split | terminal gcc % -O2 -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>ccd",
+      ":split | terminal gcc % -g -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>ccw",
+      ":split | terminal gcc % -Wall -Wextra -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>ccs",
+      ":split | terminal gcc % -std=c11 -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>ccc",
+      ":split | terminal gcc -c %<CR>",
+      opts
+    )
+  end,
+})
+
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "cpp",
+  callback = function()
+    local opts = { noremap = true, silent = true, buffer = true }
+    vim.keymap.set("n", "<leader>cpr",
+      ":split | terminal g++ % -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>cpo",
+      ":split | terminal g++ % -O2 -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>cpd",
+      ":split | terminal g++ % -g -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>cpw",
+      ":split | terminal g++ % -Wall -Wextra -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>cps",
+      ":split | terminal g++ % -std=c++20 -o %:r && ./%:r<CR>",
+      opts
+    )
+
+    vim.keymap.set("n", "<leader>cpc",
+      ":split | terminal g++ -c %<CR>",
+      opts
+    )
+  end,
+})
 
 ```
 
