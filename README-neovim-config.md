@@ -136,6 +136,7 @@ sudo apt update
 sudo ufw enable # Wichtig -> Firewall aktivieren!!!
 sudo apt install curl wget unzip build-essential cmark fzf
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+cargo install cargo‑nextest
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk maven
 sudo snap install gradle --classic
