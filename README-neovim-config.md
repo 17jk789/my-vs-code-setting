@@ -4792,7 +4792,44 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", opts)
     vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", opts)
     vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", opts)
-    vim.keymap.set("n", "<leader>rrt", ":split | terminal ./gradlew test<CR>", opts)
+    -- Ganzen Testlauf starten
+    vim.keymap.set("n", "<leader>rrtt", ":split | terminal ./gradlew test<CR>", opts)
+
+    -- Nur aktuelle Testklasse
+    map_if_free("n", "<leader>rrtc", function()
+      local file = vim.fn.expand("%:t:r")
+      vim.cmd("split | terminal ./gradlew test --tests " .. file)
+    end, opts)
+
+    -- Testmethode unter Cursor (JUnit naming assumed)
+    map_if_free("n", "<leader>rrtm", function()
+      local method = vim.fn.expand("<cword>")
+      vim.cmd("split | terminal ./gradlew test --tests '*." .. method .. "'")
+    end, opts)
+
+    -- Tests mit Debug Infos
+    map_if_free("n", "<leader>rrtd", function()
+      vim.cmd("split | terminal ./gradlew test --info")
+    end, opts)
+
+    -- Continuous Test Mode (sehr nice)
+    map_if_free("n", "<leader>rrtw", function()
+      vim.cmd("split | terminal ./gradlew test --continuous")
+    end, opts)
+
+    -- Test Report öffnen
+    map_if_free("n", "<leader>rrtr", function()
+      vim.fn.jobstart(
+        { "xdg-open", "build/reports/tests/test/index.html" },
+        { detach = true }
+      )
+    end, opts)
+
+    -- Nur fehlgeschlagene Tests rerun
+    map_if_free("n", "<leader>rrtf", function()
+      vim.cmd("split | terminal ./gradlew test --rerun-tasks")
+    end, opts)
+
     vim.keymap.set("n", "<leader>rrg", ":edit build.gradle<CR>", opts)
     
     -- noch nicht geststet!!!
@@ -4815,6 +4852,27 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<F12>", function()
       require("dap").step_out()
     end, opts)
+
+    -- Java Runner (Main Classes)
+    map_if_free("n", "<leader>jrr", "<cmd>JavaRunnerRunMain<CR>")
+    map_if_free("n", "<leader>jrs", "<cmd>JavaRunnerStopMain<CR>")
+    map_if_free("n", "<leader>jrl", "<cmd>JavaRunnerToggleLogs<CR>")
+
+    -- Java Tests (ohne Debug, CLI-like Komfort)
+    map_if_free("n", "<leader>jtc", "<cmd>JavaTestRunCurrentClass<CR>")
+    map_if_free("n", "<leader>jtm", "<cmd>JavaTestRunCurrentMethod<CR>")
+    map_if_free("n", "<leader>jta", "<cmd>JavaTestRunAllTests<CR>")
+    map_if_free("n", "<leader>jtr", "<cmd>JavaTestViewLastReport<CR>")
+
+    -- Refactoring (sehr IDE-mäßig)
+    map_if_free("n", "<leader>jrv", "<cmd>JavaRefactorExtractVariable<CR>")
+    map_if_free("n", "<leader>jrm", "<cmd>JavaRefactorExtractMethod<CR>")
+    map_if_free("n", "<leader>jrc", "<cmd>JavaRefactorExtractConstant<CR>")
+    map_if_free("n", "<leader>jrf", "<cmd>JavaRefactorExtractField<CR>")
+
+    -- Settings / Runtime
+    map_if_free("n", "<leader>jrsr", "<cmd>JavaSettingsChangeRuntime<CR>")
+    map_if_free("n", "<leader>jrp", "<cmd>JavaProfile<CR>")
   end,
 })
 
