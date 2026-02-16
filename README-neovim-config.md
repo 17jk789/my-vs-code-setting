@@ -4827,7 +4827,7 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Test Report öffnen
     map_if_free("n", "<leader>rrtr", function()
       vim.fn.jobstart(
-        { "xdg-open", "build/reports/tests/test/index.html" },
+        { "xdg-open", "./app/build/reports/tests/test/index.html" },
         { detach = true }
       )
     end, opts)
