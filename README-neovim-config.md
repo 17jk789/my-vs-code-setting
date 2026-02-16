@@ -4792,6 +4792,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", opts)
     vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", opts)
     vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", opts)
+
     -- Ganzen Testlauf starten
     vim.keymap.set("n", "<leader>rrtt", ":split | terminal ./gradlew test<CR>", opts)
 
