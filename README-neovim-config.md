@@ -4934,57 +4934,57 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Achtung: Diese Mappings sind für einfache Java-Dateien gedacht!
     -- Nicht in Gradle-, Maven- oder komplexen Projekten verwenden!
 
-    vim.keymap.set("n", "<leader>jcr",
+    vim.keymap.set("n", "<leader>rcr",
       ":split | terminal javac % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jcc",
+    vim.keymap.set("n", "<leader>rcc",
       ":split | terminal javac %<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jcd",
+    vim.keymap.set("n", "<leader>rcd",
       ":split | terminal javac -g % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jco",
+    vim.keymap.set("n", "<leader>rco",
       ":split | terminal javac -d . % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jcl",
+    vim.keymap.set("n", "<leader>rcl",
       ":split | terminal javac -Xlint % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jcw",
+    vim.keymap.set("n", "<leader>rcw",
       ":split | terminal javac -Werror % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jcp",
+    vim.keymap.set("n", "<leader>rcp",
       ":split | terminal javac -classpath . % && java -classpath . %:t:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jcs",
+    vim.keymap.set("n", "<leader>rcs",
       ":split | terminal javac -sourcepath . % && java -cp %:p:h %:t:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jcv",
+    vim.keymap.set("n", "<leader>rcv",
       ":split | terminal javac -verbose %<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jci",
+    vim.keymap.set("n", "<leader>rci",
       ":split | terminal javac -implicit:none %<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>jct",
+    vim.keymap.set("n", "<leader>rct",
       ":split | terminal javac --release 17 % && java -cp %:p:h %:t:r<CR>",
       opts
     )
@@ -5243,32 +5243,32 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
-    vim.keymap.set("n", "<leader>ccr",
+    vim.keymap.set("n", "<leader>rcr",
       ":split | terminal gcc % -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>cco",
+    vim.keymap.set("n", "<leader>rco",
       ":split | terminal gcc % -O2 -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>ccd",
+    vim.keymap.set("n", "<leader>rcd",
       ":split | terminal gcc % -g -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>ccw",
+    vim.keymap.set("n", "<leader>rcw",
       ":split | terminal gcc % -Wall -Wextra -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>ccs",
+    vim.keymap.set("n", "<leader>rcs",
       ":split | terminal gcc % -std=c11 -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>ccc",
+    vim.keymap.set("n", "<leader>rcc",
       ":split | terminal gcc -c %<CR>",
       opts
     )
@@ -5281,32 +5281,32 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "cpp",
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
-    vim.keymap.set("n", "<leader>cpr",
+    vim.keymap.set("n", "<leader>rpr",
       ":split | terminal g++ % -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>cpo",
+    vim.keymap.set("n", "<leader>rpo",
       ":split | terminal g++ % -O2 -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>cpd",
+    vim.keymap.set("n", "<leader>rpd",
       ":split | terminal g++ % -g -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>cpw",
+    vim.keymap.set("n", "<leader>rpw",
       ":split | terminal g++ % -Wall -Wextra -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>cps",
+    vim.keymap.set("n", "<leader>rps",
       ":split | terminal g++ % -std=c++20 -o %:r && ./%:r<CR>",
       opts
     )
 
-    vim.keymap.set("n", "<leader>cpc",
+    vim.keymap.set("n", "<leader>rpc",
       ":split | terminal g++ -c %<CR>",
       opts
     )
