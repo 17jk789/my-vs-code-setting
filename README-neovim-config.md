@@ -4839,7 +4839,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rrg", ":edit build.gradle<CR>", opts)
     
-    -- noch nicht geststet!!!
     vim.keymap.set("n", "<F5>", function()
       require("dap").continue()
     end, opts)
