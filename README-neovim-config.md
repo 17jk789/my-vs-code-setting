@@ -4882,11 +4882,11 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Benchmarks & Performance
     vim.keymap.set("n", "<leader>rrbb", function() cargo("bench") end, opts) -- Alle Benchmarks ausführen
 
-    -- Benchmark-Vergleiche (critcmp)
-    vim.keymap.set("n", "<leader>rrcc", function()
-      -- Führt critcmp für die zwei Standard-Baselines aus
-      vim.cmd("split | term critcmp main feature")
-    end, opts)
+    -- Benchmark-Vergleiche (Erfordert installiertes critcmp)
+    -- vim.keymap.set("n", "<leader>rrcc", function()
+    --   -- Führt critcmp für die zwei Standard-Baselines aus
+    --   vim.cmd("split | term critcmp main feature")
+    -- end, opts)
 
     -- Nextest (falls installiert – deutlich schneller)
     vim.keymap.set("n", "<leader>rrn", function()
