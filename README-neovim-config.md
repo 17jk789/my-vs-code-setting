@@ -4783,6 +4783,12 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
+    local function map_if_free(mode, lhs, rhs)
+      if vim.fn.mapcheck(lhs, mode) == "" then
+        vim.keymap.set(mode, lhs, rhs, opts)
+      end
+    end
+
     vim.keymap.set("n", "<leader>rid", function() 
       run_in_term("code .") 
     end, opts)
