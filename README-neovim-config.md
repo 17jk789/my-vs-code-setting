@@ -1422,7 +1422,7 @@ map_if_free("n", "<leader>gr", "<cmd>Git remote -v<CR>")
 map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph --decorate --all<CR>")
 map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<CR>")
 
--- Nur wen du neotes verwendest:
+-- Nur relevant bei Nutzung von neotest-java. Sollte besser in config/autocmds.lua (Java-Sektion) verschoben werden:
 
 -- -- Funktion zum sicheren Laden von Neotest
 -- local function get_neotest()
