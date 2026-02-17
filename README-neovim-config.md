@@ -4877,10 +4877,10 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Cargo Test Current Word (Split)", silent = true, buffer = true }) -- Test unter Cursor
 
     -- Security Audit
-    vim.keymap.set("n", "<leader>rraa", function() cargo("audit") end, { desc = "Cargo Audit (Split)", silent = true, buffer = true }) -- Projekt auf Lücken prüfen
+    vim.keymap.set("n", "<leader>rrA", function() cargo("audit") end, { desc = "Cargo Audit (Split)", silent = true, buffer = true }) -- Projekt auf Lücken prüfen
 
     -- Benchmarks & Performance
-    vim.keymap.set("n", "<leader>rrbb", function() cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true }) -- Alle Benchmarks ausführen
+    vim.keymap.set("n", "<leader>rrB", function() cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true }) -- Alle Benchmarks ausführen
 
     -- Benchmark-Vergleiche (Erfordert installiertes critcmp)
     -- vim.keymap.set("n", "<leader>rrcc", function()
