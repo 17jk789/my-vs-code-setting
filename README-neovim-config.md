@@ -1388,7 +1388,7 @@ map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>", { desc = "Git Pull", silent 
 
 -- Git Status öffnen
 -- map_if_free("n", "<leader>g", Snacks.picker.git_status, { desc = "Git Status Picker" })
-vim.keymap.set("n", "<leader>g", function() Snacks.picker.git_status() end, { desc = "Git Status" })
+vim.keymap.set("n", "<leader>gc", function() Snacks.picker.git_status() end, { desc = "Git Status" })
 
 -- Hunks
 -- map_if_free("n", "]h", "<cmd>Gitsigns next_hunk<cr>", { desc = "Go to Next Git Hunk" })
