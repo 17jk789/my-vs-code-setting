@@ -4867,7 +4867,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- Release Mode
     vim.keymap.set("n", "<leader>rrR", function() cargo("run --release") end, { desc = "Cargo Run Release (Split)", silent = true, buffer = true })
-    vim.keymap.set("n", "<leader>rrB", function() cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrBR", function() cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
 
     -- Tests (professionell erweitert)
     vim.keymap.set("n", "<leader>rrt", function() cargo("test") end, { desc = "Cargo Test (Split)", silent = true, buffer = true })
@@ -4880,7 +4880,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrA", function() cargo("audit") end, { desc = "Cargo Audit (Split)", silent = true, buffer = true }) -- Projekt auf Lücken prüfen
 
     -- Benchmarks & Performance
-    vim.keymap.set("n", "<leader>rrB", function() cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true }) -- Alle Benchmarks ausführen
+    vim.keymap.set("n", "<leader>rrBB", function() cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true }) -- Alle Benchmarks ausführen
 
     -- Benchmark-Vergleiche (Erfordert installiertes critcmp)
     -- vim.keymap.set("n", "<leader>rrcc", function()
@@ -4901,7 +4901,7 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Cleanup / Docs / Benchmarks
     vim.keymap.set("n", "<leader>rrx", function() cargo("clean") end, { desc = "Cargo Clean (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrd", function() cargo("doc --open") end, { desc = "Cargo Doc Open (Split)", silent = true, buffer = true })
-    vim.keymap.set("n", "<leader>rrbM", function() cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrBM", function() cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true })
 
     -- Cargo Files schnell öffnen
     vim.keymap.set("n", "<leader>rrC", ":edit Cargo.toml<CR>", { desc = "Edit Cargo.toml (Split)", silent = true, buffer = true })
