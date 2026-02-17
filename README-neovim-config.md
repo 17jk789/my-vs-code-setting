@@ -1304,23 +1304,23 @@ local function map_if_free(mode, lhs, rhs, opts)
   end
 end
 
-map("n", "<C-p>", ":Telescope find_files<CR>", { desc = "Find Files (Telescope)", silent = true, noremap = true })
-map("n", "<C-f>", ":Telescope live_grep<CR>", { desc = "Telescope Live Grep", silent = true, buffer = true })
-map("n", "<C-o>", ":Telescope lsp_document_symbols<CR>", { desc = "Telescope LSP Document Symbols", silent = true, buffer = true })
--- map("n", "<C-m>", ":TroubleToggle<CR>", { desc = "Trouble Toggle", silent = true, buffer = true })
-map("n", "<leader>xx", ":TroubleToggle<CR>", { desc = "Trouble Toggle", silent = true, buffer = true })
-map("n", "<C-b>", ":NvimTreeToggle<CR>", { desc = "NvimTree Toggle", silent = true, buffer = true })
+map("n", "<C-p>", ":Telescope find_files<cr>", { desc = "Find Files (Telescope)", silent = true, noremap = true })
+map("n", "<C-f>", ":Telescope live_grep<cr>", { desc = "Telescope Live Grep", silent = true, buffer = true })
+map("n", "<C-o>", ":Telescope lsp_document_symbols<cr>", { desc = "Telescope LSP Document Symbols", silent = true, buffer = true })
+-- map("n", "<C-m>", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true, buffer = true })
+map("n", "<leader>xx", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true, buffer = true })
+map("n", "<C-b>", ":NvimTreeToggle<cr>", { desc = "NvimTree Toggle", silent = true, buffer = true })
 
 -- map("n", "<C-_>", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
 map("n", "<leader>/", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
 -- map("v", "<C-_>", "gc", { desc = "Toggle Comment (Visual)", silent = true, buffer = true })
 map("v", "<leader>/", "gc", { desc = "Toggle Comment", silent = true, buffer = true })
 
-map("n", "<C-S-p>", ":Telescope commands<CR>", { desc = "Telescope Commands", silent = true, buffer = true })
+map("n", "<C-S-p>", ":Telescope commands<cr>", { desc = "Telescope Commands", silent = true, buffer = true })
 
--- map("n", "<C-Tab>", ":bnext<CR>", { desc = "Switch to Next Buffer", silent = true, buffer = true })
-map("n", "<leader>bn", ":bnext<CR>", { desc = "Next Buffer", silent = true, buffer = true })
--- map("n", "<C-S-Tab>", ":bprevious<CR>", { desc = "Switch to Previous Buffer", silent = true, buffer = true })
+-- map("n", "<C-Tab>", ":bnext<cr>", { desc = "Switch to Next Buffer", silent = true, buffer = true })
+map("n", "<leader>bn", ":bnext<cr>", { desc = "Next Buffer", silent = true, buffer = true })
+-- map("n", "<C-S-Tab>", ":bprevious<cr>", { desc = "Switch to Previous Buffer", silent = true, buffer = true })
 map("n", "<leader>bp", ":bprevious<cr>", { desc = "Previous Buffer", silent = true, buffer = true })
 
 map("n", "<C-s>", ":w<cr>", { desc = "Save File", silent = true, buffer = true })
@@ -1426,7 +1426,7 @@ map_if_free("n", "<leader>gss", "<cmd>Git stash<cr>", { desc = "Git Stash", sile
 map_if_free("n", "<leader>gsp", "<cmd>Git stash pop<cr>", { desc = "Git Stash Pop", silent = true, buffer = true })
 map_if_free("n", "<leader>gf", "<cmd>Git fetch<cr>", { desc = "Git Fetch", silent = true, buffer = true })
 map_if_free("n", "<leader>gr", "<cmd>Git remote -v<cr>", { desc = "Git Remote -v", silent = true, buffer = true })
--- map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph<CR>")
+-- map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph<cr>")
 map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph --decorate --all<cr>", { desc = "Git Log Oneline Graph", silent = true, buffer = true })
 map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<cr>", { desc = "Diffview Close", silent = true, buffer = true })
 
