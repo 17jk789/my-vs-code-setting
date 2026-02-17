@@ -4953,87 +4953,87 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rcr",
       ":split | terminal javac % && java -cp %:p:h %:t:r<CR>",
-      opts
+      { desc = "Java Compile & Run (Split)", silent = true, buffer = true } 
     )
 
     vim.keymap.set("n", "<leader>rcc",
       ":split | terminal javac %<CR>",
-      opts
+      { desc = "Java Compile (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcd",
       ":split | terminal javac -g % && java -cp %:p:h %:t:r<CR>",
-      opts
+      { desc = "Java Debug Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rco",
       ":split | terminal javac -d . % && java -cp %:p:h %:t:r<CR>",
-      opts
+      { desc = "Java Compile to Directory & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcl",
       ":split | terminal javac -Xlint % && java -cp %:p:h %:t:r<CR>",
-      opts
+      { desc = "Java Compile Xlint & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcw",
       ":split | terminal javac -Werror % && java -cp %:p:h %:t:r<CR>",
-      opts
+      { desc = "Java Compile Werror & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcp",
       ":split | terminal javac -classpath . % && java -classpath . %:t:r<CR>",
-      opts
+      { desc = "Java Classpath Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcs",
       ":split | terminal javac -sourcepath . % && java -cp %:p:h %:t:r<CR>",
-      opts
+      { desc = "Java Sourcepath Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcv",
       ":split | terminal javac -verbose %<CR>",
-      opts
+      { desc = "Java Verbose Compile (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rci",
       ":split | terminal javac -implicit:none %<CR>",
-      opts
+      { desc = "Java No-Implicit Compile (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rct",
       ":split | terminal javac --release 17 % && java -cp %:p:h %:t:r<CR>",
-      opts
+      { desc = "Java Release 17 Compile & Run (Split)", silent = true, buffer = true }
     )
 
-    vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", opts)
-    vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", opts)
-    vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", opts)
+    vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", { desc = "Gradle Build & Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", { desc = "Gradle Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", { desc = "Gradle Build (Split)", silent = true, buffer = true })
 
     -- Ganzen Testlauf starten
-    vim.keymap.set("n", "<leader>rrtt", ":split | terminal ./gradlew test<CR>", opts)
+    vim.keymap.set("n", "<leader>rrtt", ":split | terminal ./gradlew test<CR>", { desc = "Gradle Test (Split)", silent = true, buffer = true })
 
     -- Nur aktuelle Testklasse
     map_if_free("n", "<leader>rrtc", function()
       local file = vim.fn.expand("%:t:r")
       vim.cmd("split | terminal ./gradlew test --tests " .. file)
-    end, opts)
+    end, { desc = "Gradle Test Specific (Split)", silent = true, buffer = true })
 
     -- Testmethode unter Cursor (JUnit naming assumed)
     map_if_free("n", "<leader>rrtm", function()
       local method = vim.fn.expand("<cword>")
       vim.cmd("split | terminal ./gradlew test --tests '*." .. method .. "'")
-    end, opts)
+    end, { desc = "Gradle Test Method (Split)", silent = true, buffer = true })
 
     -- Tests mit Debug Infos
     map_if_free("n", "<leader>rrtd", function()
       vim.cmd("split | terminal ./gradlew test --info")
-    end, opts)
+    end, { desc = "Gradle Test Info (Split)", silent = true, buffer = true })
 
     -- Continuous Test Mode (sehr nice)
     map_if_free("n", "<leader>rrtw", function()
       vim.cmd("split | terminal ./gradlew test --continuous")
-    end, opts)
+    end, { desc = "Gradle Test Continuous (Split)", silent = true, buffer = true })
 
     -- Test Report öffnen
     map_if_free("n", "<leader>rrtr", function()
@@ -5041,14 +5041,14 @@ vim.api.nvim_create_autocmd("FileType", {
         { "xdg-open", "./app/build/reports/tests/test/index.html" },
         { detach = true }
       )
-    end, opts)
+    end, { desc = "Gradle View Test Report (XDG)", silent = true, buffer = true })
 
     -- Nur fehlgeschlagene Tests rerun
     map_if_free("n", "<leader>rrtf", function()
       vim.cmd("split | terminal ./gradlew test --rerun-tasks")
-    end, opts)
+    end, { desc = "Gradle Test Rerun Tasks (Split)", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>rrg", ":edit build.gradle<CR>", opts)
+    vim.keymap.set("n", "<leader>rrg", ":edit build.gradle<CR>", { desc = "Edit build.gradle (Split)", silent = true, buffer = true })
     
     vim.keymap.set("n", "<F5>", function()
       require("dap").continue()
@@ -5071,25 +5071,25 @@ vim.api.nvim_create_autocmd("FileType", {
     end, opts)
 
     -- Java Runner (Main Classes)
-    map_if_free("n", "<leader>jrr", "<cmd>JavaRunnerRunMain<CR>")
-    map_if_free("n", "<leader>jrs", "<cmd>JavaRunnerStopMain<CR>")
-    map_if_free("n", "<leader>jrl", "<cmd>JavaRunnerToggleLogs<CR>")
+    map_if_free("n", "<leader>jrr", "<cmd>JavaRunnerRunMain<CR>", { desc = "Java Run Main (Command)", silent = true, buffer = true })
+    map_if_free("n", "<leader>jrs", "<cmd>JavaRunnerStopMain<CR>", { desc = "Java Stop Main (Command)", silent = true, buffer = true })
+    map_if_free("n", "<leader>jrl", "<cmd>JavaRunnerToggleLogs<CR>", { desc = "Java Toggle Logs (Command)", silent = true, buffer = true })
 
     -- Java Tests (ohne Debug, CLI-like Komfort)
-    map_if_free("n", "<leader>jtc", "<cmd>JavaTestRunCurrentClass<CR>")
-    map_if_free("n", "<leader>jtm", "<cmd>JavaTestRunCurrentMethod<CR>")
-    map_if_free("n", "<leader>jta", "<cmd>JavaTestRunAllTests<CR>")
-    map_if_free("n", "<leader>jtr", "<cmd>JavaTestViewLastReport<CR>")
+    map_if_free("n", "<leader>jtc", "<cmd>JavaTestRunCurrentClass<CR>", { desc = "Java Run Current Class (Command)", silent = true, buffer = true })
+    map_if_free("n", "<leader>jtm", "<cmd>JavaTestRunCurrentMethod<CR>", { desc = "Java Run Current Method (Command)", silent = true, buffer = true })
+    map_if_free("n", "<leader>jta", "<cmd>JavaTestRunAllTests<CR>", { desc = "Java Run All Tests (Command)", silent = true, buffer = true })
+    map_if_free("n", "<leader>jtr", "<cmd>JavaTestViewLastReport<CR>", { desc = "Java View Last Report (Command)", silent = true, buffer = true })
 
     -- Refactoring (sehr IDE-mäßig)
-    map_if_free("n", "<leader>jrv", "<cmd>JavaRefactorExtractVariable<CR>")
-    map_if_free("n", "<leader>jrm", "<cmd>JavaRefactorExtractMethod<CR>")
-    map_if_free("n", "<leader>jrc", "<cmd>JavaRefactorExtractConstant<CR>")
-    map_if_free("n", "<leader>jrf", "<cmd>JavaRefactorExtractField<CR>")
+    map_if_free("n", "<leader>jrv", "<cmd>JavaRefactorExtractVariable<CR>", { desc = "Java Extract Variable (Command)", silent = true, buffer = true })
+    map_if_free("n", "<leader>jrm", "<cmd>JavaRefactorExtractMethod<CR>", { desc = "Java Extract Method (Command)", silent = true, buffer = true })
+    map_if_free("n", "<leader>jrc", "<cmd>JavaRefactorExtractConstant<CR>", { desc = "Java Extract Constant (Command)", silent = true, buffer = true })
+    map_if_free("n", "<leader>jrf", "<cmd>JavaRefactorExtractField<CR>", { desc = "Java Extract Field (Command)", silent = true, buffer = true })
 
     -- Settings / Runtime
-    map_if_free("n", "<leader>jrsr", "<cmd>JavaSettingsChangeRuntime<CR>")
-    map_if_free("n", "<leader>jrp", "<cmd>JavaProfile<CR>")
+    map_if_free("n", "<leader>jrsr", "<cmd>JavaSettingsChangeRuntime<CR>", { desc = "Java Change Runtime (Command)", silent = true, buffer = true })
+    map_if_free("n", "<leader>jrp", "<cmd>JavaProfile<CR>", { desc = "Java Profile (Command)", silent = true, buffer = true })
   end,
 })
 
