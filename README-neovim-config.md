@@ -672,7 +672,8 @@ window-inherit-working-directory = true
 # HINTERGRUND
 background-opacity = 0.81 # Transparenz
 background = #000000
-# background = #1e1e2e #catppuccin, mocha
+# Nutze ein Hashtag-Symbol vor dem Hex-Code, damit die Farbe korrekt erkannt wird:
+# background = 1e1e2e #catppuccin, mocha
 # background-blur-radius = 10 # Weichzeichner-Radius
 # background-blur = macos-glass-regular
 # background-opacity = 0.5	
