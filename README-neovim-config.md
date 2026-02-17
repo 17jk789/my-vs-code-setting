@@ -5526,62 +5526,62 @@ code plugins/theme.lua
 --   },
 -- }
 
-return {
-  {
-    "EdenEast/nightfox.nvim",
-    name = "nightfox",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("nightfox").setup({
-        options = {
-          transparent = true,
-          terminal_colors = true,
-        },
-      })
+-- return {
+--   {
+--     "EdenEast/nightfox.nvim",
+--     name = "nightfox",
+--     lazy = false,
+--     priority = 1000,
+--     config = function()
+--       require("nightfox").setup({
+--         options = {
+--           transparent = true,
+--           terminal_colors = true,
+--         },
+--       })
 
-      -- Hier einfach die Variante ändern: carbonfox, duskfox, nordfox, terafox, dayfox
-      vim.cmd("colorscheme carbonfox")
+--       -- Hier einfach die Variante ändern: carbonfox, duskfox, nordfox, terafox, dayfox
+--       vim.cmd("colorscheme carbonfox")
 
-      -- local groups = {
-      --   "Normal",
-      --   "NormalNC",
-      --   "NormalFloat",
-      --   "FloatBorder",
-      --   "SignColumn",
-      --   "EndOfBuffer",
-      --   "LineNr",
-      --   "CursorLineNr",
-      --   "VertSplit",
-      --   "WinSeparator",
-      -- }
+--       -- local groups = {
+--       --   "Normal",
+--       --   "NormalNC",
+--       --   "NormalFloat",
+--       --   "FloatBorder",
+--       --   "SignColumn",
+--       --   "EndOfBuffer",
+--       --   "LineNr",
+--       --   "CursorLineNr",
+--       --   "VertSplit",
+--       --   "WinSeparator",
+--       -- }
 
-      local groups = {
-        "Normal",
-        "NormalNC",
-        "NormalFloat",
-        "FloatBorder",
-        "SignColumn",
-        "EndOfBuffer",
-        "LineNr",
-        "CursorLineNr",
-        "VertSplit",
-        "WinSeparator",
-        "TabLine",
-        "TabLineSel",
-        "TabLineFill",
-        "StatusLine",
-        "StatusLineNC",
-        "WinBar",
-        "WinBarNC",
-      }
+--       local groups = {
+--         "Normal",
+--         "NormalNC",
+--         "NormalFloat",
+--         "FloatBorder",
+--         "SignColumn",
+--         "EndOfBuffer",
+--         "LineNr",
+--         "CursorLineNr",
+--         "VertSplit",
+--         "WinSeparator",
+--         "TabLine",
+--         "TabLineSel",
+--         "TabLineFill",
+--         "StatusLine",
+--         "StatusLineNC",
+--         "WinBar",
+--         "WinBarNC",
+--       }
 
-      for _, group in ipairs(groups) do
-        vim.api.nvim_set_hl(0, group, { bg = "none" })
-      end
-    end,
-  },
-}
+--       for _, group in ipairs(groups) do
+--         vim.api.nvim_set_hl(0, group, { bg = "none" })
+--       end
+--     end,
+--   },
+-- }
 
 -- Tokyo Night
 
@@ -5642,60 +5642,75 @@ return {
 
 -- Catppuccin
 
--- return {
---   {
---     "catppuccin/nvim",
---     name = "catppuccin",
---     lazy = false,
---     priority = 1000,
---     config = function()
---       require("catppuccin").setup({
---         flavour = "mocha", -- latte / frappe / macchiato / mocha
---         transparent_background = true,
---         term_colors = true,
---       })
+return {
+  {
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require("catppuccin").setup({
+        flavour = "mocha", -- latte / frappe / macchiato / mocha
+        transparent_background = true,
+        term_colors = true,
+      })
 
---       vim.cmd("colorscheme catppuccin")
+      vim.cmd("colorscheme catppuccin")
 
---       -- local groups = {
---       --   "Normal",
---       --   "NormalNC",
---       --   "NormalFloat",
---       --   "FloatBorder",
---       --   "SignColumn",
---       --   "EndOfBuffer",
---       --   "LineNr",
---       --   "CursorLineNr",
---       --   "VertSplit",
---       --   "WinSeparator",
---       -- }
+      -- local groups = {
+      --   "Normal",
+      --   "NormalNC",
+      --   "NormalFloat",
+      --   "FloatBorder",
+      --   "SignColumn",
+      --   "EndOfBuffer",
+      --   "LineNr",
+      --   "CursorLineNr",
+      --   "VertSplit",
+      --   "WinSeparator",
+      -- }
 
---       local groups = {
---         "Normal",
---         "NormalNC",
---         "NormalFloat",
---         "FloatBorder",
---         "SignColumn",
---         "EndOfBuffer",
---         "LineNr",
---         "CursorLineNr",
---         "VertSplit",
---         "WinSeparator",
---         "TabLine",
---         "TabLineSel",
---         "TabLineFill",
---         "StatusLine",
---         "StatusLineNC",
---         "WinBar",
---         "WinBarNC",
---       }
+      local groups = {
+        "Normal",
+        "NormalNC",
+        "NormalFloat",
+        "FloatBorder",
+        "SignColumn",
+        "EndOfBuffer",
+        "LineNr",
+        "CursorLineNr",
+        "VertSplit",
+        "WinSeparator",
+        "TabLine",
+        "TabLineSel",
+        "TabLineFill",
+        "StatusLine",
+        "StatusLineNC",
+        "WinBar",
+        "WinBarNC",
+      }
 
---       for _, group in ipairs(groups) do
---         vim.api.nvim_set_hl(0, group, { bg = "none" })
---       end
---     end,
---   },
--- }
+      for _, group in ipairs(groups) do
+        vim.api.nvim_set_hl(0, group, { bg = "none" })
+      end
+
+            -- Terminal Background beim Start ändern
+      vim.api.nvim_create_autocmd("VimEnter", {
+        callback = function()
+          io.write("\27]11;#1e1e2e\7")
+        end,
+      })
+
+      -- Beim Beenden zurück zu schwarz
+      vim.api.nvim_create_autocmd("VimLeavePre", {
+        callback = function()
+          io.write("\27]11;#000000\7")
+        end,
+      })
+
+    end,
+  },
+}
 
 -- Kanagawa
 
