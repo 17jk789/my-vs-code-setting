@@ -4767,92 +4767,92 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rcr",
       ":split | terminal rustc % -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rco",
       ":split | terminal rustc % -O -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcd",
       ":split | terminal rustc % -g -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Debug Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcn",
       ":split | terminal rustc % -C target-cpu=native -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Native Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcl",
       ":split | terminal rustc % -C lto -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc LTO Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcs",
       ":split | terminal rustc % -C strip=symbols -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Strip Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcp",
       ":split | terminal rustc % -C panic=abort -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Panic Abort Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rci",
       ":split | terminal rustc % -C incremental=target/ -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Incremental Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcc",
       ":split | terminal rustc % -C codegen-units=1 -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Incremental Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rce",
       ":split | terminal rustc % --edition=2021 -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Edition 2021 Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcw",
       ":split | terminal rustc % -D warnings -o %:t:r && ./%:t:r<CR>",
-      opts
+      { desc = "Rustc Deny Warnings Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rca",
       ":split | terminal rustc % --emit=asm<CR>",
-      opts
+      { desc = "Rustc Emit ASM (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcll",
       ":split | terminal rustc % --emit=llvm-ir<CR>",
-      opts
+      { desc = "Rustc Emit LLVM-IR (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcoj",
       ":split | terminal rustc % --emit=obj<CR>",
-      opts
+      { desc = "Rustc Emit Object (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rchk",
       ":split | terminal rustc % --emit=metadata<CR>",
-      opts
+      { desc = "Rustc Emit Metadata (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rct",
       ":split | terminal rustc % --target x86_64-unknown-linux-gnu -o %:t:r<CR>",
-      opts
+      { desc = "Rustc Target Linux Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rclib",
       ":split | terminal rustc % --crate-type=staticlib<CR>",
-      opts
+      { desc = "Rustc Emit Static Library (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcdy",
       ":split | terminal rustc % --crate-type=dylib<CR>",
-      opts
+      { desc = "Rustc Emit Dynamic Library (Split)", silent = true, buffer = true }
     )
 
     -- Cargo command im Split-Terminal ausführen
@@ -4861,26 +4861,26 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 
     -- Run / Build Basics
-    vim.keymap.set("n", "<leader>rrr", function() cargo("run") end, opts)
-    vim.keymap.set("n", "<leader>rrb", function() cargo("build") end, opts)
-    vim.keymap.set("n", "<leader>rra", function() cargo("build && cargo run") end, opts)
+    vim.keymap.set("n", "<leader>rrr", function() cargo("run") end, { desc = "Cargo Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrb", function() cargo("build") end, { desc = "Cargo Build (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rra", function() cargo("build && cargo run") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
 
     -- Release Mode
-    vim.keymap.set("n", "<leader>rrR", function() cargo("run --release") end, opts)
-    vim.keymap.set("n", "<leader>rrB", function() cargo("build --release") end, opts)
+    vim.keymap.set("n", "<leader>rrR", function() cargo("run --release") end, { desc = "Cargo Run Release (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrB", function() cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
 
     -- Tests (professionell erweitert)
-    vim.keymap.set("n", "<leader>rrt", function() cargo("test") end, opts)
-    vim.keymap.set("n", "<leader>rrT", function() cargo("test -- --nocapture") end, opts)
+    vim.keymap.set("n", "<leader>rrt", function() cargo("test") end, { desc = "Cargo Test (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrT", function() cargo("test -- --nocapture") end, { desc = "Cargo Test No-Capture (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrf", function()
       cargo("test " .. vim.fn.expand("<cword>"))
-    end, opts) -- Test unter Cursor
+    end, { desc = "Cargo Test Current Word (Split)", silent = true, buffer = true }) -- Test unter Cursor
 
     -- Security Audit
-    vim.keymap.set("n", "<leader>rraa", function() cargo("audit") end, opts) -- Projekt auf Lücken prüfen
+    vim.keymap.set("n", "<leader>rraa", function() cargo("audit") end, { desc = "Cargo Audit (Split)", silent = true, buffer = true }) -- Projekt auf Lücken prüfen
 
     -- Benchmarks & Performance
-    vim.keymap.set("n", "<leader>rrbb", function() cargo("bench") end, opts) -- Alle Benchmarks ausführen
+    vim.keymap.set("n", "<leader>rrbb", function() cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true }) -- Alle Benchmarks ausführen
 
     -- Benchmark-Vergleiche (Erfordert installiertes critcmp)
     -- vim.keymap.set("n", "<leader>rrcc", function()
@@ -4891,21 +4891,21 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Nextest (falls installiert – deutlich schneller)
     vim.keymap.set("n", "<leader>rrn", function()
       cargo("nextest run")
-    end, opts)
+    end, { desc = "Cargo Nextest Run (Split)", silent = true, buffer = true })
 
     -- Quality / Professional Dev Tools
-    vim.keymap.set("n", "<leader>rrc", function() cargo("check") end, opts)
-    vim.keymap.set("n", "<leader>rrl", function() cargo("clippy") end, opts)
-    vim.keymap.set("n", "<leader>rrF", function() cargo("fmt") end, opts)
+    vim.keymap.set("n", "<leader>rrc", function() cargo("check") end, { desc = "Cargo Check (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrl", function() cargo("clippy") end, { desc = "Cargo Clippy (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrF", function() cargo("fmt") end, { desc = "Cargo Format (Split)", silent = true, buffer = true })
 
     -- Cleanup / Docs / Benchmarks
-    vim.keymap.set("n", "<leader>rrx", function() cargo("clean") end, opts)
-    vim.keymap.set("n", "<leader>rrd", function() cargo("doc --open") end, opts)
-    vim.keymap.set("n", "<leader>rrbM", function() cargo("bench") end, opts)
+    vim.keymap.set("n", "<leader>rrx", function() cargo("clean") end, { desc = "Cargo Clean (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrd", function() cargo("doc --open") end, { desc = "Cargo Doc Open (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrbM", function() cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true })
 
     -- Cargo Files schnell öffnen
-    vim.keymap.set("n", "<leader>rrC", ":edit Cargo.toml<CR>", opts)
-    vim.keymap.set("n", "<leader>rrL", ":edit Cargo.lock<CR>", opts)
+    vim.keymap.set("n", "<leader>rrC", ":edit Cargo.toml<CR>", { desc = "Edit Cargo.toml (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrL", ":edit Cargo.lock<CR>", { desc = "Edit Cargo.lock (Split)", silent = true, buffer = true })
 
     vim.keymap.set("n", "<F5>", function()
       require("dap").continue()
