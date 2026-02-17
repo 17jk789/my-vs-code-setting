@@ -1307,44 +1307,44 @@ end
 map("n", "<C-p>", ":Telescope find_files<CR>", { desc = "Find Files (Telescope)", silent = true, noremap = true })
 map("n", "<C-f>", ":Telescope live_grep<CR>", { desc = "Telescope Live Grep", silent = true, buffer = true })
 map("n", "<C-o>", ":Telescope lsp_document_symbols<CR>", { desc = "Telescope LSP Document Symbols", silent = true, buffer = true })
--- map("n", "<C-m>", ":TroubleToggle<CR>", opts)
+-- map("n", "<C-m>", ":TroubleToggle<CR>", { desc = "Trouble Toggle", silent = true, buffer = true })
 map("n", "<leader>xx", ":TroubleToggle<CR>", { desc = "Trouble Toggle", silent = true, buffer = true })
 map("n", "<C-b>", ":NvimTreeToggle<CR>", { desc = "NvimTree Toggle", silent = true, buffer = true })
 
--- map("n", "<C-_>", "gcc", opts)
+-- map("n", "<C-_>", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
 map("n", "<leader>/", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
--- map("v", "<C-_>", "gc", opts)
+-- map("v", "<C-_>", "gc", { desc = "Toggle Comment (Visual)", silent = true, buffer = true })
 map("v", "<leader>/", "gc", { desc = "Toggle Comment", silent = true, buffer = true })
 
 map("n", "<C-S-p>", ":Telescope commands<CR>", { desc = "Telescope Commands", silent = true, buffer = true })
 
--- map("n", "<C-Tab>", ":bnext<CR>", opts)
+-- map("n", "<C-Tab>", ":bnext<CR>", { desc = "Switch to Next Buffer", silent = true, buffer = true })
 map("n", "<leader>bn", ":bnext<CR>", { desc = "Next Buffer", silent = true, buffer = true })
--- map("n", "<C-S-Tab>", ":bprevious<CR>", opts)
-map("n", "<leader>bp", ":bprevious<CR>", { desc = "Previous Buffer", silent = true, buffer = true })
+-- map("n", "<C-S-Tab>", ":bprevious<CR>", { desc = "Switch to Previous Buffer", silent = true, buffer = true })
+map("n", "<leader>bp", ":bprevious<cr>", { desc = "Previous Buffer", silent = true, buffer = true })
 
-map("n", "<C-s>", ":w<CR>", { desc = "Save File", silent = true, buffer = true })
-map("i", "<C-s>", "<Esc>:w<CR>a", { desc = "Save File and Continue Editing", silent = true, buffer = true })
+map("n", "<C-s>", ":w<cr>", { desc = "Save File", silent = true, buffer = true })
+map("i", "<C-s>", "<Esc>:w<cr>a", { desc = "Save File and Continue Editing", silent = true, buffer = true })
 
-map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Go to Definition", silent = true, buffer = true })
-map("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { desc = "Show References", silent = true, buffer = true })
-map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { desc = "Show Hover Info", silent = true, buffer = true })
+map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to Definition", silent = true, buffer = true })
+map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "Show References", silent = true, buffer = true })
+map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "Show Hover Info", silent = true, buffer = true })
 
-map("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<CR>", opts)
+map("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 
--- map("n", "<C-m>", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
--- map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", opts)
--- map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
+-- map("n", "<C-m>", "<cmd>lua vim.diagnostic.open_float()<cr>", { desc = "Show Diagnostic Float", silent = true, buffer = true })
+-- map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Go to Previous Diagnostic", silent = true, buffer = true })
+-- map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Go to Next Diagnostic", silent = true, buffer = true })
 
-map("n", "<F5>", "<cmd>lua require'dap'.continue()<CR>", { desc = "DAP Continue", silent = true, buffer = true })
-map("n", "<F9>", "<cmd>lua require'dap'.toggle_breakpoint()<CR>", { desc = "DAP Toggle Breakpoint", silent = true, buffer = true })
-map("n", "<F10>", "<cmd>lua require'dap'.step_over()<CR>", { desc = "DAP Step Over", silent = true, buffer = true })
-map("n", "<F11>", "<cmd>lua require'dap'.step_into()<CR>", { desc = "DAP Step Into", silent = true, buffer = true })
-map("n", "<F12>", "<cmd>lua require'dap'.step_out()<CR>", { desc = "DAP Step Out", silent = true, buffer = true })
+map("n", "<F5>", "<cmd>lua require'dap'.continue()<cr>", { desc = "DAP Continue", silent = true, buffer = true })
+map("n", "<F9>", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", { desc = "DAP Toggle Breakpoint", silent = true, buffer = true })
+map("n", "<F10>", "<cmd>lua require'dap'.step_over()<cr>", { desc = "DAP Step Over", silent = true, buffer = true })
+map("n", "<F11>", "<cmd>lua require'dap'.step_into()<cr>", { desc = "DAP Step Into", silent = true, buffer = true })
+map("n", "<F12>", "<cmd>lua require'dap'.step_out()<cr>", { desc = "DAP Step Out", silent = true, buffer = true })
 
--- map("n", "<C-d>", "<cmd>lua require('dapui').toggle()<CR>", opts)
-map("n", "<leader>du", "<cmd>lua require('dapui').toggle()<CR>", { desc = "DAP UI Toggle", silent = true, buffer = true })
-map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<CR>", { desc = "DAP Open REPL", silent = true, buffer = true })
+-- map("n", "<C-d>", "<cmd>lua require('dapui').toggle()<cr>", { desc = "Toggle DAP UI", silent = true, buffer = true })
+map("n", "<leader>du", "<cmd>lua require('dapui').toggle()<cr>", { desc = "DAP UI Toggle", silent = true, buffer = true })
+map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<cr>", { desc = "DAP Open REPL", silent = true, buffer = true })
 
 -- Clipboard yanking (system clipboard)
 -- vim.keymap.set({ "n", "v" }, "y", '"+y', { noremap = true, silent = true })
@@ -1387,12 +1387,12 @@ map_if_free("n", "<leader>gp", "<cmd>Git push<cr>", { desc = "Git Push", silent 
 map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>", { desc = "Git Pull", silent = true, buffer = true })
 
 -- Git Status öffnen
--- map_if_free("n", "<leader>g", Snacks.picker.git_status)
+-- map_if_free("n", "<leader>g", Snacks.picker.git_status, { desc = "Git Status Picker" })
 vim.keymap.set("n", "<leader>g", function() Snacks.picker.git_status() end, { desc = "Git Status" })
 
 -- Hunks
--- map_if_free("n", "]h", "<cmd>Gitsigns next_hunk<CR>")
--- map_if_free("n", "[h", "<cmd>Gitsigns prev_hunk<CR>")
+-- map_if_free("n", "]h", "<cmd>Gitsigns next_hunk<cr>", { desc = "Go to Next Git Hunk" })
+-- map_if_free("n", "[h", "<cmd>Gitsigns prev_hunk<cr>", { desc = "Go to Previous Git Hunk" })
 map_if_free("n", "<leader>hs", "<cmd>Gitsigns stage_hunk<cr>", { desc = "Gitsigns Stage Hunk", silent = true, buffer = true })
 map_if_free("n", "<leader>hr", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Gitsigns Reset Hunk", silent = true, buffer = true })
 map_if_free("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Gitsigns Preview Hunk", silent = true, buffer = true })
