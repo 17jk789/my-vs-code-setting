@@ -5149,71 +5149,71 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Configure + Build + Run (Full Pipeline)
     vim.keymap.set("n", "<leader>rra", function()
       run("sh -c 'cmake -S . -B build && cmake --build build && ./build/app'")
-    end, opts)
+    end, { desc = "CMake Build & Run (Split)", silent = true, buffer = true })
 
     -- Run only
     vim.keymap.set("n", "<leader>rrr", function()
       run("./build/app")
-    end, opts)
+    end, { desc = "C/C++ Run Binary (Split)", silent = true, buffer = true })
 
     -- Build only
     vim.keymap.set("n", "<leader>rrb", function()
       run("cmake --build build")
-    end, opts)
+    end, { desc = "CMake Build (Split)", silent = true, buffer = true })
 
     -- Configure only (sehr wichtig bei neuen Flags)
     vim.keymap.set("n", "<leader>rrc", function()
       run("cmake -S . -B build")
-    end, opts)
+    end, { desc = "CMake Configure (Split)", silent = true, buffer = true })
 
     -- Debug / Release Builds
     vim.keymap.set("n", "<leader>rrd", function()
       run("cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug")
-    end, opts)
+    end, { desc = "CMake Configure Debug (Split)", silent = true, buffer = true })
 
     vim.keymap.set("n", "<leader>rrR", function()
       run("cmake -S . -B build -DCMAKE_BUILD_TYPE=Release")
-    end, opts)
+    end, { desc = "CMake Configure Release (Split)", silent = true, buffer = true })
 
     -- Tests
     vim.keymap.set("n", "<leader>rrt", function()
       run("sh -c 'cd build && ctest'")
-    end, opts)
+    end, { desc = "CMake Run Tests (Split)", silent = true, buffer = true })
 
     -- Verbose Tests (sehr hilfreich)
     vim.keymap.set("n", "<leader>rrT", function()
       run("sh -c 'cd build && ctest --output-on-failure'")
-    end, opts)
+    end, { desc = "CMake Run Tests Output-on-Failure (Split)", silent = true, buffer = true })
 
     -- Einzelnen Test ausführen (Name unter Cursor)
     vim.keymap.set("n", "<leader>rrf", function()
       local test = vim.fn.expand("<cword>")
       run("sh -c 'cd build && ctest -R " .. test .. "'")
-    end, opts)
+    end, { desc = "CMake Run Specific Test (Split)", silent = true, buffer = true })
 
     -- Clean Build
     vim.keymap.set("n", "<leader>rrx", function()
       run("rm -rf build")
-    end, opts)
+    end, { desc = "CMake Clean Build Directory (Split)", silent = true, buffer = true })
 
     -- Reconfigure komplett
     vim.keymap.set("n", "<leader>rrA", function()
       run("rm -rf build && cmake -S . -B build")
-    end, opts)
+    end, { desc = "CMake Reconfigure Clean (Split)", silent = true, buffer = true })
 
     -- Format Code (wenn clang-format vorhanden)
     vim.keymap.set("n", "<leader>rrF", function()
       run("clang-format -i $(find . -name '*.[ch]pp' -o -name '*.c' -o -name '*.h')")
-    end, opts)
+    end, { desc = "Clang-Format All Files (Split)", silent = true, buffer = true })
 
     -- Static Analysis optional
     vim.keymap.set("n", "<leader>rrl", function()
       run("clang-tidy $(find . -name '*.cpp')")
-    end, opts)
+    end, { desc = "Clang-Tidy Analyze (Split)", silent = true, buffer = true })
 
     -- Wichtige Files schnell öffnen
-    vim.keymap.set("n", "<leader>rrg", ":edit CMakeLists.txt<CR>", opts)
-    vim.keymap.set("n", "<leader>rrC", ":edit build/CMakeCache.txt<CR>", opts)
+    vim.keymap.set("n", "<leader>rrg", ":edit CMakeLists.txt<CR>", { desc = "Edit CMakeLists.txt (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrC", ":edit build/CMakeCache.txt<CR>", { desc = "Edit CMakeCache.txt (Split)", silent = true, buffer = true })
   end,
 })
 
@@ -5229,9 +5229,9 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("pycharm .") 
     end, opts) -- PyCharm
-    vim.keymap.set("n", "<leader>rrr", ":split | terminal python3 %<CR>", opts)
-    vim.keymap.set("n", "<leader>rrt", ":split | terminal pytest<CR>", opts)
-    vim.keymap.set("n", "<leader>rrv", ":split | terminal python3 -m venv .venv<CR>", opts)
+    vim.keymap.set("n", "<leader>rrr", ":split | terminal python3 %<CR>", { desc = "Python Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrt", ":split | terminal pytest<CR>", { desc = "Pytest Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrv", ":split | terminal python3 -m venv .venv<CR>", { desc = "Python Create Venv (Split)", silent = true, buffer = true })
   end,
 })
 
@@ -5262,32 +5262,32 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rcr",
       ":split | terminal gcc % -o %:r && ./%:r<CR>",
-      opts
+      { desc = "GCC Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rco",
       ":split | terminal gcc % -O2 -o %:r && ./%:r<CR>",
-      opts
+      { desc = "GCC Optimized Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcd",
       ":split | terminal gcc % -g -o %:r && ./%:r<CR>",
-      opts
+      { desc = "GCC Debug Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcw",
       ":split | terminal gcc % -Wall -Wextra -o %:r && ./%:r<CR>",
-      opts
+      { desc = "GCC Warnings Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcs",
       ":split | terminal gcc % -std=c11 -o %:r && ./%:r<CR>",
-      opts
+      { desc = "GCC Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rcc",
       ":split | terminal gcc -c %<CR>",
-      opts
+      { desc = "GCC Compile Only (Split)", silent = true, buffer = true }
     )
   end,
 })
@@ -5300,32 +5300,32 @@ vim.api.nvim_create_autocmd("FileType", {
     local opts = { noremap = true, silent = true, buffer = true }
     vim.keymap.set("n", "<leader>rpr",
       ":split | terminal g++ % -o %:r && ./%:r<CR>",
-      opts
+      { desc = "G++ Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rpo",
       ":split | terminal g++ % -O2 -o %:r && ./%:r<CR>",
-      opts
+      { desc = "G++ O2 Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rpd",
       ":split | terminal g++ % -g -o %:r && ./%:r<CR>",
-      opts
+      { desc = "G++ Debug Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rpw",
       ":split | terminal g++ % -Wall -Wextra -o %:r && ./%:r<CR>",
-      opts
+      { desc = "G++ Warnings Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rps",
       ":split | terminal g++ % -std=c++20 -o %:r && ./%:r<CR>",
-      opts
+      { desc = "G++ C++20 Compile & Run (Split)", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rpc",
       ":split | terminal g++ -c %<CR>",
-      opts
+      { desc = "G++ Compile Only (Split)", silent = true, buffer = true }
     )
   end,
 })
