@@ -6197,12 +6197,25 @@ return {
     build = ":TSUpdate",
     opts = {
       ensure_installed = {
-        "c", "cpp", "rust", "java", "kotlin",
-        "lua", "python", "javascript", "typescript",
-        "toml", "yaml", "json", "json5", "ini", "xml",
-        "makefile", "cmake", "gradle", "bash", "sh",
-        "markdown", "markdown_inline", "rst", "latex",
-        "html", "css", "sql"
+        -- Programmiersprachen
+        "c", "cpp", "rust", "java", "kotlin", "lua", "python", 
+        "javascript", "typescript", "tsx", "sql", "go", "zig",
+        
+        -- Konfiguration & Infrastruktur
+        "ghostty", "dockerfile", "terraform", "nginx", "tmux", 
+        "ssh_config", "toml", "yaml", "json", "json5", "jsonc", 
+        "ini", "xml", "ron",
+        
+        -- Build & Shell
+        "makefile", "cmake", "gradle", "bash", "sh", "fish", "zsh",
+        
+        -- Dokumentation & Git
+        "markdown", "markdown_inline", "rst", "latex", "bibtex", 
+        "vim", "vimdoc", "query", "regex", "git_config", 
+        "gitignore", "git_rebase", "gitcommit",
+        
+        -- Web
+        "html", "css", "scss"
       },
       highlight = { enable = true },
     },
