@@ -6198,24 +6198,20 @@ return {
     opts = {
       ensure_installed = {
         -- Programmiersprachen
-        "c", "cpp", "rust", "java", "kotlin", "lua", "python", 
-        "javascript", "typescript", "tsx", "sql", "go", "zig",
-        
-        -- Konfiguration & Infrastruktur
-        "ghostty", "dockerfile", "terraform", "nginx", "tmux", 
-        "ssh_config", "toml", "yaml", "json", "json5", "jsonc", 
-        "ini", "xml", "ron",
-        
-        -- Build & Shell
-        "makefile", "cmake", "gradle", "bash", "sh", "fish", "zsh",
-        
+        "c", "cpp", "rust", "java", "kotlin", "lua", "python", "go", "zig", "ron",
+        "javascript", "typescript", "tsx", "sql", "ruby", "php", "perl",
+        -- Konfiguration (Korrekturen!)
+        "dockerfile", "terraform", "nginx", "tmux", "ssh_config", "diff",
+        "toml", "yaml", "json", "json5", "jsonc", "ini", "xml", "csv",
+        -- Build & Shell (Korrekturen!)
+        "make", "groovy", "cmake", "bash", "sh", "fish", "zsh", "powershell",
+        -- System & Desktop-Envs (Ghostty-kompatibel)
+        "hyprlang", "waybar", "rasi", "kdl",
         -- Dokumentation & Git
-        "markdown", "markdown_inline", "rst", "latex", "bibtex", 
-        "vim", "vimdoc", "query", "regex", "git_config", 
-        "gitignore", "git_rebase", "gitcommit",
-        
+        "markdown", "markdown_inline", "rst", "latex", "bibtex", "vim", "vimdoc",
+        "query", "regex", "git_config", "gitignore", "git_rebase", "gitcommit",
         -- Web
-        "html", "css", "scss"
+        "html", "css", "scss", "graphql", "http",
       },
       highlight = { enable = true },
     },
