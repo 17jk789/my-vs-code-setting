@@ -6214,6 +6214,8 @@ return {
         "html", "css", "scss", "graphql", "http",
       },
       highlight = { enable = true },
+      --  indent = { enable = true },
+      -- auto_install = true,
     },
   },
 }
