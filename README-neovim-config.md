@@ -3080,9 +3080,6 @@ return {
       opts = {
         servers = {
           jdtls = {
-            -- capabilities = require("cmp_nvim_lsp").default_capabilities(),
-            local ok, cmp = pcall(require, "cmp_nvim_lsp")
-            capabilities = ok and cmp.default_capabilities() or nil,
             settings = {
               java = {
                 eclipse = {
@@ -3304,7 +3301,6 @@ return {
 
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
-      "hrsh7th/cmp-nvim-lsp",
       -- Nur nötig, wenn du die Test-UI direkt in Neovim haben willst.
       -- "nvim-neotest/neotest",
       -- Ich würde aber eine plugins/neotest.lua schreiben:
@@ -3330,7 +3326,7 @@ return {
       -- "nvim-lua/plenary.nvim", -- notwendig für neotest
     },
     config = function()
-      -- require("java").setup() -- Doppeltes require("java").setup() vermeiden Sonst: Debug/Test Bugs, Code-Actions verschwinden manchmal, doppelte LSP-Attachs
+      require("java").setup() -- Doppeltes require("java").setup() vermeiden Sonst: Debug/Test Bugs, Code-Actions verschwinden manchmal, doppelte LSP-Attachs, wird aber dennoch benötigt!
       vim.lsp.enable("jdtls") -- Wird von nvim-java intern genutzt
       -- require("lspconfig").jdtls.setup({}) -- Das ist die Standardmethode für LSPs über nvim-lspconfig, aber wenn du nvim-java benutzt -> bleib bei vim.lsp.enable("jdtls")
     end,
