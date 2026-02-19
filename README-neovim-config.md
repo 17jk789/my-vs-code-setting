@@ -3080,7 +3080,9 @@ return {
       opts = {
         servers = {
           jdtls = {
-            capabilities = require("cmp_nvim_lsp").default_capabilities(),
+            -- capabilities = require("cmp_nvim_lsp").default_capabilities(),
+            local ok, cmp = pcall(require, "cmp_nvim_lsp")
+            capabilities = ok and cmp.default_capabilities() or nil,
             settings = {
               java = {
                 eclipse = {
@@ -3187,10 +3189,10 @@ return {
                 },
 
                 -- Gradle explizit konfigurieren (wichtig!)
-                -- gradle = {
-                --   enabled = true,
-                --   offlineMode = false,
-                -- },
+                gradle = {
+                  enabled = true,
+                  -- offlineMode = false,
+                },
 
                 -- Autobuild / Autobuild Watcher
                 autobuild = {
@@ -3215,14 +3217,14 @@ return {
                 },
 
                 -- Decompiler Support
-                -- contentProvider = { preferred = "fernflower" },
+                contentProvider = { preferred = "fernflower" },
 
                 -- Semantic Highlighting (optisch besser)
                 semanticHighlighting = {
                   enabled = true,
                 },
 
-                -- Folding / Symbols Advanced
+                -- Folding / Symbols Advanced: Unser Neovim nutzt Tree-sitter Folding → dann unnötig.
                 -- foldingRange = {
                 --   enabled = true,
                 -- },
