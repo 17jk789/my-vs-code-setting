@@ -3027,7 +3027,7 @@ return {
     --     vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
     --     vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
     --     vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-    --     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+    --     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
     --   end
 
     --   jdtls.start_or_attach({
@@ -3080,6 +3080,7 @@ return {
       opts = {
         servers = {
           jdtls = {
+            capabilities = require("cmp_nvim_lsp").default_capabilities(),
             settings = {
               java = {
                 eclipse = {
@@ -3238,6 +3239,12 @@ return {
               allow_incremental_sync = true,
             },
 
+            init_options = {
+              extendedClientCapabilities = {
+                resolveAdditionalTextEditsSupport = true,
+              },
+            },
+
             -- Wird von nvim-java/nvim-java Zum Teil übernommen
             -- init_options = {
             --   bundles = {},
@@ -3272,6 +3279,22 @@ return {
               notifications = {
                 dap = true,
               },
+
+              on_attach = function(_, bufnr)
+                local map = function(mode, lhs, rhs)
+                  vim.keymap.set(mode, lhs, rhs, { buffer = bufnr })
+                end
+
+                -- map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+                -- map("v", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+
+                map("n", "<leader>oi", function()
+                  vim.lsp.buf.code_action({
+                    context = { only = { "source.organizeImports" } },
+                    apply = true,
+                  })
+                end)
+              end,
             })
           end,
         },
@@ -3279,6 +3302,7 @@ return {
 
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
+      "hrsh7th/cmp-nvim-lsp",
       -- Nur nötig, wenn du die Test-UI direkt in Neovim haben willst.
       -- "nvim-neotest/neotest",
       -- Ich würde aber eine plugins/neotest.lua schreiben:
@@ -3304,7 +3328,7 @@ return {
       -- "nvim-lua/plenary.nvim", -- notwendig für neotest
     },
     config = function()
-      require("java").setup()
+      -- require("java").setup() -- Doppeltes require("java").setup() vermeiden Sonst: Debug/Test Bugs, Code-Actions verschwinden manchmal, doppelte LSP-Attachs
       vim.lsp.enable("jdtls") -- Wird von nvim-java intern genutzt
       -- require("lspconfig").jdtls.setup({}) -- Das ist die Standardmethode für LSPs über nvim-lspconfig, aber wenn du nvim-java benutzt -> bleib bei vim.lsp.enable("jdtls")
     end,
@@ -3591,7 +3615,7 @@ code lsp/python.lua
 --             buf_map('n', 'gd', vim.lsp.buf.definition)
 --             buf_map('n', 'K', vim.lsp.buf.hover)
 --             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
---             buf_map('n', '<leader>ca', vim.lsp.buf.code_action)
+--             buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map('n', '<leader>f', function()
 --                 vim.lsp.buf.format({ async = true })
 --             end)
@@ -3666,7 +3690,7 @@ M.setup = function(capabilities)
             buf_map('n', 'gd', vim.lsp.buf.definition)
             buf_map('n', 'K', vim.lsp.buf.hover)
             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
-            buf_map('n', '<leader>ca', vim.lsp.buf.code_action)
+            buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
             buf_map('n', '<leader>f', function()
                 vim.lsp.buf.format({ async = true })
             end)
@@ -3758,7 +3782,7 @@ code lsp/lua.lua
 --             buf_map("n", "gd", vim.lsp.buf.definition)
 --             buf_map("n", "K", vim.lsp.buf.hover)
 --             buf_map("n", "<leader>rn", vim.lsp.buf.rename)
---             buf_map("n", "<leader>ca", vim.lsp.buf.code_action)
+--             buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map("n", "<leader>f", function()
 --                 vim.lsp.buf.format({ async = true })
 --             end)
@@ -3995,7 +4019,7 @@ code lsp/html.lua
 --             buf_map("n", "gd", vim.lsp.buf.definition)
 --             buf_map("n", "K", vim.lsp.buf.hover)
 --             buf_map("n", "<leader>rn", vim.lsp.buf.rename)
---             buf_map("n", "<leader>ca", vim.lsp.buf.code_action)
+--             buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map("n", "<leader>f", function()
 --                 vim.lsp.buf.format({ async = true })
 --             end)
@@ -4085,7 +4109,7 @@ code lsp/css.lua
 --             buf_map("n", "gd", vim.lsp.buf.definition)
 --             buf_map("n", "K", vim.lsp.buf.hover)
 --             buf_map("n", "<leader>rn", vim.lsp.buf.rename)
---             buf_map("n", "<leader>ca", vim.lsp.buf.code_action)
+--             buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map("n", "<leader>f", function()
 --                 vim.lsp.buf.format({ async = true })
 --             end)
