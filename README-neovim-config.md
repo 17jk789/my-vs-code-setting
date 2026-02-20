@@ -1430,37 +1430,6 @@ map_if_free("n", "<leader>gr", "<cmd>Git remote -v<cr>", { desc = "Git Remote -v
 map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph --decorate --all<cr>", { desc = "Git Log Oneline Graph", silent = true, buffer = true })
 map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<cr>", { desc = "Diffview Close", silent = true, buffer = true })
 
--- Nur relevant bei Nutzung von neotest-java. Sollte besser in config/autocmds.lua (Java-Sektion) verschoben werden:
-
--- -- Funktion zum sicheren Laden von Neotest
--- local function get_neotest()
---   -- Falls Neotest noch nicht geladen ist, erzwinge das Laden (Lazy.nvim)
---   if not package.loaded["neotest"] then
---     require("lazy").load({ plugins = { "nvim-neotest/neotest", "rcasia/neotest-java" } })
---   end
---   return require("neotest")
--- end
-
--- -- Aktuellen Test ausführen
--- vim.keymap.set("n", "<leader>t", function()
---   get_neotest().run.run()
--- end, { desc = "Run current test" })
-
--- -- Alle Tests in der Datei ausführen
--- vim.keymap.set("n", "<leader>T", function()
---   get_neotest().run.run(vim.fn.expand("%"))
--- end, { desc = "Run all tests in file" })
-
--- -- Letzten Test erneut ausführen
--- vim.keymap.set("n", "<leader>l", function()
---   get_neotest().run.run_last()
--- end, { desc = "Run last test" })
-
--- -- Test-UI öffnen
--- vim.keymap.set("n", "<leader>o", function()
---   get_neotest().summary.open()
--- end, { desc = "Open test summary" })
-
 ```
 
 ## plugins/lsp.lua
@@ -3282,20 +3251,92 @@ return {
                 dap = true,
               },
 
+              -- on_attach = function(_, bufnr)
+              --   local map = function(mode, lhs, rhs)
+              --     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr })
+              --   end
+
+              --   -- map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+              --   -- map("v", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+
+              --   map("n", "<leader>oi", function()
+              --     vim.lsp.buf.code_action({
+              --       context = { only = { "source.organizeImports" } },
+              --       apply = true,
+              --     })
+              --   end)
+              -- end,
               on_attach = function(_, bufnr)
-                local map = function(mode, lhs, rhs)
-                  vim.keymap.set(mode, lhs, rhs, { buffer = bufnr })
+                local function map(mode, lhs, rhs, desc)
+                  vim.keymap.set(mode, lhs, rhs, {
+                    buffer = bufnr,
+                    silent = true,
+                    noremap = true,
+                    desc = desc,
+                  })
                 end
 
-                -- map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
-                -- map("v", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
-
+                -- Organize Imports (robust)
                 map("n", "<leader>oi", function()
-                  vim.lsp.buf.code_action({
-                    context = { only = { "source.organizeImports" } },
-                    apply = true,
+                  local params = vim.lsp.util.make_range_params()
+                  params.context = { only = { "source.organizeImports" } }
+
+                  local result = vim.lsp.buf_request_sync(
+                    bufnr,
+                    "textDocument/codeAction",
+                    params,
+                    3000
+                  )
+
+                  if not result then
+                    vim.notify("No organize imports action found", vim.log.levels.WARN)
+                    return
+                  end
+
+                  for _, res in pairs(result) do
+                    for _, action in pairs(res.result or {}) do
+                      if action.edit or type(action.command) == "table" then
+                        if action.edit then
+                          vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
+                        end
+                        if action.command then
+                          vim.lsp.buf.execute_command(action.command)
+                        end
+                        return
+                      end
+                    end
+                  end
+
+                  vim.notify("Organize imports not available", vim.log.levels.INFO)
+                end, "Java Organize Imports")
+
+                -- Extract Interface
+                map("n", "<leader>jei", function()
+                  local uri = vim.uri_from_bufnr(bufnr)
+
+                  -- Neue Command-ID probieren
+                  local ok = pcall(function()
+                    vim.lsp.buf.execute_command({
+                      command = "java.edit.extractInterface",
+                      arguments = { uri },
+                    })
+                  end)
+
+                  -- Fallback für ältere jdtls Versionen
+                  if not ok then
+                    vim.lsp.buf.execute_command({
+                      command = "jdtls.extractInterface",
+                      arguments = { uri },
+                    })
+                  end
+                end, "Java Extract Interface")
+
+                -- Optional: Extract Interface (Visual Range)
+                map("v", "<leader>jei", function()
+                  vim.lsp.buf.range_code_action({
+                    context = { only = { "refactor.extract.interface" } },
                   })
-                end)
+                end, "Java Extract Interface (Range)")
               end,
             })
           end,
@@ -5115,6 +5156,36 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Settings / Runtime
     map_if_free("n", "<leader>jrsr", "<cmd>JavaSettingsChangeRuntime<CR>", { desc = "Java Change Runtime (Command)", silent = true, buffer = true })
     map_if_free("n", "<leader>jrp", "<cmd>JavaProfile<CR>", { desc = "Java Profile (Command)", silent = true, buffer = true })
+
+    -- Neotest (nur für neotest-java)
+    -- local function get_neotest()
+    --   if not package.loaded["neotest"] then
+    --     require("lazy").load({
+    --       plugins = { "nvim-neotest/neotest", "rcasia/neotest-java" },
+    --     })
+    --   end
+    --   return require("neotest")
+    -- end
+
+    -- -- Aktuellen Test ausführen
+    -- map_if_free("n", "<leader>nt", function()
+    --   get_neotest().run.run()
+    -- end, { desc = "Neotest Run Current Test", buffer = true })
+
+    -- -- Alle Tests der Datei
+    -- map_if_free("n", "<leader>nT", function()
+    --   get_neotest().run.run(vim.fn.expand("%"))
+    -- end, { desc = "Neotest Run File", buffer = true })
+
+    -- -- Letzten Test erneut ausführen
+    -- map_if_free("n", "<leader>nl", function()
+    --   get_neotest().run.run_last()
+    -- end, { desc = "Neotest Run Last", buffer = true })
+
+    -- -- Test-Übersicht öffnen
+    -- map_if_free("n", "<leader>no", function()
+    --   get_neotest().summary.toggle()
+    -- end, { desc = "Neotest Toggle Summary", buffer = true })
   end,
 })
 
