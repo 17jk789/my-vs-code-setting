@@ -143,9 +143,9 @@ This repository is released under the **Apache License 2.0**.
     // "vim.statusBarColors.easymotioninputmode": ["#020408", "#ffffff"],
     // "vim.statusBarColors.surroundinputmode": ["#020408", "#ffffff"],
     // Catppuccin Mocha
-    "vim.statusBarColors.normal": ["#89b4fa", "#11111b"],
-    "vim.statusBarColors.insert": ["#a6e3a1", "#11111b"],
-    "vim.statusBarColors.visual": ["#cba6f7", "#11111b"],
+    "vim.statusBarColors.normal": ["#C5AAF1", "#11111b"],
+    "vim.statusBarColors.insert": ["#89b4fa", "#11111b"],
+    "vim.statusBarColors.visual": ["#a6e3a1", "#11111b"],
     "vim.statusBarColors.visualline": ["#b4befe", "#11111b"],
     "vim.statusBarColors.visualblock": ["#fab387", "#11111b"],
     "vim.statusBarColors.replace": ["#f38ba8", "#11111b"],
