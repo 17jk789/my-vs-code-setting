@@ -142,8 +142,14 @@ cargo install --locked cargo-nextest cargo-audit
 # cargo install --locked cargo-watch cargo-expand 
 # rustup component add rustfmt
 sudo apt install clang cmake ninja-build gdb
-sudo apt install openjdk-21-jdk maven
-sudo snap install gradle --classic
+sudo apt install openjdk-21-jdk openjdk-25-jdk maven
+# sudo snap install gradle --classic
+
+curl -s "https://get.sdkman.io" | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+sdk install gradle
+# sdk install gradle 8.6
+
 sudo apt install wl-clipboard fd-find tmux
 sudo apt install python3-venv
 sudo apt install ripgrep
