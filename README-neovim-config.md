@@ -3214,7 +3214,10 @@ return {
                 },
 
                 -- Decompiler Support
-                contentProvider = { preferred = "fernflower" },
+                contentProvider = { preferred = "fernflower" }, -- Der "alte" Standard (wird auch von IntelliJ genutzt).
+                -- contentProvider = { preferred = "quiltflower" }, -- Besser für modernes Java (21+)
+                -- contentProvider = { preferred = "cfr" }, -- Der aktuell stärkste Decompiler für moderne Java-Features.
+                -- contentProvider = { preferred = "procyon" }, -- Ein sehr präziser Decompiler, der besonders gut mit Lambdas und synthetischen Methoden umgehen kann.
 
                 -- Semantic Highlighting (optisch besser)
                 semanticHighlighting = {
