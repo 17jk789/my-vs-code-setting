@@ -3206,7 +3206,7 @@ return {
                   wrapper = {
                     enabled = true,
                   },
-                }
+                },
 
                 -- Autobuild / Autobuild Watcher
                 -- Mit: Spring Boot, Gradle Wrapper, Hot Reload Debug Adapter kann das schnell CPU fressen.
