@@ -3126,6 +3126,8 @@ return {
                     -- ~/.config/nvim/lang-servers/intellij-java-google-style.xml
                     url = vim.fn.stdpath("config")
                       .. "/lang-servers/intellij-java-google-style.xml",
+                    -- ~/my-xm-slyte/Default.xml
+                    -- url = vim.fn.expand("~/my-xm-slyte/Default.xml"),
                   },
                 },
 
