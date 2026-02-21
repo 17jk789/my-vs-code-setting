@@ -3104,6 +3104,19 @@ return {
                   includeDecompiledSources = true,
                 },
 
+                -- Du nutzt GoogleStyle + eigenes XML.
+                -- Das ist gut — aber nur, wenn IntelliJ exakt dasselbe XML nutzt.
+                -- In IntelliJ IDEA solltest du:
+                -- Settings → Editor → Code Style → Java → Import Scheme → Import from XML
+                -- Dasselbe File verwenden wie:
+                -- ~/.config/nvim/lang-servers/intellij-java-google-style.xml
+
+                -- Profi-Level:
+                -- Deaktiviere in IntelliJ:
+                -- Optimize imports on the fly
+                -- Reformat on save
+                -- Wenn du es in Neovim schon machst.
+                -- Sonst bekommst du unnötige Diff-Noise im Team.
                 format = {
                   enabled = true,
                   -- Bei Rroblemen
@@ -3128,11 +3141,19 @@ return {
                     "java.util.Objects.requireNonNullElse",
                   },
 
+                  -- importOrder = {
+                  --   "java",
+                  --   "javax",
+                  --   "com",
+                  --   "org",
+                  -- },
+
                   importOrder = {
                     "java",
                     "javax",
-                    "com",
+                    "jakarta",
                     "org",
+                    "com",
                   },
                   
                   -- Extended Completion Settings
@@ -3173,17 +3194,25 @@ return {
                 },
 
                 -- Gradle explizit konfigurieren (wichtig!)
+                -- gradle = {
+                --   enabled = true,
+                --   -- offlineMode = false,
+                -- },
+
                 gradle = {
                   enabled = true,
-                  -- offlineMode = false,
-                },
+                  wrapper = {
+                    enabled = true,
+                  },
+                }
 
                 -- Autobuild / Autobuild Watcher
+                -- Mit: Spring Boot, Gradle Wrapper, Hot Reload Debug Adapter kann das schnell CPU fressen.
                 autobuild = {
-                  enabled = true,
+                  enabled = false,
                 },
 
-                -- Null Analysis Mode (Performance)
+                -- Null Analysis Mode (Performance) -> Nur aktivieren wenn wirklich nötig!!!
                 -- project = {
                 --   referencedLibraries = {
                 --     "lib/**/*.jar",
@@ -3224,9 +3253,9 @@ return {
               },
             },
 
-            flags = {
-              allow_incremental_sync = true,
-            },
+            -- flags = {
+            --   allow_incremental_sync = true,
+            -- },
 
             init_options = {
               extendedClientCapabilities = {
@@ -3251,22 +3280,47 @@ return {
               -- Achte darauf, dass java_test.enable nicht doppelt Konfigurationen ausführt, sonst gibt es Konflikte beim Debuggen
               java_test = {
                 enable = true,
+                -- Damit sind Assertions aktiv (wichtig für Unit Tests mit JUnit).
+                config = {
+                  vmArgs = "-ea",
+                },
               },
 
               java_debug_adapter = {
                 enable = true,
+                hotcodereplace = "auto", -- Damit bekommst du echtes IntelliJ-ähnliches Hot Reload Verhalten.
               },
 
+              -- Spring DevTools NICHT parallel aktivieren, sonst doppelte Reload-Events.
               spring_boot_tools = {
                 enable = true,
+                version = "latest",
               },
 
+
+              -- Stelle sicher, dass du in IntelliJ:
+              -- Settings → Plugins → Lombok Plugin installiert
+              -- Annotation Processing aktiviert
+              -- Sonst hast du unterschiedliche Fehlermeldungen in IDE vs Neovim.
               lombok = {
                 enable = true,
               },
 
               notifications = {
                 dap = true,
+              },
+
+              -- Bei großen Gradle/Spring Projekten killt sonst Autobuild deine CPU.
+              flags = {
+                allow_incremental_sync = true,
+                debounce_text_changes = 150,
+              },
+
+              -- Bei großen Gradle/Spring Projekten killt sonst Autobuild deine CPU.
+              settings = {
+                java = {
+                  maxConcurrentBuilds = 1,
+                }
               },
 
               -- on_attach = function(_, bufnr)
