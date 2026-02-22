@@ -4894,10 +4894,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rid", function() 
       run_in_term("code .") 
-    end, opts) -- VS Code
+    end, { desc = "Open Project in VS Code", silent = true, buffer = true } )
     vim.keymap.set("n", "<leader>rir", function() 
-      run_in_term("idea .") 
-    end, opts) -- IntelliJ
+      run_in_term("rustrover .") 
+    end, { desc = "Open Project in RustRover", silent = true, buffer = true })
 
     -- vim.keymap.set("n", "<leader>rra", ":split | terminal cargo build && cargo run<CR>", opts) 
     -- vim.keymap.set("n", "<leader>rrr", ":split | terminal cargo run<CR>", opts) 
@@ -5083,10 +5083,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rid", function() 
       run_in_term("code .") 
-    end, opts)
+    end, { desc = "Open Project in VS Code", silent = true, buffer = true } )
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("idea .") 
-    end, opts)
+    end, { desc = "Open Project in Intellij", silent = true, buffer = true })
 
     -- Achtung: Diese Mappings sind für einfache Java-Dateien gedacht!
     -- Nicht in Gradle-, Maven- oder komplexen Projekten verwenden!
@@ -5271,10 +5271,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rid", function() 
       run_in_term("code .") 
-    end, opts)
+    end, { desc = "Open Project in VS Code", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rir", function() 
-      run_in_term("eclipse") 
-    end, opts)
+      run_in_term("clion .") 
+    end, { desc = "Open Project in Clion", silent = true, buffer = true })
 
     -- vim.keymap.set(
     --   "n",
@@ -5395,10 +5395,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rid", function() 
       run_in_term("code .") 
-    end, opts) -- VS Code
+    end, { desc = "Open Project in VS Code", silent = true, buffer = true )
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("pycharm .") 
-    end, opts) -- PyCharm
+    end, { desc = "Open Project in PyCharm", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrr", ":split | terminal python3 %<CR>", { desc = "Python Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrt", ":split | terminal pytest<CR>", { desc = "Pytest Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrv", ":split | terminal python3 -m venv .venv<CR>", { desc = "Python Create Venv (Split)", silent = true, buffer = true })
