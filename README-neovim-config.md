@@ -152,13 +152,18 @@ sdk install gradle
 ```
 
 ```bash
-# Ich würde noch Intellij installieren -> https://www.jetbrains.com/toolbox-app/
+# Ich würde noch Intellij installieren (java) -> https://www.jetbrains.com/toolbox-app/
+# Für Java-Devs: Nutzt Neovim mit jdtls für das tägliche Coding. Wenn es kompliziert wird, öffnet das Projekt einfach parallel in IntelliJ IDEA – die beiden ergänzen sich perfekt.
+# In Rust ist Neovim dank rust-analyzer fast unschlagbar. In C++ lohnt es sich aber oft, CLion (via Toolbox) als Backup für komplexes Debugging und CMake-Management zu haben.
 cd Downloads/
 tar -xzf jetbrains-toolbox-[VERSION].tar.gz # Ändere [VERSION] durch die ToolBox Version
 cd jetbrains-toolbox-[VERSION]/bin
 ./jetbrains-toolbox
 ```
 
+```bash
+# sudo snap install code --classic
+```
 
 ```bash
 # Ich würde noch Docker installieren
