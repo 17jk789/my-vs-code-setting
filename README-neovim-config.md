@@ -197,7 +197,9 @@ sudo snap install ghostty --classic  # besser für Lazyvim als gnome-terminal od
 # sudo apt install default-jre
 # sudo snap install languagetool
 # sudo apt install vim vim-common
-# sudo apt install hunspell-de-de hunspell-en-us
+```
+
+```bash
 # mkdir -p ~/.local/share/nvim/spell
 # cd ~/.local/share/nvim/spell
 # cp /usr/share/vim/vim*/spell/en.utf-8.spl ~/.local/share/nvim/spell/en_us.utf-8.spl
