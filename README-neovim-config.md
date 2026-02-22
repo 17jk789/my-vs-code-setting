@@ -5395,7 +5395,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
     vim.keymap.set("n", "<leader>rid", function() 
       run_in_term("code .") 
-    end, { desc = "Open Project in VS Code", silent = true, buffer = true )
+    end, { desc = "Open Project in VS Code", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("pycharm .") 
     end, { desc = "Open Project in PyCharm", silent = true, buffer = true })
