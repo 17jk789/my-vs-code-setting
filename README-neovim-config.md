@@ -149,7 +149,39 @@ curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk install gradle
 # sdk install gradle 8.6
+```
 
+```bash
+# Ich würde noch Intellij installieren -> https://www.jetbrains.com/toolbox-app/
+cd Downloads/
+tar -xzf jetbrains-toolbox-[VERSION].tar.gz # Ändere [VERSION] durch die ToolBox Version
+cd jetbrains-toolbox-[VERSION]/bin
+./jetbrains-toolbox
+```
+
+
+```bash
+# Ich würde noch Docker installieren
+# Add Docker's official GPG key:
+sudo apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+# Add the repository to Apt sources:
+sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
+Components: stable
+Signed-By: /etc/apt/keyrings/docker.asc
+EOF
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+docker --version
+```
+
+```bash
 sudo apt install wl-clipboard fd-find tmux
 sudo apt install python3-venv
 sudo apt install ripgrep
