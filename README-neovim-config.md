@@ -3547,8 +3547,9 @@ return {
                   path = "/usr/lib/jvm/java-25-openjdk/",
                   default = true,
                 }
-              },
-              format = {
+              }
+            },
+            format = {
                 enabled = true,
                 -- Bei Rroblemen
                 -- enabled = false,
