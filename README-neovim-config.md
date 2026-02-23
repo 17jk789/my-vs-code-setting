@@ -3485,16 +3485,7 @@ return {
     config = function()
       -- require("java").setup() -- Doppeltes require("java").setup() vermeiden Sonst: Debug/Test Bugs, Code-Actions verschwinden manchmal, doppelte LSP-Attachs, wird aber dennoch benötigt!
       -- Setup nvim-java
-      require("java").setup({
-        format = {
-          enabled = true,
-          settings = {
-            profile = "GoogleStyle",
-            url = vim.fn.stdpath("config")
-              .. "/lang-servers/intellij-java-google-style.xml",
-          },
-        },
-      })
+      require("java").setup()
 
       -- require('java').setup({
       --   -- Startup checks
@@ -3556,7 +3547,20 @@ return {
                   path = "/usr/lib/jvm/java-25-openjdk/",
                   default = true,
                 }
-              }
+              },
+              format = {
+                enabled = true,
+                -- Bei Rroblemen
+                -- enabled = false,
+                settings = {
+                  profile = "GoogleStyle",
+                  -- ~/.config/nvim/lang-servers/intellij-java-google-style.xml
+                  url = vim.fn.stdpath("config")
+                    .. "/lang-servers/intellij-java-google-style.xml",
+                  -- ~/my-xm-slyte/Default.xml
+                  -- url = vim.fn.expand("~/my-xm-slyte/Default.xml"),
+                },
+              },
             }
           }
         }
