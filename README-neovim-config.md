@@ -3091,6 +3091,7 @@ return {
     ft = { "java" },
     dependencies = {
       "neovim/nvim-lspconfig",
+      -- Funktionirt nicht mehr alles in config = function() jetzt!!!
       -- opts = {
       --   servers = {
       --     jdtls = {
@@ -3485,7 +3486,147 @@ return {
     config = function()
       -- require("java").setup() -- Doppeltes require("java").setup() vermeiden Sonst: Debug/Test Bugs, Code-Actions verschwinden manchmal, doppelte LSP-Attachs, wird aber dennoch benötigt!
       -- Setup nvim-java
-      require("java").setup()
+      require("java").setup(
+        -- {
+          -- jdk = {
+          --   auto_install = false,
+          -- },
+
+          -- Achte darauf, dass java_test.enable nicht doppelt Konfigurationen ausführt, sonst gibt es Konflikte beim Debuggen
+          -- java_test = {
+          --   enable = true,
+          --   -- Damit sind Assertions aktiv (wichtig für Unit Tests mit JUnit).
+          --   config = {
+          --     vmArgs = "-ea",
+          --   },
+          -- },
+
+          -- java_debug_adapter = {
+          --   enable = true,
+          --   hotcodereplace = "auto", -- Damit bekommst du echtes IntelliJ-ähnliches Hot Reload Verhalten.
+          -- },
+
+          -- Spring DevTools NICHT parallel aktivieren, sonst doppelte Reload-Events.
+          -- spring_boot_tools = {
+          --   enable = true,
+          --   version = "latest",
+          -- },
+
+          -- Stelle sicher, dass du in IntelliJ:
+          -- Settings → Plugins → Lombok Plugin installiert
+          -- Annotation Processing aktiviert
+          -- Sonst hast du unterschiedliche Fehlermeldungen in IDE vs Neovim.
+          -- lombok = {
+          --   enable = true,
+          -- },
+
+          -- notifications = {
+          --   dap = true,
+          -- },
+
+          -- Bei großen Gradle/Spring Projekten killt sonst Autobuild deine CPU.
+          -- flags = {
+          --   allow_incremental_sync = true,
+          --   debounce_text_changes = 150,
+          -- },
+
+          -- Bei großen Gradle/Spring Projekten killt sonst Autobuild deine CPU.
+          -- settings = {
+          --   java = {
+          --     maxConcurrentBuilds = 1,
+          --   }
+          -- },
+
+          -- on_attach = function(_, bufnr)
+          --   local map = function(mode, lhs, rhs)
+          --     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr })
+          --   end
+
+          --   -- map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+          --   -- map("v", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+
+          --   map("n", "<leader>oi", function()
+          --     vim.lsp.buf.code_action({
+          --       context = { only = { "source.organizeImports" } },
+          --       apply = true,
+          --     })
+          --   end)
+          -- end,
+
+          -- on_attach = function(_, bufnr)
+          --   local function map(mode, lhs, rhs, desc)
+          --     vim.keymap.set(mode, lhs, rhs, {
+          --       buffer = bufnr,
+          --       silent = true,
+          --       noremap = true,
+          --       desc = desc,
+          --     })
+          --   end
+
+          --   -- Organize Imports (robust)
+          --   map("n", "<leader>oi", function()
+          --     local params = vim.lsp.util.make_range_params()
+          --     params.context = { only = { "source.organizeImports" } }
+
+          --     local result = vim.lsp.buf_request_sync(
+          --       bufnr,
+          --       "textDocument/codeAction",
+          --       params,
+          --       3000
+          --     )
+
+          --     if not result then
+          --       vim.notify("No organize imports action found", vim.log.levels.WARN)
+          --       return
+          --     end
+
+          --     for _, res in pairs(result) do
+          --       for _, action in pairs(res.result or {}) do
+          --         if action.edit or type(action.command) == "table" then
+          --           if action.edit then
+          --             vim.lsp.util.apply_workspace_edit(action.edit, "utf-8")
+          --           end
+          --           if action.command then
+          --             vim.lsp.buf.execute_command(action.command)
+          --           end
+          --           return
+          --         end
+          --       end
+          --     end
+
+          --     vim.notify("Organize imports not available", vim.log.levels.INFO)
+          --   end, "Java Organize Imports")
+
+          --   -- Extract Interface
+          --   map("n", "<leader>jei", function()
+          --     local uri = vim.uri_from_bufnr(bufnr)
+
+          --     -- Neue Command-ID probieren
+          --     local ok = pcall(function()
+          --       vim.lsp.buf.execute_command({
+          --         command = "java.edit.extractInterface",
+          --         arguments = { uri },
+          --       })
+          --     end)
+
+          --     -- Fallback für ältere jdtls Versionen
+          --     if not ok then
+          --       vim.lsp.buf.execute_command({
+          --         command = "jdtls.extractInterface",
+          --         arguments = { uri },
+          --       })
+          --     end
+          --   end, "Java Extract Interface")
+
+          --   -- Optional: Extract Interface (Visual Range)
+          --   map("v", "<leader>jei", function()
+          --     vim.lsp.buf.range_code_action({
+          --       context = { only = { "refactor.extract.interface" } },
+          --     })
+          --   end, "Java Extract Interface (Range)")
+          -- end,
+        -- }
+      )
 
       -- require('java').setup({
       --   -- Startup checks
@@ -3540,17 +3681,66 @@ return {
       vim.lsp.config('jdtls', {
         settings = {
           java = {
+            -- eclipse = {
+            --   downloadSources = true,
+            -- },
+
             configuration = {
               runtimes = {
-                {
-                  name = "JavaSE-25",
-                  path = "/usr/lib/jvm/java-25-openjdk/",
-                  default = true,
-                }
-              }
+                -- { name = "JavaSE-1.6", path = "/usr/lib/jvm/java-6-openjdk/" },
+                -- { name = "JavaSE-1.7", path = "/usr/lib/jvm/java-7-openjdk/" },
+                -- { name = "JavaSE-1.8", path = "/usr/lib/jvm/java-8-openjdk/" },
+                -- { name = "JavaSE-9",   path = "/usr/lib/jvm/java-9-openjdk/" },
+                -- { name = "JavaSE-10",  path = "/usr/lib/jvm/java-10-openjdk/" },
+                -- { name = "JavaSE-11",  path = "/usr/lib/jvm/java-11-openjdk/" }, -- LTS
+                -- { name = "JavaSE-12",  path = "/usr/lib/jvm/java-12-openjdk/" },
+                -- { name = "JavaSE-13",  path = "/usr/lib/jvm/java-13-openjdk/" },
+                -- { name = "JavaSE-14",  path = "/usr/lib/jvm/java-14-openjdk/" },
+                -- { name = "JavaSE-15",  path = "/usr/lib/jvm/java-15-openjdk/" },
+                -- { name = "JavaSE-16",  path = "/usr/lib/jvm/java-16-openjdk/" },
+                -- { name = "JavaSE-17",  path = "/usr/lib/jvm/java-17-openjdk/" }, -- LTS
+                -- { name = "JavaSE-18",  path = "/usr/lib/jvm/java-18-openjdk/" },
+                -- { name = "JavaSE-19",  path = "/usr/lib/jvm/java-19-openjdk/" },
+                -- { name = "JavaSE-20",  path = "/usr/lib/jvm/java-20-openjdk/" },
+                { name = "JavaSE-21",  path = "/usr/lib/jvm/java-21-openjdk/" }, -- LTS
+                -- { name = "JavaSE-22",  path = "/usr/lib/jvm/java-22-openjdk/" },
+                -- { name = "JavaSE-23",  path = "/usr/lib/jvm/java-23-openjdk/" },
+                -- { name = "JavaSE-24",  path = "/usr/lib/jvm/java-24-openjdk/" },
+                -- { name = "JavaSE-25",  path = "/usr/lib/jvm/java-25-openjdk/" },
+              },
             },
 
+            -- maven = {
+            --   downloadSources = true,
+            --   updateSnapshots = true,
+            -- },
+
+            -- implementationsCodeLens = {
+            --   enabled = true,
+            -- },
+
+            -- referencesCodeLens = {
+            --   enabled = true,
+            -- },
+
+            -- references = {
+            --   includeDecompiledSources = true,
+            -- },
+
             -- XML Formatter (Google Style)
+            -- Du nutzt GoogleStyle + eigenes XML.
+            -- Das ist gut — aber nur, wenn IntelliJ exakt dasselbe XML nutzt.
+            -- In IntelliJ IDEA solltest du:
+            -- Settings → Editor → Code Style → Java → Import Scheme → Import from XML
+            -- Dasselbe File verwenden wie:
+            -- ~/.config/nvim/lang-servers/intellij-java-google-style.xml
+
+            -- Profi-Level:
+            -- Deaktiviere in IntelliJ:
+            -- Optimize imports on the fly
+            -- Reformat on save
+            -- Wenn du es in Neovim schon machst.
+            -- Sonst bekommst du unnötige Diff-Noise im Team.
             format = {
               enabled = true,
               -- Bei Rroblemen
@@ -3565,6 +3755,128 @@ return {
                 -- url = vim.fn.expand("~/my-xm-slyte/Default.xml"),
               }
             },
+
+            -- signatureHelp = { enabled = true },
+
+            -- completion = {
+            --   favoriteStaticMembers = {
+            --     "org.hamcrest.MatcherAssert.assertThat",
+            --     "org.hamcrest.Matchers.*",
+            --     "org.junit.jupiter.api.Assertions.*",
+            --     "org.mockito.Mockito.*",
+            --     "java.util.Objects.requireNonNull",
+            --     "java.util.Objects.requireNonNullElse",
+            --   },
+
+            --   -- importOrder = {
+            --   --   "java",
+            --   --   "javax",
+            --   --   "com",
+            --   --   "org",
+            --   -- },
+
+            --   importOrder = {
+            --     "java",
+            --     "javax",
+            --     "jakarta",
+            --     "org",
+            --     "com",
+            --   },
+              
+            --   -- Extended Completion Settings
+            --   guessMethodArguments = true,
+            --   -- filteredTypes = {
+            --   --   "com.sun.*",
+            --   --   "sun.*",
+            --   -- },
+            -- },
+
+            -- sources = {
+            --   organizeImports = {
+            --     starThreshold = 9999,
+            --     staticStarThreshold = 9999,
+            --   },
+            -- },
+
+            -- codeGeneration = {
+            --   -- useBlocks = true,
+            --   -- toString = {
+            --   --   template =
+            --   --   "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+            --   -- },
+
+            --   useBlocks = true,
+            --   generateComments = true,
+            --   hashCodeEquals = {
+            --     useJava7Objects = true,
+            --   },
+            --   toString = {
+            --     template =
+            --       "${object.className}{${member.name()}=${member.value}, ${otherMembers}}",
+            --   },
+            -- },
+
+            -- inlayHints = {
+            --   parameterNames = { enabled = "all" },
+            -- },
+
+            -- Gradle explizit konfigurieren (wichtig!)
+            -- gradle = {
+            --   enabled = true,
+            --   -- offlineMode = false,
+            -- },
+
+            -- gradle = {
+            --   enabled = true,
+            --   wrapper = {
+            --     enabled = true,
+            --   },
+            -- },
+
+            -- Autobuild / Autobuild Watcher
+            -- Mit: Spring Boot, Gradle Wrapper, Hot Reload Debug Adapter kann das schnell CPU fressen.
+            -- autobuild = {
+            --   enabled = false,
+            -- },
+
+            -- Null Analysis Mode (Performance) -> Nur aktivieren wenn wirklich nötig!!!
+            -- project = {
+            --   referencedLibraries = {
+            --     "lib/**/*.jar",
+            --   },
+            -- },
+
+            -- Import Completion Advanced
+            -- import = {
+            --   maven = {
+            --     enabled = true,
+            --   },
+            --   gradle = {
+            --     enabled = true,
+            --   },
+            -- },
+
+            -- Decompiler Support
+            -- contentProvider = { preferred = "fernflower" }, -- Der "alte" Standard (wird auch von IntelliJ genutzt).
+            -- contentProvider = { preferred = "quiltflower" }, -- Besser für modernes Java (21+)
+            contentProvider = { preferred = "cfr" }, -- Der aktuell stärkste Decompiler für moderne Java-Features.
+            -- contentProvider = { preferred = "procyon" }, -- Ein sehr präziser Decompiler, der besonders gut mit Lambdas und synthetischen Methoden umgehen kann.
+
+            -- Semantic Highlighting (optisch besser)
+            -- semanticHighlighting = {
+            --   enabled = true,
+            -- },
+
+            -- Folding / Symbols Advanced: Unser Neovim nutzt Tree-sitter Folding → dann unnötig.
+            -- foldingRange = {
+            --   enabled = true,
+            -- },
+
+            -- Save Actions (extrem praktisch)
+            -- Achtung: organizeImports beim Speichern kann in Teamprojekten unnötige Änderungen und Merge-Konflikte erzeugen
+            -- saveActions = {
+            --   organizeImports = true,
+            -- },
           }
         }
       })
@@ -3572,7 +3884,7 @@ return {
       vim.lsp.enable("jdtls") -- Wird von nvim-java intern genutzt
       -- require("lspconfig").jdtls.setup({}) -- Das ist die Standardmethode für LSPs über nvim-lspconfig, aber wenn du nvim-java benutzt -> bleib bei vim.lsp.enable("jdtls")
 
-      -- Automatisches Formatieren beim Speichern
+      -- Automatisches Formatieren beim Speichern -> solte ohne gut gehen!
       -- vim.api.nvim_create_autocmd("BufWritePre", {
       --   pattern = "*.java",
       --   callback = function()
