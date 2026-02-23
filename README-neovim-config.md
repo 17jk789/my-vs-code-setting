@@ -3687,26 +3687,26 @@ return {
 
             configuration = {
               runtimes = {
-                -- { name = "JavaSE-1.6", path = "/usr/lib/jvm/java-6-openjdk/" },
-                -- { name = "JavaSE-1.7", path = "/usr/lib/jvm/java-7-openjdk/" },
-                -- { name = "JavaSE-1.8", path = "/usr/lib/jvm/java-8-openjdk/" },
-                -- { name = "JavaSE-9",   path = "/usr/lib/jvm/java-9-openjdk/" },
-                -- { name = "JavaSE-10",  path = "/usr/lib/jvm/java-10-openjdk/" },
-                -- { name = "JavaSE-11",  path = "/usr/lib/jvm/java-11-openjdk/" }, -- LTS
-                -- { name = "JavaSE-12",  path = "/usr/lib/jvm/java-12-openjdk/" },
-                -- { name = "JavaSE-13",  path = "/usr/lib/jvm/java-13-openjdk/" },
-                -- { name = "JavaSE-14",  path = "/usr/lib/jvm/java-14-openjdk/" },
-                -- { name = "JavaSE-15",  path = "/usr/lib/jvm/java-15-openjdk/" },
-                -- { name = "JavaSE-16",  path = "/usr/lib/jvm/java-16-openjdk/" },
-                -- { name = "JavaSE-17",  path = "/usr/lib/jvm/java-17-openjdk/" }, -- LTS
-                -- { name = "JavaSE-18",  path = "/usr/lib/jvm/java-18-openjdk/" },
-                -- { name = "JavaSE-19",  path = "/usr/lib/jvm/java-19-openjdk/" },
-                -- { name = "JavaSE-20",  path = "/usr/lib/jvm/java-20-openjdk/" },
-                { name = "JavaSE-21",  path = "/usr/lib/jvm/java-21-openjdk/" }, -- LTS
-                -- { name = "JavaSE-22",  path = "/usr/lib/jvm/java-22-openjdk/" },
-                -- { name = "JavaSE-23",  path = "/usr/lib/jvm/java-23-openjdk/" },
-                -- { name = "JavaSE-24",  path = "/usr/lib/jvm/java-24-openjdk/" },
-                -- { name = "JavaSE-25",  path = "/usr/lib/jvm/java-25-openjdk/" },
+                -- { name = "JavaSE-1.6", path = "/usr/lib/jvm/java-6-openjdk/", default = true, },
+                -- { name = "JavaSE-1.7", path = "/usr/lib/jvm/java-7-openjdk/", default = true, },
+                -- { name = "JavaSE-1.8", path = "/usr/lib/jvm/java-8-openjdk/", default = true, },
+                -- { name = "JavaSE-9",   path = "/usr/lib/jvm/java-9-openjdk/", default = true, },
+                -- { name = "JavaSE-10",  path = "/usr/lib/jvm/java-10-openjdk/", default = true, },
+                -- { name = "JavaSE-11",  path = "/usr/lib/jvm/java-11-openjdk/", default = true, }, -- LTS
+                -- { name = "JavaSE-12",  path = "/usr/lib/jvm/java-12-openjdk/", default = true, },
+                -- { name = "JavaSE-13",  path = "/usr/lib/jvm/java-13-openjdk/", default = true, },
+                -- { name = "JavaSE-14",  path = "/usr/lib/jvm/java-14-openjdk/", default = true, },
+                -- { name = "JavaSE-15",  path = "/usr/lib/jvm/java-15-openjdk/", default = true, },
+                -- { name = "JavaSE-16",  path = "/usr/lib/jvm/java-16-openjdk/", default = true, },
+                -- { name = "JavaSE-17",  path = "/usr/lib/jvm/java-17-openjdk/", default = true, }, -- LTS
+                -- { name = "JavaSE-18",  path = "/usr/lib/jvm/java-18-openjdk/", default = true, },
+                -- { name = "JavaSE-19",  path = "/usr/lib/jvm/java-19-openjdk/", default = true, },
+                -- { name = "JavaSE-20",  path = "/usr/lib/jvm/java-20-openjdk/", default = true, },
+                { name = "JavaSE-21",  path = "/usr/lib/jvm/java-21-openjdk/", default = true, }, -- LTS
+                -- { name = "JavaSE-22",  path = "/usr/lib/jvm/java-22-openjdk/", default = true, },
+                -- { name = "JavaSE-23",  path = "/usr/lib/jvm/java-23-openjdk/", default = true, },
+                -- { name = "JavaSE-24",  path = "/usr/lib/jvm/java-24-openjdk/", default = true, },
+                -- { name = "JavaSE-25",  path = "/usr/lib/jvm/java-25-openjdk/", default = true, },
               },
             },
 
