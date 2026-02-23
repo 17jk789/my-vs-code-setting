@@ -3552,20 +3552,19 @@ return {
 
             -- XML Formatter (Google Style)
             format = {
-                enabled = true,
-                -- Bei Rroblemen
-                -- enabled = false,
-                settings = {
-                  profile = "GoogleStyle",
-                  -- ~/.config/nvim/lang-servers/intellij-java-google-style.xml
-                  url = vim.fn.stdpath("config")
-                    .. "/lang-servers/intellij-java-google-style.xml",
+              enabled = true,
+              -- Bei Rroblemen
+              -- enabled = false,
+              settings = {
+                profile = "GoogleStyle",
+                -- ~/.config/nvim/lang-servers/intellij-java-google-style.xml
+                url = vim.fn.stdpath("config")
+                  .. "/lang-servers/intellij-java-google-style.xml",
 
-                  -- Alternative: ~/my-xm-slyte/Default.xml
-                  -- url = vim.fn.expand("~/my-xm-slyte/Default.xml"),
-                },
-              },
-            }
+                -- Alternative: ~/my-xm-slyte/Default.xml
+                -- url = vim.fn.expand("~/my-xm-slyte/Default.xml"),
+              }
+            },
           }
         }
       })
