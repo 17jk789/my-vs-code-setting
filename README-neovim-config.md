@@ -6866,18 +6866,18 @@ code plugins/markdown.lua
 -- plugins/markdown.lua
 
 return {
---   {
---     "iamcco/markdown-preview.nvim",
---     ft = { "markdown" },
---     build = function()
---       vim.fn["mkdp#util#install"]()
---     end,
---     config = function()
---       vim.g.mkdp_auto_start = 0
---       vim.g.mkdp_refresh_slow = 1
---       vim.g.mkdp_theme = "dark"
---     end,
---   },
+  {
+    "iamcco/markdown-preview.nvim",
+    ft = { "markdown" },
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+    config = function()
+      vim.g.mkdp_auto_start = 0
+      vim.g.mkdp_refresh_slow = 1
+      vim.g.mkdp_theme = "dark"
+    end,
+  },
 
   -- Markdown Syntax + Verbesserungen
   {
