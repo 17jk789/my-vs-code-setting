@@ -7859,7 +7859,6 @@ return {
         fd_opts = "--color=never --type f --hidden --follow --exclude .git",
       }
 
-
       -- Bildvorschau aktivieren, wird aber von snacks.nvim übernommen: image = { enabled = true }, -> nur bei Problem aktiviren
       -- opts.previewers = {
       --   builtin = {
