@@ -7856,6 +7856,20 @@ return {
         fd_opts = "--color=never --type f --hidden --follow --exclude .git",
       }
 
+
+      -- Bildvorschau aktivieren
+      -- opts.previewers = {
+      --   builtin = {
+      --     extensions = {
+      --       ["png"] = { "chafa" }, -- Erfordert 'chafa' auf deinem Ubuntu
+      --       ["jpg"] = { "chafa" },
+      --       ["jpeg"] = { "chafa" },
+      --       ["gif"] = { "chafa" },
+      --     },
+      --     ueberzug_scaler = "kitty", -- Ghostty nutzt das Kitty-Protokoll
+      --   },
+      -- }
+
       return opts
     end,
   },
