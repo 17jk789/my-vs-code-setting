@@ -7315,6 +7315,7 @@ return {
     "folke/snacks.nvim",
     opts = {
       dashboard = {
+        -- Von: https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
         sections = {
           { section = "header" },
           { icon = " ", title = "Keymaps", section = "keys", indent = 2, padding = 1 },
@@ -7322,6 +7323,8 @@ return {
           { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
           { section = "startup" },
         },
+
+        -- Von: https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
         -- sections = {
         --   { section = "header" },
         --   { section = "keys", gap = 1, padding = 2},
@@ -7329,6 +7332,8 @@ return {
         --   { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 2 },
         --   { section = "startup" },
         -- },
+
+        -- Von: https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
         -- sections = {
         --   { section = "header" },
         --   {
@@ -7357,6 +7362,8 @@ return {
         --   },
         --   { section = "startup" },
         -- },
+
+        -- Von: https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
         -- sections = {
         --   {
         --     section = "terminal",
@@ -7370,11 +7377,15 @@ return {
         --     { section = "startup" },
         --   },
         -- },
+
+        -- Von: https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
         -- sections = {
         --   { section = "header" },
         --   { section = "keys", gap = 1, padding = 1 },
         --   { section = "startup" },
         -- },
+
+        -- Von: https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
         -- sections = {
         --   { section = "header" },
         --   {
@@ -7449,6 +7460,8 @@ return {
         --   end,
         --   { section = "startup" },
         -- },
+
+        -- Von: https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
         -- sections = {
         --   { section = "header" },
         --   { section = "keys", gap = 1, padding = 1 },
@@ -7462,11 +7475,15 @@ return {
         --     height = 30,
         --   },
         -- },
+
+        -- Von: https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
         -- formats = {
         --   key = function(item)
         --     return { { "[", hl = "special" }, { item.key, hl = "key" }, { "]", hl = "special" } }
         --   end,
         -- },
+
+        -- Von: https://github.com/folke/snacks.nvim/blob/main/docs/dashboard.md
         -- sections = {
         --   { section = "terminal", cmd = "fortune -s | cowsay", hl = "header", padding = 1, indent = 8 },
         --   { title = "MRU", padding = 1 },
@@ -7478,6 +7495,7 @@ return {
         --   { title = "Bookmarks", padding = 1 },
         --   { section = "keys" },
         -- },
+
         preset = {
           -- ASCII art found in:
           -- https://github.com/MaximilianLloyd/ascii.nvim/
@@ -7750,6 +7768,7 @@ N E O V I M - J U L I A N
           --   "",
           --   " github.com",
           -- },
+
           keys = {
             { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
