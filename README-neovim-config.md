@@ -6776,6 +6776,9 @@ return {
       terminal = {
         enabled = true,  -- Snacks Terminal aktivieren
       },
+      image = { 
+        enabled = true 
+      },
     },
     keys = {
       {
@@ -7857,7 +7860,7 @@ return {
       }
 
 
-      -- Bildvorschau aktivieren
+      -- Bildvorschau aktivieren, wird aber von snacks.nvim übernommen: image = { enabled = true }, -> nur bei Problem aktiviren
       -- opts.previewers = {
       --   builtin = {
       --     extensions = {
