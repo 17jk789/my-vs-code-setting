@@ -188,7 +188,7 @@ docker --version
 ```
 
 ```bash
-sudo apt install wl-clipboard fd-find tmux
+sudo apt install wl-clipboard fd-find
 sudo apt install python3-venv
 sudo apt install ripgrep
 sudo apt install nodejs npm
@@ -232,6 +232,18 @@ fc-cache -fv
 # git clone --depth=1 https://github.com/github/copilot.vim.git \
 # ~/.config/nvim/pack/github/start/copilot.vim
 nvim
+```
+
+```bash
+# Könnte nützlich sein
+
+sudo apt install htop
+sudo apt install btop
+sudo apt install nvtop
+sudo apt install ranger
+sudo apt install time 
+source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal
+
 ```
 
 ## Update Neovim
