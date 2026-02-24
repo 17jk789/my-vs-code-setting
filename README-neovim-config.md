@@ -7794,7 +7794,7 @@ N E O V I M - J U L I A N
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
             { icon = " ", key = "y", desc = "Lazy Health", action = ":Lazy health" },
             { icon = " ", key = "m", desc = "Mason", action = ":Mason" },
-            { icon = " ", key = "i", desc = "LspInfo", action = ":LspInfo" },
+            -- { icon = " ", key = "i", desc = "LspInfo", action = ":LspInfo" },
             {
               icon = " ",
               key = "h",
