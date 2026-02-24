@@ -143,6 +143,7 @@ cargo install --locked cargo-nextest cargo-audit
 # rustup component add rustfmt
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk openjdk-25-jdk maven
+# sudo update-alternatives --config java
 # sudo snap install gradle --classic
 
 curl -s "https://get.sdkman.io" | bash
