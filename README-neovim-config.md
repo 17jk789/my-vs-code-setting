@@ -242,7 +242,7 @@ sudo apt install btop
 sudo apt install nvtop
 sudo apt install ranger
 sudo apt install time 
-source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal
+source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal -> Strg + R
 
 ```
 
