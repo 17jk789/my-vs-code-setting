@@ -100,6 +100,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/notify.lua](#pluginsnotifylua)
   - [plugins/git.lua](#pluginsgitlua)
   - [plugins/alpha.lua](#pluginsalphalua)
+  - [plugins/fzf.lua](#pluginsfzflua)
   - [config/lazyvim.lua](#configlazyvimlua)
   - [plugins/snacks.lua](#pluginssnackslua)
 
@@ -1354,7 +1355,7 @@ code config/keymaps.lua
 ```lua
 -- config/keymaps.lua
 
-local map = vim.keymap.set
+-- local map = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
 -- Safe Keymap Helper (setzt nur wenn frei)
@@ -1364,49 +1365,49 @@ local function map_if_free(mode, lhs, rhs, opts)
   end
 end
 
-map("n", "<C-p>", ":Telescope find_files<cr>", { desc = "Find Files (Telescope)", silent = true, noremap = true })
-map("n", "<C-f>", ":Telescope live_grep<cr>", { desc = "Telescope Live Grep", silent = true, buffer = true })
-map("n", "<C-o>", ":Telescope lsp_document_symbols<cr>", { desc = "Telescope LSP Document Symbols", silent = true, buffer = true })
--- map("n", "<C-m>", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true, buffer = true })
-map("n", "<leader>xx", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true, buffer = true })
-map("n", "<C-b>", ":NvimTreeToggle<cr>", { desc = "NvimTree Toggle", silent = true, buffer = true })
+vim.keymap.set("n", "<C-p>", ":Telescope find_files<cr>", { desc = "Find Files (Telescope)", silent = true, noremap = true })
+vim.keymap.set("n", "<C-f>", ":Telescope live_grep<cr>", { desc = "Telescope Live Grep", silent = true, buffer = true })
+vim.keymap.set("n", "<C-o>", ":Telescope lsp_document_symbols<cr>", { desc = "Telescope LSP Document Symbols", silent = true, buffer = true })
+-- vim.keymap.set("n", "<C-m>", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>xx", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true, buffer = true })
+vim.keymap.set("n", "<C-b>", ":NvimTreeToggle<cr>", { desc = "NvimTree Toggle", silent = true, buffer = true })
 
-map("n", "<leader>f<space>", "<cmd>FzfLua files<cr>", { desc = "Fzf Find Files", silent = true })
+vim.keymap.set("n", "<leader>f<space>", "<cmd>FzfLua files<cr>", { desc = "Fzf Find Files", silent = true })
 
--- map("n", "<C-_>", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
-map("n", "<leader>/", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
--- map("v", "<C-_>", "gc", { desc = "Toggle Comment (Visual)", silent = true, buffer = true })
-map("v", "<leader>/", "gc", { desc = "Toggle Comment", silent = true, buffer = true })
+-- vim.keymap.set("n", "<C-_>", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>/", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
+-- vim.keymap.set("v", "<C-_>", "gc", { desc = "Toggle Comment (Visual)", silent = true, buffer = true })
+vim.keymap.set("v", "<leader>/", "gc", { desc = "Toggle Comment", silent = true, buffer = true })
 
-map("n", "<C-S-p>", ":Telescope commands<cr>", { desc = "Telescope Commands", silent = true, buffer = true })
+vim.keymap.set("n", "<C-S-p>", ":Telescope commands<cr>", { desc = "Telescope Commands", silent = true, buffer = true })
 
--- map("n", "<C-Tab>", ":bnext<cr>", { desc = "Switch to Next Buffer", silent = true, buffer = true })
-map("n", "<leader>bn", ":bnext<cr>", { desc = "Next Buffer", silent = true, buffer = true })
--- map("n", "<C-S-Tab>", ":bprevious<cr>", { desc = "Switch to Previous Buffer", silent = true, buffer = true })
-map("n", "<leader>bp", ":bprevious<cr>", { desc = "Previous Buffer", silent = true, buffer = true })
+-- vim.keymap.set("n", "<C-Tab>", ":bnext<cr>", { desc = "Switch to Next Buffer", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>bn", ":bnext<cr>", { desc = "Next Buffer", silent = true, buffer = true })
+-- vim.keymap.set("n", "<C-S-Tab>", ":bprevious<cr>", { desc = "Switch to Previous Buffer", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>bp", ":bprevious<cr>", { desc = "Previous Buffer", silent = true, buffer = true })
 
-map("n", "<C-s>", ":w<cr>", { desc = "Save File", silent = true, buffer = true })
-map("i", "<C-s>", "<Esc>:w<cr>a", { desc = "Save File and Continue Editing", silent = true, buffer = true })
+vim.keymap.set("n", "<C-s>", ":w<cr>", { desc = "Save File", silent = true, buffer = true })
+vim.keymap.set("i", "<C-s>", "<Esc>:w<cr>a", { desc = "Save File and Continue Editing", silent = true, buffer = true })
 
-map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to Definition", silent = true, buffer = true })
-map("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "Show References", silent = true, buffer = true })
-map("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "Show Hover Info", silent = true, buffer = true })
+vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to Definition", silent = true, buffer = true })
+vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "Show References", silent = true, buffer = true })
+vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "Show Hover Info", silent = true, buffer = true })
 
-map("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
+vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 
--- map("n", "<C-m>", "<cmd>lua vim.diagnostic.open_float()<cr>", { desc = "Show Diagnostic Float", silent = true, buffer = true })
--- map("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Go to Previous Diagnostic", silent = true, buffer = true })
--- map("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Go to Next Diagnostic", silent = true, buffer = true })
+-- vim.keymap.set("n", "<C-m>", "<cmd>lua vim.diagnostic.open_float()<cr>", { desc = "Show Diagnostic Float", silent = true, buffer = true })
+-- vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Go to Previous Diagnostic", silent = true, buffer = true })
+-- vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Go to Next Diagnostic", silent = true, buffer = true })
 
-map("n", "<F5>", "<cmd>lua require'dap'.continue()<cr>", { desc = "DAP Continue", silent = true, buffer = true })
-map("n", "<F9>", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", { desc = "DAP Toggle Breakpoint", silent = true, buffer = true })
-map("n", "<F10>", "<cmd>lua require'dap'.step_over()<cr>", { desc = "DAP Step Over", silent = true, buffer = true })
-map("n", "<F11>", "<cmd>lua require'dap'.step_into()<cr>", { desc = "DAP Step Into", silent = true, buffer = true })
-map("n", "<F12>", "<cmd>lua require'dap'.step_out()<cr>", { desc = "DAP Step Out", silent = true, buffer = true })
+vim.keymap.set("n", "<F5>", "<cmd>lua require'dap'.continue()<cr>", { desc = "DAP Continue", silent = true, buffer = true })
+vim.keymap.set("n", "<F9>", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", { desc = "DAP Toggle Breakpoint", silent = true, buffer = true })
+vim.keymap.set("n", "<F10>", "<cmd>lua require'dap'.step_over()<cr>", { desc = "DAP Step Over", silent = true, buffer = true })
+vim.keymap.set("n", "<F11>", "<cmd>lua require'dap'.step_into()<cr>", { desc = "DAP Step Into", silent = true, buffer = true })
+vim.keymap.set("n", "<F12>", "<cmd>lua require'dap'.step_out()<cr>", { desc = "DAP Step Out", silent = true, buffer = true })
 
--- map("n", "<C-d>", "<cmd>lua require('dapui').toggle()<cr>", { desc = "Toggle DAP UI", silent = true, buffer = true })
-map("n", "<leader>du", "<cmd>lua require('dapui').toggle()<cr>", { desc = "DAP UI Toggle", silent = true, buffer = true })
-map("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<cr>", { desc = "DAP Open REPL", silent = true, buffer = true })
+-- vim.keymap.set("n", "<C-d>", "<cmd>lua require('dapui').toggle()<cr>", { desc = "Toggle DAP UI", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>du", "<cmd>lua require('dapui').toggle()<cr>", { desc = "DAP UI Toggle", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<cr>", { desc = "DAP Open REPL", silent = true, buffer = true })
 
 -- Clipboard yanking (system clipboard)
 -- vim.keymap.set({ "n", "v" }, "y", '"+y', { noremap = true, silent = true })
@@ -6325,7 +6326,7 @@ return {
         vim.api.nvim_set_hl(0, group, { bg = "none" })
       end
 
-            -- Terminal Background beim Start ändern
+      -- Terminal Background beim Start ändern
       vim.api.nvim_create_autocmd("VimEnter", {
         callback = function()
           io.write("\27]11;#1e1e2e\7")
