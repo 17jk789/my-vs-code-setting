@@ -135,7 +135,7 @@ Installiere Neovim: [Neovim](https://neovim.io/)
 ```bash
 sudo apt update
 sudo ufw enable # Wichtig -> Firewall aktivieren!!!
-sudo apt install curl wget unzip build-essential cmark fzf
+sudo apt install curl wget unzip build-essential cmark fzf luarocks
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
 # cargo install --locked critcmp
