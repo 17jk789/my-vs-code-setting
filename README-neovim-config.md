@@ -6992,9 +6992,9 @@ return {
         "dockerfile", "terraform", "nginx", "tmux", "ssh_config", "diff",
         "toml", "yaml", "json", "json5", "jsonc", "ini", "xml", "csv",
         -- Build & Shell (Korrekturen!)
-        "make", "groovy", "cmake", "bash", "sh", "fish", "zsh", "powershell",
+        "make", "groovy", "cmake", "bash", "fish", "zsh", "powershell",
         -- System & Desktop-Envs (Ghostty-kompatibel)
-        "hyprlang", "waybar", "rasi", "kdl",
+        "hyprlang", "rasi", "kdl",
         -- Dokumentation & Git
         "markdown", "markdown_inline", "rst", "latex", "bibtex", "vim", "vimdoc",
         "query", "regex", "git_config", "gitignore", "git_rebase", "gitcommit",
