@@ -190,12 +190,11 @@ docker --version
 
 ```bash
 sudo apt install wl-clipboard fd-find
-sudo apt install python3-venv python3-pip
-# Für Black
-pip install --user black
+sudo apt install python3-venv python3-pip pipx
+pipx ensurepath
+pipx install black
+pipx install ruff
 
-# Für Ruff
-pip install --user ruff
 sudo apt install ripgrep
 sudo apt install nodejs npm
 sudo apt install gzip
