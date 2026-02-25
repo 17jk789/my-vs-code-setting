@@ -297,6 +297,9 @@ python -m venv venv
 source venv/bin/activate
 touch main.py
 # pip install 'python-lsp-server[all]' black ruff debugpy
+pip install pynvim jupyter-client ipykernel black ruff
+# Optional:
+# python -m ipykernel install --user
 nvim .
 ```
 
@@ -344,6 +347,9 @@ touch main.py
 source venv/bin/activate
 pip install --upgrade pip
 # pip install 'python-lsp-server[all]' black ruff debugpy
+pip install pynvim jupyter-client ipykernel black ruff
+# Optional:
+# python -m ipykernel install --user
 
 ```
 
@@ -4110,6 +4116,116 @@ code plugins/python.lua
 --   },
 -- }
 
+return {
+  -- Ruff + Black (stabil via none-ls)
+  {
+    "nvimtools/none-ls.nvim",
+    ft = "python",
+    opts = function(_, opts)
+      local nls = require("null-ls")
+      opts.sources = opts.sources or {}
+
+      vim.list_extend(opts.sources, {
+        nls.builtins.formatting.black,
+        nls.builtins.diagnostics.ruff,
+      })
+    end,
+  },
+
+  -- Image Support (Ghostty kompatibel via Kitty Protocol)
+  -- {
+  --   "3rd/image.nvim",
+  --   ft = "python",
+  --   opts = {
+  --     backend = "kitty",
+  --     max_width = 100,
+  --     max_height = 20,
+  --   },
+  -- },
+
+  -- Molten (Jupyter Core)
+  {
+    "benlubas/molten-nvim",
+    version = "^1.0.0",
+    build = ":UpdateRemotePlugins",
+    ft = { "python", "ipynb" },
+    init = function()
+      -- stabile Defaults
+      vim.g.molten_auto_open_output = false
+      vim.g.molten_image_provider = "image.nvim"
+      vim.g.molten_output_win_max_height = 25
+      vim.g.molten_wrap_output = true
+      vim.g.molten_virt_text_output = false
+    end,
+
+    config = function()
+
+      -- Sichere Kernel-Initialisierung
+      local function ensure_kernel()
+        if not vim.b.molten_initialized then
+          vim.cmd("MoltenInit")
+          vim.b.molten_initialized = true
+        end
+      end
+
+      -- Notebook-Zellen via "# %%"
+      vim.api.nvim_create_autocmd("FileType", {
+        -- pattern = "python",
+        pattern = { "python", "ipynb" },
+        callback = function()
+          vim.bo.commentstring = "# %s"
+        end,
+      })
+
+      -- vim.api.nvim_create_autocmd("FileType", {
+      --   pattern = { "python", "ipynb" },
+      --   callback = function()
+      --     if not vim.b.molten_initialized then
+      --       vim.cmd("MoltenInit")
+      --       vim.b.molten_initialized = true
+      --     end
+      --   end,
+      -- })
+
+      -- Kernel manuell starten
+      vim.keymap.set("n", "<leader>mi", ensure_kernel, { desc = "Init Jupyter Kernel" })
+
+      -- aktuelle Zeile
+      vim.keymap.set("n", "<leader>rr", function()
+        ensure_kernel()
+        vim.cmd("MoltenEvaluateLine")
+      end, { desc = "Run Line" })
+
+      -- visuelle Auswahl
+      vim.keymap.set("v", "<leader>rr", function()
+        ensure_kernel()
+        vim.cmd("MoltenEvaluateVisual")
+      end, { desc = "Run Selection" })
+
+      -- gesamte Datei
+      vim.keymap.set("n", "<leader>rf", function()
+        ensure_kernel()
+        vim.cmd("normal! ggVG")
+        vim.cmd("MoltenEvaluateVisual")
+      end, { desc = "Run File" })
+
+      -- nächste Zelle (# %%)
+      vim.keymap.set("n", "<leader>rc", function()
+        ensure_kernel()
+        vim.cmd("MoltenEvaluateOperator")
+      end, { desc = "Run Cell" })
+
+      -- Output Toggle
+      vim.keymap.set("n", "<leader>ro", ":MoltenShowOutput<CR>", { desc = "Show Output" })
+      vim.keymap.set("n", "<leader>rh", ":MoltenHideOutput<CR>", { desc = "Hide Output" })
+    end,
+  },
+}
+
+
+--pip install pynvim jupyter-client ipykernel black ruff
+-- Optional:
+-- python -m ipykernel install --user
 ```
 
 ## lsp/python.lua
