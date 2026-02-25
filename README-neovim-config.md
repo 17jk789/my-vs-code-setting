@@ -302,7 +302,8 @@ python -m venv venv
 source venv/bin/activate
 touch main.py
 # pip install 'python-lsp-server[all]' black ruff debugpy
-# pip install pynvim jupyter-client ipykernel black ruff
+# pip install pynvim jupyter-client ipykernel 
+# pip install black ruff
 # Optional:
 # python -m ipykernel install --user
 nvim .
@@ -352,7 +353,8 @@ touch main.py
 source venv/bin/activate
 pip install --upgrade pip
 # pip install 'python-lsp-server[all]' black ruff debugpy
-# pip install pynvim jupyter-client ipykernel black ruff
+# pip install pynvim jupyter-client ipykernel 
+# pip install black ruff
 # Optional:
 # python -m ipykernel install --user
 
