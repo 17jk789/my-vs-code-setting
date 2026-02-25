@@ -4136,17 +4136,33 @@ return {
   --   end,
   -- },
 
-  -- Ruff + Black direkt via null-ls
+  -- Conform für Formatter (Black + isort)
+  {
+      "stevearc/conform.nvim",
+      lazy = false,  -- direkt laden
+      config = function()
+          require("conform").setup({
+              formatters_by_ft = {
+                  python = { "isort", "black" },  -- Reihenfolge: isort → black
+              },
+              format_on_save = {
+                  timeout_ms = 500,
+                  lsp_format = "fallback",
+              },
+          })
+      end,
+  },
+
+  -- Null-ls für Linter (Ruff)
   {
       "jose-elias-alvarez/null-ls.nvim",
       ft = "python",
+      dependencies = { "nvim-lua/plenary.nvim" },
       opts = function(_, opts)
           local nls = require("null-ls")
           opts.sources = opts.sources or {}
-
           vim.list_extend(opts.sources, {
-              nls.builtins.formatting.black,
-              nls.builtins.diagnostics.ruff,
+              nls.builtins.diagnostics.ruff,  -- Ruff als Linter
           })
       end,
   },
