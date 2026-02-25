@@ -190,10 +190,11 @@ docker --version
 
 ```bash
 sudo apt install wl-clipboard fd-find
-sudo apt install python3-venv python3-pip pipx
-pipx ensurepath
-pipx install black
-pipx install ruff
+sudo apt install python3-venv python3-pip
+# sudo apt install pipx
+# pipx ensurepath
+# pipx install black
+# pipx install ruff
 
 sudo apt install ripgrep
 sudo apt install nodejs npm
@@ -4137,35 +4138,35 @@ return {
   -- },
 
   -- Conform für Formatter (Black + isort)
-  {
-      "stevearc/conform.nvim",
-      lazy = false,  -- direkt laden
-      config = function()
-          require("conform").setup({
-              formatters_by_ft = {
-                  python = { "isort", "black" },  -- Reihenfolge: isort → black
-              },
-              format_on_save = {
-                  timeout_ms = 500,
-                  lsp_format = "fallback",
-              },
-          })
-      end,
-  },
+  -- {
+  --     "stevearc/conform.nvim",
+  --     lazy = false,  -- direkt laden
+  --     config = function()
+  --         require("conform").setup({
+  --             formatters_by_ft = {
+  --                 python = { "isort", "black" },  -- Reihenfolge: isort → black
+  --             },
+  --             format_on_save = {
+  --                 timeout_ms = 500,
+  --                 lsp_format = "fallback",
+  --             },
+  --         })
+  --     end,
+  -- },
 
-  -- Null-ls für Linter (Ruff)
-  {
-      "jose-elias-alvarez/null-ls.nvim",
-      ft = "python",
-      dependencies = { "nvim-lua/plenary.nvim" },
-      opts = function(_, opts)
-          local nls = require("null-ls")
-          opts.sources = opts.sources or {}
-          vim.list_extend(opts.sources, {
-              nls.builtins.diagnostics.ruff,  -- Ruff als Linter
-          })
-      end,
-  },
+  -- -- Null-ls für Linter (Ruff)
+  -- {
+  --     "jose-elias-alvarez/null-ls.nvim",
+  --     ft = "python",
+  --     dependencies = { "nvim-lua/plenary.nvim" },
+  --     opts = function(_, opts)
+  --         local nls = require("null-ls")
+  --         opts.sources = opts.sources or {}
+  --         vim.list_extend(opts.sources, {
+  --             nls.builtins.diagnostics.ruff,  -- Ruff als Linter
+  --         })
+  --     end,
+  -- },
 
   -- Image Support (Ghostty kompatibel via Kitty Protocol)
   -- {
