@@ -4124,7 +4124,7 @@ code plugins/python.lua
 --   },
 -- }
 
-return {
+-- return {
   -- Ruff + Black (stabil via none-ls)
   -- {
   --   "nvimtools/none-ls.nvim",
@@ -4259,12 +4259,12 @@ return {
   --     vim.keymap.set("n", "<leader>rh", ":MoltenHideOutput<CR>", { desc = "Hide Output" })
   --   end,
   -- },
-}
-
+-- }
 
 --pip install pynvim jupyter-client ipykernel black ruff
 -- Optional:
 -- python -m ipykernel install --user
+
 ```
 
 ## lsp/python.lua
