@@ -90,6 +90,8 @@ This repository is released under the **Apache License 2.0**.
   - [lsp/html.lua](#lsphtmllua)
   - [lsp/css.lua](#lspcsslua)
   - [plugins/javascript.lua](#pluginsjavascriptlua)
+  - [plugins/asm.lua](#pluginsasmlua)
+  - [plugins/go.lua](#pluginsgolua)
   - [plugins/dap.lua](#pluginsdaplua)
   - [config/autocmds.lua](#configautocmdslua)
   - [plugins/mason.lua](#pluginsmasonlua)
