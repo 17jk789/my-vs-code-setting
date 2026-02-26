@@ -4543,7 +4543,7 @@ code lsp/lua.lua
 
 ## plugins/html.lua
 
-> Unnötig!
+> Unnötig!!! -> alles in plugins/completion.lua und mehr
 
 ```bash
 cd ~/.config/nvim/lua
