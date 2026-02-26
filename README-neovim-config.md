@@ -522,7 +522,7 @@ EOL
 # https://github.com/nvim-java/nvim-java ersetzt das!
 # java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar <deinJar>.jar
 
-echo "✅ Projekt '$PROJECT_NAME' erstellt!"
+echo "✅ Java-Projekt '$PROJECT_NAME' erstellt!"
 echo "Öffne in Neovim: nvim $PROJECT_NAME"
 
 ```
@@ -643,7 +643,7 @@ cmake --build build
 ln -s build/compile_commands.json .
 
 echo ""
-echo "✅ Projekt '$PROJECT_NAME' bereit!"
+echo "✅ C++-Projekt '$PROJECT_NAME' bereit!"
 echo "Binary: $PROJECT_DIR/build/app"
 
 ```
