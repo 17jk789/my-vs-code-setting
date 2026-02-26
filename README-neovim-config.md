@@ -4956,22 +4956,22 @@ code plugins/javascript.lua
 ```
 
 
-## plugins/ams.lua
+## plugins/asm.lua
 
 ```bash
 cd ~/.config/nvim/lua
 ```
 
 ```bash
-vim plugins/ams.lua
+vim plugins/asm.lua
 ```
 
 ```bash
-nano plugins/ams.lua
+nano plugins/asm.lua
 ```
 
 ```bash
-code plugins/ams.lua
+code plugins/asm.lua
 ```
 
 ```lua
