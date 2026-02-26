@@ -27,7 +27,8 @@ This repository contains my personal **NeoVim settings**.
 - 60% **Lua** (VS Code Level + basic Lua Plugins)
 - 80% **Latex** (VS Code Level + basic Latex Plugins)
 - 80% **Markdown** (VS Code Level + basic Markdown Plugins)
-- 80% **Ascii** (VS Code Level + basic Markdown Plugins)
+- 80% **Ascii** (VS Code Level + basic MSI Plugins)
+- 80% **Ascii** (VS Code Level + basic GO Plugins)
 - 80% **Git** (VS Code Level + basic Git Plugins)
 
 ## Disclaimer
@@ -1267,6 +1268,8 @@ cd ~/.config/nvim/lua
         ├── cpp.lua
         ├── java.lua
         ├── javascript.lua
+        ├── asm.lua
+        ├── go.lua
         ├── mason.lua
         ├── theme.lua
         ├── ui.lua
@@ -5051,6 +5054,57 @@ return {
     },
   },
 }
+
+```
+
+## plugins/go.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/go.lua
+```
+
+```bash
+nano plugins/go.lua
+```
+
+```bash
+code plugins/go.lua
+```
+
+```lua
+-- plugins/go.lua
+
+-- {
+--   "ray-x/go.nvim",
+--   dependencies = {  -- optional packages
+--     "ray-x/guihua.lua",
+--     "neovim/nvim-lspconfig",
+--     "nvim-treesitter/nvim-treesitter",
+--   },
+--   opts = function()
+
+--     require("go").setup(opts)
+--     local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
+--     vim.api.nvim_create_autocmd("BufWritePre", {
+--       pattern = "*.go",
+--       callback = function()
+--       require('go.format').goimports()
+--       end,
+--       group = format_sync_grp,
+--     })
+--     return {
+--       -- lsp_keymaps = false,
+--       -- other options
+--     }
+--   end,
+--   event = {"CmdlineEnter"},
+--   ft = {"go", 'gomod'},
+--   build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
+-- }
 
 ```
 
