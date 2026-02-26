@@ -5392,6 +5392,8 @@ code plugins/zig.lua
 
 ## plugins/dap.lua
 
+Hier wird nur der Debugger (DAP) für C, C++ und Rust konfiguriert. Der Java-Debugger funktioniert bereits ohne zusätzliche Einrichtung. Für Python, JavaScript, TypeScript etc. brauche ich vorerst keinen Debugger – generell verwende ich Debugger sowieso nicht so oft. Wenn man dringend einen benötigt, kann man den Code schnell in PyCharm, IntelliJ, CLion, VS Code oder Eclipse debuggen.
+
 ```bash
 cd ~/.config/nvim/lua
 ```
