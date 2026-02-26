@@ -144,6 +144,7 @@ cargo install --locked cargo-nextest cargo-audit
 # rustup component add rustfmt
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk openjdk-25-jdk maven
+sudo apt install nasm binutils
 # sudo update-alternatives --config java
 # sudo snap install gradle --classic
 
@@ -6169,6 +6170,49 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rpc",
       ":split | terminal g++ -c %<CR>",
       { desc = "G++ Compile Only (Split)", silent = true, buffer = true }
+    )
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = { "asm", "s", "S" },
+  callback = function()
+    local opts = { noremap = true, silent = true, buffer = true }
+
+    -- Standard: Assemblieren, Linken & Ausführen
+    vim.keymap.set("n", "<leader>rar",
+      ":split | terminal nasm -f elf64 % -o %:r.o && ld %:r.o -o %:r && ./%:r<CR>",
+      { desc = "NASM Run (ELF64)", silent = true, buffer = true }
+    )
+
+    -- Debug: Mit Debug-Symbolen für GDB assemblieren
+    vim.keymap.set("n", "<leader>rad",
+      ":split | terminal nasm -f elf64 -g -F dwarf % -o %:r.o && ld %:r.o -o %:r<CR>",
+      { desc = "NASM Build with Debug Symbols", silent = true, buffer = true }
+    )
+
+    -- Nur Assemblieren (Object File erstellen)
+    vim.keymap.set("n", "<leader>rac",
+      ":split | terminal nasm -f elf64 % -o %:r.o<CR>",
+      { desc = "NASM Compile Only", silent = true, buffer = true }
+    )
+
+    -- Listing File generieren (hilfreich um Offsets zu sehen)
+    vim.keymap.set("n", "<leader>ral",
+      ":split | terminal nasm -f elf64 % -l %:r.lst<CR>",
+      { desc = "NASM Generate Listing Folder", silent = true, buffer = true }
+    )
+
+    -- Cleanup: Entfernt Binaries und Object Files
+    vim.keymap.set("n", "<leader>rax",
+      function()
+        local bin = vim.fn.expand("%:r")
+        os.remove(bin .. ".o")
+        os.remove(bin)
+        print("Cleaned up " .. bin)
+      end,
+      { desc = "NASM Cleanup Files", silent = true, buffer = true }
     )
   end,
 })
