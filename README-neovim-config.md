@@ -118,6 +118,12 @@ This repository is released under the **Apache License 2.0**.
 * Some settings may be system-specific (Windows vs Linux) -Y *Linux - Ubuntu 24.04.03/24.04.04 LTS*.
 * This configuration is tailored to my personal workflow and may not suit everyone.
 
+## To do
+
+- Probleme mit LuaSnip
+
+# Requirements
+
 <details>
 <summary>Links</summary>
 
@@ -128,12 +134,6 @@ This repository is released under the **Apache License 2.0**.
 - https://github.com/LazyVim/LazyVim
 
 </details>
-
-## To do
-
-- Probleme mit LuaSnip
-
-# Requirements
 
 Installiere Neovim: [Neovim](https://neovim.io/)
 
