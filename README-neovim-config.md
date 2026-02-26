@@ -5101,12 +5101,18 @@ code plugins/web-dev.lua
 return {
   {
     "neovim/nvim-lspconfig",
+    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
     opts = {
       servers = {
         vtsls = { enabled = false },
         tsserver = { enabled = false },
+
+        html = {},
+        cssls = {},
+
         eslint = {
           settings = { workingDirectory = { mode = "location" } },
+          -- settings = { workingDirectory = { mode = "auto" } },
         },
       },
       setup = {
@@ -5122,8 +5128,10 @@ return {
       },
     },
   },
+
   {
     "pmizio/typescript-tools.nvim",
+    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {
       settings = {
@@ -5132,8 +5140,10 @@ return {
       },
     },
   },
+
   {
     "stevearc/conform.nvim",
+    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
     opts = {
       formatters_by_ft = {
         javascript = { "prettier" },
@@ -5142,11 +5152,14 @@ return {
         typescriptreact = { "prettier" },
         json = { "prettier" },
         html = { "prettier" },
+        css = { "prettier" },
       },
     },
   },
+
   {
     "windwp/nvim-ts-autotag",
+    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
     opts = {},
   },
 }
@@ -6571,16 +6584,16 @@ return {
         -- "mypy",
 
         -- HTML:
-        -- "html-lsp",
+        "html-lsp",
 
         -- CSS:
-        -- "css-lsp",
+        "css-lsp",
 
         -- Lua:
         -- "lua_ls",
 
         -- JavaScript:
-        -- "typescript-language-server",
+        "typescript-language-server",
         -- "eslint-lsp",
         -- "prettier",
         -- "eslint_d",
