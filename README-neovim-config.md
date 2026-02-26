@@ -92,6 +92,7 @@ This repository is released under the **Apache License 2.0**.
   - [lsp/css.lua](#lspcsslua)
   - [plugins/javascript.lua](#pluginsjavascriptlua)
   - [plugins/typescript.lua](#pluginstypescriptlua)
+  - [plugins/web-dev.lua](#pluginsweb-devlua)
   - [plugins/asm.lua](#pluginsasmlua)
   - [plugins/go.lua](#pluginsgolua)
   - [plugins/dap.lua](#pluginsdaplua)
@@ -1273,6 +1274,7 @@ cd ~/.config/nvim/lua
         ├── java.lua
         ├── javascript.lua
         ├── typescript.lua
+        ├── web-dev.lua
         ├── asm.lua
         ├── go.lua
         ├── mason.lua
@@ -4466,6 +4468,9 @@ return M
 
 ## lsp/lua.lua
 
+Kommentiere es einfach aus, wenn du es doch brauchen solltest – ich benötige es aktuell nicht. Vergiss außerdem nicht, das
+lua-lsp Paket in der plugins/mason.lua auszukommentieren.
+
 ```bash
 cd ~/.config/nvim/lua
 ```
@@ -4931,21 +4936,7 @@ code plugins/javascript.lua
 -- plugins/javascript.lua
 
 -- return {
---   -- 1. Treesitter für Syntax-Highlighting
---   {
---     "nvim-treesitter/nvim-treesitter",
---     opts = function(_, opts)
---       -- Fügt Sprachen hinzu, ohne die bestehenden zu löschen
---       vim.list_extend(opts.ensure_installed, {
---         "javascript",
---         "typescript",
---         "tsx",
---         "json",
---       })
---     end,
---   },
-
---   -- 2. Formatierung via Conform (Prettier)
+--   -- 1. Formatierung via Conform (Prettier)
 --   {
 --     "stevearc/conform.nvim",
 --     opts = {
@@ -4961,7 +4952,7 @@ code plugins/javascript.lua
 --     },
 --   },
 
---   -- 3. Eslint Konfiguration (Modernes LazyVim-Format)
+--   -- 2. Eslint Konfiguration (Modernes LazyVim-Format)
 --   {
 --     "neovim/nvim-lspconfig",
 --     opts = {
@@ -4987,7 +4978,7 @@ code plugins/javascript.lua
 --     },
 --   },
 
---   -- 4. Autotags für TSX/JSX (wie in HTML)
+--   -- 3. Autotags für TSX/JSX (wie in HTML)
 --   {
 --     "windwp/nvim-ts-autotag",
 --     opts = {},
@@ -5018,30 +5009,147 @@ code plugins/typescript.lua
 -- plugins/typescript.lua
 
 -- return {
---   -- Deaktiviere den Standard-LSP von LazyVim
+--   -- 1. LSP: Deaktiviere Standard und aktiviere typescript-tools & eslint
 --   {
 --     "neovim/nvim-lspconfig",
 --     opts = {
 --       servers = {
+--         -- Deaktiviert die LazyVim Standards, damit sie sich nicht beißen
 --         vtsls = { enabled = false },
 --         tsserver = { enabled = false },
+--         -- Aktiviert ESLint
+--         eslint = {
+--           settings = {
+--             workingDirectory = { mode = "location" },
+--           },
+--         },
+--       },
+--       setup = {
+--         -- Automatisches Fixen von ESLint-Fehlern beim Speichern
+--         eslint = function()
+--           vim.api.nvim_create_autocmd("BufWritePre", {
+--             callback = function(event)
+--               if require("lspconfig.util").get_active_client_by_name(event.buf, "eslint") then
+--                 vim.cmd("EslintFixAll")
+--               end
+--             end,
+--           })
+--         end,
 --       },
 --     },
 --   },
 
---   -- Nutze typescript-tools.nvim
+--   -- 2. Das Haupt-Plugin für TypeScript/JavaScript Performance
 --   {
 --     "pmizio/typescript-tools.nvim",
 --     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
 --     opts = {
 --       settings = {
---         -- Beispiel: Automatische Fixes beim Speichern
 --         expose_as_code_action = "all",
 --         complete_function_calls = true,
 --       },
 --     },
 --   },
+
+--   -- 3. Formatierung (Prettier) für alle Web-Dateien
+--   {
+--     "stevearc/conform.nvim",
+--     opts = {
+--       formatters_by_ft = {
+--         javascript = { "prettier" },
+--         javascriptreact = { "prettier" },
+--         typescript = { "prettier" },
+--         typescriptreact = { "prettier" },
+--         json = { "prettier" },
+--         html = { "prettier" },
+--       },
+--     },
+--   },
+
+--   -- 4. Automatische Tags für HTML/JSX/TSX
+--   {
+--     "windwp/nvim-ts-autotag",
+--     opts = {},
+--   },
 -- }
+
+```
+
+## plugins/web-dev.lua
+
+Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann nicht mehr, da sie nur zu Konflikten und Fehlern führen würden.
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/web-dev.lua
+```
+
+```bash
+nano plugins/web-dev.lua
+```
+
+```bash
+code plugins/web-dev.lua
+```
+
+```lua
+-- plugins/web-dev.lua
+
+return {
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        vtsls = { enabled = false },
+        tsserver = { enabled = false },
+        eslint = {
+          settings = { workingDirectory = { mode = "location" } },
+        },
+      },
+      setup = {
+        eslint = function()
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            callback = function(event)
+              if require("lspconfig.util").get_active_client_by_name(event.buf, "eslint") then
+                vim.cmd("EslintFixAll")
+              end
+            end,
+          })
+        end,
+      },
+    },
+  },
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {
+      settings = {
+        expose_as_code_action = "all",
+        complete_function_calls = true,
+      },
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
+        json = { "prettier" },
+        html = { "prettier" },
+      },
+    },
+  },
+  {
+    "windwp/nvim-ts-autotag",
+    opts = {},
+  },
+}
 
 ```
 
