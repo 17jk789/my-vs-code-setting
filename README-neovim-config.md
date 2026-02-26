@@ -2556,6 +2556,15 @@ return {
 ## plugins/cpp.lua
 
 ```bash
+# Erstelle eine globale Konfiguration in deinem Home-Verzeichnis
+echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ~/.clang-format
+```
+
+```vim
+:lua vim.lsp.buf.format()
+```
+
+```bash
 cd ~/.config/nvim/lua
 ```
 
