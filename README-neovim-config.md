@@ -6559,6 +6559,112 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
+  pattern = "go",
+  callback = function()
+    -- local opts = { noremap = true, silent = true, buffer = true }
+
+    vim.keymap.set("n", "<leader>rpr",
+      ":split | terminal go run %<CR>",
+      { desc = "Go Run (Split)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpb",
+      ":split | terminal go build -o %:r % && ./%:r<CR>",
+      { desc = "Go Build & Run (Split)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpt",
+      ":split | terminal go test %<CR>",
+      { desc = "Go Test Current File (Split)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpl",
+      ":split | terminal golangci-lint run %<CR>",
+      { desc = "Go Lint Current File (Split)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpc",
+      ":split | terminal go build -c %<CR>",
+      { desc = "Go Compile Only (Split)", silent = true, buffer = true }
+    )
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "zig",
+  callback = function()
+    vim.keymap.set("n", "<leader>rpr",
+      ":split | terminal zig run %<CR>",
+      { desc = "Zig Run (Split)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpb",
+      ":split | terminal zig build-exe % -O ReleaseSafe -femit-bin=%:r && ./%:r<CR>",
+      { desc = "Zig Build & Run (Split)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpd",
+      ":split | terminal zig build-exe % -O Debug -femit-bin=%:r && ./%:r<CR>",
+      { desc = "Zig Debug Build & Run (Split)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpo",
+      ":split | terminal zig build-exe % -O ReleaseFast -femit-bin=%:r && ./%:r<CR>",
+      { desc = "Zig Optimized Build & Run (Split)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpc",
+      ":split | terminal zig build-exe % -femit-bin=%:r<CR>",
+      { desc = "Zig Compile Only (Split)", silent = true, buffer = true }
+    )
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = { "javascript", "typescript" },
+  callback = function()
+    -- JavaScript / TypeScript direkt ausführen
+    vim.keymap.set("n", "<leader>rpr",
+      ":split | terminal node %<CR>",
+      { desc = "Node Run (Split)", silent = true, buffer = true }
+    )
+
+    -- TypeScript vorher kompilieren und dann ausführen
+    vim.keymap.set("n", "<leader>rpt",
+      ":split | terminal tsc % && node %:r.js<CR>",
+      { desc = "TS Compile & Run (Split)", silent = true, buffer = true }
+    )
+
+    -- Linting
+    vim.keymap.set("n", "<leader>rpl",
+      ":split | terminal eslint %<CR>",
+      { desc = "Lint Current JS/TS File (Split)", silent = true, buffer = true }
+    )
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  pattern = "lua",
+  callback = function()
+    -- Lua Datei direkt ausführen
+    vim.keymap.set("n", "<leader>rpr",
+      ":split | terminal lua %<CR>",
+      { desc = "Lua Run (Split)", silent = true, buffer = true }
+    )
+
+    -- LuaJIT benutzen (optional, schneller)
+    vim.keymap.set("n", "<leader>rpj",
+      ":split | terminal luajit %<CR>",
+      { desc = "LuaJIT Run (Split)", silent = true, buffer = true }
+    )
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
   pattern = { "asm", "s", "S" },
   callback = function()
     -- Standard: Assemblieren, Linken & Ausführen
