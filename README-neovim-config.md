@@ -30,6 +30,7 @@ This repository contains my personal **NeoVim settings**.
 - 80% **Markdown** Support (VS Code Level + basic Markdown Plugins)
 - 80% **Ascii** Support (VS Code Level + basic MSI Plugins)
 - 80% **GO** Support (VS Code Level + basic GO Plugins)
+- 80% **Zig** Support (VS Code Level + basic Zig Plugins)
 - 80% **Git** Support (VS Code Level + basic Git Plugins)
 
 ## Disclaimer
@@ -95,6 +96,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/web-dev.lua](#pluginsweb-devlua)
   - [plugins/asm.lua](#pluginsasmlua)
   - [plugins/go.lua](#pluginsgolua)
+  - [plugins/zig.lua](#pluginsziglua)
   - [plugins/dap.lua](#pluginsdaplua)
   - [config/autocmds.lua](#configautocmdslua)
   - [plugins/mason.lua](#pluginsmasonlua)
@@ -154,6 +156,18 @@ cargo install --locked cargo-nextest cargo-audit
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk openjdk-25-jdk maven
 sudo apt install nasm binutils
+
+# Für Go
+# sudo apt install golang-go
+# go install golang.org/x/tools/gopls@latest
+# go install golang.org/x/tools/cmd/goimports@latest
+# Optional, empfohlen:
+# curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.59.2
+# go install github.com/go-delve/delve/cmd/dlv@latest
+
+# Für Zig
+# sudo apt install zig
+
 # sudo update-alternatives --config java
 # sudo snap install gradle --classic
 
@@ -1256,39 +1270,40 @@ cd ~/.config/nvim/lua
 ├── init.lua
 └── lua/
     ├── config/
-    │   ├── options.lua
+    │   ├── autocmds.lua
     │   ├── keymaps.lua
     │   ├── lazyvim.lua
-    │   └── autocmds.lua
+    │   └── options.lua
     ├── lsp/
-    │   ├── python.lua
-    │   ├── lua.lua
+    │   ├── css.lua
     │   ├── html.lua
-    │   └── css.lua
+    │   ├── lua.lua
+    │   └── python.lua
     └── plugins/
-        ├── lsp.lua
+        ├── alpha.lua
+        ├── asm.lua
+        ├── cpp.lua
         ├── completion.lua
         ├── dap.lua
-        ├── rust.lua
-        ├── cpp.lua
+        ├── fzf.lua
+        ├── git.lua
+        ├── go.lua
         ├── java.lua
         ├── javascript.lua
-        ├── typescript.lua
-        ├── web-dev.lua
-        ├── asm.lua
-        ├── go.lua
-        ├── mason.lua
-        ├── theme.lua
-        ├── ui.lua
-        ├── treesitter.lua
-        ├── markdown.lua
         ├── latex.lua
+        ├── lsp.lua
         ├── ltex.lua
-        ├── git.lua
+        ├── markdown.lua
+        ├── mason.lua
         ├── notify.lua
+        ├── rust.lua
         ├── snacks.lua
-        ├── fzf.lua
-        └── alpha.lua
+        ├── theme.lua
+        ├── treesitter.lua
+        ├── typescript.lua
+        ├── ui.lua
+        └── web-dev.lua
+        └── zig.lua
 ```
 
 ## init.lua
@@ -5263,6 +5278,8 @@ return {
 
 ## plugins/go.lua
 
+Kommentiere es einfach aus, wenn du es doch brauchen solltest – ich benötige es aktuell nicht.
+
 ```bash
 cd ~/.config/nvim/lua
 ```
@@ -5309,6 +5326,65 @@ code plugins/go.lua
 --   ft = {"go", 'gomod'},
 --   build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
 -- }
+
+```
+
+## plugins/zig.lua
+
+Kommentiere es einfach aus, wenn du es doch brauchen solltest – ich benötige es aktuell nicht.
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/zig.lua
+```
+
+```bash
+nano plugins/zig.lua
+```
+
+```bash
+code plugins/zig.lua
+```
+
+```lua
+-- plugins/zig.lua
+
+return {
+  {
+    "neovim/nvim-lspconfig",
+    ft = { "zig" },  -- lazy-load nur für Zig-Dateien
+    opts = function(_, opts)
+      local lspconfig = require("lspconfig")
+
+      lspconfig.zls.setup({
+        cmd = { "zls" },  -- Zig Language Server (zls) muss installiert sein
+        filetypes = { "zig" },
+        root_dir = lspconfig.util.root_pattern("build.zig", ".git") or vim.loop.cwd(),
+
+        capabilities = opts.capabilities,  -- Completion etc.
+
+        on_attach = function(client, bufnr)
+          local buf_map = function(mode, lhs, rhs, opts)
+            opts = opts or {}
+            opts.buffer = bufnr
+            vim.keymap.set(mode, lhs, rhs, opts)
+          end
+
+          -- Standard LSP-Keymaps
+          buf_map("n", "K", vim.lsp.buf.hover)
+          buf_map("n", "<leader>rn", vim.lsp.buf.rename)
+          buf_map("n", "<leader>ca", vim.lsp.buf.code_action)
+          buf_map("n", "<leader>f", function()
+            vim.lsp.buf.format({ async = true })
+          end)
+        end,
+      })
+    end,
+  },
+}
 
 ```
 
@@ -6608,6 +6684,9 @@ return {
         -- "prettier",
         -- "eslint_d",
         -- "js-debug-adapter",
+
+        -- Zig:
+        -- "zls",
       },
     },
   },
