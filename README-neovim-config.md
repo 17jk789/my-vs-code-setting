@@ -4576,6 +4576,8 @@ code plugins/html.lua
 ```lua
 -- plugins/html.lua
 
+-- Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann nicht mehr, da sie nur zu Konflikten und Fehlern führen würden.
+
 -- return {
 --   {
 --     -- Unnötig!!! -> alles in plugins/completion.lua und mehr
@@ -4769,6 +4771,8 @@ code lsp/html.lua
 ```lua
 -- lsp/html.lua
 
+-- Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann nicht mehr, da sie nur zu Konflikten und Fehlern führen würden.
+
 -- local M = {}
 
 -- M.setup = function(capabilities, no_diagnostics)
@@ -4843,6 +4847,8 @@ code lsp/css.lua
 
 ```lua
 -- lsp/css.lua
+
+-- Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann nicht mehr, da sie nur zu Konflikten und Fehlern führen würden.
 
 -- local M = {}
 
@@ -4935,6 +4941,8 @@ code plugins/javascript.lua
 ```lua
 -- plugins/javascript.lua
 
+-- Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann nicht mehr, da sie nur zu Konflikten und Fehlern führen würden.
+
 -- return {
 --   -- 1. Formatierung via Conform (Prettier)
 --   {
@@ -5007,6 +5015,8 @@ code plugins/typescript.lua
 
 ```lua
 -- plugins/typescript.lua
+
+-- Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann nicht mehr, da sie nur zu Konflikten und Fehlern führen würden.
 
 -- return {
 --   -- 1. LSP: Deaktiviere Standard und aktiviere typescript-tools & eslint
