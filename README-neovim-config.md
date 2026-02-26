@@ -6594,6 +6594,8 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
   pattern = "zig",
   callback = function()
+    -- local opts = { noremap = true, silent = true, buffer = true }
+
     vim.keymap.set("n", "<leader>rpr",
       ":split | terminal zig run %<CR>",
       { desc = "Zig Run (Split)", silent = true, buffer = true }
@@ -6625,6 +6627,8 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
   pattern = { "javascript", "typescript" },
   callback = function()
+    -- local opts = { noremap = true, silent = true, buffer = true }
+
     -- JavaScript / TypeScript direkt ausführen
     vim.keymap.set("n", "<leader>rpr",
       ":split | terminal node %<CR>",
@@ -6649,6 +6653,8 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
   pattern = "lua",
   callback = function()
+    -- local opts = { noremap = true, silent = true, buffer = true }
+
     -- Lua Datei direkt ausführen
     vim.keymap.set("n", "<leader>rpr",
       ":split | terminal lua %<CR>",
@@ -6667,6 +6673,8 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
   pattern = { "asm", "s", "S" },
   callback = function()
+    -- local opts = { noremap = true, silent = true, buffer = true }
+
     -- Standard: Assemblieren, Linken & Ausführen
     vim.keymap.set("n", "<leader>rar",
       ":split | terminal nasm -f elf64 % -o %:r.o && ld %:r.o -o %:r && %:p:r<CR>",
