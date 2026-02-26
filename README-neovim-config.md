@@ -4960,6 +4960,38 @@ code plugins/javascript.lua
 ## plugins/asm.lua
 
 ```bash
+# 1. Sicherstellen, dass das Config-Verzeichnis existiert
+mkdir -p ~/.config/asm-lsp/
+
+# 2. Die globale Konfigurationsdatei schreiben
+cat <<EOF > ~/.config/asm-lsp/.asm-lsp.toml
+version = "0.10.0"
+
+[default_config]
+assembler = "gas"
+instruction_set = "x86-64"
+
+[default_config.opts]
+compiler = "as"
+diagnostics = true
+default_diagnostics = true
+
+# --- OPTIONALE KONFIGURATION (MASM/UASM) ---
+# Falls du MASM nutzen willst:
+# Obere Zeilen mit # auskommentieren und hier die # entfernen:
+# [default_config]
+# assembler = "masm"
+# instruction_set = "x86-64"
+# [default_config.opts]
+# compiler = "uasm"
+# diagnostics = true
+# default_diagnostics = true
+EOF
+
+echo "Globale Konfiguration unter ~/.config/asm-lsp/.asm-lsp.toml wurde erstellt."
+```
+
+```bash
 cd ~/.config/nvim/lua
 ```
 
@@ -6201,6 +6233,24 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>ral",
       ":split | terminal nasm -f elf64 % -l %:r.lst<CR>",
       { desc = "NASM Generate Listing File", silent = true, buffer = true }
+    )
+
+    -- GAS: Assemblieren, Linken & Ausführen
+    vim.keymap.set("n", "<leader>gar",
+      ":split | terminal as % -o %:r.o && ld %:r.o -o %:r && %:p:r<CR>",
+      { desc = "GAS Run (AT&T)", silent = true, buffer = true }
+    )
+
+    -- GAS Debug: Mit Debug-Symbolen für GDB
+    vim.keymap.set("n", "<leader>gad",
+      ":split | terminal as -g % -o %:r.o && ld %:r.o -o %:r<CR>",
+      { desc = "GAS Build Debug", silent = true, buffer = true }
+    )
+
+    -- GAS: Nur Assemblieren
+    vim.keymap.set("n", "<leader>gac",
+      ":split | terminal as % -o %:r.o<CR>",
+      { desc = "GAS Compile Only", silent = true, buffer = true }
     )
 
     -- Cleanup
