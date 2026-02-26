@@ -2879,9 +2879,9 @@ code plugins/java.lua
 --       local on_attach = function(client, bufnr)
 --         local bufopts = { noremap = true, silent = true, buffer = bufnr }
 --         vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
---         vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+--         -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --         vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
---         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+--         -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
 --       end
 
 --       -- JDTLS Config
@@ -3083,9 +3083,9 @@ return {
     --   local on_attach = function(client, bufnr)
     --     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     --     vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-    --     vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+    --     -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
     --     vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-    --     vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+    --     -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
     --   end
 
     --   jdtls.start_or_attach({
@@ -4359,10 +4359,10 @@ code lsp/python.lua
 --                 vim.keymap.set(mode, lhs, rhs, opts)
 --             end
 
---             buf_map('n', 'gd', vim.lsp.buf.definition)
+--             -- buf_map('n', 'gd', vim.lsp.buf.definition) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map('n', 'K', vim.lsp.buf.hover)
 --             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
---             buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+--             -- buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map('n', '<leader>f', function()
 --                 vim.lsp.buf.format({ async = true })
 --             end)
@@ -4434,10 +4434,10 @@ M.setup = function(capabilities)
             end
 
             -- LSP Keymaps
-            buf_map('n', 'gd', vim.lsp.buf.definition)
+            -- buf_map('n', 'gd', vim.lsp.buf.definition) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
             buf_map('n', 'K', vim.lsp.buf.hover)
             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
-            buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+            -- buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
             buf_map('n', '<leader>f', function()
                 vim.lsp.buf.format({ async = true })
             end)
@@ -4526,10 +4526,10 @@ code lsp/lua.lua
 --             end
 
 --             -- LSP Keymaps
---             buf_map("n", "gd", vim.lsp.buf.definition)
+--             -- buf_map("n", "gd", vim.lsp.buf.definition) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map("n", "K", vim.lsp.buf.hover)
 --             buf_map("n", "<leader>rn", vim.lsp.buf.rename)
---             buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+--             -- buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map("n", "<leader>f", function()
 --                 vim.lsp.buf.format({ async = true })
 --             end)
@@ -4763,10 +4763,10 @@ code lsp/html.lua
 --             end
 
 --             -- LSP Keymaps (konsistent)
---             buf_map("n", "gd", vim.lsp.buf.definition)
+--             -- buf_map("n", "gd", vim.lsp.buf.definition) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map("n", "K", vim.lsp.buf.hover)
 --             buf_map("n", "<leader>rn", vim.lsp.buf.rename)
---             buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+--             -- buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map("n", "<leader>f", function()
 --                 vim.lsp.buf.format({ async = true })
 --             end)
@@ -4853,10 +4853,10 @@ code lsp/css.lua
 --             end
 
 --             -- Konsistente LSP Keymaps
---             buf_map("n", "gd", vim.lsp.buf.definition)
+--             -- buf_map("n", "gd", vim.lsp.buf.definition) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map("n", "K", vim.lsp.buf.hover)
 --             buf_map("n", "<leader>rn", vim.lsp.buf.rename)
---             buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+--             -- buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --             buf_map("n", "<leader>f", function()
 --                 vim.lsp.buf.format({ async = true })
 --             end)
