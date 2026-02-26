@@ -2909,7 +2909,7 @@ code plugins/java.lua
 --         vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 --         -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
 --         vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
---         -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
+--         -- vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts) --  -- Diese Tastenkombination ist bereits in plugins/keymaps
 --       end
 
 --       -- JDTLS Config
@@ -5354,39 +5354,39 @@ code plugins/zig.lua
 ```lua
 -- plugins/zig.lua
 
-return {
-  {
-    "neovim/nvim-lspconfig",
-    ft = { "zig" },  -- lazy-load nur für Zig-Dateien
-    opts = function(_, opts)
-      local lspconfig = require("lspconfig")
+-- return {
+--   {
+--     "neovim/nvim-lspconfig",
+--     ft = { "zig" },  -- lazy-load nur für Zig-Dateien
+--     opts = function(_, opts)
+--       local lspconfig = require("lspconfig")
 
-      lspconfig.zls.setup({
-        cmd = { "zls" },  -- Zig Language Server (zls) muss installiert sein
-        filetypes = { "zig" },
-        root_dir = lspconfig.util.root_pattern("build.zig", ".git") or vim.loop.cwd(),
+--       lspconfig.zls.setup({
+--         cmd = { "zls" },  -- Zig Language Server (zls) muss installiert sein
+--         filetypes = { "zig" },
+--         root_dir = lspconfig.util.root_pattern("build.zig", ".git") or vim.loop.cwd(),
 
-        capabilities = opts.capabilities,  -- Completion etc.
+--         capabilities = opts.capabilities,  -- Completion etc.
 
-        on_attach = function(client, bufnr)
-          local buf_map = function(mode, lhs, rhs, opts)
-            opts = opts or {}
-            opts.buffer = bufnr
-            vim.keymap.set(mode, lhs, rhs, opts)
-          end
+--         on_attach = function(client, bufnr)
+--           local buf_map = function(mode, lhs, rhs, opts)
+--             opts = opts or {}
+--             opts.buffer = bufnr
+--             vim.keymap.set(mode, lhs, rhs, opts)
+--           end
 
-          -- Standard LSP-Keymaps
-          buf_map("n", "K", vim.lsp.buf.hover)
-          buf_map("n", "<leader>rn", vim.lsp.buf.rename)
-          buf_map("n", "<leader>ca", vim.lsp.buf.code_action)
-          buf_map("n", "<leader>f", function()
-            vim.lsp.buf.format({ async = true })
-          end)
-        end,
-      })
-    end,
-  },
-}
+--           -- Standard LSP-Keymaps
+--           buf_map("n", "K", vim.lsp.buf.hover)
+--           buf_map("n", "<leader>rn", vim.lsp.buf.rename)
+--           buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps
+--           buf_map("n", "<leader>f", function()
+--             vim.lsp.buf.format({ async = true })
+--           end)
+--         end,
+--       })
+--     end,
+--   },
+-- }
 
 ```
 
