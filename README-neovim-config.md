@@ -24,6 +24,7 @@ This repository contains my personal **NeoVim settings**.
 - 80% **HTML** Support (VS Code Level + No HTML Plugins)
 - 80% **CSS** Support (VS Code Level + No CSS Plugins)
 - 80% **JavaScript** Support (VS Code Level + basic JavaScript Plugins)
+- 80% **TypeScript** Support (VS Code Level + basic TypeScript Plugins)
 - 60% **Lua** Support (VS Code Level + basic Lua Plugins)
 - 80% **Latex** Support (VS Code Level + basic Latex Plugins)
 - 80% **Markdown** Support (VS Code Level + basic Markdown Plugins)
@@ -90,6 +91,7 @@ This repository is released under the **Apache License 2.0**.
   - [lsp/html.lua](#lsphtmllua)
   - [lsp/css.lua](#lspcsslua)
   - [plugins/javascript.lua](#pluginsjavascriptlua)
+  - [plugins/typescript.lua](#pluginstypescriptlua)
   - [plugins/asm.lua](#pluginsasmlua)
   - [plugins/go.lua](#pluginsgolua)
   - [plugins/dap.lua](#pluginsdaplua)
@@ -1270,6 +1272,7 @@ cd ~/.config/nvim/lua
         ├── cpp.lua
         ├── java.lua
         ├── javascript.lua
+        ├── typescript.lua
         ├── asm.lua
         ├── go.lua
         ├── mason.lua
@@ -4928,66 +4931,54 @@ code plugins/javascript.lua
 -- plugins/javascript.lua
 
 -- return {
---   {
---     "neovim/nvim-lspconfig",
---     opts = {
---       servers = {
---         tsserver = {
---           settings = {
---             completions = {
---               completeFunctionCalls = true,
---             },
---           },
---         },
---         eslint = {},
---       },
---     },
---   },
-
+--   -- 1. Treesitter für Syntax-Highlighting
 --   {
 --     "nvim-treesitter/nvim-treesitter",
---     opts = {
---       ensure_installed = {
+--     opts = function(_, opts)
+--       -- Fügt Sprachen hinzu, ohne die bestehenden zu löschen
+--       vim.list_extend(opts.ensure_installed, {
 --         "javascript",
 --         "typescript",
 --         "tsx",
 --         "json",
---       },
---     },
+--       })
+--     end,
 --   },
 
+--   -- 2. Formatierung via Conform (Prettier)
 --   {
 --     "stevearc/conform.nvim",
 --     opts = {
 --       formatters_by_ft = {
+--         -- Nutzt Prettier für alle Web-Dateien
 --         javascript = { "prettier" },
 --         javascriptreact = { "prettier" },
 --         typescript = { "prettier" },
 --         typescriptreact = { "prettier" },
 --         json = { "prettier" },
+--         html = { "prettier" },
 --       },
 --     },
 --   },
 
+--   -- 3. Eslint Konfiguration (Modernes LazyVim-Format)
 --   {
 --     "neovim/nvim-lspconfig",
 --     opts = {
+--       servers = {
+--         eslint = {
+--           settings = {
+--             workingDirectory = { mode = "location" },
+--           },
+--         },
+--       },
 --       setup = {
+--         -- Automatisches Fixen beim Speichern via ESLint
 --         eslint = function()
 --           vim.api.nvim_create_autocmd("BufWritePre", {
 --             callback = function(event)
---               local client = vim.lsp.get_active_clients({
---                 bufnr = event.buf,
---                 name = "eslint",
---               })[1]
-
---               if client then
---                 vim.lsp.buf.format({
---                   bufnr = event.buf,
---                   filter = function(c)
---                     return c.name == "eslint"
---                   end,
---                 })
+--               if require("lspconfig.util").get_active_client_by_name(event.buf, "eslint") then
+--                 vim.cmd("EslintFixAll")
 --               end
 --             end,
 --           })
@@ -4996,6 +4987,7 @@ code plugins/javascript.lua
 --     },
 --   },
 
+--   -- 4. Autotags für TSX/JSX (wie in HTML)
 --   {
 --     "windwp/nvim-ts-autotag",
 --     opts = {},
@@ -5004,6 +4996,54 @@ code plugins/javascript.lua
 
 ```
 
+## plugins/typescript.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/typescript.lua
+```
+
+```bash
+nano plugins/typescript.lua
+```
+
+```bash
+code plugins/typescript.lua
+```
+
+```lua
+-- plugins/typescript.lua
+
+-- return {
+--   -- Deaktiviere den Standard-LSP von LazyVim
+--   {
+--     "neovim/nvim-lspconfig",
+--     opts = {
+--       servers = {
+--         vtsls = { enabled = false },
+--         tsserver = { enabled = false },
+--       },
+--     },
+--   },
+
+--   -- Nutze typescript-tools.nvim
+--   {
+--     "pmizio/typescript-tools.nvim",
+--     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+--     opts = {
+--       settings = {
+--         -- Beispiel: Automatische Fixes beim Speichern
+--         expose_as_code_action = "all",
+--         complete_function_calls = true,
+--       },
+--     },
+--   },
+-- }
+
+```
 
 ## plugins/asm.lua
 
