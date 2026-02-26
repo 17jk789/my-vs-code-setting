@@ -28,7 +28,7 @@ This repository contains my personal **NeoVim settings**.
 - 80% **Latex** (VS Code Level + basic Latex Plugins)
 - 80% **Markdown** (VS Code Level + basic Markdown Plugins)
 - 80% **Ascii** (VS Code Level + basic MSI Plugins)
-- 80% **Ascii** (VS Code Level + basic GO Plugins)
+- 80% **GO** (VS Code Level + basic GO Plugins)
 - 80% **Git** (VS Code Level + basic Git Plugins)
 
 ## Disclaimer
