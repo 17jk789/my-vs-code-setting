@@ -141,6 +141,8 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked critcmp
 cargo install --locked cargo-nextest cargo-audit
 # cargo install --locked cargo-watch cargo-expand 
+# Für C/C++
+sudo apt install checksec
 # rustup component add rustfmt
 sudo apt install clang cmake ninja-build gdb
 sudo apt install openjdk-21-jdk openjdk-25-jdk maven
