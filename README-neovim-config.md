@@ -6179,7 +6179,6 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "asm", "s", "S" },
   callback = function()
     -- Standard: Assemblieren, Linken & Ausführen
-    -- Fix: %:p:r (absoluter Pfad ohne Endung) statt ./%:r nutzen
     vim.keymap.set("n", "<leader>rar",
       ":split | terminal nasm -f elf64 % -o %:r.o && ld %:r.o -o %:r && %:p:r<CR>",
       { desc = "NASM Run (ELF64)", silent = true, buffer = true }
