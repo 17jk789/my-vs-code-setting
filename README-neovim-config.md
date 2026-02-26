@@ -4705,6 +4705,38 @@ code plugins/html.lua
 --       return opts
 --     end,
 --   },
+
+--   {
+--     "neovim/nvim-lspconfig",
+--     opts = {
+--       servers = {
+--         -- Standard HTML Language Server
+--         html = {},
+--         -- Emmet LS für extrem schnelles HTML-Schreiben
+--         emmet_ls = {
+--           filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less" },
+--         },
+--       },
+--     },
+--   },
+
+--   {
+--     "windwp/nvim-ts-autotag",
+--     opts = {
+--       opts = {
+--         enable_close = true,
+--         enable_rename = true,
+--         enable_close_on_slash = true,
+--       },
+--     },
+--   },
+
+--   {
+--     "barrett-ruth/live-server.nvim",
+--     build = "pnpm add -g live-server", -- oder npm install -g live-server
+--     cmd = { "LiveServerStart", "LiveServerStop" },
+--     config = true,
+--   },
 -- }
 
 ```
