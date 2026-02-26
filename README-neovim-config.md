@@ -6102,7 +6102,7 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
   pattern = "c",
   callback = function()
-    local opts = { noremap = true, silent = true, buffer = true }
+    -- local opts = { noremap = true, silent = true, buffer = true }
 
     vim.keymap.set("n", "<leader>rcr",
       ":split | terminal gcc % -o %:r && ./%:r<CR>",
@@ -6141,7 +6141,8 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
   pattern = "cpp",
   callback = function()
-    local opts = { noremap = true, silent = true, buffer = true }
+    -- local opts = { noremap = true, silent = true, buffer = true }
+
     vim.keymap.set("n", "<leader>rpr",
       ":split | terminal g++ % -o %:r && ./%:r<CR>",
       { desc = "G++ Compile & Run (Split)", silent = true, buffer = true }
