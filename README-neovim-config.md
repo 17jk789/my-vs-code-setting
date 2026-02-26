@@ -4549,8 +4549,6 @@ code lsp/lua.lua
 
 ## plugins/html.lua
 
-> Unnötig!!! -> alles in plugins/completion.lua und mehr
-
 ```bash
 cd ~/.config/nvim/lua
 ```
@@ -4572,6 +4570,7 @@ code plugins/html.lua
 
 -- return {
 --   {
+--     -- Unnötig!!! -> alles in plugins/completion.lua und mehr
 --     "L3MON4D3/LuaSnip",
 --     opts = function(_, opts)
 --       local ls = require("luasnip")
