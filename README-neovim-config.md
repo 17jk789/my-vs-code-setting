@@ -27,6 +27,7 @@ This repository contains my personal **NeoVim settings**.
 - 60% **Lua** (VS Code Level + basic Lua Plugins)
 - 80% **Latex** (VS Code Level + basic Latex Plugins)
 - 80% **Markdown** (VS Code Level + basic Markdown Plugins)
+- 80% **Ascii** (VS Code Level + basic Markdown Plugins)
 - 80% **Git** (VS Code Level + basic Git Plugins)
 
 ## Disclaimer
