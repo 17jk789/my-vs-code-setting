@@ -4955,6 +4955,49 @@ code plugins/javascript.lua
 
 ```
 
+
+## plugins/ams.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/ams.lua
+```
+
+```bash
+nano plugins/ams.lua
+```
+
+```bash
+code plugins/ams.lua
+```
+
+```lua
+-- plugins/asm.lua
+
+return {
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        -- Hier wird der asm-lsp konfiguriert
+        asm_lsp = {
+          filetypes = { "asm", "s", "S" },
+          -- Falls du NASM nutzt, kannst du hier spezifische Optionen setzen
+          root_dir = function(fname)
+            local util = require("lspconfig.util")
+            return util.root_pattern(".git", ".asm-lsp.yaml")(fname) or util.path.dirname(fname)
+          end,
+        },
+      },
+    },
+  },
+}
+
+```
+
 ## plugins/dap.lua
 
 ```bash
@@ -6157,6 +6200,9 @@ return {
         -- Auto completion:
         "ltex-ls",
 
+        -- Assembly:
+        "asm-lsp",
+
         -- Java:
         -- "jdtls", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "java-debug-adapter", -- https://github.com/nvim-java/nvim-java installirt das automatisch
@@ -6991,7 +7037,7 @@ return {
       ensure_installed = {
         -- Programmiersprachen
         "c", "cpp", "rust", "java", "kotlin", "lua", "python", "go", "zig", "ron",
-        "javascript", "typescript", "tsx", "sql", "ruby", "php", "perl",
+        "javascript", "typescript", "tsx", "sql", "ruby", "php", "perl", "asm",
         -- Konfiguration (Korrekturen!)
         "dockerfile", "terraform", "nginx", "tmux", "ssh_config", "diff",
         "toml", "yaml", "json", "json5", "jsonc", "ini", "xml", "csv",
