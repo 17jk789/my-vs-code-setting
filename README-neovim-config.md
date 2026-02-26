@@ -6178,11 +6178,10 @@ vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
   pattern = { "asm", "s", "S" },
   callback = function()
-    local opts = { noremap = true, silent = true, buffer = true }
-
     -- Standard: Assemblieren, Linken & Ausführen
+    -- Fix: %:p:r (absoluter Pfad ohne Endung) statt ./%:r nutzen
     vim.keymap.set("n", "<leader>rar",
-      ":split | terminal nasm -f elf64 % -o %:r.o && ld %:r.o -o %:r && ./%:r<CR>",
+      ":split | terminal nasm -f elf64 % -o %:r.o && ld %:r.o -o %:r && %:p:r<CR>",
       { desc = "NASM Run (ELF64)", silent = true, buffer = true }
     )
 
@@ -6198,19 +6197,19 @@ vim.api.nvim_create_autocmd("FileType", {
       { desc = "NASM Compile Only", silent = true, buffer = true }
     )
 
-    -- Listing File generieren (hilfreich um Offsets zu sehen)
+    -- Listing File generieren
     vim.keymap.set("n", "<leader>ral",
       ":split | terminal nasm -f elf64 % -l %:r.lst<CR>",
-      { desc = "NASM Generate Listing Folder", silent = true, buffer = true }
+      { desc = "NASM Generate Listing File", silent = true, buffer = true }
     )
 
-    -- Cleanup: Entfernt Binaries und Object Files
+    -- Cleanup
     vim.keymap.set("n", "<leader>rax",
       function()
-        local bin = vim.fn.expand("%:r")
+        local bin = vim.fn.expand("%:p:r")
         os.remove(bin .. ".o")
         os.remove(bin)
-        print("Cleaned up " .. bin)
+        print("Cleaned up: " .. vim.fn.expand("%:t:r"))
       end,
       { desc = "NASM Cleanup Files", silent = true, buffer = true }
     )
