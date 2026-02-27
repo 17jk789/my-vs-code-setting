@@ -5218,6 +5218,7 @@ return {
     ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
     opts = {
       servers = {
+        -- Deaktiviere doppelte/standard Server, wir verwenden hier andere Tools
         vtsls = { enabled = false },
         tsserver = { enabled = false },
 
@@ -5231,10 +5232,14 @@ return {
       },
       setup = {
         eslint = function()
+          -- Fixe ESLint-Fehler bei Save, nur wenn ESLint aktiv ist
           vim.api.nvim_create_autocmd("BufWritePre", {
-            callback = function(event)
-              if require("lspconfig.util").get_active_client_by_name(event.buf, "eslint") then
-                vim.cmd("EslintFixAll")
+            callback = function(args)
+              for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = args.buf })) do
+                if client.name == "eslint" then
+                  vim.cmd("EslintFixAll")
+                  return
+                end
               end
             end,
           })
@@ -5245,10 +5250,10 @@ return {
 
   {
     "pmizio/typescript-tools.nvim",
-    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
-    dependencies = { 
-      "nvim-lua/plenary.nvim", 
-      "neovim/nvim-lspconfig" 
+    ft = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "neovim/nvim-lspconfig",
     },
     opts = {
       settings = {
@@ -5271,12 +5276,17 @@ return {
         html = { "prettier" },
         css = { "prettier" },
       },
+      -- optional: automatische Formatierung auf Save
+      format_on_save = {
+        timeout_ms = 500,
+        lsp_format = "fallback",
+      },
     },
   },
 
   {
     "windwp/nvim-ts-autotag",
-    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
+    ft = { "html", "javascriptreact", "typescriptreact" },
     opts = {},
   },
 }
@@ -5392,32 +5402,42 @@ code plugins/go.lua
 ```lua
 -- plugins/go.lua
 
--- {
---   "ray-x/go.nvim",
---   dependencies = {  -- optional packages
---     "ray-x/guihua.lua",
---     "neovim/nvim-lspconfig",
---     "nvim-treesitter/nvim-treesitter",
+-- return {
+--   {
+--     "ray-x/go.nvim",
+--     dependencies = {
+--       "ray-x/guihua.lua",
+--       "neovim/nvim-lspconfig",
+--       "nvim-treesitter/nvim-treesitter",
+--     },
+--
+--     event = { "CmdlineEnter" },
+--     ft = { "go", "gomod" },
+--
+--     build = function()
+--       require("go.install").update_all_sync()
+--     end,
+--
+--     opts = function(_, opts)
+--       require("go").setup(opts)
+--
+--       local format_sync_grp =
+--         vim.api.nvim_create_augroup("GoFormat", { clear = true })
+--
+--       vim.api.nvim_create_autocmd("BufWritePre", {
+--         pattern = "*.go",
+--         group = format_sync_grp,
+--         callback = function()
+--           require("go.format").goimports()
+--         end,
+--       })
+--
+--       return {
+--         -- lsp_keymaps = false,
+--         -- weitere Optionen hier
+--       }
+--     end,
 --   },
---   opts = function()
-
---     require("go").setup(opts)
---     local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
---     vim.api.nvim_create_autocmd("BufWritePre", {
---       pattern = "*.go",
---       callback = function()
---       require('go.format').goimports()
---       end,
---       group = format_sync_grp,
---     })
---     return {
---       -- lsp_keymaps = false,
---       -- other options
---     }
---   end,
---   event = {"CmdlineEnter"},
---   ft = {"go", 'gomod'},
---   build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
 -- }
 
 ```
@@ -5449,28 +5469,29 @@ code plugins/zig.lua
 -- return {
 --   {
 --     "neovim/nvim-lspconfig",
---     ft = { "zig" },  -- lazy-load nur für Zig-Dateien
+--     ft = { "zig" },
+--
 --     opts = function(_, opts)
 --       local lspconfig = require("lspconfig")
-
+--       local util = require("lspconfig.util")
+--
 --       lspconfig.zls.setup({
---         cmd = { "zls" },  -- Zig Language Server (zls) muss installiert sein
+--         cmd = { "zls" }, -- zls muss installiert sein
 --         filetypes = { "zig" },
---         root_dir = lspconfig.util.root_pattern("build.zig", ".git") or vim.loop.cwd(),
-
---         capabilities = opts.capabilities,  -- Completion etc.
-
---         on_attach = function(client, bufnr)
---           local buf_map = function(mode, lhs, rhs, opts)
---             opts = opts or {}
---             opts.buffer = bufnr
---             vim.keymap.set(mode, lhs, rhs, opts)
+--
+--         root_dir = util.root_pattern("build.zig", ".git"),
+--
+--         capabilities = opts.capabilities,
+--
+--         on_attach = function(_, bufnr)
+--           local function buf_map(mode, lhs, rhs)
+--             vim.keymap.set(mode, lhs, rhs, { buffer = bufnr })
 --           end
-
+--
 --           -- Standard LSP-Keymaps
 --           buf_map("n", "K", vim.lsp.buf.hover)
 --           buf_map("n", "<leader>rn", vim.lsp.buf.rename)
---           buf_map("n", "<leader>ca", vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps
+--           -- buf_map("n", "<leader>ca", vim.lsp.buf.code_action)
 --           buf_map("n", "<leader>f", function()
 --             vim.lsp.buf.format({ async = true })
 --           end)
@@ -5507,17 +5528,23 @@ return {
   {
     "kndndrj/nvim-dbee",
     dependencies = { "MunifTanjim/nui.nvim" },
-    build = function() require("dbee").install() end,
+
+    cmd = { "Dbee", "DbeeToggle", "DbeeOpen" },
+
+    build = function()
+      pcall(function()
+        require("dbee").install()
+      end)
+    end,
+
     opts = function()
-      local sources = require("dbee.sources")
+      local ok, sources = pcall(require, "dbee.sources")
+      if not ok then return {} end
+
       return {
         sources = {
-          -- SICHER: Lädt Verbindungen aus der Umgebungsvariable $DBEE_CONNECTIONS
-          -- Exportiere diese in deiner .zshrc oder .bashrc:
-          -- export DBEE_CONNECTIONS='[{"name": "Prod SQL", "type": "mysql", "url": "user:pass@tcp(127.0.0.1:3306)/db"}]'
           sources.EnvSource:new("DBEE_CONNECTIONS"),
 
-          -- OK für lokale Test-DBs ohne wichtige Daten
           sources.MemorySource:new({
             {
               name = "Postgres Local",
@@ -5526,12 +5553,17 @@ return {
             },
           }),
 
-          -- Ermöglicht das interaktive Hinzufügen von DBs über das UI (:Dbee open -> Add Connection)
-          sources.FileSource:new(vim.fn.stdpath("cache") .. "/dbee/persistence.json"),
+          sources.FileSource:new(
+            vim.fn.stdpath("cache") .. "/dbee/persistence.json"
+          ),
         },
       }
     end,
-    config = function(_, opts) require("dbee").setup(opts) end,
+
+    config = function(_, opts)
+      require("dbee").setup(opts)
+    end,
+
     keys = {
       { "<leader>Dt", function() require("dbee").toggle() end, desc = "DBee: Toggle UI" },
     },
