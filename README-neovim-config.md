@@ -566,7 +566,7 @@ EOL
 # java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar <deinJar>.jar
 
 echo "✅ Java-Projekt '$PROJECT_NAME' erstellt!"
-echo "Öffne in NeoNim: nvim $PROJECT_NAME"
+echo "Öffne in NeoVim: nvim $PROJECT_NAME"
 
 ```
 
