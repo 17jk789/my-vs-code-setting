@@ -60,7 +60,9 @@ This repository is released under the **Apache License 2.0**.
   - [To do](#to-do)
 - [Requirements](#requirements)
   - [Update Neovim](#update-neovim)
-  - [LazyVim Löschen](#lazyvim-löschen)
+  - [NeoVim Löschen](#neovim-löschen)
+    - [Programm und Binaries löschen](#programm-und-binaries-löschen)
+    - [Konfiguration und Daten löschen (LazyVim)](#konfiguration-und-daten-löschen-lazyvim)
 - [Inits](#inits)
   - [Python](#python)
     - [create-python-pro.sh](#create-python-prosh)
@@ -309,7 +311,15 @@ Wenn alles OK:
 sudo rm -rf /opt/nvim.bak
 ```
 
-## LazyVim Löschen
+## NeoVim Löschen
+
+### Programm und Binaries löschen 
+
+```bash
+sudo rm -rf /opt/nvim
+```
+
+### Konfiguration und Daten löschen (LazyVim)
 
 ```bash
 rm -rf ~/.config/nvim
@@ -2586,6 +2596,12 @@ return {
 ## plugins/cpp.lua
 
 ```bash
+# find ~ -name ".clang-format"
+# rm -r ~/.cache/nvim/tree-sitter-cpp/.clang-format
+# rm -r ~/.cache/nvim/tree-sitter-zsh/.clang-format
+
+find ~ -name ".clang-format" -path "*/.cache/nvim/*" -delete
+
 # Erstelle eine globale Konfiguration in deinem Home-Verzeichnis
 echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ~/.clang-format
 ```
