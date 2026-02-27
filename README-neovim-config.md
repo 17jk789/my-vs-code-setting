@@ -4643,6 +4643,8 @@ code lsp/lua.lua
 
 ## plugins/html.lua
 
+Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann **nicht** mehr, da sie nur zu Konflikten und Fehlern führen würden.
+
 ```bash
 cd ~/.config/nvim/lua
 ```
@@ -4838,6 +4840,8 @@ code plugins/html.lua
 
 ## lsp/html.lua
 
+Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann **nicht** mehr, da sie nur zu Konflikten und Fehlern führen würden.
+
 ```bash
 cd ~/.config/nvim/lua
 ```
@@ -4914,6 +4918,8 @@ code lsp/html.lua
 ```
 
 ## lsp/css.lua
+
+Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann **nicht** mehr, da sie nur zu Konflikten und Fehlern führen würden.
 
 ```bash
 cd ~/.config/nvim/lua
@@ -5005,8 +5011,9 @@ code lsp/css.lua
 
 ```
 
-
 ## plugins/javascript.lua
+
+Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann **nicht** mehr, da sie nur zu Konflikten und Fehlern führen würden.
 
 ```bash
 cd ~/.config/nvim/lua
@@ -5082,6 +5089,8 @@ code plugins/javascript.lua
 ```
 
 ## plugins/typescript.lua
+
+Achtung: Die Datei `plugins/web-dev.lua` bündelt LSP-Performance, Prettier-Formatierung und Auto-Fixes für JS, TS, HTML und JSON an einem Ort. Du brauchst die Dateien plugins/javascript.lua, plugins/typescript.lua, plugins/html.lua, lsp/html.lua und css/lsp.lua dann **nicht** mehr, da sie nur zu Konflikten und Fehlern führen würden.
 
 ```bash
 cd ~/.config/nvim/lua
