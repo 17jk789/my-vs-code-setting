@@ -8136,6 +8136,10 @@ return {
       lazygit = {
         enabled = true,
         configure = true,
+        win = {
+          width = 0,
+          height = 0,
+        },
         config = {
           git = {
             paging = {
