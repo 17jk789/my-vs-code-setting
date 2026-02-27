@@ -3606,11 +3606,11 @@ return {
 
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
-      -- Nur nötig, wenn du die Test-UI direkt in NeoNim haben willst.
+      -- Nur nötig, wenn du die Test-UI direkt in NeoVim haben willst.
       -- "nvim-neotest/neotest",
       -- Ich würde aber eine plugins/neotest.lua schreiben:
       -- return {
-      --   -- Nur nötig, wenn du die Test-UI direkt in NeoNim haben willst
+      --   -- Nur nötig, wenn du die Test-UI direkt in NeoVim haben willst
       --   {
       --     "nvim-neotest/neotest",
       --     enabled = false, -- auf true setzen, wenn du Tests in NeoVim nutzen willst
