@@ -4554,8 +4554,8 @@ return M
 
 ## lsp/lua.lua
 
-Kommentiere es einfach aus, wenn du es doch brauchen solltest – ich benötige es aktuell nicht. Vergiss außerdem nicht, das
-lua-lsp Paket in der plugins/mason.lua auszukommentieren.
+Kommentiere es einfach aus, wenn du es doch brauchen solltest – ich benötige es aktuell nicht.
+Vergiss außerdem nicht, das lua-lsp Paket in der plugins/mason.lua auszukommentieren.
 
 ```bash
 cd ~/.config/nvim/lua
@@ -5403,6 +5403,7 @@ code plugins/go.lua
 ## plugins/zig.lua
 
 Kommentiere es einfach aus, wenn du es doch brauchen solltest – ich benötige es aktuell nicht.
+Vergiss außerdem nicht, das zls Paket in der plugins/mason.lua auszukommentieren.
 
 ```bash
 cd ~/.config/nvim/lua
