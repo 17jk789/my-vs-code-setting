@@ -73,7 +73,12 @@ This repository is released under the **Apache License 2.0**.
     - [create-cpp-pro.sh](#create-cpp-prosh)
   - [C](#c-1)
     - [create-c-pro.sh](#create-c-prosh)
-    - [create-c-pro.sh](#create-c-prosh-1)
+  - [TypeScript und JavaScript](#typescript-und-javascript)
+  - [GO](#go)
+  - [Zig](#zig)
+  - [Ascii](#ascii)
+    - [GNU Assembler (gas)](#gnu-assembler-gas)
+    - [NASM (AT\&T-Syntax statt Intel-Syntax)](#nasm-att-syntax-statt-intel-syntax)
 - [Ghostty Configuration](#ghostty-configuration)
 - [Alacritty Configuration](#alacritty-configuration)
   - [oh-my-posh](#oh-my-posh)
@@ -757,7 +762,55 @@ echo "Binary: $PROJECT_DIR/build/app"
 
 ```
 
-### create-c-pro.sh
+## TypeScript und JavaScript
+
+```bash
+npm create vite@latest mein-projekt -- --template vanilla-ts
+cd mein-projekt
+npm install
+npm run dev
+```
+
+## GO
+
+```bash
+mkdir mein-go-projekt && cd mein-go-projekt
+go mod init mein-projekt
+touch main.go
+go run main.go
+```
+
+## Zig
+
+```bash
+mkdir mein-zig-projekt && cd mein-zig-projekt
+zig init
+zig build run
+```
+
+## Ascii
+
+### GNU Assembler (gas)
+
+```bash
+mkdir mein-gas-projekt && cd mein-gas-projekt
+git init
+touch main.s
+as main.s -o main.o
+ld main.o -o mein-programm
+./mein-programm
+```
+
+### NASM (AT&T-Syntax statt Intel-Syntax)
+
+```bash
+mkdir mein-asm-projekt && cd mein-asm-projekt
+git init
+touch main.asm
+nasm -f elf64 main.asm -o main.o
+ld main.o -o mein-programm
+./mein-programm
+```
 
 # Ghostty Configuration
 
