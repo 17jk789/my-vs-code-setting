@@ -63,7 +63,7 @@ This repository is released under the **Apache License 2.0**.
   - [Notes](#notes)
   - [To do](#to-do)
 - [Requirements](#requirements)
-  - [Update Neovim](#update-neovim)
+  - [Update NeoVim](#update-neovim)
   - [NeoVim Löschen](#neovim-löschen)
     - [Programm und Binaries löschen](#programm-und-binaries-löschen)
     - [Konfiguration und Daten löschen (LazyVim)](#konfiguration-und-daten-löschen-lazyvim)
@@ -147,10 +147,10 @@ This repository is released under the **Apache License 2.0**.
 
 </details>
 
-Installiere Neovim: [Neovim](https://neovim.io/)
+Installiere NeoVim: [Neovim](https://neovim.io/)
 
 > **Hinweis:**  
-> Lade das Archiv `nvim-linux-x86_64.tar.gz` manuell von der Neovim-Website herunter  
+> Lade das Archiv `nvim-linux-x86_64.tar.gz` manuell von der NeoVim-Website herunter  
 > und speichere es im Ordner `~/Downloads`, bevor du die folgenden Befehle ausführst.
 
 ```bash
@@ -193,8 +193,8 @@ sdk install gradle
 
 ```bash
 # Ich würde noch Intellij installieren (java) -> https://www.jetbrains.com/toolbox-app/
-# Für Java-Devs: Nutzt Neovim mit jdtls für das tägliche Coding. Wenn es kompliziert wird, öffnet das Projekt einfach parallel in IntelliJ IDEA – die beiden ergänzen sich perfekt.
-# In Rust ist Neovim dank rust-analyzer fast unschlagbar. In C++ lohnt es sich aber oft, CLion (via Toolbox) als Backup für komplexes Debugging und CMake-Management zu haben.
+# Für Java-Devs: Nutzt NeoVim mit jdtls für das tägliche Coding. Wenn es kompliziert wird, öffnet das Projekt einfach parallel in IntelliJ IDEA – die beiden ergänzen sich perfekt.
+# In Rust ist NeoVim dank rust-analyzer fast unschlagbar. In C++ lohnt es sich aber oft, CLion (via Toolbox) als Backup für komplexes Debugging und CMake-Management zu haben.
 cd Downloads/
 tar -xzf jetbrains-toolbox-[VERSION].tar.gz # Ändere [VERSION] durch die ToolBox Version
 cd jetbrains-toolbox-[VERSION]/bin
@@ -292,7 +292,7 @@ echo 'source /usr/share/doc/fzf/examples/key-bindings.bash' >> ~/.bashrc
 
 ```
 
-## Update Neovim
+## Update NeoVim
 
 ```bash
 # 1) Alte Version prüfen
@@ -480,7 +480,7 @@ nvim .
 #!/usr/bin/env bash
 
 # crate-java-pro.sh
-# Minimal Maven Java-Projekt erstellen für Neovim + jdtls
+# Minimal Maven Java-Projekt erstellen für NeoVim + jdtls
 
 set -e
 
@@ -566,7 +566,7 @@ EOL
 # java -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 -jar <deinJar>.jar
 
 echo "✅ Java-Projekt '$PROJECT_NAME' erstellt!"
-echo "Öffne in Neovim: nvim $PROJECT_NAME"
+echo "Öffne in NeoNim: nvim $PROJECT_NAME"
 
 ```
 
@@ -3302,7 +3302,7 @@ return {
       --           -- Deaktiviere in IntelliJ:
       --           -- Optimize imports on the fly
       --           -- Reformat on save
-      --           -- Wenn du es in Neovim schon machst.
+      --           -- Wenn du es in NeoVim schon machst.
       --           -- Sonst bekommst du unnötige Diff-Noise im Team.
       --           format = {
       --             enabled = true,
@@ -3429,7 +3429,7 @@ return {
       --             enabled = true,
       --           },
 
-      --           -- Folding / Symbols Advanced: Unser Neovim nutzt Tree-sitter Folding → dann unnötig.
+      --           -- Folding / Symbols Advanced: Unser NeoVim nutzt Tree-sitter Folding → dann unnötig.
       --           -- foldingRange = {
       --           --   enabled = true,
       --           -- },
@@ -3490,7 +3490,7 @@ return {
       --         -- Stelle sicher, dass du in IntelliJ:
       --         -- Settings → Plugins → Lombok Plugin installiert
       --         -- Annotation Processing aktiviert
-      --         -- Sonst hast du unterschiedliche Fehlermeldungen in IDE vs Neovim.
+      --         -- Sonst hast du unterschiedliche Fehlermeldungen in IDE vs NeoVim.
       --         lombok = {
       --           enable = true,
       --         },
@@ -3606,14 +3606,14 @@ return {
 
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
-      -- Nur nötig, wenn du die Test-UI direkt in Neovim haben willst.
+      -- Nur nötig, wenn du die Test-UI direkt in NeoNim haben willst.
       -- "nvim-neotest/neotest",
       -- Ich würde aber eine plugins/neotest.lua schreiben:
       -- return {
-      --   -- Nur nötig, wenn du die Test-UI direkt in Neovim haben willst
+      --   -- Nur nötig, wenn du die Test-UI direkt in NeoNim haben willst
       --   {
       --     "nvim-neotest/neotest",
-      --     enabled = false, -- auf true setzen, wenn du Tests in Neovim nutzen willst
+      --     enabled = false, -- auf true setzen, wenn du Tests in NeoVim nutzen willst
       --     dependencies = {
       --       "rcasia/neotest-java",
       --       "nvim-lua/plenary.nvim",
@@ -3662,7 +3662,7 @@ return {
           -- Stelle sicher, dass du in IntelliJ:
           -- Settings → Plugins → Lombok Plugin installiert
           -- Annotation Processing aktiviert
-          -- Sonst hast du unterschiedliche Fehlermeldungen in IDE vs Neovim.
+          -- Sonst hast du unterschiedliche Fehlermeldungen in IDE vs NeoVim.
           -- lombok = {
           --   enable = true,
           -- },
@@ -3778,7 +3778,7 @@ return {
       -- require('java').setup({
       --   -- Startup checks
       --   checks = {
-      --     nvim_version = true,        -- Check Neovim version
+      --     nvim_version = true,        -- Check NeoVim version
       --     nvim_jdtls_conflict = true, -- Check for nvim-jdtls conflict
       --   },
 
@@ -3886,7 +3886,7 @@ return {
             -- Deaktiviere in IntelliJ:
             -- Optimize imports on the fly
             -- Reformat on save
-            -- Wenn du es in Neovim schon machst.
+            -- Wenn du es in NeoVim schon machst.
             -- Sonst bekommst du unnötige Diff-Noise im Team.
             format = {
               enabled = true,
@@ -4014,7 +4014,7 @@ return {
             --   enabled = true,
             -- },
 
-            -- Folding / Symbols Advanced: Unser Neovim nutzt Tree-sitter Folding → dann unnötig.
+            -- Folding / Symbols Advanced: Unser NeoVim nutzt Tree-sitter Folding → dann unnötig.
             -- foldingRange = {
             --   enabled = true,
             -- },
@@ -4597,12 +4597,12 @@ code lsp/lua.lua
 --         settings = {
 --             Lua = {
 --                 runtime = {
---                     -- LuaJIT für Neovim
+--                     -- LuaJIT für NeoVim
 --                     version = "LuaJIT",
 --                     path = vim.split(package.path, ";"),
 --                 },
 --                 diagnostics = {
---                     globals = { "vim" },  -- Neovim globale Variablen
+--                     globals = { "vim" },  -- NeoVim globale Variablen
 --                 },
 --                 workspace = {
 --                     library = {
@@ -5153,7 +5153,10 @@ code plugins/typescript.lua
 --   -- 2. Das Haupt-Plugin für TypeScript/JavaScript Performance
 --   {
 --     "pmizio/typescript-tools.nvim",
---     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+--     dependencies = { 
+--       "nvim-lua/plenary.nvim", 
+--       "neovim/nvim-lspconfig" 
+--     },
 --     opts = {
 --       settings = {
 --         expose_as_code_action = "all",
@@ -5243,7 +5246,10 @@ return {
   {
     "pmizio/typescript-tools.nvim",
     ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    dependencies = { 
+      "nvim-lua/plenary.nvim", 
+      "neovim/nvim-lspconfig" 
+    },
     opts = {
       settings = {
         expose_as_code_action = "all",
@@ -7926,7 +7932,7 @@ return {
 
 ## plugins/notify.lua
 
-Die Datei plugins/notify.lua überschreibt Neovims vim.notify, um bestimmte Meldungen wie „reload Cargo workspace“ zu unterdrücken, während alle anderen Benachrichtigungen normal angezeigt oder sicher über einen Fallback ausgegeben werden. -> **Weniger nervige Meldungen**.
+Die Datei plugins/notify.lua überschreibt NeoVims vim.notify, um bestimmte Meldungen wie „reload Cargo workspace“ zu unterdrücken, während alle anderen Benachrichtigungen normal angezeigt oder sicher über einen Fallback ausgegeben werden. -> **Weniger nervige Meldungen**.
 
 ```bash
 cd ~/.config/nvim/lua
@@ -8214,7 +8220,7 @@ code plugins/alpha.lua
 --         footer = function()
 --           local stats = require("lazy").stats()
 --           local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
---           return { "⚡ Neovim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
+--           return { "⚡ NeoVim loaded " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
 --         end,
 --       },
 --     }
