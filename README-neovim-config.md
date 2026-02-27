@@ -32,7 +32,8 @@ This repository contains my personal **NeoVim settings**.
 - 80% **GO** Support (VS Code Level + basic GO Plugins)
 - 80% **Zig** Support (VS Code Level + basic Zig Plugins)
 - 80% **PostgreSQL** voller Support
-- 80% **MySQL** / **MariaDB** voller Support
+- 80% **MySQL** voller Support
+- 80% **MariaDB** voller Support
 - 80% **SQLite** nur lokale Dateien
 - 80% **SQL Server** nur MSSQL
 - 80% **Git** Support (VS Code Level + basic Git Plugins)
