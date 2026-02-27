@@ -5352,6 +5352,7 @@ code plugins/asm.lua
 return {
   {
     "neovim/nvim-lspconfig",
+    ft = { "asm", "s", "S" },
     opts = {
       servers = {
         asm_lsp = {}, -- Standard-Setup reicht völlig aus
