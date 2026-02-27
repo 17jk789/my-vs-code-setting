@@ -31,6 +31,7 @@ This repository contains my personal **NeoVim settings**.
 - 80% **Ascii** Support (VS Code Level + basic MSI Plugins)
 - 80% **GO** Support (VS Code Level + basic GO Plugins)
 - 80% **Zig** Support (VS Code Level + basic Zig Plugins)
+- 80% **PostgreSQL** (voller Support), **MySQL** / **MariaDB** (voller Support), **SQLite** (lokale Dateien), **SQL Server** (MSSQL)
 - 80% **Git** Support (VS Code Level + basic Git Plugins)
 
 ## Disclaimer
@@ -104,6 +105,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/asm.lua](#pluginsasmlua)
   - [plugins/go.lua](#pluginsgolua)
   - [plugins/zig.lua](#pluginsziglua)
+  - [plugins/db.lua](#pluginsdblua)
   - [plugins/dap.lua](#pluginsdaplua)
   - [config/autocmds.lua](#configautocmdslua)
   - [plugins/mason.lua](#pluginsmasonlua)
@@ -1350,6 +1352,7 @@ cd ~/.config/nvim/lua
         ├── cpp.lua
         ├── completion.lua
         ├── dap.lua
+        ├── db.lua
         ├── fzf.lua
         ├── git.lua
         ├── go.lua
@@ -5466,6 +5469,64 @@ code plugins/zig.lua
 --     end,
 --   },
 -- }
+
+```
+
+## plugins/db.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/db.lua
+```
+
+```bash
+nano plugins/db.lua
+```
+
+```bash
+code plugins/db.lua
+```
+
+```lua
+-- plugins/db.lua
+
+return {
+  {
+    "kndndrj/nvim-dbee",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    build = function() require("dbee").install() end,
+    opts = function()
+      local sources = require("dbee.sources")
+      return {
+        sources = {
+          -- SICHER: Lädt Verbindungen aus der Umgebungsvariable $DBEE_CONNECTIONS
+          -- Exportiere diese in deiner .zshrc oder .bashrc:
+          -- export DBEE_CONNECTIONS='[{"name": "Prod SQL", "type": "mysql", "url": "user:pass@tcp(127.0.0.1:3306)/db"}]'
+          sources.EnvSource:new("DBEE_CONNECTIONS"),
+
+          -- OK für lokale Test-DBs ohne wichtige Daten
+          sources.MemorySource:new({
+            {
+              name = "Postgres Local",
+              type = "postgres",
+              url = "postgres://postgres:postgres@localhost:5432/test_db?sslmode=disable",
+            },
+          }),
+
+          -- Ermöglicht das interaktive Hinzufügen von DBs über das UI (:Dbee open -> Add Connection)
+          sources.FileSource:new(vim.fn.stdpath("cache") .. "/dbee/persistence.json"),
+        },
+      }
+    end,
+    config = function(_, opts) require("dbee").setup(opts) end,
+    keys = {
+      { "<leader>Dt", function() require("dbee").toggle() end, desc = "DBee: Toggle UI" },
+    },
+  },
+}
 
 ```
 
