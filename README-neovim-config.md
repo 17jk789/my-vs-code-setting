@@ -8135,10 +8135,23 @@ return {
     opts = {
       lazygit = {
         enabled = true,
-        configure = true, -- auto colorscheme etc.
+        configure = true,
+        config = {
+          git = {
+            paging = {
+              -- Erfordert: 'brew install git-delta' (oder dein Paketmanager)
+              pager = "delta --dark --paging=never --diff-highlight --line-numbers",
+              -- colorArg = "always",
+              -- pager = "delta --dark --paging=never --diff-highlight --line-numbers --side-by-side",
+            },
+          },
+          gui = {
+            -- Optional: Zeigt Diffs nebeneinander (Side-by-Side)
+            sideBySideView = true,
+          },
+        },
       },
     },
-
     keys = {
       {
         "<leader>gg",
