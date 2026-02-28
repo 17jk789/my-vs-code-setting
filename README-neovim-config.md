@@ -1198,40 +1198,65 @@ docker compose down # Komplett beenden & aufräumen
 # echo "✅ Post-SQL-Projekt '$PROJ_NAME' wurde erstellt."
 # echo "Starte den Server mit: cd $PROJ_NAME && docker compose up -d"
 
-set -euo pipefail
+set -Eeuo pipefail
 
 # ----------------------------------------
 # Usage check
 # ----------------------------------------
-if [ "${1:-}" != "new" ] || [ -z "${2:-}" ]; then
-  echo "Usage: ~/create-psql-pro.sh new <project-name>"
+if [[ "${1:-}" != "new" ]] || [[ -z "${2:-}" ]]; then
+  echo "Usage: $0 new <project-name>"
   exit 1
 fi
 
 PROJ_NAME="$2"
 
-if [ -d "$PROJ_NAME" ]; then
-  echo "Directory already exists."
+if [[ -d "$PROJ_NAME" ]]; then
+  echo "❌ Directory '$PROJ_NAME' already exists."
   exit 1
 fi
 
+# ----------------------------------------
+# Dependency check
+# ----------------------------------------
+for cmd in docker openssl shuf; do
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "❌ Required command not found: $cmd"
+    exit 1
+  fi
+done
+
+# ----------------------------------------
+# Create structure
+# ----------------------------------------
 mkdir -p "$PROJ_NAME/init-db/postgres"
 cd "$PROJ_NAME"
 
 # ----------------------------------------
-# Secure Password Generation
+# Secure password generation
 # ----------------------------------------
-gen_pass() { openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 32; }
+gen_pass() {
+  openssl rand -base64 48 | tr -dc 'A-Za-z0-9' | head -c 32
+}
 
-POSTGRES_USER_PASSWORD=$(gen_pass)
-
-# ----------------------------------------
-# Random free port for Postgres
-# ----------------------------------------
-POSTGRES_PORT=$(shuf -i 40001-60000 -n 1)
+POSTGRES_USER_PASSWORD="$(gen_pass)"
 
 # ----------------------------------------
-# .env (never commit)
+# Find real free port
+# ----------------------------------------
+find_free_port() {
+  while true; do
+    port=$(shuf -i 40001-60000 -n 1)
+    if ! ss -ltn | awk '{print $4}' | grep -q ":$port$"; then
+      echo "$port"
+      return
+    fi
+  done
+}
+
+POSTGRES_PORT="$(find_free_port)"
+
+# ----------------------------------------
+# .env (never commit this)
 # ----------------------------------------
 cat > .env <<EOF
 POSTGRES_DB=app_db
@@ -1240,72 +1265,90 @@ POSTGRES_PASSWORD=$POSTGRES_USER_PASSWORD
 POSTGRES_PORT=$POSTGRES_PORT
 EOF
 
+chmod 600 .env
+
 # ----------------------------------------
 # .gitignore
 # ----------------------------------------
 cat > .gitignore <<EOF
 .env
-docker-data/
 EOF
 
 # ----------------------------------------
 # docker-compose.yml
 # ----------------------------------------
-cat << 'DOCKER' > docker-compose.yml
+cat <<'DOCKER' > docker-compose.yml
 services:
   postgres:
-    image: postgres:15
+    image: postgres:15-alpine
+    container_name: ${COMPOSE_PROJECT_NAME:-pg_project}_postgres
     env_file: .env
     restart: unless-stopped
     ports:
       - "127.0.0.1:${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 3s
       retries: 10
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init-db/postgres:/docker-entrypoint-initdb.d
+      - ./init-db/postgres:/docker-entrypoint-initdb.d:ro
 
 volumes:
   postgres_data:
 DOCKER
 
 # ----------------------------------------
-# Init SQL for Postgres
+# Init SQL
 # ----------------------------------------
-cat << 'SQL' > init-db/postgres/init.sql
+cat <<'SQL' > init-db/postgres/init.sql
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50),
+    name VARCHAR(50) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (name) VALUES ('Admin'), ('Postgres-User')
+INSERT INTO users (name)
+VALUES ('Admin'), ('Postgres-User')
 ON CONFLICT DO NOTHING;
 SQL
 
 # ----------------------------------------
 # DBEE loader script
 # ----------------------------------------
-cat << 'SH' > dbee-env.sh
+cat <<'SH' > dbee-env.sh
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
-if [ ! -f ".env" ]; then
+if [[ ! -f ".env" ]]; then
   echo "❌ .env file not found."
   return 1 2>/dev/null || exit 1
 fi
 
-source .env
+# Sauberes Laden ohne Code Injection Risiko
+while IFS='=' read -r key value; do
+  [[ "$key" =~ ^#.*$ || -z "$key" ]] && continue
+  export "$key=$value"
+done < .env
 
 echo "🔄 Waiting for Postgres to become healthy..."
 
+container_id=$(docker compose ps -q postgres)
+
+if [[ -z "$container_id" ]]; then
+  echo "❌ Postgres container not running."
+  return 1
+fi
+
 retries=30
-while [ $retries -gt 0 ]; do
-  status=$(docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q postgres)" 2>/dev/null || echo "starting")
-  if [ "$status" = "healthy" ]; then
+while [[ $retries -gt 0 ]]; do
+  status=$(docker inspect --format='{{.State.Health.Status}}' "$container_id" 2>/dev/null || echo "starting")
+  if [[ "$status" == "healthy" ]]; then
     echo "✅ Postgres is healthy."
     break
   fi
@@ -1313,7 +1356,7 @@ while [ $retries -gt 0 ]; do
   retries=$((retries - 1))
 done
 
-if [ $retries -le 0 ]; then
+if [[ $retries -le 0 ]]; then
   echo "❌ Postgres failed health check."
   return 1
 fi
@@ -1328,16 +1371,22 @@ export DBEE_CONNECTIONS="[
   }
 ]"
 
-echo "🔐 DBEE_CONNECTIONS exported securely."
-echo "🚀 You can now start Neovim."
+echo "🔐 DBEE_CONNECTIONS exported."
+echo "🚀 Start Neovim now: nvim"
 SH
 
 chmod +x dbee-env.sh
 
+# ----------------------------------------
+# Final Output
+# ----------------------------------------
 echo ""
 echo "✅ PostgreSQL project '$PROJ_NAME' created."
+echo ""
 echo "Start with:"
-echo "  cd $PROJ_NAME && docker compose up -d"
+echo "  cd $PROJ_NAME"
+echo "  docker compose up -d"
+echo ""
 echo "Then:"
 echo "  source dbee-env.sh"
 echo "  nvim"
@@ -1415,38 +1464,63 @@ docker compose down # Komplett beenden & aufräumen
 # echo "✅ MariaDB-Projekt '$PROJ_NAME' wurde erstellt."
 # echo "Starte den Server mit: cd $PROJ_NAME && docker compose up -d"
 
-set -euo pipefail
+set -Eeuo pipefail
 
 # ----------------------------------------
 # Usage check
 # ----------------------------------------
-if [ "${1:-}" != "new" ] || [ -z "${2:-}" ]; then
-  echo "Usage: ~/create-maria-pro.sh new <project-name>"
+if [[ "${1:-}" != "new" ]] || [[ -z "${2:-}" ]]; then
+  echo "Usage: $0 new <project-name>"
   exit 1
 fi
 
 PROJ_NAME="$2"
 
-if [ -d "$PROJ_NAME" ]; then
-  echo "Directory already exists."
+if [[ -d "$PROJ_NAME" ]]; then
+  echo "❌ Directory '$PROJ_NAME' already exists."
   exit 1
 fi
 
+# ----------------------------------------
+# Dependency check
+# ----------------------------------------
+for cmd in docker openssl shuf ss; do
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "❌ Required command not found: $cmd"
+    exit 1
+  fi
+done
+
+# ----------------------------------------
+# Create structure
+# ----------------------------------------
 mkdir -p "$PROJ_NAME/init-db/mariadb"
 cd "$PROJ_NAME"
 
 # ----------------------------------------
 # Secure password generation
 # ----------------------------------------
-gen_pass() { openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 32; }
+gen_pass() {
+  openssl rand -base64 48 | tr -dc 'A-Za-z0-9' | head -c 32
+}
 
-MARIADB_ROOT_PASSWORD=$(gen_pass)
-MARIADB_USER_PASSWORD=$(gen_pass)
+MARIADB_ROOT_PASSWORD="$(gen_pass)"
+MARIADB_USER_PASSWORD="$(gen_pass)"
 
 # ----------------------------------------
-# Random free port for MariaDB
+# Find real free port
 # ----------------------------------------
-MARIADB_PORT=$(shuf -i 20000-40000 -n 1)
+find_free_port() {
+  while true; do
+    port=$(shuf -i 20000-40000 -n 1)
+    if ! ss -ltn | awk '{print $4}' | grep -q ":$port$"; then
+      echo "$port"
+      return
+    fi
+  done
+}
+
+MARIADB_PORT="$(find_free_port)"
 
 # ----------------------------------------
 # .env (never commit)
@@ -1459,21 +1533,23 @@ MARIADB_PASSWORD=$MARIADB_USER_PASSWORD
 MARIADB_PORT=$MARIADB_PORT
 EOF
 
+chmod 600 .env
+
 # ----------------------------------------
 # .gitignore
 # ----------------------------------------
 cat > .gitignore <<EOF
 .env
-docker-data/
 EOF
 
 # ----------------------------------------
 # docker-compose.yml
 # ----------------------------------------
-cat << 'DOCKER' > docker-compose.yml
+cat <<'DOCKER' > docker-compose.yml
 services:
   mariadb:
-    image: mariadb:latest
+    image: mariadb:11.3
+    container_name: ${COMPOSE_PROJECT_NAME:-maria_project}_mariadb
     env_file: .env
     restart: unless-stopped
     ports:
@@ -1490,45 +1566,58 @@ services:
       retries: 10
     volumes:
       - mariadb_data:/var/lib/mysql
-      - ./init-db/mariadb:/docker-entrypoint-initdb.d
+      - ./init-db/mariadb:/docker-entrypoint-initdb.d:ro
 
 volumes:
   mariadb_data:
 DOCKER
 
 # ----------------------------------------
-# Init SQL for MariaDB
+# Init SQL
 # ----------------------------------------
-cat << 'SQL' > init-db/mariadb/init.sql
+cat <<'SQL' > init-db/mariadb/init.sql
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(50),
-    status VARCHAR(20) DEFAULT 'active'
+    name VARCHAR(50) NOT NULL,
+    status VARCHAR(20) DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (name) VALUES ('Admin'), ('MariaDB-User');
+INSERT INTO users (name)
+VALUES ('Admin'), ('MariaDB-User');
 SQL
 
 # ----------------------------------------
 # DBEE loader script
 # ----------------------------------------
-cat << 'SH' > dbee-env.sh
+cat <<'SH' > dbee-env.sh
 #!/usr/bin/env bash
-set -euo pipefail
+set -Eeuo pipefail
 
-if [ ! -f ".env" ]; then
+if [[ ! -f ".env" ]]; then
   echo "❌ .env file not found."
   return 1 2>/dev/null || exit 1
 fi
 
-source .env
+# Safe .env loading (no code execution)
+while IFS='=' read -r key value; do
+  [[ "$key" =~ ^#.*$ || -z "$key" ]] && continue
+  export "$key=$value"
+done < .env
 
 echo "🔄 Waiting for MariaDB to become healthy..."
 
+container_id=$(docker compose ps -q mariadb)
+
+if [[ -z "$container_id" ]]; then
+  echo "❌ MariaDB container not running."
+  return 1
+fi
+
 retries=30
-while [ $retries -gt 0 ]; do
-  status=$(docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q mariadb)" 2>/dev/null || echo "starting")
-  if [ "$status" = "healthy" ]; then
+while [[ $retries -gt 0 ]]; do
+  status=$(docker inspect --format='{{.State.Health.Status}}' "$container_id" 2>/dev/null || echo "starting")
+  if [[ "$status" == "healthy" ]]; then
     echo "✅ MariaDB is healthy."
     break
   fi
@@ -1536,7 +1625,7 @@ while [ $retries -gt 0 ]; do
   retries=$((retries - 1))
 done
 
-if [ $retries -le 0 ]; then
+if [[ $retries -le 0 ]]; then
   echo "❌ MariaDB failed health check."
   return 1
 fi
@@ -1551,16 +1640,22 @@ export DBEE_CONNECTIONS="[
   }
 ]"
 
-echo "🔐 DBEE_CONNECTIONS exported securely."
-echo "🚀 You can now start Neovim."
+echo "🔐 DBEE_CONNECTIONS exported."
+echo "🚀 Start Neovim now: nvim"
 SH
 
 chmod +x dbee-env.sh
 
+# ----------------------------------------
+# Final Output
+# ----------------------------------------
 echo ""
 echo "✅ MariaDB project '$PROJ_NAME' created."
+echo ""
 echo "Start with:"
-echo "  cd $PROJ_NAME && docker compose up -d"
+echo "  cd $PROJ_NAME"
+echo "  docker compose up -d"
+echo ""
 echo "Then:"
 echo "  source dbee-env.sh"
 echo "  nvim"
