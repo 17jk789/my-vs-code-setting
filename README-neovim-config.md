@@ -5333,10 +5333,11 @@ default_diagnostics = true
 # Falls du MASM nutzen willst:
 # Obere Zeilen mit # auskommentieren und hier die # entfernen:
 # [default_config]
-# assembler = "masm"
+# assembler = "nasm"
 # instruction_set = "x86-64"
 # [default_config.opts]
-# compiler = "uasm"
+# compiler = "nasm"
+# complie_flags_txt = "-f elf64"
 # diagnostics = true
 # default_diagnostics = true
 EOF
