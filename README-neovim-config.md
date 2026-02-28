@@ -838,6 +838,8 @@ nvim ~/create-mysql-pro.sh
 chmod +x ~/create-mysql-pro.sh
 ~/create-mysql-pro.sh new mein-mysql-projekt
 cd mein-mysql-projekt
+docker compose up -d
+source dbee-env.sh
 nvim .
 ```
 
@@ -1108,6 +1110,8 @@ nvim ~/create-psql-pro.sh
 chmod +x ~/create-psql-pro.sh
 ~/create-psql-pro.sh new mein-psql-projekt
 cd mein-psql-projekt
+docker compose up -d
+source dbee-env.sh
 nvim .
 ```
 
@@ -1324,6 +1328,8 @@ nvim ~/create-maria-pro.sh
 chmod +x ~/create-maria-pro.sh
 ~/create-maria-pro.sh new mein-maria-projekt
 cd mein-maria-projekt
+docker compose up -d
+source dbee-env.sh
 nvim .
 ```
 
@@ -6320,7 +6326,9 @@ code plugins/db.lua
 return {
   {
     "kndndrj/nvim-dbee",
-    dependencies = { "MunifTanjim/nui.nvim" },
+    dependencies = { 
+      "MunifTanjim/nui.nvim" 
+    },
     cmd = { "Dbee", "DbeeToggle", "DbeeOpen" },
 
     build = function()
