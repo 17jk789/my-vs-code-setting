@@ -6826,9 +6826,8 @@ vim.api.nvim_create_autocmd("FileType", {
     local opts = { silent = true, buffer = true }
 
     -- Browser Preview (Öffnet die aktuelle Datei im Standard-Browser)
-    vim.keymap.set("n", "<leader>rph", 
-      ":silent !xdg-open %<CR>", 
-      { desc = "HTML: Open in Browser", silent = true, buffer = true }
+    vim.keymap.set("n", "<leader>rph", "<cmd>Open<CR>", 
+          { desc = "HTML: Open in Browser", buffer = true }
     )
 
     -- HTML Linting manuell im Terminal triggern (HTMLHint)
