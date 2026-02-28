@@ -238,6 +238,7 @@ sudo apt install python3-venv python3-pip
 sudo apt install ripgrep
 sudo apt install nodejs npm
 sudo apt install gzip
+sudo npm install -g typescript
 # sudo apt install texlive-full latexmk zathura zathura-pdf-poppler
 sudo apt install texlive-base texlive-latex-recommended texlive-fonts-recommended latexmk zathura zathura-pdf-poppler
 sudo apt install hunspell-de-de hunspell-en-us
