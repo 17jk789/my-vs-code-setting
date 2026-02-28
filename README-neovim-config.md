@@ -838,7 +838,8 @@ nvim ~/create-mysql-pro.sh
 chmod +x ~/create-mysql-pro.sh
 ~/create-mysql-pro.sh new mein-mysql-projekt
 cd mein-mysql-projekt
-docker compose up -d
+# docker compose up -d
+sudo docker compose up -d
 source dbee-env.sh
 nvim .
 ```
@@ -1059,7 +1060,8 @@ wait_for_health() {
   local service=$1
   local retries=30
   while [ $retries -gt 0 ]; do
-    status=$(docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q $service)" 2>/dev/null || echo "starting")
+    # status=$(docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q $service)" 2>/dev/null || echo "starting")
+    status=$(sudo docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q $service)" 2>/dev/null || echo "starting")
     if [ "$status" = "healthy" ]; then return 0; fi
     sleep 2
     retries=$((retries - 1))
@@ -1073,6 +1075,9 @@ wait_for_health postgres || return 1
 
 MYSQL_PORT_REAL=$(docker compose port mysql 3306 | awk -F: '{print $2}')
 POSTGRES_PORT_REAL=$(docker compose port postgres 5432 | awk -F: '{print $2}')
+
+MYSQL_PORT_REAL=$(sudo docker compose port mysql 3306 | awk -F: '{print $2}')
+POSTGRES_PORT_REAL=$(sudo docker compose port postgres 5432 | awk -F: '{print $2}')
 
 export DBEE_CONNECTIONS="[
   {
