@@ -1046,62 +1046,63 @@ SQL
 # -----------------------------
 cat << 'SH' > dbee-env.sh
 #!/usr/bin/env bash
-set -euo pipefail
+# HINWEIS: Dieses Skript muss mit 'source ./dbee-env.sh' aufgerufen werden!
 
 if [ ! -f ".env" ]; then
-  echo "❌ .env file not found."
-  return 1 2>/dev/null || exit 1
+    echo "❌ .env file not found."
+    return 1 2>/dev/null || exit 1
 fi
 
-source .env
+# Lädt Variablen aus .env (ohne Kommentare)
+export $(grep -v '^#' .env | xargs)
 
 echo "🔄 Waiting for databases to become healthy..."
 
 wait_for_health() {
     local service=$1
-    local retries=30
-    echo "⏳ Checking $service..."
+    local retries=20
     while [ $retries -gt 0 ]; do
-        # WICHTIG: Das 'sudo' muss auch IN die Klammer für 'docker compose ps'
-        # Wir unterdrücken Fehlermeldungen (2>/dev/null), damit 'set -e' nicht abbricht
-        local container_id=$(sudo docker compose ps -q "$service" 2>/dev/null || echo "")
-
-        if [ -n "$container_id" ]; then
-            status=$(sudo docker inspect --format='{{.State.Health.Status}}' "$container_id" 2>/dev/null || echo "starting")
-            if [ "$status" = "healthy" ]; then return 0; fi
+        # Nutzt den Service-Namen direkt über docker inspect
+        local status=$(sudo docker inspect --format='{{.State.Health.Status}}' "$(sudo docker compose ps -q $service)" 2>/dev/null || echo "starting")
+        if [ "$status" = "healthy" ]; then
+            echo "✅ $service is healthy."
+            return 0
         fi
-
         sleep 2
         retries=$((retries - 1))
     done
-    echo "❌ $service failed health check."
+    echo "❌ $service health check failed."
     return 1
 }
 
 wait_for_health mysql || return 1
 wait_for_health postgres || return 1
 
-# MYSQL_PORT_REAL=$(docker compose port mysql 3306 | awk -F: '{print $2}')
-# POSTGRES_PORT_REAL=$(docker compose port postgres 5432 | awk -F: '{print $2}')
+# Ports dynamisch ermitteln (falls sie in .env von 3306/5432 abweichen)
+MYSQL_PORT_REAL=$(sudo docker compose port mysql 3306 | cut -d: -f2)
+POSTGRES_PORT_REAL=$(sudo docker compose port postgres 5432 | cut -d: -f2)
 
-MYSQL_PORT_REAL=$(sudo docker compose port mysql 3306 | awk -F: '{print $2}')
-POSTGRES_PORT_REAL=$(sudo docker compose port postgres 5432 | awk -F: '{print $2}')
+# Falls MYSQL_USER leer ist, nutzen wir root
+USER_M=${MYSQL_USER:-root}
+PASS_M=${MYSQL_PASSWORD:-$MYSQL_ROOT_PASSWORD}
 
-export DBEE_CONNECTIONS="[
+# DBEE_CONNECTIONS Format (Wichtig: kein Leerzeichen in der URL)
+export DBEE_CONNECTIONS='[
   {
-    \"name\": \"MySQL $(basename "$PWD")\",
-    \"type\": \"mysql\",
-    \"url\": \"${MYSQL_USER}:${MYSQL_PASSWORD}@tcp(127.0.0.1:${MYSQL_PORT_REAL})/${MYSQL_DATABASE}\"
+    "name": "MySQL_'$(basename "$PWD")'",
+    "type": "mysql",
+    "url": "'$USER_M':'$PASS_M'@tcp(127.0.0.1:'$MYSQL_PORT_REAL')/'$MYSQL_DATABASE'"
   },
   {
-    \"name\": \"Postgres $(basename "$PWD")\",
-    \"type\": \"postgres\",
-    \"url\": \"postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:${POSTGRES_PORT_REAL}/${POSTGRES_DB}?sslmode=disable\"
+    "name": "Postgres_'$(basename "$PWD")'",
+    "type": "postgres",
+    "url": "postgres://'$POSTGRES_USER':'$POSTGRES_PASSWORD'@127.0.0.1:'$POSTGRES_PORT_REAL'/'$POSTGRES_DB'?sslmode=disable"
   }
-]"
+]'
 
-echo "🔐 DBEE_CONNECTIONS exported securely."
-echo "🚀 You can now start Neovim."
+echo "🔐 DBEE_CONNECTIONS exported for this session."
+echo "🚀 Start Neovim now: nvim"
+
 SH
 
 chmod +x dbee-env.sh
