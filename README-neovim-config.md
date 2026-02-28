@@ -875,7 +875,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: test_db
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
     volumes:
       - ./init-db:/docker-entrypoint-initdb.d
       - mysql_data:/var/lib/mysql
@@ -888,7 +888,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: test_db
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     volumes:
       - ./init-db:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
