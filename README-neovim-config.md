@@ -6370,32 +6370,30 @@ code plugins/db.lua
 --   },
 -- }
 
-
 return {
   {
     "kndndrj/nvim-dbee",
-    dependencies = { 
-      "MunifTanjim/nui.nvim" 
-    },
-    lazy = false,
-    build = "make install", 
-
+    dependencies = { "MunifTanjim/nui.nvim" },
+    cmd = { "Dbee", "DbeeToggle", "DbeeOpen" },
+    build = function()
+      -- Nutzt die interne Installationsroutine des Plugins
+      require("dbee").install()
+    end,
     config = function()
       local dbee = require("dbee")
-      -- Wir laden die Quellen-Module sicher auf
       local sources = require("dbee.sources")
-      
+
       dbee.setup({
-        -- Hier registrieren wir die Umgebungsvariable explizit als Quelle
         sources = {
+          -- Sicher: Secrets kommen aus der Umgebungsvariable
           sources.EnvSource:new("DBEE_CONNECTIONS"),
-          -- Falls du zusätzlich noch eigene Verbindungen im UI speichern willst:
-          sources.MemorySource:new(), 
+          -- Praktisch für temporäre Verbindungen im UI
+          sources.MemorySource:new(),
         },
       })
     end,
-
     keys = {
+      -- Lazy-loading: Plugin lädt erst beim Drücken des Hotkeys
       { "<leader>Dt", function() require("dbee").toggle() end, desc = "DBee: Toggle UI" },
     },
   },
