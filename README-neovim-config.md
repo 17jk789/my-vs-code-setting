@@ -1023,7 +1023,7 @@ services:
 
 volumes:
   mysql_data:
-  postgres_data: # Das hat unten in deiner Liste gefehlt!
+  postgres_data:
 
 DOCKER
 
