@@ -1058,17 +1058,24 @@ source .env
 echo "🔄 Waiting for databases to become healthy..."
 
 wait_for_health() {
-  local service=$1
-  local retries=30
-  while [ $retries -gt 0 ]; do
-    # status=$(docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q $service)" 2>/dev/null || echo "starting")
-    status=$(sudo docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q $service)" 2>/dev/null || echo "starting")
-    if [ "$status" = "healthy" ]; then return 0; fi
-    sleep 2
-    retries=$((retries - 1))
-  done
-  echo "❌ $service failed health check."
-  return 1
+    local service=$1
+    local retries=30
+    echo "⏳ Checking $service..."
+    while [ $retries -gt 0 ]; do
+        # WICHTIG: Das 'sudo' muss auch IN die Klammer für 'docker compose ps'
+        # Wir unterdrücken Fehlermeldungen (2>/dev/null), damit 'set -e' nicht abbricht
+        local container_id=$(sudo docker compose ps -q "$service" 2>/dev/null || echo "")
+
+        if [ -n "$container_id" ]; then
+            status=$(sudo docker inspect --format='{{.State.Health.Status}}' "$container_id" 2>/dev/null || echo "starting")
+            if [ "$status" = "healthy" ]; then return 0; fi
+        fi
+
+        sleep 2
+        retries=$((retries - 1))
+    done
+    echo "❌ $service failed health check."
+    return 1
 }
 
 wait_for_health mysql || return 1
