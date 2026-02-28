@@ -7735,6 +7735,39 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
+  -- "markdown" ist hier entscheidend, da jupytext .ipynb in .md umwandelt!
+  pattern = { "python", "markdown", "quarto" }, 
+  callback = function()
+    local opts = { noremap = true, silent = true, buffer = true }
+
+    -- 1. Initialisierung (Der erste Schritt im Notebook)
+    vim.keymap.set("n", "<leader>rmi", ":MoltenInit<CR>", { desc = "Molten: Init Kernel", buffer = true })
+    
+    -- 2. Ausführen (Wie Shift+Enter in Jupyter)
+    -- 'e' für Evaluate: Funktioniert mit Motions (z.B. <leader>eip für den ganzen Block)
+    vim.keymap.set("n", "<leader>rre", ":MoltenEvaluateOperator<CR>", { desc = "Molten: Run Block", buffer = true })
+    -- Auswahl im Visual Mode ausführen
+    vim.keymap.set("v", "<leader>rre", ":<C-u>MoltenEvaluateVisual<CR>gv", { desc = "Molten: Run Selection", buffer = true })
+    -- Nur die aktuelle Zeile feuern
+    vim.keymap.set("n", "<leader>rrrl", ":MoltenEvaluateLine<CR>", { desc = "Molten: Run Line", buffer = true })
+
+    -- 3. Readme-Style Management (Output Fenster)
+    -- Zeigt den Output (z.B. den Mandelbrot Plot) wieder an
+    vim.keymap.set("n", "<leader>rros", ":MoltenShowOutput<CR>", { desc = "Molten: Show Output", buffer = true })
+    -- Versteckt den Output, um das Readme sauber zu lesen
+    vim.keymap.set("n", "<leader>rroh", ":MoltenHideOutput<CR>", { desc = "Molten: Hide Output", buffer = true })
+    -- Löscht die Zelle/den Output komplett
+    vim.keymap.set("n", "<leader>rrrd", ":MoltenDelete<CR>", { desc = "Molten: Delete Cell", buffer = true })
+
+    -- 4. Navigation (Schnell zwischen Code-Blöcken springen)
+    -- Sucht nach dem nächsten Markdown-Codeblock
+    vim.keymap.set("n", "]c", "/^```<CR>:noh<CR>", { desc = "Next Code Block", buffer = true })
+    vim.keymap.set("n", "[c", "?^```<CR>:noh<CR>", { desc = "Prev Code Block", buffer = true })
+  end,
+})
+
 -- vim.api.nvim_create_autocmd("FileType", {
 --   group = augroup,
 --   pattern = "c",
