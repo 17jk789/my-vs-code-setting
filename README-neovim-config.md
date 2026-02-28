@@ -171,6 +171,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked critcmp
 cargo install --locked cargo-nextest cargo-audit
 # cargo install --locked cargo-watch cargo-expand 
+sudo apt install make golang-go
 
 # Für C/C++ (keines extra)
 # sudo apt install checksec
@@ -1073,8 +1074,8 @@ wait_for_health() {
 wait_for_health mysql || return 1
 wait_for_health postgres || return 1
 
-MYSQL_PORT_REAL=$(docker compose port mysql 3306 | awk -F: '{print $2}')
-POSTGRES_PORT_REAL=$(docker compose port postgres 5432 | awk -F: '{print $2}')
+# MYSQL_PORT_REAL=$(docker compose port mysql 3306 | awk -F: '{print $2}')
+# POSTGRES_PORT_REAL=$(docker compose port postgres 5432 | awk -F: '{print $2}')
 
 MYSQL_PORT_REAL=$(sudo docker compose port mysql 3306 | awk -F: '{print $2}')
 POSTGRES_PORT_REAL=$(sudo docker compose port postgres 5432 | awk -F: '{print $2}')
@@ -1115,7 +1116,7 @@ nvim ~/create-psql-pro.sh
 chmod +x ~/create-psql-pro.sh
 ~/create-psql-pro.sh new mein-psql-projekt
 cd mein-psql-projekt
-docker compose up -d
+sudo docker compose up -d
 source dbee-env.sh
 nvim .
 ```
@@ -1333,7 +1334,7 @@ nvim ~/create-maria-pro.sh
 chmod +x ~/create-maria-pro.sh
 ~/create-maria-pro.sh new mein-maria-projekt
 cd mein-maria-projekt
-docker compose up -d
+sudo docker compose up -d
 source dbee-env.sh
 nvim .
 ```
@@ -6328,28 +6329,63 @@ code plugins/db.lua
 --   },
 -- }
 
+-- return {
+--   {
+--     "kndndrj/nvim-dbee",
+--     dependencies = { 
+--       "MunifTanjim/nui.nvim" 
+--     },
+--     cmd = { "Dbee", "DbeeToggle", "DbeeOpen" },
+
+--     -- build = function()
+--     --   pcall(function()
+--     --     require("dbee").install()
+--     --   end)
+--     -- end,
+
+--     build = "make install", 
+
+--     -- opts = {
+--     --   sources = {
+--     --     require("dbee.sources").EnvSource:new("DBEE_CONNECTIONS"),
+--     --   },
+--     -- },
+
+--     opts = {},
+
+--     config = function(_, opts)
+--       require("dbee").setup(opts)
+--     end,
+
+--     keys = {
+--       { "<leader>Dt", function() require("dbee").toggle() end, desc = "DBee: Toggle UI" },
+--     },
+--   },
+-- }
+
+
 return {
   {
     "kndndrj/nvim-dbee",
     dependencies = { 
       "MunifTanjim/nui.nvim" 
     },
-    cmd = { "Dbee", "DbeeToggle", "DbeeOpen" },
+    lazy = false,
+    build = "make install", 
 
-    build = function()
-      pcall(function()
-        require("dbee").install()
-      end)
-    end,
-
-    opts = {
-      sources = {
-        require("dbee.sources").EnvSource:new("DBEE_CONNECTIONS"),
-      },
-    },
-
-    config = function(_, opts)
-      require("dbee").setup(opts)
+    config = function()
+      local dbee = require("dbee")
+      -- Wir laden die Quellen-Module sicher auf
+      local sources = require("dbee.sources")
+      
+      dbee.setup({
+        -- Hier registrieren wir die Umgebungsvariable explizit als Quelle
+        sources = {
+          sources.EnvSource:new("DBEE_CONNECTIONS"),
+          -- Falls du zusätzlich noch eigene Verbindungen im UI speichern willst:
+          sources.MemorySource:new(), 
+        },
+      })
     end,
 
     keys = {
