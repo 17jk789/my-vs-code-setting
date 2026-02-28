@@ -5281,10 +5281,10 @@ return {
         css = { "prettier" },
       },
       -- optional: automatische Formatierung auf Save
-      format_on_save = {
-        timeout_ms = 500,
-        lsp_format = "fallback",
-      },
+      -- format_on_save = {
+      --   timeout_ms = 500,
+      --   lsp_format = "fallback",
+      -- },
     },
   },
 
@@ -5292,6 +5292,15 @@ return {
     "windwp/nvim-ts-autotag",
     ft = { "html", "javascriptreact", "typescriptreact" },
     opts = {},
+  },  
+  
+  {
+    "mfussenegger/nvim-lint",
+    opts = {
+      linters_by_ft = {
+        html = { "htmlhint" },
+      },
+    },
   },
 }
 
@@ -6975,6 +6984,7 @@ return {
 
         -- HTML:
         "html-lsp",
+        "htmlhint",
 
         -- CSS:
         "css-lsp",
@@ -6985,7 +6995,7 @@ return {
         -- JavaScript:
         "typescript-language-server",
         -- "eslint-lsp",
-        -- "prettier",
+        "prettier",
         -- "eslint_d",
         -- "js-debug-adapter",
 
