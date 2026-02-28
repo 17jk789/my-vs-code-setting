@@ -9072,6 +9072,8 @@ return {
 -- :GenTocGFM
 -- :UpdateToc
 
+-- Mehr noch in python.lua -> "MeanderingProgrammer/render-markdown.nvim",
+
 ```
 
 ## plugins/ltex.lua
