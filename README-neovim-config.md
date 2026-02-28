@@ -84,6 +84,13 @@ This repository is released under the **Apache License 2.0**.
   - [Ascii](#ascii)
     - [GNU Assembler (gas)](#gnu-assembler-gas)
     - [NASM (AT\&T-Syntax statt Intel-Syntax)](#nasm-att-syntax-statt-intel-syntax)
+  - [DB](#db)
+    - [MySQL](#mysql)
+      - [create-mysql-pro.sh](#create-mysql-prosh)
+    - [PostgreSQL](#postgresql)
+      - [create-psql-pro.sh](#create-psql-prosh)
+    - [MariaDB](#mariadb)
+      - [create-maria-pro.sh](#create-maria-prosh)
 - [Ghostty Configuration](#ghostty-configuration)
 - [Alacritty Configuration](#alacritty-configuration)
   - [oh-my-posh](#oh-my-posh)
@@ -820,6 +827,236 @@ touch main.asm
 nasm -f elf64 main.asm -o main.o
 ld main.o -o mein-programm
 ./mein-programm
+```
+
+## DB
+
+### MySQL
+
+```bash
+nvim ~/create-mysql-pro.sh
+chmod +x ~/create-mysql-pro.sh
+~/create-mysql-pro.sh new mein-mysql-projekt
+cd mein-mysql-projekt
+nvim .
+```
+
+```bash
+docker compose stop # Nur stoppen (Daten bleiben erhalten)
+docker compose down # Komplett beenden & aufräumen
+```
+
+#### create-mysql-pro.sh
+
+```bash
+#!/bin/bash
+
+# ~/create-mysql-pro.sh
+
+# Überprüfen, ob die Argumente korrekt sind
+if [ "$1" != "new" ] || [ -z "$2" ]; then
+    echo "Usage: ~/create-mysql-pro.sh new <projekt-name>"
+    exit 1
+fi
+
+PROJ_NAME=$2
+
+# Projektordner erstellen
+mkdir -p "$PROJ_NAME/init-db"
+cd "$PROJ_NAME"
+
+# docker-compose.yml erstellen (passend zu deiner nvim-dbee Konfig)
+cat << 'DOCKER' > docker-compose.yml
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ${PWD##*/}_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: test_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+
+  postgres:
+    image: postgres:15
+    container_name: ${PWD##*/}_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  mysql_data:
+  postgres_data:
+DOCKER
+
+# Test-Daten für MySQL & Postgres erstellen
+cat << 'SQL' > init-db/setup.sql
+-- Dieses Script läuft in beiden DBs beim ersten Start
+CREATE TABLE IF NOT EXISTS users (
+    id INT PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+INSERT INTO users (id, name) VALUES (1, 'Admin'), (2, 'Dev User') 
+ON CONFLICT DO NOTHING; -- Postgres Syntax
+-- MySQL ignoriert Fehler bei Duplikaten oft durch das Script-Format
+SQL
+
+echo "✅ My-SQL-Projekt '$PROJ_NAME' wurde erstellt."
+echo "Starte die Server mit: cd $PROJ_NAME && docker compose up -d"
+
+```
+
+### PostgreSQL
+
+```bash
+nvim ~/create-psql-pro.sh
+chmod +x ~/create-psql-pro.sh
+~/create-psql-pro.sh new mein-psql-projekt
+cd mein-psql-projekt
+nvim .
+```
+
+```bash
+docker compose stop # Nur stoppen (Daten bleiben erhalten)
+docker compose down # Komplett beenden & aufräumen
+```
+
+#### create-psql-pro.sh
+
+```bash
+#!/bin/bash
+
+# ~/create-psql-pro.sh
+
+# Überprüfen, ob die Argumente korrekt sind
+if [ "$1" != "new" ] || [ -z "$2" ]; then
+    echo "Usage: ~/create-psql-pro.sh new <projekt-name>"
+    exit 1
+fi
+
+PROJ_NAME=$2
+
+# Projektordner erstellen
+mkdir -p "$PROJ_NAME/init-db"
+cd "$PROJ_NAME"
+
+# docker-compose.yml erstellen (nur für PostgreSQL)
+cat << 'DOCKER' > docker-compose.yml
+services:
+  postgres:
+    image: postgres:15
+    container_name: ${PWD##*/}_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+DOCKER
+
+# Test-Daten speziell für PostgreSQL erstellen
+cat << 'SQL' > init-db/setup.sql
+-- Setup-Script für PostgreSQL
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO users (name) VALUES ('Admin'), ('Postgres-User') 
+ON CONFLICT DO NOTHING;
+SQL
+
+echo "✅ Post-SQL-Projekt '$PROJ_NAME' wurde erstellt."
+echo "Starte den Server mit: cd $PROJ_NAME && docker compose up -d"
+
+```
+
+### MariaDB
+
+```bash
+nvim ~/create-maria-pro.sh
+chmod +x ~/create-maria-pro.sh
+~/create-maria-pro.sh new mein-maria-projekt
+cd mein-maria-projekt
+nvim .
+```
+
+```bash
+docker compose stop # Nur stoppen (Daten bleiben erhalten)
+docker compose down # Komplett beenden & aufräumen
+```
+
+#### create-maria-pro.sh
+
+```bash
+#!/bin/bash
+
+# ~/create-maria-pro.sh
+
+# Überprüfen, ob die Argumente korrekt sind
+if [ "$1" != "new" ] || [ -z "$2" ]; then
+    echo "Usage: ~/create-maria-pro.sh new <projekt-name>"
+    exit 1
+fi
+
+PROJ_NAME=$2
+
+# Projektordner erstellen
+mkdir -p "$PROJ_NAME/init-db"
+cd "$PROJ_NAME"
+
+# docker-compose.yml erstellen (speziell für MariaDB)
+# Hinweis: In dbee nutzt du den "mysql" Typ für die Verbindung
+cat << 'DOCKER' > docker-compose.yml
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: ${PWD##*/}_mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_DATABASE: test_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init-db:/docker-entrypoint-initdb.d
+      - maria_data:/var/lib/mysql
+
+volumes:
+  maria_data:
+DOCKER
+
+# Test-Daten für MariaDB erstellen
+cat << 'SQL' > init-db/setup.sql
+-- Setup-Script für MariaDB
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    status VARCHAR(20) DEFAULT 'active'
+);
+
+INSERT INTO users (name) VALUES ('Admin'), ('MariaDB-User');
+SQL
+
+echo "✅ MariaDB-Projekt '$PROJ_NAME' wurde erstellt."
+echo "Starte den Server mit: cd $PROJ_NAME && docker compose up -d"
+
 ```
 
 # Ghostty Configuration
@@ -5575,6 +5812,12 @@ return {
               name = "Postgres Local",
               type = "postgres",
               url = "postgres://postgres:postgres@localhost:5432/test_db?sslmode=disable",
+            },
+            
+            {
+              name = "MariaDB Local",
+              type = "mysql", -- MariaDB nutzt den mysql Treiber
+              url = "root:rootpassword@tcp(127.0.0.1:3306)/test_db",
             },
           }),
 
