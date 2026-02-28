@@ -71,6 +71,7 @@ This repository is released under the **Apache License 2.0**.
 - [Inits](#inits)
   - [Python](#python)
     - [create-python-pro.sh](#create-python-prosh)
+    - [create-python-jup-pro.sh](#create-python-jup-prosh)
   - [Rust](#rust)
   - [Java](#java)
     - [crate-java-pro.sh](#crate-java-prosh)
@@ -410,6 +411,55 @@ touch main.py
 # Aktiviert nur für diesen Befehl die venv automatisch
 source venv/bin/activate
 pip install --upgrade pip
+# pip install 'python-lsp-server[all]' black ruff debugpy
+# pip install pynvim jupyter-client ipykernel 
+# pip install black ruff
+# Optional:
+# python -m ipykernel install --user
+
+```
+
+### create-python-jup-pro.sh
+
+```bash
+#!/bin/bash
+
+# create-python-pro.sh
+
+# Prüfen, ob der Benutzer ein Argument übergeben hat
+if [ "$1" != "new" ] || [ -z "$2" ]; then
+    echo "Usage: $0 new <projektname>"
+    exit 1
+fi
+
+PROJECT_NAME=$2
+
+# Projektordner erstellen und wechseln
+mkdir "$PROJECT_NAME"
+cd "$PROJECT_NAME" || exit
+
+# Virtuelle Umgebung erstellen
+python3 -m venv venv
+
+# Virtuelle Umgebung aktivieren
+# Hinweis: Dies funktioniert nur im Skript, wenn man 'source' im aktuellen Shell ausführt
+# Für interaktive Nutzung: der Benutzer muss manuell aktivieren
+echo "Aktiviere die virtuelle Umgebung mit: source venv/bin/activate"
+
+# Hauptdatei erstellen
+touch main.py
+
+# Python-Tools installieren
+# Aktiviert nur für diesen Befehl die venv automatisch
+source venv/bin/activate
+pip install --upgrade pip
+pip install pynvim jupyter_client
+pip install ipykernel
+python -m ipykernel install --user --name mein_projekt
+sudo chown -R $USER:$USER /home/jk/.local/share/jupyter
+mkdir -p /home/jk/.local/share/jupyter/runtime
+chmod -R 700 /home/jk/.local/share/jupyter/runtime
+pip install jupytext
 # pip install 'python-lsp-server[all]' black ruff debugpy
 # pip install pynvim jupyter-client ipykernel 
 # pip install black ruff
@@ -4919,6 +4969,8 @@ return {
 
 ## plugins/python.lua
 
+Du brauchst die Datei plugins/python.lua nicht, da die lsp/python.lua völlig ausreicht. Trotzdem ermöglicht dir diese Option, Jupyter Notebooks zu öffnen.
+
 ```bash
 cd ~/.config/nvim/lua
 ```
@@ -5238,6 +5290,80 @@ code plugins/python.lua
 --pip install pynvim jupyter-client ipykernel black ruff
 -- Optional:
 -- python -m ipykernel install --user
+
+return {
+  -- 1. Molten Konfiguration
+  {
+    "benlubas/molten-nvim",
+    version = "^1.0.0",
+    build = ":UpdateRemotePlugins",
+    init = function()
+      -- WICHTIG: Erlaubt Molten, Markdown-Inhalte im Output-Fenster zu rendern
+      vim.g.molten_auto_open_output = true
+      vim.g.molten_output_win_max_height = 12
+      vim.g.molten_virt_text_output = true
+      vim.g.molten_use_border_highlights = true
+      vim.g.molten_virt_lines_off_by_1 = true
+      
+      -- Bilder & Stil
+      vim.g.molten_image_provider = "image.nvim"
+      vim.g.molten_output_win_style = "minimal"
+      
+      -- Optional: Wenn du oft mit DataFrames arbeitest, hilft dieses Plugin:
+      -- Es sorgt dafür, dass HTML/Markdown Tabellen sauberer aussehen.
+    end,
+  },
+
+  -- 2. Image.nvim (Optimiert für Ghostty/Kitty)
+  {
+    "3rd/image.nvim",
+    opts = {
+      backend = "kitty", 
+      max_width = 100,
+      max_height = 12,
+      max_height_window_percentage = math.huge,
+      max_width_window_percentage = math.huge,
+      window_overlap_clear_enabled = true,
+      editor_only_render_when_focused = true,
+      tmux_show_boundary = false,
+      -- Aktiviert die Integration für Markdown-Dateien selbst
+      integrations = {
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = false,
+          download_remote_images = true,
+          only_render_image_at_cursor = false,
+          filetypes = { "markdown", "vimwiki", "quarto" }, -- Quarto für Notebook-Feeling
+        },
+      },
+    },
+  },
+  
+  -- 3. EMPFEHLUNG: Render-Markdown für schöneres UI
+  -- Dies verbessert das Aussehen von Markdown-Blöcken im Editor enorm.
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    opts = {
+      file_types = { "markdown", "quarto" },
+    },
+    ft = { "markdown", "quarto" },
+  },
+
+  {
+    "GCBallesteros/jupytext.nvim",
+    lazy = false, -- Wichtig, damit .ipynb Dateien beim Öffnen sofort erkannt werden
+    opts = {
+        custom_extension_regex = {
+        -- Erzwingt, dass Notebooks immer als Markdown (.md) geöffnet werden
+        -- Das ist der Schlüssel für deinen gewünschten Readme-Look
+        ipynb = "md", 
+        },
+    },
+    config = function(_, opts)
+        require("jupytext").setup(opts)
+    end,
+  }
+}
 
 ```
 
