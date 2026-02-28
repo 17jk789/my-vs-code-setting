@@ -5342,26 +5342,44 @@ return {
   
   -- 3. EMPFEHLUNG: Render-Markdown für schöneres UI
   -- Dies verbessert das Aussehen von Markdown-Blöcken im Editor enorm.
-  {
+    {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {
-      file_types = { "markdown", "quarto" },
+      file_types = { "markdown", "quarto", "python" }, -- Python hinzufügen!
+      code = {
+        -- Das sorgt dafür, dass die Blöcke wie in einem Notebook aussehen
+        style = 'full',
+        left_pad = 2,
+        right_pad = 4,
+        border = 'thin',
+      },
+      -- Hier definieren wir die Custom-Trenner für Jupytext (# %%)
+      heading = {
+        sign = false,
+        icons = { '   ', '   ', '   ', '   ', '   ', '   ' },
+      },
+      -- Spezielle Behandlung für die Jupytext-Zellen
+      pipe_table = { enabled = false },
     },
-    ft = { "markdown", "quarto" },
+    ft = { "markdown", "quarto", "python" },
   },
 
   {
     "GCBallesteros/jupytext.nvim",
-    lazy = false, -- Wichtig, damit .ipynb Dateien beim Öffnen sofort erkannt werden
+    lazy = false,
     opts = {
-        custom_extension_regex = {
-        -- Erzwingt, dass Notebooks immer als Markdown (.md) geöffnet werden
-        -- Das ist der Schlüssel für deinen gewünschten Readme-Look
-        ipynb = "md", 
+      -- Hier erzwingen wir das Markdown-Verhalten für Python-Notebooks
+      custom_language_formatting = {
+        python = {
+          extension = "md",
+          style = "markdown",
+          force_ft = "markdown", -- WICHTIG: Damit vi` funktioniert
+          converter = "pylatexenc", -- Oder "mmarkdown" / "none"
         },
+      },
     },
     config = function(_, opts)
-        require("jupytext").setup(opts)
+      require("jupytext").setup(opts)
     end,
   }
 }
