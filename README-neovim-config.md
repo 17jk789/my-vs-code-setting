@@ -772,6 +772,8 @@ echo "Binary: $PROJECT_DIR/build/app"
 ## TypeScript und JavaScript
 
 ```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.2/install.sh | bash
+source ~/.bashrc
 npm create vite@latest mein-projekt -- --template vanilla-ts
 cd mein-projekt
 npm install
