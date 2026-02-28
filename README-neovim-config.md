@@ -849,48 +849,164 @@ docker compose down # Komplett beenden & aufräumen
 #### create-mysql-pro.sh
 
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ~/create-mysql-pro.sh
 
-# Überprüfen, ob die Argumente korrekt sind
-if [ "$1" != "new" ] || [ -z "$2" ]; then
-    echo "Usage: ~/create-mysql-pro.sh new <projekt-name>"
-    exit 1
+# # Überprüfen, ob die Argumente korrekt sind
+# if [ "$1" != "new" ] || [ -z "$2" ]; then
+#     echo "Usage: ~/create-mysql-pro.sh new <projekt-name>"
+#     exit 1
+# fi
+
+# PROJ_NAME=$2
+
+# # Projektordner erstellen
+# mkdir -p "$PROJ_NAME/init-db"
+# cd "$PROJ_NAME"
+
+# # docker-compose.yml erstellen (passend zu deiner nvim-dbee Konfig)
+# cat << 'DOCKER' > docker-compose.yml
+# services:
+#   mysql:
+#     image: mysql:8.0
+#     container_name: ${PWD##*/}_mysql
+#     environment:
+#       MYSQL_ROOT_PASSWORD: rootpassword
+#       MYSQL_DATABASE: test_db
+#     ports:
+#       - "127.0.0.1:3306:3306"
+#     volumes:
+#       - ./init-db:/docker-entrypoint-initdb.d
+#       - mysql_data:/var/lib/mysql
+
+#   postgres:
+#     image: postgres:15
+#     container_name: ${PWD##*/}_postgres
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: test_db
+#     ports:
+#       - "127.0.0.1:5432:5432"
+#     volumes:
+#       - ./init-db:/docker-entrypoint-initdb.d
+#       - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   mysql_data:
+#   postgres_data:
+# DOCKER
+
+# # Test-Daten für MySQL & Postgres erstellen
+# cat << 'SQL' > init-db/setup.sql
+# -- Dieses Script läuft in beiden DBs beim ersten Start
+# CREATE TABLE IF NOT EXISTS users (
+#     id INT PRIMARY KEY,
+#     name VARCHAR(50)
+# );
+
+# INSERT INTO users (id, name) VALUES (1, 'Admin'), (2, 'Dev User') 
+# ON CONFLICT DO NOTHING; -- Postgres Syntax
+# -- MySQL ignoriert Fehler bei Duplikaten oft durch das Script-Format
+# SQL
+
+# echo "✅ My-SQL-Projekt '$PROJ_NAME' wurde erstellt."
+# echo "Starte die Server mit: cd $PROJ_NAME && docker compose up -d"
+
+set -euo pipefail
+
+if [ "${1:-}" != "new" ] || [ -z "${2:-}" ]; then
+  echo "Usage: create-mysql-pro.sh new <project-name>"
+  exit 1
 fi
 
-PROJ_NAME=$2
+PROJ="$2"
 
-# Projektordner erstellen
-mkdir -p "$PROJ_NAME/init-db"
-cd "$PROJ_NAME"
+if [ -d "$PROJ" ]; then
+  echo "Directory already exists."
+  exit 1
+fi
 
-# docker-compose.yml erstellen (passend zu deiner nvim-dbee Konfig)
+mkdir -p "$PROJ/init-db/mysql"
+mkdir -p "$PROJ/init-db/postgres"
+cd "$PROJ"
+
+# -----------------------------
+# Secure password generation
+# -----------------------------
+gen_pass() { openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 32; }
+
+MYSQL_ROOT_PASSWORD=$(gen_pass)
+MYSQL_USER_PASSWORD=$(gen_pass)
+POSTGRES_PASSWORD=$(gen_pass)
+
+# -----------------------------
+# Random free ports (optional, fallback)
+# -----------------------------
+MYSQL_PORT=$(shuf -i 20000-40000 -n 1)
+POSTGRES_PORT=$(shuf -i 40001-60000 -n 1)
+
+# -----------------------------
+# .env
+# -----------------------------
+cat > .env <<EOF
+MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+MYSQL_DATABASE=app_db
+MYSQL_USER=app_user
+MYSQL_PASSWORD=$MYSQL_USER_PASSWORD
+MYSQL_PORT=$MYSQL_PORT
+
+POSTGRES_DB=app_db
+POSTGRES_USER=app_user
+POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+POSTGRES_PORT=$POSTGRES_PORT
+EOF
+
+# -----------------------------
+# .gitignore
+# -----------------------------
+cat > .gitignore <<EOF
+.env
+docker-data/
+EOF
+
+# -----------------------------
+# docker-compose.yml
+# -----------------------------
 cat << 'DOCKER' > docker-compose.yml
 services:
   mysql:
     image: mysql:8.0
-    container_name: ${PWD##*/}_mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: test_db
+    env_file: .env
+    restart: unless-stopped
     ports:
-      - "127.0.0.1:3306:3306"
+      - "127.0.0.1:${MYSQL_PORT}:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     volumes:
-      - ./init-db:/docker-entrypoint-initdb.d
       - mysql_data:/var/lib/mysql
 
   postgres:
     image: postgres:15
-    container_name: ${PWD##*/}_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: test_db
+    env_file: .env
+    restart: unless-stopped
     ports:
-      - "127.0.0.1:5432:5432"
+      - "127.0.0.1:${POSTGRES_PORT}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     volumes:
-      - ./init-db:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
 
 volumes:
@@ -898,21 +1014,90 @@ volumes:
   postgres_data:
 DOCKER
 
-# Test-Daten für MySQL & Postgres erstellen
-cat << 'SQL' > init-db/setup.sql
--- Dieses Script läuft in beiden DBs beim ersten Start
+# -----------------------------
+# MySQL init script
+# -----------------------------
+cat << 'SQL' > init-db/mysql/init.sql
 CREATE TABLE IF NOT EXISTS users (
-    id INT PRIMARY KEY,
-    name VARCHAR(50)
+  id INT PRIMARY KEY,
+  name VARCHAR(50)
 );
-
-INSERT INTO users (id, name) VALUES (1, 'Admin'), (2, 'Dev User') 
-ON CONFLICT DO NOTHING; -- Postgres Syntax
--- MySQL ignoriert Fehler bei Duplikaten oft durch das Script-Format
+INSERT IGNORE INTO users VALUES (1,'Admin'),(2,'Dev User');
 SQL
 
-echo "✅ My-SQL-Projekt '$PROJ_NAME' wurde erstellt."
-echo "Starte die Server mit: cd $PROJ_NAME && docker compose up -d"
+# -----------------------------
+# Postgres init script
+# -----------------------------
+cat << 'SQL' > init-db/postgres/init.sql
+CREATE TABLE IF NOT EXISTS users (
+  id INT PRIMARY KEY,
+  name VARCHAR(50)
+);
+INSERT INTO users VALUES (1,'Admin'),(2,'Dev User')
+ON CONFLICT DO NOTHING;
+SQL
+
+# -----------------------------
+# DBEE Loader Script
+# -----------------------------
+cat << 'SH' > dbee-env.sh
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ ! -f ".env" ]; then
+  echo "❌ .env file not found."
+  return 1 2>/dev/null || exit 1
+fi
+
+source .env
+
+echo "🔄 Waiting for databases to become healthy..."
+
+wait_for_health() {
+  local service=$1
+  local retries=30
+  while [ $retries -gt 0 ]; do
+    status=$(docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q $service)" 2>/dev/null || echo "starting")
+    if [ "$status" = "healthy" ]; then return 0; fi
+    sleep 2
+    retries=$((retries - 1))
+  done
+  echo "❌ $service failed health check."
+  return 1
+}
+
+wait_for_health mysql || return 1
+wait_for_health postgres || return 1
+
+MYSQL_PORT_REAL=$(docker compose port mysql 3306 | awk -F: '{print $2}')
+POSTGRES_PORT_REAL=$(docker compose port postgres 5432 | awk -F: '{print $2}')
+
+export DBEE_CONNECTIONS="[
+  {
+    \"name\": \"MySQL $(basename "$PWD")\",
+    \"type\": \"mysql\",
+    \"url\": \"${MYSQL_USER}:${MYSQL_PASSWORD}@tcp(127.0.0.1:${MYSQL_PORT_REAL})/${MYSQL_DATABASE}\"
+  },
+  {
+    \"name\": \"Postgres $(basename "$PWD")\",
+    \"type\": \"postgres\",
+    \"url\": \"postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:${POSTGRES_PORT_REAL}/${POSTGRES_DB}?sslmode=disable\"
+  }
+]"
+
+echo "🔐 DBEE_CONNECTIONS exported securely."
+echo "🚀 You can now start Neovim."
+SH
+
+chmod +x dbee-env.sh
+
+echo ""
+echo "✅ Project '$PROJ' created."
+echo "Start with:"
+echo "  cd $PROJ && docker compose up -d"
+echo "Then:"
+echo "  source dbee-env.sh"
+echo "  nvim"
 
 ```
 
@@ -934,57 +1119,201 @@ docker compose down # Komplett beenden & aufräumen
 #### create-psql-pro.sh
 
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ~/create-psql-pro.sh
 
-# Überprüfen, ob die Argumente korrekt sind
-if [ "$1" != "new" ] || [ -z "$2" ]; then
-    echo "Usage: ~/create-psql-pro.sh new <projekt-name>"
-    exit 1
+# # Überprüfen, ob die Argumente korrekt sind
+# if [ "$1" != "new" ] || [ -z "$2" ]; then
+#     echo "Usage: ~/create-psql-pro.sh new <projekt-name>"
+#     exit 1
+# fi
+
+# PROJ_NAME=$2
+
+# # Projektordner erstellen
+# mkdir -p "$PROJ_NAME/init-db"
+# cd "$PROJ_NAME"
+
+# # docker-compose.yml erstellen (nur für PostgreSQL)
+# cat << 'DOCKER' > docker-compose.yml
+# services:
+#   postgres:
+#     image: postgres:15
+#     container_name: ${PWD##*/}_postgres
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: postgres
+#       POSTGRES_DB: test_db
+#     ports:
+#       - "5432:5432"
+#     volumes:
+#       - ./init-db:/docker-entrypoint-initdb.d
+#       - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:
+# DOCKER
+
+# # Test-Daten speziell für PostgreSQL erstellen
+# cat << 'SQL' > init-db/setup.sql
+# -- Setup-Script für PostgreSQL
+# CREATE TABLE IF NOT EXISTS users (
+#     id SERIAL PRIMARY KEY,
+#     name VARCHAR(50),
+#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+# );
+
+# INSERT INTO users (name) VALUES ('Admin'), ('Postgres-User') 
+# ON CONFLICT DO NOTHING;
+# SQL
+
+# echo "✅ Post-SQL-Projekt '$PROJ_NAME' wurde erstellt."
+# echo "Starte den Server mit: cd $PROJ_NAME && docker compose up -d"
+
+set -euo pipefail
+
+# ----------------------------------------
+# Usage check
+# ----------------------------------------
+if [ "${1:-}" != "new" ] || [ -z "${2:-}" ]; then
+  echo "Usage: ~/create-psql-pro.sh new <project-name>"
+  exit 1
 fi
 
-PROJ_NAME=$2
+PROJ_NAME="$2"
 
-# Projektordner erstellen
-mkdir -p "$PROJ_NAME/init-db"
+if [ -d "$PROJ_NAME" ]; then
+  echo "Directory already exists."
+  exit 1
+fi
+
+mkdir -p "$PROJ_NAME/init-db/postgres"
 cd "$PROJ_NAME"
 
-# docker-compose.yml erstellen (nur für PostgreSQL)
+# ----------------------------------------
+# Secure Password Generation
+# ----------------------------------------
+gen_pass() { openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 32; }
+
+POSTGRES_USER_PASSWORD=$(gen_pass)
+
+# ----------------------------------------
+# Random free port for Postgres
+# ----------------------------------------
+POSTGRES_PORT=$(shuf -i 40001-60000 -n 1)
+
+# ----------------------------------------
+# .env (never commit)
+# ----------------------------------------
+cat > .env <<EOF
+POSTGRES_DB=app_db
+POSTGRES_USER=app_user
+POSTGRES_PASSWORD=$POSTGRES_USER_PASSWORD
+POSTGRES_PORT=$POSTGRES_PORT
+EOF
+
+# ----------------------------------------
+# .gitignore
+# ----------------------------------------
+cat > .gitignore <<EOF
+.env
+docker-data/
+EOF
+
+# ----------------------------------------
+# docker-compose.yml
+# ----------------------------------------
 cat << 'DOCKER' > docker-compose.yml
 services:
   postgres:
     image: postgres:15
-    container_name: ${PWD##*/}_postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: test_db
+    env_file: .env
+    restart: unless-stopped
     ports:
-      - "5432:5432"
+      - "127.0.0.1:${POSTGRES_PORT}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     volumes:
-      - ./init-db:/docker-entrypoint-initdb.d
       - postgres_data:/var/lib/postgresql/data
+      - ./init-db/postgres:/docker-entrypoint-initdb.d
 
 volumes:
   postgres_data:
 DOCKER
 
-# Test-Daten speziell für PostgreSQL erstellen
-cat << 'SQL' > init-db/setup.sql
--- Setup-Script für PostgreSQL
+# ----------------------------------------
+# Init SQL for Postgres
+# ----------------------------------------
+cat << 'SQL' > init-db/postgres/init.sql
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (name) VALUES ('Admin'), ('Postgres-User') 
+INSERT INTO users (name) VALUES ('Admin'), ('Postgres-User')
 ON CONFLICT DO NOTHING;
 SQL
 
-echo "✅ Post-SQL-Projekt '$PROJ_NAME' wurde erstellt."
-echo "Starte den Server mit: cd $PROJ_NAME && docker compose up -d"
+# ----------------------------------------
+# DBEE loader script
+# ----------------------------------------
+cat << 'SH' > dbee-env.sh
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ ! -f ".env" ]; then
+  echo "❌ .env file not found."
+  return 1 2>/dev/null || exit 1
+fi
+
+source .env
+
+echo "🔄 Waiting for Postgres to become healthy..."
+
+retries=30
+while [ $retries -gt 0 ]; do
+  status=$(docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q postgres)" 2>/dev/null || echo "starting")
+  if [ "$status" = "healthy" ]; then
+    echo "✅ Postgres is healthy."
+    break
+  fi
+  sleep 2
+  retries=$((retries - 1))
+done
+
+if [ $retries -le 0 ]; then
+  echo "❌ Postgres failed health check."
+  return 1
+fi
+
+POSTGRES_PORT_REAL=$(docker compose port postgres 5432 | awk -F: '{print $2}')
+
+export DBEE_CONNECTIONS="[
+  {
+    \"name\": \"Postgres $(basename "$PWD")\",
+    \"type\": \"postgres\",
+    \"url\": \"postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@127.0.0.1:${POSTGRES_PORT_REAL}/${POSTGRES_DB}?sslmode=disable\"
+  }
+]"
+
+echo "🔐 DBEE_CONNECTIONS exported securely."
+echo "🚀 You can now start Neovim."
+SH
+
+chmod +x dbee-env.sh
+
+echo ""
+echo "✅ PostgreSQL project '$PROJ_NAME' created."
+echo "Start with:"
+echo "  cd $PROJ_NAME && docker compose up -d"
+echo "Then:"
+echo "  source dbee-env.sh"
+echo "  nvim"
 
 ```
 
@@ -1006,45 +1335,142 @@ docker compose down # Komplett beenden & aufräumen
 #### create-maria-pro.sh
 
 ```bash
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ~/create-maria-pro.sh
 
-# Überprüfen, ob die Argumente korrekt sind
-if [ "$1" != "new" ] || [ -z "$2" ]; then
-    echo "Usage: ~/create-maria-pro.sh new <projekt-name>"
-    exit 1
+# # Überprüfen, ob die Argumente korrekt sind
+# if [ "$1" != "new" ] || [ -z "$2" ]; then
+#     echo "Usage: ~/create-maria-pro.sh new <projekt-name>"
+#     exit 1
+# fi
+
+# PROJ_NAME=$2
+
+# # Projektordner erstellen
+# mkdir -p "$PROJ_NAME/init-db"
+# cd "$PROJ_NAME"
+
+# # docker-compose.yml erstellen (speziell für MariaDB)
+# # Hinweis: In dbee nutzt du den "mysql" Typ für die Verbindung
+# cat << 'DOCKER' > docker-compose.yml
+# services:
+#   mariadb:
+#     image: mariadb:latest
+#     container_name: ${PWD##*/}_mariadb
+#     environment:
+#       MARIADB_ROOT_PASSWORD: rootpassword
+#       MARIADB_DATABASE: test_db
+#     ports:
+#       - "3306:3306"
+#     volumes:
+#       - ./init-db:/docker-entrypoint-initdb.d
+#       - maria_data:/var/lib/mysql
+
+# volumes:
+#   maria_data:
+# DOCKER
+
+# # Test-Daten für MariaDB erstellen
+# cat << 'SQL' > init-db/setup.sql
+# -- Setup-Script für MariaDB
+# CREATE TABLE IF NOT EXISTS users (
+#     id INT AUTO_INCREMENT PRIMARY KEY,
+#     name VARCHAR(50),
+#     status VARCHAR(20) DEFAULT 'active'
+# );
+
+# INSERT INTO users (name) VALUES ('Admin'), ('MariaDB-User');
+# SQL
+
+# echo "✅ MariaDB-Projekt '$PROJ_NAME' wurde erstellt."
+# echo "Starte den Server mit: cd $PROJ_NAME && docker compose up -d"
+
+set -euo pipefail
+
+# ----------------------------------------
+# Usage check
+# ----------------------------------------
+if [ "${1:-}" != "new" ] || [ -z "${2:-}" ]; then
+  echo "Usage: ~/create-maria-pro.sh new <project-name>"
+  exit 1
 fi
 
-PROJ_NAME=$2
+PROJ_NAME="$2"
 
-# Projektordner erstellen
-mkdir -p "$PROJ_NAME/init-db"
+if [ -d "$PROJ_NAME" ]; then
+  echo "Directory already exists."
+  exit 1
+fi
+
+mkdir -p "$PROJ_NAME/init-db/mariadb"
 cd "$PROJ_NAME"
 
-# docker-compose.yml erstellen (speziell für MariaDB)
-# Hinweis: In dbee nutzt du den "mysql" Typ für die Verbindung
+# ----------------------------------------
+# Secure password generation
+# ----------------------------------------
+gen_pass() { openssl rand -base64 32 | tr -dc 'A-Za-z0-9' | head -c 32; }
+
+MARIADB_ROOT_PASSWORD=$(gen_pass)
+MARIADB_USER_PASSWORD=$(gen_pass)
+
+# ----------------------------------------
+# Random free port for MariaDB
+# ----------------------------------------
+MARIADB_PORT=$(shuf -i 20000-40000 -n 1)
+
+# ----------------------------------------
+# .env (never commit)
+# ----------------------------------------
+cat > .env <<EOF
+MARIADB_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
+MARIADB_DATABASE=app_db
+MARIADB_USER=app_user
+MARIADB_PASSWORD=$MARIADB_USER_PASSWORD
+MARIADB_PORT=$MARIADB_PORT
+EOF
+
+# ----------------------------------------
+# .gitignore
+# ----------------------------------------
+cat > .gitignore <<EOF
+.env
+docker-data/
+EOF
+
+# ----------------------------------------
+# docker-compose.yml
+# ----------------------------------------
 cat << 'DOCKER' > docker-compose.yml
 services:
   mariadb:
     image: mariadb:latest
-    container_name: ${PWD##*/}_mariadb
-    environment:
-      MARIADB_ROOT_PASSWORD: rootpassword
-      MARIADB_DATABASE: test_db
+    env_file: .env
+    restart: unless-stopped
     ports:
-      - "3306:3306"
+      - "127.0.0.1:${MARIADB_PORT}:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     volumes:
-      - ./init-db:/docker-entrypoint-initdb.d
-      - maria_data:/var/lib/mysql
+      - mariadb_data:/var/lib/mysql
+      - ./init-db/mariadb:/docker-entrypoint-initdb.d
 
 volumes:
-  maria_data:
+  mariadb_data:
 DOCKER
 
-# Test-Daten für MariaDB erstellen
-cat << 'SQL' > init-db/setup.sql
--- Setup-Script für MariaDB
+# ----------------------------------------
+# Init SQL for MariaDB
+# ----------------------------------------
+cat << 'SQL' > init-db/mariadb/init.sql
 CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50),
@@ -1054,8 +1480,61 @@ CREATE TABLE IF NOT EXISTS users (
 INSERT INTO users (name) VALUES ('Admin'), ('MariaDB-User');
 SQL
 
-echo "✅ MariaDB-Projekt '$PROJ_NAME' wurde erstellt."
-echo "Starte den Server mit: cd $PROJ_NAME && docker compose up -d"
+# ----------------------------------------
+# DBEE loader script
+# ----------------------------------------
+cat << 'SH' > dbee-env.sh
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ ! -f ".env" ]; then
+  echo "❌ .env file not found."
+  return 1 2>/dev/null || exit 1
+fi
+
+source .env
+
+echo "🔄 Waiting for MariaDB to become healthy..."
+
+retries=30
+while [ $retries -gt 0 ]; do
+  status=$(docker inspect --format='{{.State.Health.Status}}' "$(docker compose ps -q mariadb)" 2>/dev/null || echo "starting")
+  if [ "$status" = "healthy" ]; then
+    echo "✅ MariaDB is healthy."
+    break
+  fi
+  sleep 2
+  retries=$((retries - 1))
+done
+
+if [ $retries -le 0 ]; then
+  echo "❌ MariaDB failed health check."
+  return 1
+fi
+
+MARIADB_PORT_REAL=$(docker compose port mariadb 3306 | awk -F: '{print $2}')
+
+export DBEE_CONNECTIONS="[
+  {
+    \"name\": \"MariaDB $(basename "$PWD")\",
+    \"type\": \"mysql\",
+    \"url\": \"${MARIADB_USER}:${MARIADB_PASSWORD}@tcp(127.0.0.1:${MARIADB_PORT_REAL})/${MARIADB_DATABASE}\"
+  }
+]"
+
+echo "🔐 DBEE_CONNECTIONS exported securely."
+echo "🚀 You can now start Neovim."
+SH
+
+chmod +x dbee-env.sh
+
+echo ""
+echo "✅ MariaDB project '$PROJ_NAME' created."
+echo "Start with:"
+echo "  cd $PROJ_NAME && docker compose up -d"
+echo "Then:"
+echo "  source dbee-env.sh"
+echo "  nvim"
 
 ```
 
@@ -5779,11 +6258,69 @@ code plugins/db.lua
 ```lua
 -- plugins/db.lua
 
+-- return {
+--   {
+--     "kndndrj/nvim-dbee",
+--     dependencies = { "MunifTanjim/nui.nvim" },
+
+--     cmd = { "Dbee", "DbeeToggle", "DbeeOpen" },
+
+--     build = function()
+--       pcall(function()
+--         require("dbee").install()
+--       end)
+--     end,
+
+--     opts = function()
+--       local ok, sources = pcall(require, "dbee.sources")
+--       if not ok then return {} end
+
+--       return {
+--         sources = {
+--           sources.EnvSource:new("DBEE_CONNECTIONS"),
+
+--           sources.MemorySource:new({
+--             {
+--               name = "MySQL Docker",
+--               type = "mysql",
+--               -- Format: user:password@tcp(127.0.0.1:3306)/database
+--               url = "root:rootpassword@tcp(127.0.0.1:3306)/test_db",
+--             },
+
+--             {
+--               name = "Postgres Local",
+--               type = "postgres",
+--               url = "postgres://postgres:postgres@localhost:5432/test_db?sslmode=disable",
+--             },
+            
+--             {
+--               name = "MariaDB Local",
+--               type = "mysql", -- MariaDB nutzt den mysql Treiber
+--               url = "root:rootpassword@tcp(127.0.0.1:3306)/test_db",
+--             },
+--           }),
+
+--           sources.FileSource:new(
+--             vim.fn.stdpath("cache") .. "/dbee/persistence.json"
+--           ),
+--         },
+--       }
+--     end,
+
+--     config = function(_, opts)
+--       require("dbee").setup(opts)
+--     end,
+
+--     keys = {
+--       { "<leader>Dt", function() require("dbee").toggle() end, desc = "DBee: Toggle UI" },
+--     },
+--   },
+-- }
+
 return {
   {
     "kndndrj/nvim-dbee",
     dependencies = { "MunifTanjim/nui.nvim" },
-
     cmd = { "Dbee", "DbeeToggle", "DbeeOpen" },
 
     build = function()
@@ -5792,41 +6329,11 @@ return {
       end)
     end,
 
-    opts = function()
-      local ok, sources = pcall(require, "dbee.sources")
-      if not ok then return {} end
-
-      return {
-        sources = {
-          sources.EnvSource:new("DBEE_CONNECTIONS"),
-
-          sources.MemorySource:new({
-            {
-              name = "MySQL Docker",
-              type = "mysql",
-              -- Format: user:password@tcp(127.0.0.1:3306)/database
-              url = "root:rootpassword@tcp(127.0.0.1:3306)/test_db",
-            },
-
-            {
-              name = "Postgres Local",
-              type = "postgres",
-              url = "postgres://postgres:postgres@localhost:5432/test_db?sslmode=disable",
-            },
-            
-            {
-              name = "MariaDB Local",
-              type = "mysql", -- MariaDB nutzt den mysql Treiber
-              url = "root:rootpassword@tcp(127.0.0.1:3306)/test_db",
-            },
-          }),
-
-          sources.FileSource:new(
-            vim.fn.stdpath("cache") .. "/dbee/persistence.json"
-          ),
-        },
-      }
-    end,
+    opts = {
+      sources = {
+        require("dbee.sources").EnvSource:new("DBEE_CONNECTIONS"),
+      },
+    },
 
     config = function(_, opts)
       require("dbee").setup(opts)
