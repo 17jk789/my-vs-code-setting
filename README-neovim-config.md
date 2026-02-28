@@ -455,6 +455,7 @@ source venv/bin/activate
 pip install --upgrade pip
 pip install pynvim jupyter_client
 pip install ipykernel
+pip install pylatexenc
 python -m ipykernel install --user --name mein_projekt
 sudo chown -R $USER:$USER /home/jk/.local/share/jupyter
 mkdir -p /home/jk/.local/share/jupyter/runtime
