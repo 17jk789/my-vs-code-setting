@@ -5300,7 +5300,7 @@ return {
     init = function()
       -- WICHTIG: Erlaubt Molten, Markdown-Inhalte im Output-Fenster zu rendern
       vim.g.molten_auto_open_output = true
-      vim.g.molten_output_win_max_height = 12
+      vim.g.molten_output_win_max_height = 30
       vim.g.molten_virt_text_output = true
       vim.g.molten_use_border_highlights = true
       vim.g.molten_virt_lines_off_by_1 = true
@@ -5319,8 +5319,8 @@ return {
     "3rd/image.nvim",
     opts = {
       backend = "kitty", 
-      max_width = 100,
-      max_height = 12,
+      max_width = 150,
+      max_height = 30,
       max_height_window_percentage = math.huge,
       max_width_window_percentage = math.huge,
       window_overlap_clear_enabled = true,
