@@ -7459,6 +7459,7 @@ vim.api.nvim_create_autocmd("FileType", {
       run_in_term("clion .") 
     end, { desc = "Open Project in Clion", silent = true, buffer = true })
 
+    -- .../app
     vim.keymap.set("n", "<F5>", function()
       require("dap").continue()
     end, opts)
