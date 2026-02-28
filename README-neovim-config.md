@@ -1527,6 +1527,8 @@ vim.keymap.set("n", "<F12>", "<cmd>lua require'dap'.step_out()<cr>", { desc = "D
 vim.keymap.set("n", "<leader>du", "<cmd>lua require('dapui').toggle()<cr>", { desc = "DAP UI Toggle", silent = true, buffer = true })
 vim.keymap.set("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<cr>", { desc = "DAP Open REPL", silent = true, buffer = true })
 
+vim.keymap.set("n", "<leader>cf", ":ConformInfo<CR>", { desc = "Conform: Formatter Info" })
+
 -- Clipboard yanking (system clipboard)
 -- vim.keymap.set({ "n", "v" }, "y", '"+y', { noremap = true, silent = true })
 -- vim.keymap.set("n", "yy", '"+yy', { noremap = true, silent = true })
@@ -6814,6 +6816,31 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rpc",
       ":split | terminal zig build-exe % -femit-bin=%:r<CR>",
       { desc = "Zig Compile Only (Split)", silent = true, buffer = true }
+    )
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "html" },
+  callback = function()
+    local opts = { silent = true, buffer = true }
+
+    -- Browser Preview (Öffnet die aktuelle Datei im Standard-Browser)
+    vim.keymap.set("n", "<leader>rph", 
+      ":silent !xdg-open %<CR>", 
+      { desc = "HTML: Open in Browser", silent = true, buffer = true }
+    )
+
+    -- HTML Linting manuell im Terminal triggern (HTMLHint)
+    vim.keymap.set("n", "<leader>rpl",
+      ":split | terminal htmlhint %<CR>",
+      { desc = "HTML: Lint with HTMLHint (Split)", silent = true, buffer = true }
+    )
+
+    -- Schnell-Validierung mit Tidy (falls installiert)
+    vim.keymap.set("n", "<leader>rpt",
+      ":split | terminal tidy -errors -quiet %<CR>",
+      { desc = "HTML: Check with Tidy", silent = true, buffer = true }
     )
   end,
 })
