@@ -998,6 +998,8 @@ services:
       retries: 10
     volumes:
       - mysql_data:/var/lib/mysql
+      # Bindet dein SQL-Skript ein:
+      - ./init-db/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   postgres:
     image: postgres:15
@@ -1005,6 +1007,10 @@ services:
     restart: unless-stopped
     ports:
       - "127.0.0.1:${POSTGRES_PORT}:5432"
+    environment: # Diese Sektion MUSS für Postgres rein!
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
       interval: 5s
@@ -1012,10 +1018,13 @@ services:
       retries: 10
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      # Bindet dein SQL-Skript ein:
+      - ./init-db/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   mysql_data:
-  postgres_data:
+  postgres_data: # Das hat unten in deiner Liste gefehlt!
+
 DOCKER
 
 # -----------------------------
