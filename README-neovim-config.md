@@ -5562,6 +5562,13 @@ return {
 
           sources.MemorySource:new({
             {
+              name = "MySQL Docker",
+              type = "mysql",
+              -- Format: user:password@tcp(127.0.0.1:3306)/database
+              url = "root:rootpassword@tcp(127.0.0.1:3306)/test_db",
+            },
+
+            {
               name = "Postgres Local",
               type = "postgres",
               url = "postgres://postgres:postgres@localhost:5432/test_db?sslmode=disable",
