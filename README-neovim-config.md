@@ -695,6 +695,7 @@ EOF
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
 ln -s build/compile_commands.json .
+echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ~/.clang-format
 
 echo ""
 echo "✅ C++-Projekt '$PROJECT_NAME' bereit!"
@@ -771,6 +772,7 @@ EOF
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
 ln -s build/compile_commands.json .
+echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ~/.clang-format
 
 echo ""
 echo "✅ C-Projekt '$PROJECT_NAME' bereit!"
@@ -3510,7 +3512,7 @@ return {
 find ~ -name ".clang-format" -path "*/.cache/nvim/*" -delete
 
 # Erstelle eine globale Konfiguration in deinem Home-Verzeichnis
-echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ~/.clang-format
+# echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ~/.clang-format
 ```
 
 ```vim
