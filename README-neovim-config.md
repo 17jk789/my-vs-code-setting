@@ -695,7 +695,16 @@ EOF
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
 ln -s build/compile_commands.json .
-echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ~/.clang-format
+echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ./.clang-format
+
+git init -q
+cat > .gitignore <<EOF
+build/
+.cache/
+compile_commands.json
+*.o
+app
+EOF
 
 echo ""
 echo "✅ C++-Projekt '$PROJECT_NAME' bereit!"
@@ -7449,6 +7458,26 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("clion .") 
     end, { desc = "Open Project in Clion", silent = true, buffer = true })
+
+    vim.keymap.set("n", "<F5>", function()
+      require("dap").continue()
+    end, opts)
+
+    vim.keymap.set("n", "<F9>", function()
+      require("dap").toggle_breakpoint()
+    end, opts)
+
+    vim.keymap.set("n", "<F10>", function()
+      require("dap").step_over()
+    end, opts)
+
+    vim.keymap.set("n", "<F11>", function()
+      require("dap").step_into()
+    end, opts)
+
+    vim.keymap.set("n", "<F12>", function()
+      require("dap").step_out()
+    end, opts)
 
     -- vim.keymap.set(
     --   "n",
