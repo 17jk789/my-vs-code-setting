@@ -125,6 +125,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/fzf.lua](#pluginsfzflua)
   - [config/lazyvim.lua](#configlazyvimlua)
   - [plugins/snacks.lua](#pluginssnackslua)
+  - [config/lazy.lua](#configlazylua)
 
 ## Notes
 
@@ -1366,6 +1367,7 @@ cd ~/.config/nvim/lua
         ├── java.lua
         ├── javascript.lua
         ├── latex.lua
+        ├── lazy.lua
         ├── lsp.lua
         ├── ltex.lua
         ├── markdown.lua
@@ -7804,6 +7806,24 @@ return {
       },
     },
   },
+
+  -- Mason UI umranden
+  {
+    "mason-org/mason.nvim",
+    opts = {
+      ui = {
+        border = "rounded", -- macht Mason schick
+      },
+    },
+  },
+
+  -- Optional: Which-Key (die Tasten-Vorschau) ebenfalls umranden
+  -- {
+  --   "folke/which-key.nvim",
+  --   opts = {
+  --     win = { border = "rounded" },
+  --   },
+  -- },
 }
 
 ```
@@ -9048,5 +9068,41 @@ return {
     },
   },
 }
+
+```
+
+## config/lazy.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/lazy.lua
+```
+
+```bash
+nano plugins/lazy.lua
+```
+
+```bash
+code plugins/lazy.lua
+```
+
+```lua
+-- plugins/lazy.lua
+
+-- Diese Datei ist der "Chef" deiner Konfiguration
+require("lazy").setup({
+  spec = {
+    { "LazyVim/LazyVim", import = "lazyvim.plugins" },
+    { import = "plugins" },
+  },
+  defaults = { lazy = false },
+  -- HIER MUSS ES REIN:
+  ui = {
+    border = "rounded",
+  },
+})
 
 ```
