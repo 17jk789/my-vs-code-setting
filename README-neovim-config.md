@@ -5343,25 +5343,25 @@ return {
   -- 3. EMPFEHLUNG: Render-Markdown für schöneres UI
   -- Dies verbessert das Aussehen von Markdown-Blöcken im Editor enorm.
   {
-    "MeanderingProgrammer/render-markdown.nvim",
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     opts = {
-      file_types = { "markdown", "quarto", "python" }, -- Python hinzufügen!
+      file_types = { "markdown", "quarto", "python" },
+          
       code = {
-        -- Das sorgt dafür, dass die Blöcke wie in einem Notebook aussehen
         style = 'full',
         left_pad = 2,
         right_pad = 4,
         border = 'thin',
+        highlight = 'RenderMarkdownCode', -- Nutzt Theme-Farben für Hintergründe
       },
-      -- Hier definieren wir die Custom-Trenner für Jupytext (# %%)
-      heading = {
-        sign = false,
-        icons = { '   ', '   ', '   ', '   ', '   ', '   ' },
+
+      extra_border = {
+        enabled = true,
       },
-      -- Spezielle Behandlung für die Jupytext-Zellen
-      pipe_table = { enabled = false },
     },
-    ft = { "markdown", "quarto", "python" },
   },
 
   {
