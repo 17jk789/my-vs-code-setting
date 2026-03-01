@@ -461,6 +461,7 @@ sudo chown -R $USER:$USER /home/jk/.local/share/jupyter
 mkdir -p /home/jk/.local/share/jupyter/runtime
 chmod -R 700 /home/jk/.local/share/jupyter/runtime
 pip install jupytext
+pip install pynvim
 # pip install 'python-lsp-server[all]' black ruff debugpy
 # pip install pynvim jupyter-client ipykernel 
 # pip install black ruff
@@ -5358,9 +5359,9 @@ return {
         highlight = 'RenderMarkdownCode', -- Nutzt Theme-Farben für Hintergründe
       },
 
-      extra_border = {
-        enabled = true,
-      },
+      -- extra_border = {
+      --   enabled = true,
+      -- },
     },
   },
 
@@ -8456,6 +8457,13 @@ return {
         flavour = "mocha", -- latte / frappe / macchiato / mocha
         transparent_background = true,
         term_colors = true,
+        integrations = {
+          snacks = true,
+          lsp_trouble = true,
+          mason = true,
+          which_key = true,
+          -- weitere Plugins bei Bedarf hier auf true setzen
+        },
       })
 
       vim.cmd("colorscheme catppuccin")
