@@ -453,7 +453,7 @@ touch main.py
 # Aktiviert nur für diesen Befehl die venv automatisch
 source venv/bin/activate
 pip install --upgrade pip
-pip install pynvim jupyter_client ipykernel pylatexenc jupytext pynvim nbformat nbconvert
+pip install pynvim jupyter_client ipykernel pylatexenc jupytext pynvim nbformat nbconvert notebook
 # python -m ipykernel install --user --name mein_projekt
 python -m ipykernel install --user --name=pneovim --display-name "Python (P-NeoVim)"
 sudo chown -R $USER:$USER /home/jk/.local/share/jupyter
@@ -7823,6 +7823,21 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "python", "markdown", "quarto" }, 
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
+
+    vim.keymap.set("n", "<leader>onb", function()
+        -- Speichert die aktuelle Datei, damit Änderungen übernommen werden
+        vim.cmd("silent write")
+        
+        -- Holt den Dateinamen der aktuellen Datei
+        local file = vim.fn.expand("%:p")
+        
+        -- Führt jupytext aus, um die Datei zu synchronisieren und öffnet sie in jupyter
+        -- Benötigt 'jupyter-notebook' oder 'jupyter-lab' im PATH
+        local cmd = string.format("jupyter notebook '%s' &", file)
+        
+        vim.fn.jobstart(cmd, { detach = true })
+        print("Opening Jupyter Notebook...")
+    end, { desc = "Jupyter: Open in Browser", buffer = true })
 
     -- 1. Initialisierung (Der erste Schritt im Notebook)
     vim.keymap.set("n", "<leader>rmi", ":MoltenInit<CR>", { desc = "Molten: Init Kernel", buffer = true })
