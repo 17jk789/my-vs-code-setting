@@ -7794,7 +7794,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rir", function() 
       run_in_term("pycharm .") 
     end, { desc = "Open Project in PyCharm", silent = true, buffer = true })
-    vim.keymap.set("n", "<leader>rrr", ":split | terminal python3 %<CR>", { desc = "Python Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rra", ":split | terminal python3 %<CR>", { desc = "Python Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrt", ":split | terminal pytest<CR>", { desc = "Pytest Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrv", ":split | terminal python3 -m venv .venv<CR>", { desc = "Python Create Venv (Split)", silent = true, buffer = true })
   end,
