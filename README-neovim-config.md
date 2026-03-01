@@ -9955,12 +9955,12 @@ N E O V I M - J U L I A N
             { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
             { icon = " ", key = "y", desc = "Lazy Health", action = ":Lazy health" },
-            { icon = " ", key = "y", desc = "System Health Check", action = ":checkhealth" },
+            { icon = " ", key = "h", desc = "System Health Check", action = ":checkhealth" },
             { icon = " ", key = "m", desc = "Mason", action = ":Mason" },
             -- { icon = " ", key = "i", desc = "LspInfo", action = ":LspInfo" },
             {
               icon = " ",
-              key = "h",
+              key = "b",
               desc = "17jk789/my-vs-code-setting",
               action = function()
                 local url = "https://github.com/17jk789/my-vs-code-setting/blob/main/README-neovim-config.md"
