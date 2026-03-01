@@ -453,15 +453,12 @@ touch main.py
 # Aktiviert nur für diesen Befehl die venv automatisch
 source venv/bin/activate
 pip install --upgrade pip
-pip install pynvim jupyter_client
-pip install ipykernel
-pip install pylatexenc
+pip install pynvim jupyter_client ipykernel pylatexenc jupytext pynvim nbformat nbconvert
 python -m ipykernel install --user --name mein_projekt
+python -m ipykernel install --user --name=pythontest --display-name "Python (P-NeoVim)"
 sudo chown -R $USER:$USER /home/jk/.local/share/jupyter
 mkdir -p /home/jk/.local/share/jupyter/runtime
 chmod -R 700 /home/jk/.local/share/jupyter/runtime
-pip install jupytext
-pip install pynvim
 # pip install 'python-lsp-server[all]' black ruff debugpy
 # pip install pynvim jupyter-client ipykernel 
 # pip install black ruff
