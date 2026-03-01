@@ -5381,6 +5381,54 @@ return {
     config = function(_, opts)
       require("jupytext").setup(opts)
     end,
+  },
+
+  {
+    "jmbuhr/otter.nvim",
+    dependencies = { "neovim/nvim-lspconfig" },
+    config = function()
+      local group = vim.api.nvim_create_augroup("OtterSetup", { clear = true })
+      
+      -- Filter für E303 (Too many blank lines)
+      -- local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
+      -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+      --   local filtered = {}
+      --   if result and result.diagnostics then
+      --     for _, d in ipairs(result.diagnostics) do
+      --       -- Ignoriert E303 und die Nachricht "too many blank lines"
+      --       if not (d.code == "E303" or d.message:lower():find("too many blank lines")) then
+      --         table.insert(filtered, d)
+      --       end
+      --     end
+      --     result.diagnostics = filtered
+      --   end
+      --   original_handler(err, result, ctx, config)
+      -- end
+
+      local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
+      vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+        local filtered = {}
+        if result and result.diagnostics then
+          for _, d in ipairs(result.diagnostics) do
+            -- Wir prüfen, ob die Quelle 'pycodestyle' ist (Groß/Kleinschreibung egal)
+            local source = d.source or ""
+            if not source:lower():find("pycodestyle") then
+              table.insert(filtered, d)
+            end
+          end
+          result.diagnostics = filtered
+        end
+        original_handler(err, result, ctx, config)
+      end
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "markdown",
+        group = group,
+        callback = function()
+          require("otter").activate({"python"})
+        end,
+      })
+    end,
   }
 }
 
