@@ -1940,6 +1940,12 @@ keybind = ctrl+zero=reset_font_size
 keybind = ctrl+comma=open_config
 keybind = ctrl+shift+comma=reload_config
 
+# Kopieren mit Strg + C
+keybind = ctrl+c=copy_to_clipboard
+
+# Einfügen mit Strg + V
+keybind = ctrl+v=paste_from_clipboard
+
 ```
 
 # Alacritty Configuration
