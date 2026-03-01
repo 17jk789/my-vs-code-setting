@@ -9947,7 +9947,7 @@ N E O V I M - J U L I A N
 
           keys = {
             { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-            { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
+            -- { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
             { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
             { icon = " ", key = "c", desc = "Config", action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})" },
@@ -9955,6 +9955,7 @@ N E O V I M - J U L I A N
             { icon = " ", key = "x", desc = "Lazy Extras", action = ":LazyExtras" },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
             { icon = " ", key = "y", desc = "Lazy Health", action = ":Lazy health" },
+            { icon = " ", key = "y", desc = "System Health Check", action = ":checkhealth" },
             { icon = " ", key = "m", desc = "Mason", action = ":Mason" },
             -- { icon = " ", key = "i", desc = "LspInfo", action = ":LspInfo" },
             {
@@ -9976,25 +9977,25 @@ N E O V I M - J U L I A N
                 end
               end
             },
-            {
-              icon = " ",
-              key = "k",
-              desc = "LazyVim Keymaps",
-              action = function()
-                local url = "https://www.lazyvim.org/keymaps"
-                local cmd
-                if vim.fn.has("mac") == 1 then
-                  cmd = {"open", url}
-                elseif vim.fn.has("unix") == 1 then
-                  cmd = {"xdg-open", url}
-                elseif vim.fn.has("win32") == 1 then
-                  cmd = {"cmd", "/c", "start", "", url}
-                end
-                if cmd then
-                  vim.fn.jobstart(cmd, {detach = true})
-                end
-              end
-            },
+            -- {
+            --   icon = " ",
+            --   key = "k",
+            --   desc = "LazyVim Keymaps",
+            --   action = function()
+            --     local url = "https://www.lazyvim.org/keymaps"
+            --     local cmd
+            --     if vim.fn.has("mac") == 1 then
+            --       cmd = {"open", url}
+            --     elseif vim.fn.has("unix") == 1 then
+            --       cmd = {"xdg-open", url}
+            --     elseif vim.fn.has("win32") == 1 then
+            --       cmd = {"cmd", "/c", "start", "", url}
+            --     end
+            --     if cmd then
+            --       vim.fn.jobstart(cmd, {detach = true})
+            --     end
+            --   end
+            -- },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
           },
         },
