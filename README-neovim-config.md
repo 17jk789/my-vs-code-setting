@@ -8454,13 +8454,13 @@ return {
         flavour = "mocha", -- latte / frappe / macchiato / mocha
         transparent_background = true,
         term_colors = true,
-        integrations = {
-          snacks = true,
-          lsp_trouble = true,
-          mason = true,
-          which_key = true,
-          -- weitere Plugins bei Bedarf hier auf true setzen
-        },
+        -- integrations = {
+        --   snacks = true,
+        --   lsp_trouble = true,
+        --   mason = true,
+        --   which_key = true,
+        --   -- weitere Plugins bei Bedarf hier auf true setzen
+        -- },
       })
 
       vim.cmd("colorscheme catppuccin")
