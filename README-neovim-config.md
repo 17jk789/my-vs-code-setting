@@ -1743,11 +1743,20 @@ window-inherit-working-directory = true
 # macos-option-as-alt = true
 
 # HINTERGRUND
-background-opacity = 0.81 # Transparenz
+# background-opacity = 0.85
 background = #000000
 # background-blur-radius = 10 # Weichzeichner-Radius
 # background-blur = macos-glass-regular
 # background-opacity = 0.5	
+
+# Pfad zum Bild (achte auf .jpg)
+background-image = /home/jk/Pictures/walpaper4-new.jpg
+
+# Füllt das Fenster komplett aus (behält Proportionen, schneidet Ränder ggf. ab)
+background-image-fit = cover
+
+# Zentriert das Bild, damit die Ränder gleichmäßig beschnitten werden
+background-image-position = center
 
 # FONT
 font-family = "JetBrainsMono Nerd Font Complete"
@@ -1768,30 +1777,32 @@ cursor-style = block
 cursor-color = #25be6a
 cursor-text = #f2f4f8
 
+theme = Catppuccin Mocha
+
 # AUSWAHL 
-selection-foreground = #f2f4f8 
-selection-background = #525253
-
-# COLORS (Carbonfox-like)
-foreground = #f2f4f8
-
-palette = 0=#282828
-palette = 1=#ee5396
-palette = 2=#25be6a
-palette = 3=#08bdba
-palette = 4=#78a9ff
-palette = 5=#be95ff
-palette = 6=#33b1ff
-palette = 7=#dfdfe0
-
-palette = 8=#484848
-palette = 9=#f16da6
-palette = 10=#46c880
-palette = 11=#2dc7c4
-palette = 12=#8cb6ff
-palette = 13=#c8a5ff
-palette = 14=#52bdff
-palette = 15=#e4e4e5
+# selection-foreground = #f2f4f8 
+# selection-background = #525253
+#
+# # COLORS (Carbonfox-like)
+# foreground = #f2f4f8
+#
+# palette = 0=#282828
+# palette = 1=#ee5396
+# palette = 2=#25be6a
+# palette = 3=#08bdba
+# palette = 4=#78a9ff
+# palette = 5=#be95ff
+# palette = 6=#33b1ff
+# palette = 7=#dfdfe0
+#
+# palette = 8=#484848
+# palette = 9=#f16da6
+# palette = 10=#46c880
+# palette = 11=#2dc7c4
+# palette = 12=#8cb6ff
+# palette = 13=#c8a5ff
+# palette = 14=#52bdff
+# palette = 15=#e4e4e5
 
 # INDEXED COLORS (optional) 
 # palette = 16=#3ddbd9 
