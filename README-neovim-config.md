@@ -7849,6 +7849,8 @@ vim.api.nvim_create_autocmd("FileType", {
     -- 2. Ausführen (Wie Shift+Enter in Jupyter)
     -- 'e' für Evaluate: Funktioniert mit Motions (z.B. <leader>eip für den ganzen Block)
     vim.keymap.set("n", "<leader>rre", ":MoltenEvaluateOperator<CR>", { desc = "Molten: Run Block", buffer = true })
+    -- Für mich
+    vim.keymap.set("n", "<leader>rra", ":MoltenEvaluateOperator<CR>", { desc = "Molten: Run Block", buffer = true })
     -- Auswahl im Visual Mode ausführen
     vim.keymap.set("v", "<leader>rre", ":<C-u>MoltenEvaluateVisual<CR>gv", { desc = "Molten: Run Selection", buffer = true })
     -- Nur die aktuelle Zeile feuern
@@ -8109,6 +8111,12 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- Standard: Assemblieren, Linken & Ausführen
     vim.keymap.set("n", "<leader>rar",
+      ":split | terminal nasm -f elf64 % -o %:r.o && ld %:r.o -o %:r && %:p:r<CR>",
+      { desc = "NASM Run (ELF64)", silent = true, buffer = true }
+    )
+
+    -- Für mich
+    vim.keymap.set("n", "<leader>rra",
       ":split | terminal nasm -f elf64 % -o %:r.o && ld %:r.o -o %:r && %:p:r<CR>",
       { desc = "NASM Run (ELF64)", silent = true, buffer = true }
     )
