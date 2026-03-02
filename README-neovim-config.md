@@ -1958,6 +1958,8 @@ keybind = ctrl+c=copy_to_clipboard
 # Einfügen mit Strg + V
 keybind = ctrl+v=paste_from_clipboard
 
+keybind = shift+r=text:ranger\r
+
 ```
 
 # Alacritty Configuration
@@ -2248,6 +2250,18 @@ color = "#ff7eb6"
 # oh-my-posh get theme illusi0n --output ~/.poshthemes/illusi0n.omp.json && \
 # grep -qxF 'eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"' ~/.bashrc || echo 'eval "$(oh-my-posh init bash --config ~/.poshthemes/illusi0n.omp.json)"' >> ~/.bashrc && \
 # source ~/.bashrc
+```
+
+## ranger
+
+```bash
+nvim ~/.config/ranger/rifle.conf
+```
+
+```text
+# Suche diese Zeile und setze nvim nach vorne:
+mime ^text,  label editor = nvim -- "$@"
+!mime ^text, label editor, ext xml|json|csv|tex|py|pl|rb|js|sh|php = nvim -- "$@"
 ```
 
 # LazyVim Configuration
