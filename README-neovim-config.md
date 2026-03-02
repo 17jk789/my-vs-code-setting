@@ -9145,12 +9145,13 @@ return {
     })
 
     -- Optik: Markierung anstelle eines weißen Strichs
-    vim.api.nvim_set_hl(0, "TreesitterContext", { link = "CursorLine" })  -- Die Kontextmarkierung erhält die CursorLine-Hervorhebung
-    vim.api.nvim_set_hl(0, "TreesitterContextBottom", { underline = false })  -- Entfernt Unterstreichungen für den unteren Kontext
+    -- vim.api.nvim_set_hl(0, "TreesitterContext", { link = "CursorLine" })  -- Die Kontextmarkierung erhält die CursorLine-Hervorhebung
+    -- vim.api.nvim_set_hl(0, "TreesitterContextBottom", { underline = false })  -- Entfernt Unterstreichungen für den unteren Kontext
 
     -- Zusätzliche optische Anpassungen für den Hintergrund
-    vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#2e3440" })  -- Dunkelgrauer Hintergrund für den oberen Kontext
-    vim.api.nvim_set_hl(0, "TreesitterContextBottom", { bg = "#3b4252" })  -- Etwas dunklerer Hintergrund für den unteren Kontext
+    -- vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "#2e3440" })  -- Dunkelgrauer Hintergrund für den oberen Kontext
+    -- vim.api.nvim_set_hl(0, "TreesitterContextBottom", { bg = "#3b4252" })  -- Etwas dunklerer Hintergrund für den unteren Kontext
+    vim.api.nvim_set_hl(0, "TreesitterContextBottom", { bg = "#2e3440" })
   end,
 }
 
