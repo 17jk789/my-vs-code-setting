@@ -125,6 +125,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/latex.lua](#pluginslatexlua)
   - [plugins/ui.lua](#pluginsuilua)
   - [plugins/treesitter.lua](#pluginstreesitterlua)
+  - [plugins/treesitter-context.lua](#pluginstreesitter-contextlua)
   - [plugins/markdown.lua](#pluginsmarkdownlua)
   - [plugins/ltex.lua](#pluginsltexlua)
   - [plugins/notify.lua](#pluginsnotifylua)
@@ -2294,6 +2295,7 @@ cd ~/.config/nvim/lua
         ├── snacks.lua
         ├── theme.lua
         ├── treesitter.lua
+        ├── treesitter-context.lua
         ├── typescript.lua
         ├── ui.lua
         └── web-dev.lua
@@ -9081,6 +9083,59 @@ return {
       -- auto_install = true,
     },
   },
+}
+
+```
+
+## plugins/treesitter-context.lua
+
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/treesitter-context.lua
+```
+
+```bash
+nano plugins/treesitter-context.lua
+```
+
+```bash
+code plugins/treesitter-context.lua
+```
+
+```lua
+-- plugins/treesitter-context.lua
+
+return {
+  "nvim-treesitter/nvim-treesitter-context",
+  dependencies = { "nvim-treesitter/nvim-treesitter" },
+  event = "LazyFile",
+  config = function()
+    require("treesitter-context").setup({
+      enable = true,
+      -- 0 bedeutet unbegrenzt: Es zeigt Klasse UND Methode an.
+      -- Falls es doch zu viel wird, setze es auf 4 oder 5.
+      max_lines = 0, 
+      
+      -- WICHTIG: 'topline' zeigt oft stabiler mehrere Ebenen an als 'cursor'
+      -- Teste beides, aber 'topline' ist näher am VS Code / IntelliJ Verhalten.
+      mode = 'topline', 
+      
+      line_numbers = true,
+      multiline_threshold = 1, -- Zeigt bei Methoden nur die erste Zeile (verhindert Platzverschwendung)
+      trim_scope = 'outer',    -- Behält die äußeren Scopes (Klasse) bei, wenn es eng wird
+      separator = nil,
+      zindex = 20,
+      separator = "─",
+    })
+
+    -- Optik-Fix: Markierung statt weißem Strich
+    vim.api.nvim_set_hl(0, "TreesitterContext", { link = "CursorLine" })
+    vim.api.nvim_set_hl(0, "TreesitterContextBottom", { underline = false })
+  end,
 }
 
 ```
