@@ -2356,6 +2356,8 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
+vim.opt.scrolloff = 6
+
 -- new
 vim.opt.smarttab = true
 vim.opt.autoindent = true
@@ -9118,7 +9120,7 @@ return {
       enable = true,
       -- 0 bedeutet unbegrenzt: Es zeigt Klasse UND Methode an.
       -- Falls es doch zu viel wird, setze es auf 4 oder 5.
-      max_lines = 0, 
+      max_lines = 5, 
       
       -- WICHTIG: 'topline' zeigt oft stabiler mehrere Ebenen an als 'cursor'
       -- Teste beides, aber 'topline' ist näher am VS Code / IntelliJ Verhalten.
