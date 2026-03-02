@@ -9120,7 +9120,7 @@ return {
       enable = true,
       -- 0 bedeutet unbegrenzt: Es zeigt Klasse UND Methode an.
       -- Falls es doch zu viel wird, setze es auf 4 oder 5.
-      max_lines = 5, 
+      max_lines = 4, 
       
       -- WICHTIG: 'topline' zeigt oft stabiler mehrere Ebenen an als 'cursor'
       -- Teste beides, aber 'topline' ist näher am VS Code / IntelliJ Verhalten.
