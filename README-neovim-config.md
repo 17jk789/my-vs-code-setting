@@ -8952,10 +8952,15 @@ return {
   {
     "akinsho/bufferline.nvim",
     version = "v5.0.0",
-    dependencies = "nvim-tree/nvim-web-devicons",
+    -- Aktualisiertes Repository
+    dependencies = { "nvim-mini/mini.icons" },
     opts = {
       options = {
-        -- numbers = "buffer_id",  -- eindeutige Nummern
+        -- Nutze mini.icons für die Darstellung
+        get_element_icon = function(opts)
+          local icon, hl = require("mini.icons").get("file", opts.path)
+          return icon, hl
+        end,
         diagnostics = "nvim_lsp",
         diagnostics_update_in_insert = false,
         show_buffer_close_icons = true,
