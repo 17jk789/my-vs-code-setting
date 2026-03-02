@@ -2356,7 +2356,7 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 vim.opt.smartindent = true
-vim.opt.scrolloff = 6
+vim.opt.scrolloff = 9
 
 -- new
 vim.opt.smarttab = true
@@ -9121,7 +9121,7 @@ return {
       
       -- Maximale Anzahl an Zeilen, die angezeigt werden (0 = unbegrenzt)
       -- Wir setzen max_lines auf 5, sodass genug Kontext (einschließlich Klassenname) immer sichtbar ist
-      max_lines = 5,  -- Zeigt mindestens 5 Zeilen, darunter auch die Klasse und Methode
+      max_lines = 6,  -- Zeigt mindestens 5 Zeilen, darunter auch die Klasse und Methode
       
       -- 'topline' sorgt für stabilere Anzeige des Kontexts (ähnlich zu VS Code/IntelliJ)
       -- Teste alternativ 'cursor' für andere Positionierung, falls die Anzeige stabiler sein soll
