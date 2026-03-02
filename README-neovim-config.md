@@ -295,7 +295,7 @@ nvim
 # Könnte nützlich sein
 
 sudo apt install htop
-sudo apt install btop
+sudo apt install btop # nvim ~/.config/btop/btop.conf
 sudo apt install nvtop
 sudo apt install ranger
 sudo apt install time
