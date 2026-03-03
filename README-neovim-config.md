@@ -7594,7 +7594,9 @@ vim.api.nvim_create_autocmd("FileType", {
       end
 
       open_terminal(20)
-      vim.api.nvim_buf_set_name(cargo.buf, "Cargo :: " .. title)
+      if cargo.buf and vim.api.nvim_buf_is_valid(cargo.buf) then
+        pcall(vim.api.nvim_buf_set_name, cargo.buf, "Cargo :: " .. title)
+      end
 
       cargo.job = vim.fn.termopen(cmd, {
         on_exit = function(_, code)
