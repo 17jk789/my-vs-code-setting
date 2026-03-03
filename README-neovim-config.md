@@ -3634,20 +3634,39 @@ code plugins/rust.lua
 -- }
 
 return {
+  -- {
+  --   "Saecki/crates.nvim",
+  --   ft = { "toml" },
+  --   dependencies = {
+  --     "nvim-lua/plenary.nvim",
+  --     -- "hrsh7th/nvim-cmp", -- blink.cmp braucht das nicht, sonst lädst du unnötig nvim-cmp mit
+  --   },
+  --   config = function()
+  --     require("crates").setup({
+  --       popup = {
+  --         border = "rounded",
+  --       },
+  --     })
+  --   end,
+  -- },
+
   {
     "Saecki/crates.nvim",
     ft = { "toml" },
+    event = { "BufRead Cargo.toml" }, -- lädt nur bei Cargo.toml
     dependencies = {
       "nvim-lua/plenary.nvim",
-      -- "hrsh7th/nvim-cmp", -- blink.cmp braucht das nicht, sonst lädst du unnötig nvim-cmp mit
     },
-    config = function()
-      require("crates").setup({
-        popup = {
-          border = "rounded",
+    opts = {
+      popup = {
+        border = "rounded",
+      },
+      completion = {
+        crates = {
+          enabled = true,
         },
-      })
-    end,
+      },
+    },
   },
 
   -- {
@@ -3670,36 +3689,22 @@ return {
 
   {
     "stevearc/aerial.nvim",
-    -- Lädt das Plugin nur, wenn du eine dieser Sprachen öffnest
-    ft = { "rust", "toml", "lua" }, 
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
-    },
+    ft = { "rust" }, -- toml/lua nicht nötig, wenn Rust-only
     keys = {
-      -- Professionelles Keybinding: Toggle mit <leader>a (a für Aerial)
-      { "<leader>rua", "<cmd>AerialToggle! right<CR>", desc = "Symbol Outline (Aerial)" },
+      { "<leader>rua", "<cmd>AerialToggle! right<CR>", desc = "Rust Outline" },
     },
     opts = {
+      backends = { "lsp" }, -- nur LSP wenn rust-analyzer gut konfiguriert
       layout = {
-        min_width = 30,
+        min_width = 35,
         default_direction = "right",
         placement = "window",
       },
       attach_mode = "global",
-      backends = { "lsp", "treesitter" },
       show_guides = true,
       close_on_select = true,
-      filter_kind = {
-        "Struct",
-        "Enum",
-        "Trait",
-        "Module",
-        "Function",
-        "Method",
-        "Constant",
-      },
-    }
+      filter_kind = false, -- professioneller: nichts hart filtern
+    },
   }
 }
 
@@ -7543,7 +7548,17 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrR", function() cargo("run --release") end, { desc = "Cargo Run Release (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrBR", function() cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
 
+    -- Cargo Test (professionell)
     local cargo_test_job = nil
+
+    -- Rust errorformat (wie :compiler rust)
+    local function set_rust_errorformat()
+      vim.bo.errorformat =
+        "%Eerror[E%n]: %m," ..
+        "%Eerror: %m," ..
+        "%Wwarning: %m," ..
+        "%-G%.%#"
+    end
 
     local function run_cargo_test(args)
       if cargo_test_job then
@@ -7551,65 +7566,74 @@ vim.api.nvim_create_autocmd("FileType", {
         return
       end
 
-      vim.cmd("copen")
-      vim.fn.setqflist({}, "r") -- Quickfix leeren
+      set_rust_errorformat()
+      vim.fn.setqflist({}, "r")
 
-      cargo_test_job = vim.fn.jobstart(
-        vim.split("cargo test " .. args .. " --message-format=short", " "),
-        {
-          stdout_buffered = true,
-          stderr_buffered = true,
-          on_stdout = function(_, data)
-            if data then
-              for _, line in ipairs(data) do
-                -- nur fehlgeschlagene Tests in Quickfix
-                if line:match("error") or line:match("FAILED") then
-                  vim.fn.setqflist({}, "a", { lines = { line }, title = "Cargo Test Failed" })
-                end
-              end
-            end
-          end,
-          on_stderr = function(_, data)
-            if data then
-              for _, line in ipairs(data) do
-                if line:match("error") then
-                  vim.fn.setqflist({}, "a", { lines = { line } })
-                end
-              end
-            end
-          end,
-          on_exit = function()
-            cargo_test_job = nil
-            vim.notify("Cargo-Test beendet")
-          end,
-        }
-      )
+      local cmd = { "cargo", "test" }
+      vim.list_extend(cmd, args)
+      table.insert(cmd, "--message-format=short")
+
+      cargo_test_job = vim.fn.jobstart(cmd, {
+        stdout_buffered = true,
+        stderr_buffered = true,
+
+        on_exit = function(_, code)
+          cargo_test_job = nil
+
+          if code == 0 then
+            vim.schedule(function()
+              vim.notify("Cargo-Test erfolgreich ✅")
+              vim.cmd("cclose")
+            end)
+          else
+            vim.schedule(function()
+              vim.notify("Cargo-Test fehlgeschlagen ❌", vim.log.levels.ERROR)
+              vim.cmd("copen")
+            end)
+          end
+        end,
+
+        on_stdout = function(_, data)
+          if not data then return end
+          vim.fn.setqflist({}, "a", {
+            lines = data,
+            efm = vim.bo.errorformat,
+          })
+        end,
+
+        on_stderr = function(_, data)
+          if not data then return end
+          vim.fn.setqflist({}, "a", {
+            lines = data,
+            efm = vim.bo.errorformat,
+          })
+        end,
+      })
     end
- 
-    -- Workspace Tests
+
+    -- Workspace
     vim.keymap.set("n", "<leader>rrt", function()
-      run_cargo_test("")
+      run_cargo_test({})
     end, { desc = "Cargo Test (Workspace)", silent = true, buffer = true })
 
-    -- Workspace Tests No-Capture
+    -- No Capture
     vim.keymap.set("n", "<leader>rrT", function()
-      run_cargo_test("-- --nocapture")
+      run_cargo_test({ "--", "--nocapture" })
     end, { desc = "Cargo Test No-Capture", silent = true, buffer = true })
 
-    -- Nearest Test unter Cursor
+    -- Test unter Cursor
     vim.keymap.set("n", "<leader>rrf", function()
       local testname = vim.fn.expand("<cword>")
-      run_cargo_test(testname .. " -- --nocapture")
-    end, { desc = "Cargo Test Current Word", silent = true, buffer = true })
+      run_cargo_test({ testname, "--", "--nocapture" })
+    end, { desc = "Cargo Test Current", silent = true, buffer = true })
 
-    -- File/Module Tests (Unit + Integration)
+    -- File / Integration Test
     vim.keymap.set("n", "<leader>tnf", function()
-      local file = vim.fn.expand("%:t:r") -- Dateiname ohne Extension
-      -- Integrationstest oder Modulname
-      run_cargo_test("--test " .. file .. " -- --nocapture")
-    end, { desc = "Cargo Test (File/Module)", silent = true, buffer = true })
+      local file = vim.fn.expand("%:t:r")
+      run_cargo_test({ "--test", file, "--", "--nocapture" })
+    end, { desc = "Cargo Test File", silent = true, buffer = true })
 
-    -- Stop Test
+    -- Stop
     vim.keymap.set("n", "<leader>tnx", function()
       if cargo_test_job then
         vim.fn.jobstop(cargo_test_job)
@@ -7621,13 +7645,11 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Cargo Test Stop", buffer = true })
 
     -- Quickfix Toggle
-    vim.keymap.set("n", "<leader>tnp", function()
-      vim.cmd("cwindow")
-    end, { desc = "Quickfix Toggle", buffer = true })
+    vim.keymap.set("n", "<leader>tnp", "<cmd>cwindow<CR>",
+      { desc = "Quickfix Toggle", buffer = true })
 
-    -- Fehler Navigation
-    vim.keymap.set("n", "]t", function() vim.cmd("cnext") end, { desc = "Next Error", buffer = true })
-    vim.keymap.set("n", "[t", function() vim.cmd("cprev") end, { desc = "Prev Error", buffer = true })
+    vim.keymap.set("n", "]t", "<cmd>cnext<CR>", { buffer = true })
+    vim.keymap.set("n", "[t", "<cmd>cprev<CR>", { buffer = true })
 
     -- Security Audit
     vim.keymap.set("n", "<leader>rrA", function() cargo("audit") end, { desc = "Cargo Audit (Split)", silent = true, buffer = true }) -- Projekt auf Lücken prüfen
