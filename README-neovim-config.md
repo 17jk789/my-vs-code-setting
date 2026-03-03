@@ -7593,17 +7593,25 @@ vim.api.nvim_create_autocmd("FileType", {
         return
       end
 
-      open_terminal(20)
-      if cargo.buf and vim.api.nvim_buf_is_valid(cargo.buf) then
-        pcall(vim.api.nvim_buf_set_name, cargo.buf, "Cargo :: " .. title)
-      end
+      -- open_terminal(20)
+      cargo.buf = vim.api.nvim_create_buf(false, true) -- scratch buffer
+      vim.api.nvim_open_win(cargo.buf, true, {
+        relative = "editor",
+        width = vim.o.columns,
+        height = 20,
+        row = vim.o.lines - 20,
+        col = 0,
+        style = "minimal",
+        border = { "─", "─", "─", " ", " ", " ", " ", " " }, 
+      })
+      vim.api.nvim_buf_set_name(cargo.buf, "Cargo :: " .. title)
 
       cargo.job = vim.fn.termopen(cmd, {
         on_exit = function(_, code)
           vim.schedule(function()
             local status = code == 0 and "SUCCESS" or "FAILURE"
-
             if cargo.buf and vim.api.nvim_buf_is_valid(cargo.buf) then
+              vim.api.nvim_buf_set_option(cargo.buf, "modifiable", true)
               vim.api.nvim_buf_set_lines(cargo.buf, -1, -1, false, {
                 "",
                 "===================================================",
@@ -7614,8 +7622,8 @@ vim.api.nvim_create_autocmd("FileType", {
                 "===================================================",
                 "",
               })
+              vim.api.nvim_buf_set_option(cargo.buf, "modifiable", false)  -- lock it again
             end
-
             reset_state()
           end)
         end,
@@ -8461,6 +8469,7 @@ vim.api.nvim_create_autocmd("FileType", {
     )
   end,
 })
+
 ```
 
 ## plugins/mason.lua
