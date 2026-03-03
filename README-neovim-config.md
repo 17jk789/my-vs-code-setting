@@ -4659,6 +4659,12 @@ return {
     config = function()
       -- require("java").setup() -- Doppeltes require("java").setup() vermeiden Sonst: Debug/Test Bugs, Code-Actions verschwinden manchmal, doppelte LSP-Attachs, wird aber dennoch benötigt!
       -- Setup nvim-java
+
+      local handlers = {
+        -- ["language/status"] = function(_, _) end,
+        ["$/progress"] = function(_, _) end,
+      }
+
       require("java").setup(
         -- {
           -- jdk = {
@@ -4852,6 +4858,8 @@ return {
       -- })
 
       vim.lsp.config('jdtls', {
+        handlers = handlers,
+
         settings = {
           java = {
             -- eclipse = {
@@ -5065,6 +5073,13 @@ return {
       --       async = false,
       --     })
       --   end,
+      -- })
+
+      -- vim.diagnostic.config({
+      --   virtual_text = false,     -- Entfernt den Text hinter dem Code
+      --   underline = true,        -- Fehler werden nur unterstrichen
+      --   update_in_insert = false, -- Erst beim Verlassen des Insert-Modes prüfen
+      --   severity_sort = true,
       -- })
     end,
 
