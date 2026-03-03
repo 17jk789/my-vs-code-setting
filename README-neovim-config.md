@@ -7653,6 +7653,24 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- Keymaps
 
+    -- Funktion, die alle drei Cargo-Kommandos nacheinander ausführt
+    local function cargo_all()
+        -- Build & Run
+        cargo("build && cargo run")
+        -- Test
+        cargo_test({})
+        -- Audit
+        cargo("audit")
+    end
+
+    -- Keymap für die kombinierte Ausführung
+    vim.keymap.set(
+        "n",
+        "<leader>rrra",
+        cargo_all,
+        { desc = "Cargo Build, Run, Test & Audit", silent = true, buffer = true }
+    )
+
     vim.keymap.set("n", "<leader>rrt", function()
       cargo_test({})
     end, { desc = "Cargo Test (Workspace)", silent = true, buffer = true })
