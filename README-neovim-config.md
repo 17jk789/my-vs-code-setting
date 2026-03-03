@@ -7548,147 +7548,57 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrR", function() cargo("run --release") end, { desc = "Cargo Run Release (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrBR", function() cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
 
-    -- Cargo Test (Professional Detailed Runner)
+    -- Cargo Test (Professional Terminal Runner)
 
-    local cargo_test_job = nil
-    local test_output = {}
+    local cargo_test_term = nil
 
-    local function set_rust_errorformat()
-      vim.bo.errorformat =
-        "%Eerror[E%n]: %m," ..
-        "%Eerror: %m," ..
-        "%Wwarning: %m," ..
-        "%-G%.%#"
-    end
-
-    local function print_success_report(summary)
-      local lines = {
-        "================ Cargo Test Report ================",
-        "",
-        "Status      : SUCCESS",
-        "Total Tests : " .. (summary.total or "N/A"),
-        "Passed      : " .. (summary.passed or "N/A"),
-        "Failed      : 0",
-        "Ignored     : " .. (summary.ignored or "0"),
-        "Measured    : " .. (summary.measured or "0"),
-        "Filtered Out: " .. (summary.filtered or "0"),
-        "Duration    : " .. (summary.time or "Unknown"),
-        "",
-        "All tests passed successfully.",
-        "===================================================",
-      }
-
-      vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO, { title = "Cargo Test" })
-    end
-
-    local function print_failure_report(summary, failed_tests)
-      local lines = {
-        "================ Cargo Test Report ================",
-        "",
-        "Status      : FAILURE",
-        "Total Tests : " .. (summary.total or "N/A"),
-        "Passed      : " .. (summary.passed or "N/A"),
-        "Failed      : " .. (summary.failed or "N/A"),
-        "Ignored     : " .. (summary.ignored or "0"),
-        "Measured    : " .. (summary.measured or "0"),
-        "Filtered Out: " .. (summary.filtered or "0"),
-        "Duration    : " .. (summary.time or "Unknown"),
-        "",
-        "Failed Tests:",
-      }
-
-      for _, test in ipairs(failed_tests) do
-        table.insert(lines, "  - " .. test)
-      end
-
-      table.insert(lines, "")
-      table.insert(lines, "See Quickfix for detailed diagnostics.")
-      table.insert(lines, "===================================================")
-
-      vim.notify(table.concat(lines, "\n"), vim.log.levels.ERROR, { title = "Cargo Test" })
-    end
-
-    local function parse_test_summary(output)
-      local summary = {}
-      local failed_tests = {}
-
-      for _, line in ipairs(output) do
-        -- Collect failed test names
-        local failed = line:match("^test (.+) %.%.%. FAILED$")
-        if failed then
-          table.insert(failed_tests, failed)
-        end
-
-        -- Parse summary line
-        local total, passed, failed_count, ignored, measured, filtered, time =
-          line:match("test result: (%a+). (%d+) passed; (%d+) failed; (%d+) ignored; (%d+) measured; (%d+) filtered out; finished in ([%d%.]+%w+)")
-
-        if total then
-          summary.total = tonumber(passed) + tonumber(failed_count)
-          summary.passed = tonumber(passed)
-          summary.failed = tonumber(failed_count)
-          summary.ignored = tonumber(ignored)
-          summary.measured = tonumber(measured)
-          summary.filtered = tonumber(filtered)
-          summary.time = time
-        end
-      end
-
-      return summary, failed_tests
+    local function open_terminal()
+      vim.cmd("botright split")
+      vim.cmd("resize 15")
+      vim.cmd("terminal")
+      cargo_test_term = vim.b.terminal_job_id
     end
 
     local function run_cargo_test(args)
-      if cargo_test_job then
-        vim.notify("A cargo test process is already running.", vim.log.levels.WARN)
+      if cargo_test_term then
+        vim.notify("A cargo test session is already running.", vim.log.levels.WARN)
         return
       end
 
-      test_output = {}
-      set_rust_errorformat()
-      vim.fn.setqflist({}, "r")
+      open_terminal()
 
-      local cmd = { "cargo", "test" }
-      vim.list_extend(cmd, args)
-      table.insert(cmd, "--color=never")
+      local cmd = {
+        "cargo", "test",
+        "--color=always",
+        "--all-targets",
+      }
 
-      cargo_test_job = vim.fn.jobstart(cmd, {
-        stdout_buffered = false,
-        stderr_buffered = false,
+      -- extend args safely
+      for _, a in ipairs(args) do
+        table.insert(cmd, a)
+      end
 
-        on_stdout = function(_, data)
-          if not data then return end
-          for _, line in ipairs(data) do
-            if line ~= "" then
-              table.insert(test_output, line)
-            end
-          end
-          vim.fn.setqflist({}, "a", { lines = data, efm = vim.bo.errorformat })
-        end,
+      -- We append a professional summary using shell logic
+      local full_cmd = table.concat(cmd, " ") ..
+        [[ ; status=$?; 
+        echo "";
+        echo "===================================================";
+        if [ $status -eq 0 ]; then
+          echo "Cargo Test Summary: SUCCESS";
+        else
+          echo "Cargo Test Summary: FAILURE";
+        fi;
+        echo "Finished at: $(date)";
+        echo "===================================================";
+        exit $status]]
 
-        on_stderr = function(_, data)
-          if not data then return end
-          for _, line in ipairs(data) do
-            if line ~= "" then
-              table.insert(test_output, line)
-            end
-          end
-          vim.fn.setqflist({}, "a", { lines = data, efm = vim.bo.errorformat })
-        end,
+      vim.fn.chansend(cargo_test_term, full_cmd .. "\n")
 
-        on_exit = function(_, code)
-          cargo_test_job = nil
-
-          vim.schedule(function()
-            local summary, failed_tests = parse_test_summary(test_output)
-
-            if code == 0 then
-              vim.cmd("cclose")
-              print_success_report(summary)
-            else
-              vim.cmd("copen")
-              print_failure_report(summary, failed_tests)
-            end
-          end)
+      -- reset handle when terminal closes
+      vim.api.nvim_create_autocmd("TermClose", {
+        once = true,
+        callback = function()
+          cargo_test_term = nil
         end,
       })
     end
@@ -7701,9 +7611,9 @@ vim.api.nvim_create_autocmd("FileType", {
     -- No Capture
     vim.keymap.set("n", "<leader>rrT", function()
       run_cargo_test({ "--", "--nocapture" })
-    end, { desc = "Cargo Test No-Capture", silent = true, buffer = true })
+    end, { desc = "Cargo Test No Capture", silent = true, buffer = true })
 
-    -- Test unter Cursor
+    -- Current Test Under Cursor
     vim.keymap.set("n", "<leader>rrf", function()
       local testname = vim.fn.expand("<cword>")
       run_cargo_test({ testname, "--", "--nocapture" })
