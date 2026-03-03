@@ -2717,6 +2717,10 @@ return {
                 },
               },
 
+              formatting = {
+                useCrate = true,  -- verwendet rustfmt
+              },
+
               cargo = {
                 allFeatures = true,
                 buildScripts = { enable = true },
@@ -8293,6 +8297,7 @@ return {
       ensure_installed = {
         -- Rust:
         "rust-analyzer",
+        "rustfmt",
 
         -- C++: 
         "clangd",
@@ -8309,6 +8314,7 @@ return {
         -- "java-debug-adapter", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "java-test", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "vscode-java-test",
+        -- "kotlin_language_server",
 
         -- Python:
         -- "pyright", 
@@ -8339,6 +8345,27 @@ return {
 
         -- Zig:
         -- "zls",
+
+        -- C#
+				-- "omnisharp",
+
+        -- Bash
+				-- "bashls",
+
+        -- Julia
+				-- "julials",
+
+				-- Clojure
+				-- "clojure_lsp",
+
+        -- Nim
+				-- "nim_langserver",
+
+				-- JSON
+				-- "jsonls",
+
+				-- YAML
+				-- "yamlls",
       },
     },
   },
