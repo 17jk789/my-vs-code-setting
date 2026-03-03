@@ -7543,10 +7543,8 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrR", function() cargo("run --release") end, { desc = "Cargo Run Release (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrBR", function() cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
 
-    -- Helper: laufender Cargo-Test-Job
     local cargo_test_job = nil
 
-    -- Professionelle Rust-Test-Keymaps
     local function run_cargo_test(args)
       if cargo_test_job then
         vim.notify("Ein Test läuft bereits!", vim.log.levels.WARN)
@@ -7557,18 +7555,27 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.fn.setqflist({}, "r") -- Quickfix leeren
 
       cargo_test_job = vim.fn.jobstart(
-        vim.split("cargo test " .. args, " "),
+        vim.split("cargo test " .. args .. " --message-format=short", " "),
         {
           stdout_buffered = true,
           stderr_buffered = true,
           on_stdout = function(_, data)
             if data then
-              vim.fn.setqflist({}, "a", { lines = data, title = "Cargo Test Output" })
+              for _, line in ipairs(data) do
+                -- nur fehlgeschlagene Tests in Quickfix
+                if line:match("error") or line:match("FAILED") then
+                  vim.fn.setqflist({}, "a", { lines = { line }, title = "Cargo Test Failed" })
+                end
+              end
             end
           end,
           on_stderr = function(_, data)
             if data then
-              vim.fn.setqflist({}, "a", { lines = data })
+              for _, line in ipairs(data) do
+                if line:match("error") then
+                  vim.fn.setqflist({}, "a", { lines = { line } })
+                end
+              end
             end
           end,
           on_exit = function()
@@ -7578,7 +7585,7 @@ vim.api.nvim_create_autocmd("FileType", {
         }
       )
     end
-
+ 
     -- Workspace Tests
     vim.keymap.set("n", "<leader>rrt", function()
       run_cargo_test("")
@@ -8400,7 +8407,6 @@ vim.api.nvim_create_autocmd("FileType", {
     )
   end,
 })
-
 ```
 
 ## plugins/mason.lua
