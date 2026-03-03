@@ -95,6 +95,7 @@ This repository is released under the **Apache License 2.0**.
 - [Ghostty Configuration](#ghostty-configuration)
 - [Alacritty Configuration](#alacritty-configuration)
   - [oh-my-posh](#oh-my-posh)
+  - [ranger](#ranger)
 - [LazyVim Configuration](#lazyvim-configuration)
   - [Struktur](#struktur)
   - [init.lua](#initlua)
@@ -831,7 +832,7 @@ EOF
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build
 ln -s build/compile_commands.json .
-echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ~/.clang-format
+echo -e "---\nLanguage: Cpp\nBasedOnStyle: Google\nIndentWidth: 4\nTabWidth: 4\nUseTab: Never\n..." > ./.clang-format
 
 echo ""
 echo "✅ C-Projekt '$PROJECT_NAME' bereit!"
