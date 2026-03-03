@@ -172,7 +172,7 @@ sudo apt install curl wget unzip build-essential cmark fzf luarocks gcc-multilib
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
 # cargo install --locked critcmp
-cargo install --locked cargo-nextest cargo-audit
+cargo install --locked cargo-nextest cargo-audit cargo-auditable cargo-deny 
 # cargo install --locked cargo-watch cargo-expand 
 sudo apt install make golang-go
 
@@ -525,6 +525,7 @@ chmod -R 700 /home/jk/.local/share/jupyter/runtime
 ```bash
 cargo new mein_rust_projekt
 cd mein_rust_projekt
+cargo deny init
 nvim .
 ```
 
@@ -7691,8 +7692,53 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "]t", "<cmd>cnext<CR>", { buffer = true })
     vim.keymap.set("n", "[t", "<cmd>cprev<CR>", { buffer = true })
 
-    -- Security Audit
-    vim.keymap.set("n", "<leader>rrA", function() my_cargo("audit") end, { desc = "Cargo Audit (Split)", silent = true, buffer = true }) -- Projekt auf Lücken prüfen
+    -- Standard Audit
+    vim.keymap.set("n", "<leader>rrAa", function() my_cargo("audit") end, { desc = "Cargo Audit", silent = true, buffer = true })
+
+    -- Versucht Sicherheitslücken direkt zu beheben (aktualisiert Cargo.toml/lock)
+    vim.keymap.set("n", "<leader>rrAf", function() my_cargo("audit fix") end, { desc = "Cargo Audit Fix", silent = true, buffer = true })
+
+    -- Zeigt auch Warnungen für bereits veraltete (yanked) Crates an
+    vim.keymap.set("n", "<leader>rrAy", function() my_cargo("audit --yanked") end, { desc = "Cargo Audit (Yanked)", silent = true, buffer = true })
+
+    -- Ignoriert die Datenbank-Aktualisierung (schneller, wenn man gerade erst geupdatet hat)
+    vim.keymap.set("n", "<leader>rrAn", function() my_cargo("audit -n") end, { desc = "Cargo Audit (No-Fetch)", silent = true, buffer = true })
+
+    -- Bonus: Cargo Deny (falls installiert, prüft auch Lizenzen und Dubletten)
+    vim.keymap.set("n", "<leader>rrAd", function() my_cargo("deny check") end, { desc = "Cargo Deny Check", silent = true, buffer = true })
+
+    -- Hilfsfunktion um den Projektnamen (Binärdatei) zu finden
+    local function get_project_name()
+      local toml = vim.fn.findfile("Cargo.toml", ".;")
+      if toml ~= "" then
+        for line in io.lines(toml) do
+          local name = line:match('^name%s*=%s*"(.-)"')
+          if name then return name end
+        end
+      end
+      return nil
+    end
+
+    -- Der neue Befehl für Binaries
+    vim.keymap.set("n", "<leader>rrAb", function()
+      local name = get_project_name()
+      if name then
+        -- Prüft die Debug-Binary auf Sicherheitslücken
+        my_cargo("audit bin target/debug/" .. name)
+      else
+        print("Cargo.toml nicht gefunden!")
+      end
+    end, { desc = "Cargo Audit Binary (Debug)", silent = true, buffer = true })
+
+    -- Optional: Audit für die Release-Binary (optimiert)
+    vim.keymap.set("n", "<leader>rrAB", function()
+      local name = get_project_name()
+      if name then
+        my_cargo("audit bin target/release/" .. name)
+      else
+        print("Cargo.toml nicht gefunden!")
+      end
+    end, { desc = "Cargo Audit Binary (Release)", silent = true, buffer = true })
 
     -- Benchmarks & Performance
     vim.keymap.set("n", "<leader>rrBB", function() my_cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true }) -- Alle Benchmarks ausführen
