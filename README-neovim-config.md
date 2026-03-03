@@ -7548,75 +7548,93 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrR", function() cargo("run --release") end, { desc = "Cargo Run Release (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrBR", function() cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
 
-    -- Cargo Test (Professional Terminal Runner)
+    -- Professional Cargo Terminal Runner
 
-    local cargo_test_term = nil
+    local cargo_term_buf = nil
+    local cargo_term_job = nil
 
-    local function open_terminal()
-      vim.cmd("botright split")
-      vim.cmd("resize 15")
+    local function open_terminal(height)
+      height = height or 18
+
+      vim.cmd("botright " .. height .. "split")
       vim.cmd("terminal")
-      cargo_test_term = vim.b.terminal_job_id
+
+      cargo_term_buf = vim.api.nvim_get_current_buf()
+      cargo_term_job = vim.b.terminal_job_id
     end
 
-    local function run_cargo_test(args)
-      if cargo_test_term then
-        vim.notify("A cargo test session is already running.", vim.log.levels.WARN)
+    local function close_terminal_state()
+      cargo_term_buf = nil
+      cargo_term_job = nil
+    end
+
+    local function run_cargo_command(cmd, title)
+      if cargo_term_job then
+        vim.notify("A Cargo process is already running.", vim.log.levels.WARN)
         return
       end
 
-      open_terminal()
+      open_terminal(20)
 
-      local cmd = {
-        "cargo", "test",
-        "--color=always",
-        "--all-targets",
-      }
+      vim.api.nvim_buf_set_name(cargo_term_buf, "Cargo :: " .. title)
 
-      -- extend args safely
-      for _, a in ipairs(args) do
-        table.insert(cmd, a)
-      end
+      cargo_term_job = vim.fn.termopen(cmd, {
+        on_exit = function(_, code)
+          vim.schedule(function()
+            local status = code == 0 and "SUCCESS" or "FAILURE"
 
-      -- We append a professional summary using shell logic
-      local full_cmd = table.concat(cmd, " ") ..
-        [[ ; status=$?; 
-        echo "";
-        echo "===================================================";
-        if [ $status -eq 0 ]; then
-          echo "Cargo Test Summary: SUCCESS";
-        else
-          echo "Cargo Test Summary: FAILURE";
-        fi;
-        echo "Finished at: $(date)";
-        echo "===================================================";
-        exit $status]]
+            local summary = {
+              "",
+              "===================================================",
+              "Cargo Command  : " .. title,
+              "Exit Code      : " .. code,
+              "Status         : " .. status,
+              "Finished At    : " .. os.date("%Y-%m-%d %H:%M:%S"),
+              "===================================================",
+              "",
+            }
 
-      vim.fn.chansend(cargo_test_term, full_cmd .. "\n")
-
-      -- reset handle when terminal closes
-      vim.api.nvim_create_autocmd("TermClose", {
-        once = true,
-        callback = function()
-          cargo_test_term = nil
+            vim.api.nvim_chan_send(cargo_term_job, table.concat(summary, "\n"))
+            close_terminal_state()
+          end)
         end,
       })
     end
 
-    -- Workspace Test
+    -- ==========================================
+    -- Cargo Test
+    -- ==========================================
+
+    local function cargo_test(args)
+      local cmd = {
+        "env",
+        "RUST_BACKTRACE=1",
+        "cargo",
+        "test",
+        "--all-targets",
+        "--color=always",
+        "--",
+        "--show-output",
+      }
+
+      for _, a in ipairs(args or {}) do
+        table.insert(cmd, a)
+      end
+
+      run_cargo_command(cmd, "cargo test")
+    end
+
     vim.keymap.set("n", "<leader>rrt", function()
-      run_cargo_test({})
+      cargo_test({})
     end, { desc = "Cargo Test (Workspace)", silent = true, buffer = true })
 
-    -- No Capture
     vim.keymap.set("n", "<leader>rrT", function()
-      run_cargo_test({ "--", "--nocapture" })
+      cargo_test({ "--nocapture" })
     end, { desc = "Cargo Test No Capture", silent = true, buffer = true })
 
-    -- Current Test Under Cursor
     vim.keymap.set("n", "<leader>rrf", function()
       local testname = vim.fn.expand("<cword>")
-      run_cargo_test({ testname, "--", "--nocapture" })
+      cargo_test({ testname, "--nocapture" })
     end, { desc = "Cargo Test Current", silent = true, buffer = true })
 
     -- File / Integration Test
@@ -7645,6 +7663,19 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- Security Audit
     vim.keymap.set("n", "<leader>rrA", function() cargo("audit") end, { desc = "Cargo Audit (Split)", silent = true, buffer = true }) -- Projekt auf Lücken prüfen
+
+    local function cargo_audit()
+      local cmd = {
+        "cargo",
+        "audit",
+      }
+
+      run_cargo_command(cmd, "cargo audit")
+    end
+
+    vim.keymap.set("n", "<leader>rrra", function()
+      cargo_audit()
+    end, { desc = "Cargo Audit (Security Check)", silent = true, buffer = true })
 
     -- Benchmarks & Performance
     vim.keymap.set("n", "<leader>rrBB", function() cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true }) -- Alle Benchmarks ausführen
