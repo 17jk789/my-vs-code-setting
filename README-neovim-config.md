@@ -386,19 +386,44 @@ nvim .
 
 # create-python-pro.sh
 
-# Prüfen, ob der Benutzer ein Argument übergeben hat
-if [ "$1" != "new" ] || [ -z "$2" ]; then
+# # Prüfen, ob der Benutzer ein Argument übergeben hat
+# if [ "$1" != "new" ] || [ -z "$2" ]; then
+#     echo "Usage: $0 new <projektname>"
+#     exit 1
+# fi
+
+# PROJECT_NAME=$2
+
+# # Projektordner erstellen und wechseln
+# mkdir "$PROJECT_NAME"
+# cd "$PROJECT_NAME" || exit
+
+# # Virtuelle Umgebung erstellen
+# python3 -m venv venv
+
+# create-python-pro.sh
+set -e
+
+# Prüfen auf korrekte Argumente
+if [[ "$1" != "new" ]] || [[ -z "$2" ]]; then
     echo "Usage: $0 new <projektname>"
     exit 1
 fi
 
 PROJECT_NAME=$2
+PROJECT_DIR="$(pwd)/$PROJECT_NAME"
 
-# Projektordner erstellen und wechseln
-mkdir "$PROJECT_NAME"
-cd "$PROJECT_NAME" || exit
+# Prüfen, ob Ordner existiert
+if [[ -d "$PROJECT_DIR" ]]; then
+    echo "❌ Fehler: Ordner $PROJECT_NAME existiert hier bereits!"
+    exit 1
+fi
 
-# Virtuelle Umgebung erstellen
+# Struktur erstellen (src-Layout wird für 2025 empfohlen)
+mkdir -p "$PROJECT_DIR/src" "$PROJECT_DIR/tests"
+cd "$PROJECT_DIR"
+
+# Virtuelle Umgebung (venv) erstellen
 python3 -m venv venv
 
 # Virtuelle Umgebung aktivieren
@@ -428,19 +453,44 @@ pip install --upgrade pip
 
 # create-python-pro.sh
 
-# Prüfen, ob der Benutzer ein Argument übergeben hat
-if [ "$1" != "new" ] || [ -z "$2" ]; then
+# # Prüfen, ob der Benutzer ein Argument übergeben hat
+# if [ "$1" != "new" ] || [ -z "$2" ]; then
+#     echo "Usage: $0 new <projektname>"
+#     exit 1
+# fi
+
+# PROJECT_NAME=$2
+
+# # Projektordner erstellen und wechseln
+# mkdir "$PROJECT_NAME"
+# cd "$PROJECT_NAME" || exit
+
+# # Virtuelle Umgebung erstellen
+# python3 -m venv venv
+
+# create-python-pro.sh
+set -e
+
+# Prüfen auf korrekte Argumente
+if [[ "$1" != "new" ]] || [[ -z "$2" ]]; then
     echo "Usage: $0 new <projektname>"
     exit 1
 fi
 
 PROJECT_NAME=$2
+PROJECT_DIR="$(pwd)/$PROJECT_NAME"
 
-# Projektordner erstellen und wechseln
-mkdir "$PROJECT_NAME"
-cd "$PROJECT_NAME" || exit
+# Prüfen, ob Ordner existiert
+if [[ -d "$PROJECT_DIR" ]]; then
+    echo "❌ Fehler: Ordner $PROJECT_NAME existiert hier bereits!"
+    exit 1
+fi
 
-# Virtuelle Umgebung erstellen
+# Struktur erstellen (src-Layout wird für 2025 empfohlen)
+mkdir -p "$PROJECT_DIR/src" "$PROJECT_DIR/tests"
+cd "$PROJECT_DIR"
+
+# Virtuelle Umgebung (venv) erstellen
 python3 -m venv venv
 
 # Virtuelle Umgebung aktivieren
@@ -708,7 +758,8 @@ if [[ "$COMMAND" != "new" ]] || [[ -z "$PROJECT_NAME" ]]; then
   exit 1
 fi
 
-PROJECT_DIR="$HOME/$PROJECT_NAME"
+# PROJECT_DIR="$HOME/$PROJECT_NAME"
+PROJECT_DIR="$(pwd)/$PROJECT_NAME"
 
 if [[ -d "$PROJECT_DIR" ]]; then
   echo "❌ Fehler: $PROJECT_DIR existiert schon!"
@@ -791,7 +842,8 @@ if [[ "$COMMAND" != "new" ]] || [[ -z "$PROJECT_NAME" ]]; then
   exit 1
 fi
 
-PROJECT_DIR="$HOME/$PROJECT_NAME"
+# PROJECT_DIR="$HOME/$PROJECT_NAME"
+PROJECT_DIR="$(pwd)/$PROJECT_NAME"
 
 if [[ -d "$PROJECT_DIR" ]]; then
   echo "❌ Fehler: $PROJECT_DIR existiert schon!"
