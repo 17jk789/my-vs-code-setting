@@ -3649,31 +3649,58 @@ return {
       })
     end,
   },
+
+  -- {
+  --   "nvim-neotest/neotest",
+  --   dependencies = {
+  --     "nvim-neotest/nvim-nio",
+  --     "rouge8/neotest-rust", -- Dieser Adapter ist LSP-unabhängig - aber This repository was archived by the owner on Aug 19, 2025. It is now read-only. 
+  --   },
+  --   config = function()
+  --     require("neotest").setup({
+  --       adapters = {
+  --         require("neotest-rust")({
+  --           args = { "--nocapture" },
+  --           -- Er erkennt Tests über Treesitter, egal was dein LSP macht
+  --         }),
+  --       },
+  --     })
+  --   end,
+  -- },
+
   {
-    "nvim-neotest/neotest",
+    "stevearc/aerial.nvim",
+    -- Lädt das Plugin nur, wenn du eine dieser Sprachen öffnest
+    ft = { "rust", "toml", "lua" }, 
     dependencies = {
-      "nvim-neotest/neotest-rust", -- Für Rust-Unterstützung
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
     },
-    ft = { "rust" },
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-rust"),
-        },
-      })
-    end,
-  },
-  {
-    "simrat39/symbols-outline.nvim",
-    ft = { "rust" },
-    config = function()
-      require("symbols-outline").setup({
-        highlight_hovered_item = true,
-        show_guides = true,
-        auto_close = false,
-      })
-    end,
-  },
+    keys = {
+      -- Professionelles Keybinding: Toggle mit <leader>a (a für Aerial)
+      { "<leader>rua", "<cmd>AerialToggle! right<CR>", desc = "Symbol Outline (Aerial)" },
+    },
+    opts = {
+      layout = {
+        min_width = 30,
+        default_direction = "right",
+        placement = "window",
+      },
+      attach_mode = "global",
+      backends = { "lsp", "treesitter" },
+      show_guides = true,
+      close_on_select = true,
+      filter_kind = {
+        "Struct",
+        "Enum",
+        "Trait",
+        "Module",
+        "Function",
+        "Method",
+        "Constant",
+      },
+    }
+  }
 }
 
 ```
@@ -7516,12 +7543,84 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrR", function() cargo("run --release") end, { desc = "Cargo Run Release (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrBR", function() cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
 
-    -- Tests (professionell erweitert)
-    vim.keymap.set("n", "<leader>rrt", function() cargo("test") end, { desc = "Cargo Test (Split)", silent = true, buffer = true })
-    vim.keymap.set("n", "<leader>rrT", function() cargo("test -- --nocapture") end, { desc = "Cargo Test No-Capture (Split)", silent = true, buffer = true })
+    -- Helper: laufender Cargo-Test-Job
+    local cargo_test_job = nil
+
+    -- Professionelle Rust-Test-Keymaps
+    local function run_cargo_test(args)
+      if cargo_test_job then
+        vim.notify("Ein Test läuft bereits!", vim.log.levels.WARN)
+        return
+      end
+
+      vim.cmd("copen")
+      vim.fn.setqflist({}, "r") -- Quickfix leeren
+
+      cargo_test_job = vim.fn.jobstart(
+        vim.split("cargo test " .. args, " "),
+        {
+          stdout_buffered = true,
+          stderr_buffered = true,
+          on_stdout = function(_, data)
+            if data then
+              vim.fn.setqflist({}, "a", { lines = data, title = "Cargo Test Output" })
+            end
+          end,
+          on_stderr = function(_, data)
+            if data then
+              vim.fn.setqflist({}, "a", { lines = data })
+            end
+          end,
+          on_exit = function()
+            cargo_test_job = nil
+            vim.notify("Cargo-Test beendet")
+          end,
+        }
+      )
+    end
+
+    -- Workspace Tests
+    vim.keymap.set("n", "<leader>rrt", function()
+      run_cargo_test("")
+    end, { desc = "Cargo Test (Workspace)", silent = true, buffer = true })
+
+    -- Workspace Tests No-Capture
+    vim.keymap.set("n", "<leader>rrT", function()
+      run_cargo_test("-- --nocapture")
+    end, { desc = "Cargo Test No-Capture", silent = true, buffer = true })
+
+    -- Nearest Test unter Cursor
     vim.keymap.set("n", "<leader>rrf", function()
-      cargo("test " .. vim.fn.expand("<cword>"))
-    end, { desc = "Cargo Test Current Word (Split)", silent = true, buffer = true }) -- Test unter Cursor
+      local testname = vim.fn.expand("<cword>")
+      run_cargo_test(testname .. " -- --nocapture")
+    end, { desc = "Cargo Test Current Word", silent = true, buffer = true })
+
+    -- File/Module Tests (Unit + Integration)
+    vim.keymap.set("n", "<leader>tnf", function()
+      local file = vim.fn.expand("%:t:r") -- Dateiname ohne Extension
+      -- Integrationstest oder Modulname
+      run_cargo_test("--test " .. file .. " -- --nocapture")
+    end, { desc = "Cargo Test (File/Module)", silent = true, buffer = true })
+
+    -- Stop Test
+    vim.keymap.set("n", "<leader>tnx", function()
+      if cargo_test_job then
+        vim.fn.jobstop(cargo_test_job)
+        cargo_test_job = nil
+        vim.notify("Cargo-Test gestoppt")
+      else
+        vim.notify("Kein laufender Test", vim.log.levels.INFO)
+      end
+    end, { desc = "Cargo Test Stop", buffer = true })
+
+    -- Quickfix Toggle
+    vim.keymap.set("n", "<leader>tnp", function()
+      vim.cmd("cwindow")
+    end, { desc = "Quickfix Toggle", buffer = true })
+
+    -- Fehler Navigation
+    vim.keymap.set("n", "]t", function() vim.cmd("cnext") end, { desc = "Next Error", buffer = true })
+    vim.keymap.set("n", "[t", function() vim.cmd("cprev") end, { desc = "Prev Error", buffer = true })
 
     -- Security Audit
     vim.keymap.set("n", "<leader>rrA", function() cargo("audit") end, { desc = "Cargo Audit (Split)", silent = true, buffer = true }) -- Projekt auf Lücken prüfen
@@ -7553,6 +7652,26 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Cargo Files schnell öffnen
     vim.keymap.set("n", "<leader>rrC", ":edit Cargo.toml<CR>", { desc = "Edit Cargo.toml (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrL", ":edit Cargo.lock<CR>", { desc = "Edit Cargo.lock (Split)", silent = true, buffer = true })
+
+    -- Die Klassiker (Run & Stop)
+    -- vim.keymap.set("n", "<leader>tnr", function() require("neotest").run.run() end, { desc = "Test Run (Nearest)", buffer = true })
+    -- vim.keymap.set("n", "<leader>tnf", function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = "Test Run (File)", buffer = true })
+    -- vim.keymap.set("n", "<leader>tnx", function() require("neotest").run.stop() end, { desc = "Test Stop", buffer = true })
+
+    -- Die UI / Übersicht (Dein Favorit)
+    -- vim.keymap.set("n", "<leader>tns", function() require("neotest").summary.toggle() end, { desc = "Test Summary Toggle" })
+    -- vim.keymap.set("n", "<leader>tno", function() require("neotest").output.open({ enter = true }) end, { desc = "Test Output (Popup)" })
+    -- vim.keymap.set("n", "<leader>tnp", function() require("neotest").output_panel.toggle() end, { desc = "Test Panel (Log unten)" })
+
+    -- Navigation (Schnell zwischen Fehlern springen)
+    -- vim.keymap.set("n", "[t", function() require("neotest").jump.prev({ status = "failed" }) end, { desc = "Jump to Prev Failed Test" })
+    -- vim.keymap.set("n", "]t", function() require("neotest").jump.next({ status = "failed" }) end, { desc = "Jump to Next Failed Test" })
+
+    -- Watch Mode (Automatisch testen beim Speichern)
+    -- (Erfordert nvim-neotest/neotest-watch, falls du das willst)
+    -- vim.keymap.set("n", "<leader>tnw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, { desc = "Test Watch Toggle" })
+
+
 
     vim.keymap.set("n", "<F5>", function()
       require("dap").continue()
