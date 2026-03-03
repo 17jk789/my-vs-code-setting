@@ -301,6 +301,7 @@ sudo apt install nvtop
 sudo apt install ranger
 sudo apt install time
 sudo apt install tmux
+sudo apt install wofi
 # source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal -> Strg + R
 echo 'source /usr/share/doc/fzf/examples/key-bindings.bash' >> ~/.bashrc
 
