@@ -3645,6 +3645,31 @@ return {
       })
     end,
   },
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/neotest-rust", -- Für Rust-Unterstützung
+    },
+    ft = { "rust" },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-rust"),
+        },
+      })
+    end,
+  },
+  {
+    "simrat39/symbols-outline.nvim",
+    ft = { "rust" },
+    config = function()
+      require("symbols-outline").setup({
+        highlight_hovered_item = true,
+        show_guides = true,
+        auto_close = false,
+      })
+    end,
+  },
 }
 
 ```
