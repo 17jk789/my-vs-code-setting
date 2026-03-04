@@ -169,7 +169,7 @@ Installiere NeoVim: [Neovim](https://neovim.io/)
 ```bash
 sudo apt update
 sudo ufw enable # Wichtig -> Firewall aktivieren!!!
-sudo apt install curl wget unzip build-essential cmark fzf luarocks gcc-multilib git-delta
+sudo apt install curl wget unzip build-essential cmark fzf luarocks gcc-multilib git-delta shellcheck
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
 # cargo install --locked critcmp
@@ -8589,7 +8589,7 @@ return {
       ensure_installed = {
         -- Rust:
         "rust-analyzer",
-        "rustfmt",
+        -- "rustfmt",
 
         -- C++: 
         "clangd",
@@ -8642,7 +8642,9 @@ return {
 				-- "omnisharp",
 
         -- Bash
-				"bashls",
+				"bash-language-server",
+        "shellcheck",
+        "shfmt",
 
         -- Julia
 				-- "julials",
