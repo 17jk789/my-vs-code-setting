@@ -7599,7 +7599,6 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrBR", function() my_cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
 
     -- Professional Cargo Terminal Runner (Safe)
-
     local cargo = {
       buf = nil,
       win = nil,
@@ -7607,7 +7606,6 @@ vim.api.nvim_create_autocmd("FileType", {
     }
 
     -- Terminal Management
-
     local function is_job_running()
       return cargo.job and vim.fn.jobwait({ cargo.job }, 0)[1] == -1
     end
@@ -7636,7 +7634,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 
     -- Core Runner
-
     local function run_cargo_command(cmd, title)
       if is_job_running() then
         vim.notify("Cargo process already running.", vim.log.levels.WARN)
@@ -7681,7 +7678,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 
     -- Cargo Test
-
     local function cargo_test(args)
       local cmd = {
         "env",
@@ -7702,7 +7698,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 
     -- Keymaps
-
     vim.keymap.set("n", "<leader>rrt", function()
       cargo_test({})
     end, { desc = "Cargo Test (Workspace)", silent = true, buffer = true })
@@ -7722,7 +7717,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Cargo Test File", silent = true, buffer = true })
 
     -- Stop Running Job
-
     vim.keymap.set("n", "<leader>tnx", function()
       if is_job_running() then
         vim.fn.jobstop(cargo.job)
@@ -7734,7 +7728,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Cargo Stop", buffer = true })
 
     -- Quickfix Navigation
-
     vim.keymap.set("n", "<leader>tnp", "<cmd>cwindow<CR>",
       { desc = "Quickfix Toggle", buffer = true })
 
