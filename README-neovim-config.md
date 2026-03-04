@@ -119,6 +119,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/go.lua](#pluginsgolua)
   - [plugins/zig.lua](#pluginsziglua)
   - [plugins/db.lua](#pluginsdblua)
+  - [plugins/bash.lua](#pluginsbashlua)
   - [plugins/dap.lua](#pluginsdaplua)
   - [config/autocmds.lua](#configautocmdslua)
   - [plugins/mason.lua](#pluginsmasonlua)
@@ -2344,6 +2345,7 @@ cd ~/.config/nvim/lua
     └── plugins/
         ├── alpha.lua
         ├── asm.lua
+        ├── bash.lua
         ├── cpp.lua
         ├── completion.lua
         ├── dap.lua
@@ -6874,6 +6876,53 @@ return {
 
 ```
 
+## plugins/bash.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/bash.lua
+```
+
+```bash
+nano plugins/bash.lua
+```
+
+```bash
+code plugins/bash.lua
+```
+
+```lua
+-- plugins/bash.lua
+
+return {
+  {
+    "neovim/nvim-lspconfig",
+    ft = { "sh", "bash", "zsh" },
+    opts = {
+      servers = {
+        bashls = {},
+      },
+    },
+  },
+
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = {
+      formatters_by_ft = {
+        sh = { "shfmt" },
+        bash = { "shfmt" },
+        zsh = { "shfmt" },
+      },
+    },
+  },
+}
+
+```
+
 ## plugins/dap.lua
 
 Hier wird nur der Debugger (DAP) für C, C++ und Rust konfiguriert. Der Java-Debugger funktioniert bereits ohne zusätzliche Einrichtung. Für Python, JavaScript, TypeScript etc. brauche ich vorerst keinen Debugger – generell verwende ich Debugger sowieso nicht so oft. Wenn man dringend einen benötigt, kann man den Code schnell in PyCharm, IntelliJ, CLion, VS Code oder Eclipse debuggen.
@@ -8599,7 +8648,7 @@ return {
 				-- "omnisharp",
 
         -- Bash
-				-- "bashls",
+				"bashls",
 
         -- Julia
 				-- "julials",
