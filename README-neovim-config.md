@@ -174,6 +174,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
 # cargo install --locked critcmp
 cargo install --locked cargo-nextest cargo-audit cargo-auditable cargo-deny 
+rustup component add rustfmt
 # cargo install --locked cargo-watch cargo-expand 
 sudo apt install make golang-go
 
