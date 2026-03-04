@@ -6,7 +6,8 @@ This repository contains my personal **Visual Studio Code / NeoVim settings**.
 > This repo was not created for public distribution.
 > It is intended only for my own use, so I can use my settings on another computer without logging into my GitHub account.
 
-- [NeoVim](README-neovim-config.md)  
+- [NeoVim Ubuntu](README-neovim-config-Ubuntu.md)  
+- [NeoVim Arch](README-neovim-config-Arch.md) - SOON!!!
 - [VS Code](README-vs-code-config.md)
 
 ---
