@@ -10868,15 +10868,15 @@ cd ~/.config/nvim/lua
 ```
 
 ```bash
-vim plugins/lazy.lua
+vim config/lazy.lua
 ```
 
 ```bash
-nano plugins/lazy.lua
+nano config/lazy.lua
 ```
 
 ```bash
-code plugins/lazy.lua
+code config/lazy.lua
 ```
 
 ```lua
