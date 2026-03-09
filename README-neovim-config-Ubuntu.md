@@ -2562,13 +2562,16 @@ end, {
 -- map_if_free("n", "<leader>e", Snacks.picker.explorer)
 -- vim.keymap.set("n", "<leader>e", function() Snacks.explorer() end, { desc = "File Explorer" })
 
+map_if_free("n", "]h", "<cmd>Gitsigns next_hunk<cr>", { desc = "Next Hunk" })
+map_if_free("n", "[h", "<cmd>Gitsigns prev_hunk<cr>", { desc = "Prev Hunk" })
+
 -- Git Basics
-map_if_free("n", "<leader>gb", "<cmd>G blame<cr>", { desc = "Git Blame", silent = true, buffer = true })
-map_if_free("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "Diffview Open", silent = true, buffer = true })
-map_if_free("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "Diffview File History", silent = true, buffer = true })
-map_if_free("n", "<leader>gc", "<cmd>Git commit<cr>", { desc = "Git Commit", silent = true, buffer = true })
-map_if_free("n", "<leader>gp", "<cmd>Git push<cr>", { desc = "Git Push", silent = true, buffer = true })
-map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>", { desc = "Git Pull", silent = true, buffer = true })
+map_if_free("n", "<leader>gb", "<cmd>G blame<cr>", { desc = "Git Blame", silent = true})
+map_if_free("n", "<leader>gd", "<cmd>DiffviewOpen<cr>", { desc = "Diffview Open", silent = true })
+map_if_free("n", "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", { desc = "Diffview File History", silent = true })
+map_if_free("n", "<leader>gc", "<cmd>Git commit<cr>", { desc = "Git Commit", silent = true })
+map_if_free("n", "<leader>gp", "<cmd>Git push<cr>", { desc = "Git Push", silent = true })
+map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>", { desc = "Git Pull", silent = true })
 
 -- Git Status öffnen
 -- map_if_free("n", "<leader>g", Snacks.picker.git_status, { desc = "Git Status Picker" })
@@ -2577,26 +2580,26 @@ vim.keymap.set("n", "<leader>g", function() Snacks.picker.git_status() end, { de
 -- Hunks
 -- map_if_free("n", "]h", "<cmd>Gitsigns next_hunk<cr>", { desc = "Go to Next Git Hunk" })
 -- map_if_free("n", "[h", "<cmd>Gitsigns prev_hunk<cr>", { desc = "Go to Previous Git Hunk" })
-map_if_free("n", "<leader>hs", "<cmd>Gitsigns stage_hunk<cr>", { desc = "Gitsigns Stage Hunk", silent = true, buffer = true })
-map_if_free("n", "<leader>hr", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Gitsigns Reset Hunk", silent = true, buffer = true })
-map_if_free("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Gitsigns Preview Hunk", silent = true, buffer = true })
-map_if_free("n", "<leader>hb", "<cmd>Gitsigns blame_line<cr>", { desc = "Gitsigns Blame Line", silent = true, buffer = true })
-map_if_free("n", "<leader>hS", "<cmd>Gitsigns stage_buffer<cr>", { desc = "Gitsigns Stage Buffer", silent = true, buffer = true })
-map_if_free("n", "<leader>hR", "<cmd>Gitsigns reset_buffer<cr>", { desc = "Gitsigns Reset Buffer", silent = true, buffer = true })
-map_if_free("n", "<leader>hd", "<cmd>Gitsigns diffthis<cr>", { desc = "Gitsigns Diff This", silent = true, buffer = true })
-map_if_free("n", "<leader>hD", "<cmd>Gitsigns diffthis ~<cr>", { desc = "Gitsigns Diff This ~", silent = true, buffer = true })
+map_if_free("n", "<leader>hs", "<cmd>Gitsigns stage_hunk<cr>", { desc = "Gitsigns Stage Hunk", silent = true })
+map_if_free("n", "<leader>hr", "<cmd>Gitsigns reset_hunk<cr>", { desc = "Gitsigns Reset Hunk", silent = true })
+map_if_free("n", "<leader>hp", "<cmd>Gitsigns preview_hunk<cr>", { desc = "Gitsigns Preview Hunk", silent = true })
+map_if_free("n", "<leader>hb", "<cmd>Gitsigns blame_line<cr>", { desc = "Gitsigns Blame Line", silent = true })
+map_if_free("n", "<leader>hS", "<cmd>Gitsigns stage_buffer<cr>", { desc = "Gitsigns Stage Buffer", silent = true })
+map_if_free("n", "<leader>hR", "<cmd>Gitsigns reset_buffer<cr>", { desc = "Gitsigns Reset Buffer", silent = true })
+map_if_free("n", "<leader>hd", "<cmd>Gitsigns diffthis<cr>", { desc = "Gitsigns Diff This", silent = true })
+map_if_free("n", "<leader>hD", "<cmd>Gitsigns diffthis ~<cr>", { desc = "Gitsigns Diff This ~", silent = true })
 
 
 -- Toggle Git UI
-map_if_free("n", "<leader>tb", "<cmd>Gitsigns toggle_current_line_blame<cr>", { desc = "Gitsigns Toggle Current Line Blame", silent = true, buffer = true })
-map_if_free("n", "<leader>ts", "<cmd>Gitsigns toggle_signs<cr>", { desc = "Gitsigns Toggle Signs", silent = true, buffer = true })
-map_if_free("n", "<leader>tn", "<cmd>Gitsigns toggle_numhl<cr>", { desc = "Gitsigns Toggle Number Highlight", silent = true, buffer = true })
-map_if_free("n", "<leader>tl", "<cmd>Gitsigns toggle_linehl<cr>", { desc = "Gitsigns Toggle Line Highlight", silent = true, buffer = true })
-map_if_free("n", "<leader>tw", "<cmd>Gitsigns toggle_word_diff<cr>", { desc = "Gitsigns Toggle Word Diff", silent = true, buffer = true })
+map_if_free("n", "<leader>tb", "<cmd>Gitsigns toggle_current_line_blame<cr>", { desc = "Gitsigns Toggle Current Line Blame", silent = true })
+map_if_free("n", "<leader>ts", "<cmd>Gitsigns toggle_signs<cr>", { desc = "Gitsigns Toggle Signs", silent = true })
+map_if_free("n", "<leader>tn", "<cmd>Gitsigns toggle_numhl<cr>", { desc = "Gitsigns Toggle Number Highlight", silent = true })
+map_if_free("n", "<leader>tl", "<cmd>Gitsigns toggle_linehl<cr>", { desc = "Gitsigns Toggle Line Highlight", silent = true })
+map_if_free("n", "<leader>tw", "<cmd>Gitsigns toggle_word_diff<cr>", { desc = "Gitsigns Toggle Word Diff", silent = true })
 
 
 -- Extra Git Commands (nicht typisch in LazyVim)
-map_if_free("n", "<leader>gco", "<cmd>Git checkout<cr>", { desc = "Git Checkout", silent = true, buffer = true })
+map_if_free("n", "<leader>gco", "<cmd>Git checkout<cr>", { desc = "Git Checkout", silent = true })
 -- map_if_free("n", "<leader>gcb", "<cmd>Git checkout -b ")
 map_if_free("n", "<leader>gcb", function()
   vim.ui.input({ prompt = "New branch name: " }, function(branch)
@@ -2605,14 +2608,19 @@ map_if_free("n", "<leader>gcb", function()
     end
   end)
 end)
-map_if_free("n", "<leader>gca", "<cmd>Git commit --amend<cr>", { desc = "Git Commit Amend", silent = true, buffer = true })
-map_if_free("n", "<leader>gss", "<cmd>Git stash<cr>", { desc = "Git Stash", silent = true, buffer = true })
-map_if_free("n", "<leader>gsp", "<cmd>Git stash pop<cr>", { desc = "Git Stash Pop", silent = true, buffer = true })
-map_if_free("n", "<leader>gf", "<cmd>Git fetch<cr>", { desc = "Git Fetch", silent = true, buffer = true })
-map_if_free("n", "<leader>gr", "<cmd>Git remote -v<cr>", { desc = "Git Remote -v", silent = true, buffer = true })
+map_if_free("n", "<leader>gca", "<cmd>Git commit --amend<cr>", { desc = "Git Commit Amend", silent = true })
+map_if_free("n", "<leader>gss", "<cmd>Git stash<cr>", { desc = "Git Stash", silent = true })
+map_if_free("n", "<leader>gsp", "<cmd>Git stash pop<cr>", { desc = "Git Stash Pop", silent = true })
+map_if_free("n", "<leader>gf", "<cmd>Git fetch<cr>", { desc = "Git Fetch", silent = true })
+map_if_free("n", "<leader>gr", "<cmd>Git remote -v<cr>", { desc = "Git Remote -v", silent = true })
 -- map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph<cr>")
-map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph --decorate --all<cr>", { desc = "Git Log Oneline Graph", silent = true, buffer = true })
-map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<cr>", { desc = "Diffview Close", silent = true, buffer = true })
+map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph --decorate --all<cr>", { desc = "Git Log Oneline Graph", silent = true })
+map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<cr>", { desc = "Diffview Close", silent = true })
+
+-- Schneller Wechsel zwischen geändert Dateien in Diffview
+-- Wenn Diffview offen ist, kannst du mit diesen Keys durch die Dateien springen
+map_if_free("n", "<leader>gn", "<cmd>DiffviewNextFile<cr>", { desc = "Git: Next File in Diff" })
+map_if_free("n", "<leader>gN", "<cmd>DiffviewPrevFile<cr>", { desc = "Git: Prev File in Diff" })
 
 ```
 
