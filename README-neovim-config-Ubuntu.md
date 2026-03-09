@@ -9939,6 +9939,9 @@ LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/re
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar xf lazygit.tar.gz lazygit
 sudo install lazygit -D -t /usr/local/bin/
+mkdir -p ~/.config/lazygit/
+touch ~/.config/lazygit/config.yml
+yq -i '.git.paging.colorArg = "always" | .git.paging.pager = "delta --dark --paging=never" | .os.editCommand = "nvim"' ~/.config/lazygit/config.yml
 ```
 
 ```bash
@@ -10026,7 +10029,7 @@ return {
         -- " <author>, <author_time:%Y-%m-%d> • <summary>",
         -- " <author>, <author_time:%Y-%m-%d %H:%M> • <summary>",
         "    <author> (<abbrev_sha>), <author_time:%Y-%m-%d %H:%M> • <summary>",
-        -- "    <author> <abbrev_sha> • <author_time:%Y-%m-%d %H:%M> • <summary>",
+      -- "    <author> <abbrev_sha> • <author_time:%Y-%m-%d %H:%M> • <summary>",
 
       watch_gitdir = { interval = 1000 },
       update_debounce = 100,
@@ -10037,12 +10040,12 @@ return {
       },
 
       signs = {
-        add          = { text = "│" },
-        change       = { text = "│" },
-        delete       = { text = "_" },
-        topdelete    = { text = "‾" },
+        add = { text = "│" },
+        change = { text = "│" },
+        delete = { text = "_" },
+        topdelete = { text = "‾" },
         changedelete = { text = "~" },
-        untracked    = { text = "┆" },
+        untracked = { text = "┆" },
       },
     },
   },
@@ -10089,7 +10092,8 @@ return {
           git = {
             paging = {
               -- Erfordert: 'brew install git-delta' (oder dein Paketmanager)
-              pager = "delta --dark --paging=never --diff-highlight --line-numbers",
+              -- pager = "delta --dark --paging=never --diff-highlight --line-numbers",
+              pager = "delta --dark --paging=never --line-numbers",
               -- colorArg = "always",
               -- pager = "delta --dark --paging=never --diff-highlight --line-numbers --side-by-side",
             },
