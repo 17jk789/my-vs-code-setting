@@ -8661,7 +8661,7 @@ vim.api.nvim_create_autocmd("FileType", {
     local function run_cmd(cmd)
       vim.cmd("split | terminal " .. cmd)
       -- Verhindert E21 Fehler und erlaubt sofortiges Strg+C
-      vim.cmd("startinsert") 
+      vim.cmd("startinsert")
     end
 
     -- <leader>rra: Datei ausführen (Bleibt offen für Plots)
@@ -8672,7 +8672,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- <leader>rrr: Interaktive Konsole
     vim.keymap.set("n", "<leader>rrr", function()
-      run_cmd(matlab_path .. " -nodesktop -nosplash")
+      run_cmd(matlab_path .. " -nosplash -nodesktop -r \"clc;\"")
     end, { desc = "Open MATLAB Console", silent = true, buffer = true })
 
     -- F5: Schnell-Ausführung
@@ -8683,7 +8683,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- BONUS: <leader>rrk zum schnellen "Killen" des Terminals/Plots
     vim.keymap.set("n", "<leader>rrk", function()
-      vim.cmd("bwipeout!") 
+      vim.cmd("bwipeout!")
     end, { desc = "Kill MATLAB / Close Plot", silent = true, buffer = true })
   end,
 })
