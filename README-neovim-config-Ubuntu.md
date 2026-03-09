@@ -6954,67 +6954,51 @@ code plugins/matlab.lua
 return {
   {
     "neovim/nvim-lspconfig",
-    ft = { "matlab" },
-    opts = {
-      servers = {
+    opts = function(_, opts)
+      opts.servers = vim.tbl_deep_extend("force", opts.servers or {}, {
         matlab_ls = {
           settings = {
             MATLAB = {
               installPath = "/usr/local/MATLAB/R2025b",
-              indexWorkspace = true,
+              indexWorkspace = false, -- Deaktivieren, um Start zu beschleunigen
               telemetry = false,
-              matlabConnectionTiming = "onStart",
+              matlabConnectionTiming = "onDemand", -- WICHTIG: Startet Engine nur wenn nötig
             },
           },
-        },
-      },
-    },
-    config = function(_, opts)
-      -- LSP Setup: Wir übergeben die opts explizit, damit der Pfad geladen wird
-      require("lspconfig").matlab_ls.setup(opts.servers.matlab_ls)
-
-      -- Fehleranzeige (Diagnostics) wie in C++/Rust verbessern
-      vim.diagnostic.config({
-        virtual_text = true, -- Zeigt Fehlertext direkt neben der Zeile
-        signs = true, -- Zeigt Symbole am Rand
-        underline = true,
-        update_in_insert = false,
-        severity_sort = true,
-        float = {
-          border = "rounded",
-          source = "always", -- Zeigt an, dass der Fehler von 'matlab_ls' kommt
+          -- Wir sagen Neovim, dass dieser Server KEIN Formatting kann,
+          -- um den automatischen Timeout-Error zu verhindern.
+          on_attach = function(client, _)
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end,
         },
       })
+    end,
+    init = function()
+      local group = vim.api.nvim_create_augroup("MatlabFix", { clear = true })
 
-      local augroup = vim.api.nvim_create_augroup("MatlabSetup", { clear = true })
-
-      -- 1. AUTO-EINRÜCKEN BEIM SPEICHERN (Dein "Stylesheet")
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = augroup,
-        pattern = "*.m",
-        callback = function()
-          if vim.bo.filetype == "matlab" then
-            local view = vim.fn.winsaveview()
-            vim.cmd("normal! gg=G")
-            vim.fn.winrestview(view)
-          end
-        end,
-      })
-
-      -- 2. TAB-EINSTELLUNGEN & DATEITYP-FIX
       vim.api.nvim_create_autocmd("FileType", {
-        group = augroup,
+        group = group,
         pattern = "matlab",
-        callback = function()
+        callback = function(args)
           vim.opt_local.shiftwidth = 4
           vim.opt_local.tabstop = 4
           vim.opt_local.expandtab = true
-          -- Nutzt die interne MATLAB-Logik für intelligentes Einrücken
-          vim.bo.indentexpr = "GetMatlabIndent(v:lnum)"
 
-          -- Shortcut: 'K' zeigt jetzt die Fehlerdetails in einem Fenster
-          local bufnr = vim.api.nvim_get_current_buf()
-          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Matlab Doc/Error" })
+          -- LSP Keymap nur für Doc/Hover
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
+
+          -- MANUELLES FORMATIEREN (Vim-Native statt LSP)
+          -- Das hier erzeugt NIEMALS einen LSP-Timeout!
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            group = group,
+            buffer = args.buf,
+            callback = function()
+              local view = vim.fn.winsaveview()
+              vim.cmd("silent! normal! gg=G")
+              vim.fn.winrestview(view)
+            end,
+          })
         end,
       })
     end,
