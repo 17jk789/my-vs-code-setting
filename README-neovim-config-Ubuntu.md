@@ -31,6 +31,7 @@ This repository contains my personal **NeoVim settings**.
 - 80% **Ascii** Support (VS Code Level + basic MSI Plugins)
 - 80% **GO** Support (VS Code Level + basic GO Plugins)
 - 80% **Zig** Support (VS Code Level + basic Zig Plugins)
+- 60% **Matlab** Support (VS Code Level + basic Matlab Plugins)
 - 80% **PostgreSQL** voller Support
 - 80% **MySQL** voller Support
 - 80% **MariaDB** voller Support
@@ -120,6 +121,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/zig.lua](#pluginsziglua)
   - [plugins/db.lua](#pluginsdblua)
   - [plugins/bash.lua](#pluginsbashlua)
+  - [plugins/matlab.lua](#pluginsmatlablua)
   - [plugins/dap.lua](#pluginsdaplua)
   - [config/autocmds.lua](#configautocmdslua)
   - [plugins/mason.lua](#pluginsmasonlua)
@@ -2362,6 +2364,7 @@ cd ~/.config/nvim/lua
         ├── ltex.lua
         ├── markdown.lua
         ├── mason.lua
+        ├── matlab.lua
         ├── notify.lua
         ├── rust.lua
         ├── snacks.lua
@@ -6927,6 +6930,82 @@ return {
 
 ```
 
+## plugins/matlab.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/matlab.lua
+```
+
+```bash
+nano plugins/matlab.lua
+```
+
+```bash
+code plugins/matlab.lua
+```
+
+```lua
+-- plugins/matlab.lua
+
+return {
+  {
+    "neovim/nvim-lspconfig",
+    ft = { "matlab" },
+    opts = {
+      servers = {
+        matlab_ls = {
+          settings = {
+            MATLAB = {
+              installPath = "/usr/local/MATLAB/R2025b",
+              indexWorkspace = true,
+              telemetry = false,
+            },
+          },
+        },
+      },
+    },
+    config = function(_, opts)
+      -- LSP ganz normal starten
+      require("lspconfig").matlab_ls.setup(opts)
+
+      -- GRUPPE FÜR AUTOCMDS (verhindert doppelte Ausführung)
+      local augroup = vim.api.nvim_create_augroup("MatlabFormat", { clear = true })
+
+      -- BEIM SPEICHERN AUTOMATISCH EINRÜCKEN
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        pattern = "*.m",
+        callback = function()
+          -- Nur ausführen, wenn es wirklich eine MATLAB-Datei ist
+          if vim.bo.filetype == "matlab" then
+            local view = vim.fn.winsaveview() -- Cursor-Position speichern
+            vim.cmd("normal! gg=G")           -- Alles neu einrücken
+            vim.fn.winrestview(view)          -- Cursor-Position wiederherstellen
+          end
+        end,
+      })
+
+      -- DATEITYP UND TAB-EINSTELLUNGEN ERZWINGEN
+      vim.api.nvim_create_autocmd({ "FileType" }, {
+        group = augroup,
+        pattern = "matlab",
+        callback = function()
+          vim.opt_local.shiftwidth = 4
+          vim.opt_local.tabstop = 4
+          vim.opt_local.expandtab = true
+          vim.bo.indentexpr = "GetMatlabIndent(v:lnum)"
+        end,
+      })
+    end,
+  },
+}
+
+```
+
 ## plugins/dap.lua
 
 Hier wird nur der Debugger (DAP) für C, C++ und Rust konfiguriert. Der Java-Debugger funktioniert bereits ohne zusätzliche Einrichtung. Für Python, JavaScript, TypeScript etc. brauche ich vorerst keinen Debugger – generell verwende ich Debugger sowieso nicht so oft. Wenn man dringend einen benötigt, kann man den Code schnell in PyCharm, IntelliJ, CLion, VS Code oder Eclipse debuggen.
@@ -8562,6 +8641,38 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("MatlabConfig", { clear = true }),
+  pattern = { "matlab" },
+  callback = function()
+    local opts = { noremap = true, silent = true, buffer = true }
+    local matlab_path = "/usr/local/MATLAB/R2025b/bin/matlab"
+
+    local function run_cmd(cmd)
+      vim.cmd("split | terminal " .. cmd)
+    end
+
+    -- <leader>rra: Aktuelle Datei ausführen und OFFEN LASSEN für Plots
+    vim.keymap.set("n", "<leader>rra", function()
+      local file_path = vim.fn.expand("%:p")
+      -- Wir nutzen -nosplash und -nodesktop, aber KEIN -batch
+      -- 'run' führt die Datei aus, danach bleibt MATLAB in der Konsole offen
+      run_cmd(matlab_path .. " -nosplash -nodesktop -r \"run('" .. file_path .. "')\"")
+    end, { desc = "MATLAB Run (Stay open for Plots)", silent = true, buffer = true })
+
+    -- <leader>rrr: Interaktive Konsole
+    vim.keymap.set("n", "<leader>rrr", function()
+      run_cmd(matlab_path .. " -nodesktop -nosplash")
+    end, { desc = "Open MATLAB Console", silent = true, buffer = true })
+
+    -- F5: Gleich wie leader rra
+    vim.keymap.set("n", "<F5>", function()
+      local file_path = vim.fn.expand("%:p")
+      run_cmd(matlab_path .. " -nosplash -nodesktop -r \"run('" .. file_path .. "')\"")
+    end, opts)
+  end,
+})
+
 ```
 
 ## plugins/mason.lua
@@ -9497,13 +9608,16 @@ return {
         -- Programmiersprachen
         "c", "cpp", "rust", "java", "kotlin", "lua", "python", "go", "zig", "ron",
         "javascript", "typescript", "tsx", "sql", "ruby", "php", "perl", "asm",
+        "matlab",
         -- Konfiguration (Korrekturen!)
         "dockerfile", "terraform", "nginx", "tmux", "ssh_config", "diff",
         "toml", "yaml", "json", "json5", "jsonc", "ini", "xml", "csv",
         -- Build & Shell (Korrekturen!)
         "make", "groovy", "cmake", "bash", "fish", "zsh", "powershell",
+        -- "sh",
         -- System & Desktop-Envs (Ghostty-kompatibel)
         "hyprlang", "rasi", "kdl",
+        -- "waybar",
         -- Dokumentation & Git
         "markdown", "markdown_inline", "rst", "latex", "bibtex", "vim", "vimdoc",
         "query", "regex", "git_config", "gitignore", "git_rebase", "gitcommit",
