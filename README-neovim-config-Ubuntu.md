@@ -9941,7 +9941,14 @@ tar xf lazygit.tar.gz lazygit
 sudo install lazygit -D -t /usr/local/bin/
 mkdir -p ~/.config/lazygit/
 touch ~/.config/lazygit/config.yml
-yq -i '.git.paging.colorArg = "always" | .git.paging.pager = "delta --dark --paging=never" | .os.editCommand = "nvim"' ~/.config/lazygit/config.yml
+cat <<EOF > ~/.config/lazygit/config.yml
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never --line-numbers
+os:
+  editCommand: "nvim"
+EOF
 ```
 
 ```bash
@@ -10088,18 +10095,22 @@ return {
           width = 0,
           height = 0,
         },
+
         config = {
+          os = {
+            editCommand = "nvim", 
+            editCommandTemplate = "nvim --server {{server}} --remote-send '<C-\\><C-n>:e {{filename}}<CR>'",
+          },
+
           git = {
             paging = {
-              -- Erfordert: 'brew install git-delta' (oder dein Paketmanager)
-              -- pager = "delta --dark --paging=never --diff-highlight --line-numbers",
-              pager = "delta --dark --paging=never --line-numbers",
-              -- colorArg = "always",
-              -- pager = "delta --dark --paging=never --diff-highlight --line-numbers --side-by-side",
+              colorArg = "always",
+              -- 'syntax-theme="none"' sorgt dafür, dass Grün/Rot deinem Theme entsprechen
+              pager = [[delta --paging=never --line-numbers --hunk-header-decoration-style="blue box" --hunk-header-style="file line-number syntax" --syntax-theme="none"]],
             },
           },
+
           gui = {
-            -- Optional: Zeigt Diffs nebeneinander (Side-by-Side)
             sideBySideView = true,
           },
         },
@@ -10107,13 +10118,7 @@ return {
     },
 
     keys = {
-      {
-        "<leader>gg",
-        function()
-          Snacks.lazygit()
-        end,
-        desc = "LazyGit",
-      },
+      { "<leader>gg", function() Snacks.lazygit() end, desc = "LazyGit" },
     },
   },
 }
