@@ -8665,15 +8665,16 @@ vim.api.nvim_create_autocmd("FileType", {
     local opts = { noremap = true, silent = true, buffer = true }
     local matlab_path = "/usr/local/MATLAB/R2025b/bin/matlab"
 
+    -- Optimierte Run-Funktion mit startinsert
     local function run_cmd(cmd)
       vim.cmd("split | terminal " .. cmd)
+      -- Verhindert E21 Fehler und erlaubt sofortiges Strg+C
+      vim.cmd("startinsert") 
     end
 
-    -- <leader>rra: Aktuelle Datei ausführen und OFFEN LASSEN für Plots
+    -- <leader>rra: Datei ausführen (Bleibt offen für Plots)
     vim.keymap.set("n", "<leader>rra", function()
       local file_path = vim.fn.expand("%:p")
-      -- Wir nutzen -nosplash und -nodesktop, aber KEIN -batch
-      -- 'run' führt die Datei aus, danach bleibt MATLAB in der Konsole offen
       run_cmd(matlab_path .. " -nosplash -nodesktop -r \"run('" .. file_path .. "')\"")
     end, { desc = "MATLAB Run (Stay open for Plots)", silent = true, buffer = true })
 
@@ -8682,11 +8683,16 @@ vim.api.nvim_create_autocmd("FileType", {
       run_cmd(matlab_path .. " -nodesktop -nosplash")
     end, { desc = "Open MATLAB Console", silent = true, buffer = true })
 
-    -- F5: Gleich wie leader rra
+    -- F5: Schnell-Ausführung
     vim.keymap.set("n", "<F5>", function()
       local file_path = vim.fn.expand("%:p")
       run_cmd(matlab_path .. " -nosplash -nodesktop -r \"run('" .. file_path .. "')\"")
     end, opts)
+
+    -- BONUS: <leader>rrk zum schnellen "Killen" des Terminals/Plots
+    vim.keymap.set("n", "<leader>rrk", function()
+      vim.cmd("bwipeout!") 
+    end, { desc = "Kill MATLAB / Close Plot", silent = true, buffer = true })
   end,
 })
 
