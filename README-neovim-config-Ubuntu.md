@@ -6963,41 +6963,58 @@ return {
               installPath = "/usr/local/MATLAB/R2025b",
               indexWorkspace = true,
               telemetry = false,
+              matlabConnectionTiming = "onStart",
             },
           },
         },
       },
     },
     config = function(_, opts)
-      -- LSP ganz normal starten
-      require("lspconfig").matlab_ls.setup(opts)
+      -- LSP Setup: Wir übergeben die opts explizit, damit der Pfad geladen wird
+      require("lspconfig").matlab_ls.setup(opts.servers.matlab_ls)
 
-      -- GRUPPE FÜR AUTOCMDS (verhindert doppelte Ausführung)
-      local augroup = vim.api.nvim_create_augroup("MatlabFormat", { clear = true })
+      -- Fehleranzeige (Diagnostics) wie in C++/Rust verbessern
+      vim.diagnostic.config({
+        virtual_text = true, -- Zeigt Fehlertext direkt neben der Zeile
+        signs = true, -- Zeigt Symbole am Rand
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+        float = {
+          border = "rounded",
+          source = "always", -- Zeigt an, dass der Fehler von 'matlab_ls' kommt
+        },
+      })
 
-      -- BEIM SPEICHERN AUTOMATISCH EINRÜCKEN
+      local augroup = vim.api.nvim_create_augroup("MatlabSetup", { clear = true })
+
+      -- 1. AUTO-EINRÜCKEN BEIM SPEICHERN (Dein "Stylesheet")
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = augroup,
         pattern = "*.m",
         callback = function()
-          -- Nur ausführen, wenn es wirklich eine MATLAB-Datei ist
           if vim.bo.filetype == "matlab" then
-            local view = vim.fn.winsaveview() -- Cursor-Position speichern
-            vim.cmd("normal! gg=G")           -- Alles neu einrücken
-            vim.fn.winrestview(view)          -- Cursor-Position wiederherstellen
+            local view = vim.fn.winsaveview()
+            vim.cmd("normal! gg=G")
+            vim.fn.winrestview(view)
           end
         end,
       })
 
-      -- DATEITYP UND TAB-EINSTELLUNGEN ERZWINGEN
-      vim.api.nvim_create_autocmd({ "FileType" }, {
+      -- 2. TAB-EINSTELLUNGEN & DATEITYP-FIX
+      vim.api.nvim_create_autocmd("FileType", {
         group = augroup,
         pattern = "matlab",
         callback = function()
           vim.opt_local.shiftwidth = 4
           vim.opt_local.tabstop = 4
           vim.opt_local.expandtab = true
+          -- Nutzt die interne MATLAB-Logik für intelligentes Einrücken
           vim.bo.indentexpr = "GetMatlabIndent(v:lnum)"
+
+          -- Shortcut: 'K' zeigt jetzt die Fehlerdetails in einem Fenster
+          local bufnr = vim.api.nvim_get_current_buf()
+          vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = bufnr, desc = "Show Matlab Doc/Error" })
         end,
       })
     end,
