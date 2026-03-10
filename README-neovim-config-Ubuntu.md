@@ -122,6 +122,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/db.lua](#pluginsdblua)
   - [plugins/bash.lua](#pluginsbashlua)
   - [plugins/matlab.lua](#pluginsmatlablua)
+  - [plugins/programmierprojekt.lua](#pluginsprogrammierprojektlua)
   - [plugins/dap.lua](#pluginsdaplua)
   - [config/autocmds.lua](#configautocmdslua)
   - [plugins/mason.lua](#pluginsmasonlua)
@@ -2365,6 +2366,7 @@ cd ~/.config/nvim/lua
         ├── markdown.lua
         ├── mason.lua
         ├── matlab.lua
+        ├── programmierprojekt.lua
         ├── notify.lua
         ├── rust.lua
         ├── snacks.lua
@@ -7031,6 +7033,78 @@ return {
               vim.fn.winrestview(view)
             end,
           })
+        end,
+      })
+    end,
+  },
+}
+
+```
+
+## plugins/programmierprojekt.lua
+
+Diese Konfiguration ist ausschließlich für meine persönlichen Bedürfnisse angepasst. Sie stellt sicher, dass beim Speichern von Dateien keinerlei automatische Änderungen am Code-Style vorgenommen werden. 
+
+Zudem werden sämtliche zusätzlichen Formatierungswerkzeuge (Formatter, Linter) aus Mason und anderen Plugins unterdrückt oder entfernt, damit der ursprüngliche Text exakt so erhalten bleibt, wie ich ihn geschrieben habe.
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/programmierprojekt.lua
+```
+
+```bash
+nano plugins/programmierprojekt.lua
+```
+
+```bash
+code plugins/programmierprojekt.lua
+```
+
+```lua
+-- plugins/programmierprojekt.lua
+
+return {
+  {
+    "stevearc/conform.nvim",
+    priority = 100, -- Hohe Priorität, damit es andere Configs überschreibt
+    opts = function(_, opts)
+      opts.format_on_save = false
+      opts.formatters_by_ft = {} -- Löscht alle Zuweisungen (Prettier, xmlformat etc.)
+    end,
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    priority = 100,
+    opts = function(_, opts)
+      opts.autoformat = false -- Schaltet das Standard-Autoformat von LazyVim aus
+      
+      -- Dieser Block entzieht JEDEM LSP-Server das Recht zu formatieren
+      opts.setup = {
+        ["*"] = function(client)
+          if client then
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end
+        end,
+      }
+    end,
+  },
+
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      -- Wir erstellen eine Funktion, die beim Start von Neovim alle 
+      -- eventuellen "Format-beim-Speichern" Autocmds blockiert.
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        pattern = "*",
+        callback = function()
+          -- Hier passiert absichtlich NICHTS. 
+          -- Das verhindert, dass Plugins wie ESLint oder Prettier 
+          -- ungefragt den Code verschieben.
         end,
       })
     end,
