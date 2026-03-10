@@ -2448,6 +2448,12 @@ vim.opt.mouse = "a"
 
 vim.opt.winbar = "%=%m %f  | %l/%L"
 
+vim.filetype.add({
+  extension = {
+    fxml = "xml",
+  },
+})
+
 ```
 
 ## config/keymaps.lua
@@ -6448,7 +6454,7 @@ code plugins/web-dev.lua
 return {
   {
     "neovim/nvim-lspconfig",
-    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
+    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "xml", "fxml" },
     opts = {
       servers = {
         -- Deaktiviere doppelte/standard Server, wir verwenden hier andere Tools
@@ -6456,7 +6462,23 @@ return {
         tsserver = { enabled = false },
 
         html = {},
-        cssls = {},
+
+        cssls = {
+          settings = {
+            css = {
+              lint = {
+                vendorPrefix = "ignore", -- Ignoriert die "-fx-" Warnungen
+                duplicateProperties = "ignore",
+                -- unknownProperties = "ignore", -- Wichtig für JavaFX-spezifische Befehle
+              },
+            },
+          },
+        },
+
+        -- XML & FXML Support
+        lemminx = {
+          filetypes = { "xml", "fxml" },
+        },
 
         eslint = {
           settings = { workingDirectory = { mode = "location" } },
@@ -6498,7 +6520,7 @@ return {
 
   {
     "stevearc/conform.nvim",
-    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json" },
+    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "xml", "fxml" },
     opts = {
       formatters_by_ft = {
         javascript = { "prettier" },
@@ -6508,6 +6530,8 @@ return {
         json = { "prettier" },
         html = { "prettier" },
         css = { "prettier" },
+        xml = { "xmlformat" },
+        fxml = { "xmlformat" },
       },
       -- optional: automatische Formatierung auf Save
       -- format_on_save = {
@@ -8750,6 +8774,10 @@ return {
         -- HTML:
         "html-lsp",
         "htmlhint",
+
+        -- XML / FXML:
+        "lemminx",
+        "xmlformatter",
 
         -- CSS:
         "css-lsp",
