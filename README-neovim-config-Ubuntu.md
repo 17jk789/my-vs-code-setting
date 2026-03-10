@@ -5496,6 +5496,7 @@ return {
   -- 1. Molten Konfiguration
   {
     "benlubas/molten-nvim",
+    ft = { "markdown", "python" },
     version = "^1.0.0",
     build = ":UpdateRemotePlugins",
     init = function()
@@ -5544,6 +5545,7 @@ return {
   -- Dies verbessert das Aussehen von Markdown-Blöcken im Editor enorm.
   {
     'MeanderingProgrammer/render-markdown.nvim',
+    ft = { "markdown" },
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' },            -- if you use the mini.nvim suite
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
@@ -5567,6 +5569,7 @@ return {
   {
     "GCBallesteros/jupytext.nvim",
     lazy = false,
+    -- ft = { "python", "jupyter" },
     opts = {
       -- Hier erzwingen wir das Markdown-Verhalten für Python-Notebooks
       custom_language_formatting = {
@@ -5585,6 +5588,7 @@ return {
 
   {
     "jmbuhr/otter.nvim",
+    ft = { "markdown" },
     dependencies = { "neovim/nvim-lspconfig" },
     config = function()
       local group = vim.api.nvim_create_augroup("OtterSetup", { clear = true })
@@ -6562,6 +6566,7 @@ return {
   
   {
     "mfussenegger/nvim-lint",
+    ft = { "html" },
     opts = {
       linters_by_ft = {
         html = { "htmlhint" },
@@ -6962,6 +6967,7 @@ return {
 
   {
     "stevearc/conform.nvim",
+    ft = { "sh", "bash", "zsh" },
     optional = true,
     opts = {
       formatters_by_ft = {
@@ -7394,6 +7400,7 @@ code plugins/dap.lua
 return {
   {
     "mfussenegger/nvim-dap",
+    cmd = { "DapContinue", "DapToggleBreakpoint", "DapUI" },
     dependencies = {
       {
         "rcarriga/nvim-dap-ui",
@@ -7633,6 +7640,10 @@ function _G.run_in_term(cmd)
   vim.cmd("split | terminal " .. cmd)
 end
 
+-- Formatierung beim Speichern:
+-- 'async = true' sorgt dafür, dass die LSP-Formatierung **nicht den Editor blockiert**.
+-- Der Rust Analyzer formatiert die Datei im Hintergrund, während du weiterarbeiten kannst.
+-- Filter stellt sicher, dass nur 'rust_analyzer' die Formatierung übernimmt.
 vim.api.nvim_create_autocmd("BufWritePre", {
   group = augroup,
   pattern = "*.rs",
@@ -9583,6 +9594,7 @@ code plugins/ui.lua
 
 return {
   {
+    -- cmd = "Telescope", -- lädt erst bei Telescope-Befehl
     "nvim-telescope/telescope.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -9591,11 +9603,13 @@ return {
 
   {
     "folke/trouble.nvim",
+    -- cmd = { "TroubleToggle", "Trouble" }, -- nur wenn du Trouble-Befehl benutzt
     opts = {},
   },
 
   {
     "nvim-tree/nvim-tree.lua",
+    -- cmd = { "NvimTreeToggle", "NvimTreeFindFile" }, -- nur bei diesen Befehlen laden
     opts = {
       view = { width = 30 },
       renderer = { group_empty = true },
@@ -9929,6 +9943,7 @@ code plugins/ltex.lua
 return {
   {
     "neovim/nvim-lspconfig",
+    ft = { "tex", "markdown", "text", "gitcommit" },
     opts = {
       servers = {
         ltex = {
