@@ -2630,6 +2630,17 @@ map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<cr>", { desc = "Diffview Clo
 map_if_free("n", "<leader>gn", "<cmd>DiffviewNextFile<cr>", { desc = "Git: Next File in Diff" })
 map_if_free("n", "<leader>gN", "<cmd>DiffviewPrevFile<cr>", { desc = "Git: Prev File in Diff" })
 
+-- Test
+-- Schaltet Autoformat komplett AUS oder AN (für LSP und Conform)
+vim.keymap.set("n", "<leader>ta", function()
+  vim.g.autoformat = not vim.g.autoformat
+  if vim.g.autoformat then
+    print("Autoformat: ON (Watch out for legacy code!)")
+  else
+    print("Autoformat: OFF (Safe mode enabled)")
+  end
+end, { desc = "Toggle Autoformat Global" })
+
 ```
 
 ## plugins/lsp.lua
