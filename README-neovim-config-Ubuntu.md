@@ -7067,48 +7067,48 @@ code plugins/programmierprojekt.lua
 -- plugins/programmierprojekt.lua
 
 return {
-  {
-    "stevearc/conform.nvim",
-    priority = 100, -- Hohe Priorität, damit es andere Configs überschreibt
-    opts = function(_, opts)
-      opts.format_on_save = false
-      opts.formatters_by_ft = {} -- Löscht alle Zuweisungen (Prettier, xmlformat etc.)
-    end,
-  },
+  -- {
+  --   "stevearc/conform.nvim",
+  --   priority = 100, -- Hohe Priorität, damit es andere Configs überschreibt
+  --   opts = function(_, opts)
+  --     opts.format_on_save = false
+  --     opts.formatters_by_ft = {} -- Löscht alle Zuweisungen (Prettier, xmlformat etc.)
+  --   end,
+  -- },
 
-  {
-    "neovim/nvim-lspconfig",
-    priority = 100,
-    opts = function(_, opts)
-      opts.autoformat = false -- Schaltet das Standard-Autoformat von LazyVim aus
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   priority = 100,
+  --   opts = function(_, opts)
+  --     opts.autoformat = false -- Schaltet das Standard-Autoformat von LazyVim aus
       
-      -- Dieser Block entzieht JEDEM LSP-Server das Recht zu formatieren
-      opts.setup = {
-        ["*"] = function(client)
-          if client then
-            client.server_capabilities.documentFormattingProvider = false
-            client.server_capabilities.documentRangeFormattingProvider = false
-          end
-        end,
-      }
-    end,
-  },
+  --     -- Dieser Block entzieht JEDEM LSP-Server das Recht zu formatieren
+  --     opts.setup = {
+  --       ["*"] = function(client)
+  --         if client then
+  --           client.server_capabilities.documentFormattingProvider = false
+  --           client.server_capabilities.documentRangeFormattingProvider = false
+  --         end
+  --       end,
+  --     }
+  --   end,
+  -- },
 
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      -- Wir erstellen eine Funktion, die beim Start von Neovim alle 
-      -- eventuellen "Format-beim-Speichern" Autocmds blockiert.
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        pattern = "*",
-        callback = function()
-          -- Hier passiert absichtlich NICHTS. 
-          -- Das verhindert, dass Plugins wie ESLint oder Prettier 
-          -- ungefragt den Code verschieben.
-        end,
-      })
-    end,
-  },
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   config = function()
+  --     -- Wir erstellen eine Funktion, die beim Start von Neovim alle 
+  --     -- eventuellen "Format-beim-Speichern" Autocmds blockiert.
+  --     vim.api.nvim_create_autocmd("BufWritePre", {
+  --       pattern = "*",
+  --       callback = function()
+  --         -- Hier passiert absichtlich NICHTS. 
+  --         -- Das verhindert, dass Plugins wie ESLint oder Prettier 
+  --         -- ungefragt den Code verschieben.
+  --       end,
+  --     })
+  --   end,
+  -- },
 }
 
 ```
