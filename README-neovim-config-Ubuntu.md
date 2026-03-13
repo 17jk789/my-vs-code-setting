@@ -2013,10 +2013,10 @@ keybind = ctrl+comma=open_config
 keybind = ctrl+shift+comma=reload_config
 
 # Kopieren mit Strg + C
-keybind = ctrl+c=copy_to_clipboard
+# keybind = ctrl+c=copy_to_clipboard
 
 # Einfügen mit Strg + V
-keybind = ctrl+v=paste_from_clipboard
+# keybind = ctrl+v=paste_from_clipboard
 
 # keybind = shift+r=text:ranger\r
 
