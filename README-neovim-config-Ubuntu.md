@@ -8142,6 +8142,10 @@ vim.api.nvim_create_autocmd("FileType", {
     )
 
     vim.keymap.set("n", "<leader>rra", ":split | terminal sh -c './gradlew build && ./gradlew run'<CR>", { desc = "Gradle Build & Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrpo", ':split | terminal sh -c \'./gradlew run --args="client 0.0.0.0:1234"\'<CR>', { 
+      desc = "Gradle: Run Client", 
+      silent = true 
+    })
     vim.keymap.set("n", "<leader>rrr", ":split | terminal ./gradlew run<CR>", { desc = "Gradle Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrb", ":split | terminal ./gradlew build<CR>", { desc = "Gradle Build (Split)", silent = true, buffer = true })
 
