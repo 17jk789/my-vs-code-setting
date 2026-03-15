@@ -8917,6 +8917,9 @@ return {
 
 				-- YAML
 				-- "yamlls",
+
+        -- MATLAB
+        "matlab-language-server",
       },
     },
   },
