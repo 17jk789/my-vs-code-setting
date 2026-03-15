@@ -8463,7 +8463,7 @@ vim.api.nvim_create_autocmd("FileType", {
     
     -- 2. Ausführen (Wie Shift+Enter in Jupyter)
     -- 'e' für Evaluate: Funktioniert mit Motions (z.B. <leader>eip für den ganzen Block)
-    vim.keymap.set("n", "<leader>rre", ":MoltenEvaluateOperator<CR>", { desc = "Molten: Run Block", buffer = true })
+    vim.keymap.set("n", "<leader>rre", ":MoltenEvaluateOperator<CR>", { desc = "Molten: Run Block", silent = true })
     -- Für mich
     vim.keymap.set("n", "<leader>rra", ":MoltenEvaluateOperator<CR>", { desc = "Molten: Run Block", buffer = true })
     -- Auswahl im Visual Mode ausführen
@@ -8481,8 +8481,8 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- 4. Navigation (Schnell zwischen Code-Blöcken springen)
     -- Sucht nach dem nächsten Markdown-Codeblock
-    vim.keymap.set("n", "]c", "/^```<CR>:noh<CR>", { desc = "Next Code Block", buffer = true })
-    vim.keymap.set("n", "[c", "?^```<CR>:noh<CR>", { desc = "Prev Code Block", buffer = true })
+    vim.keymap.set("n", "]c", "/^```<CR>:noh<CR>", { desc = "Next Code Block", buffer = true, silent = true })
+    vim.keymap.set("n", "[c", "?^```<CR>:noh<CR>", { desc = "Prev Code Block", buffer = true, silent = true })
   end,
 })
 
