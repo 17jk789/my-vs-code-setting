@@ -2457,10 +2457,10 @@ vim.filetype.add({
 })
 
 -- Mason-Binaries zum System-Pfad hinzufügen (behebt "CLI not found")
-vim.env.PATH = vim.fn.expand("$HOME/.local/share/nvim/mason/bin:") .. vim.env.PATH
+-- vim.env.PATH = vim.fn.expand("$HOME/.local/share/nvim/mason/bin:") .. vim.env.PATH
 
 -- In lua/config/options.lua ganz unten:
-vim.opt.rtp:prepend("/home/jk/.local/share/nvim/site")
+-- vim.opt.rtp:prepend("/home/jk/.local/share/nvim/site")
 
 ```
 
@@ -7017,9 +7017,9 @@ return {
           settings = {
             MATLAB = {
               installPath = "/usr/local/MATLAB/R2025b",
-              indexWorkspace = false, -- Deaktivieren, um Start zu beschleunigen
+              indexWorkspace = true,
               telemetry = false,
-              matlabConnectionTiming = "onDemand", -- WICHTIG: Startet Engine nur wenn nötig
+              matlabConnectionTiming = "onStart", -- WICHTIG: Startet Engine nur wenn nötig
             },
           },
           -- Wir sagen Neovim, dass dieser Server KEIN Formatting kann,
@@ -7027,6 +7027,11 @@ return {
           on_attach = function(client, _)
             client.server_capabilities.documentFormattingProvider = false
             client.server_capabilities.documentRangeFormattingProvider = false
+
+            -- Lokale LSP-Navi (überschreibt Global nur hier im Buffer!)
+            local bopts = { buffer = bufnr, noremap = true, silent = true }
+            vim.keymap.set("n", "gd", vim.lsp.buf.definition, bopts)
+            vim.keymap.set("n", "gr", vim.lsp.buf.references, bopts)
           end,
         },
       })
