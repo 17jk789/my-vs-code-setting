@@ -8802,7 +8802,7 @@ vim.api.nvim_create_autocmd("FileType", {
     -- <leader>rra: Datei ausführen (Bleibt offen für Plots)
     vim.keymap.set("n", "<leader>rra", function()
       local file_path = vim.fn.expand("%:p")
-      run_cmd(matlab_path .. " -nosplash -nodesktop -r \"run('" .. file_path .. "')\"")
+      run_cmd(matlab_path .. " -nosplash -nodesktop -r \"clc; run('" .. file_path .. "')\"")
     end, { desc = "MATLAB Run (Stay open for Plots)", silent = true, buffer = true })
 
     -- <leader>rrr: Interaktive Konsole
