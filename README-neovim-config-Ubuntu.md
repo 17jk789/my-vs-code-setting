@@ -1945,7 +1945,7 @@ shell-integration = bash
 shell-integration-features = no-cursor
 
 # SCROLLBACK
-scrollback-limit = 1000000
+scrollback-limit = 30000000
 
 # CLIPBOARD & MAUS
 clipboard-read = allow
