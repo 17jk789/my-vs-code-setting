@@ -9196,7 +9196,7 @@ return {
 
       vim.cmd("colorscheme catppuccin")
 
-      local colors = require("catppuccin.palettes").get_palette("mocha")
+      -- local colors = require("catppuccin.palettes").get_palette("mocha")
 
       -- local groups = {
       --   "Normal",
