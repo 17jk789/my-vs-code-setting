@@ -309,7 +309,7 @@ sudo apt install tmux
 sudo apt install wofi
 # source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal -> Strg + R
 echo 'source /usr/share/doc/fzf/examples/key-bindings.bash' >> ~/.bashrc
-
+npm install -g @mermaid-js/mermaid-cli
 ```
 
 ## Update NeoVim
@@ -2464,6 +2464,10 @@ vim.opt.rtp:prepend("/home/jk/.local/share/nvim/site")
 
 -- In lua/config/options.lua (ganz oben)
 vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
+
+-- Beruhigt den Snacks-Healthcheck
+vim.api.nvim_set_hl(0, "SnacksNormal", { fg = "#cba6f7", bg = "NONE" })
+vim.api.nvim_set_hl(0, "SnacksIndent", { fg = "#585b70", bg = "NONE" })
 
 ```
 
@@ -9234,8 +9238,15 @@ return {
         "WinBarNC",
       }
 
+      -- for _, group in ipairs(groups) do
+      --   vim.api.nvim_set_hl(0, group, { bg = "none" })
+      -- end
+
       for _, group in ipairs(groups) do
-        vim.api.nvim_set_hl(0, group, { bg = "none" })
+        -- Der Trick: Wir holen das existierende Highlight (mit Farbe!)
+        local old_hl = vim.api.nvim_get_hl(0, { name = group })
+        -- Wir ändern NUR den Hintergrund, behalten aber das FG (Vordergrund)
+        vim.api.nvim_set_hl(0, group, vim.tbl_extend("force", old_hl, { bg = "none" }))
       end
 
       vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#fab387", bold = true, bg = "none" })
@@ -9717,7 +9728,10 @@ return {
         enabled = true,  -- Snacks Terminal aktivieren
       },
       image = { 
-        enabled = true 
+        enabled = true,
+        markdown = {
+          mermaid = false,
+        },
       },
     },
     keys = {
