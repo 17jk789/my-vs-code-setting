@@ -309,7 +309,7 @@ sudo apt install tmux
 sudo apt install wofi
 # source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal -> Strg + R
 echo 'source /usr/share/doc/fzf/examples/key-bindings.bash' >> ~/.bashrc
-npm install -g @mermaid-js/mermaid-cli
+# npm install -g @mermaid-js/mermaid-cli
 ```
 
 ## Update NeoVim
