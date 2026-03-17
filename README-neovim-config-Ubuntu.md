@@ -8859,6 +8859,7 @@ return {
     opts = {
       ensure_installed = {
         "tree-sitter-cli",
+        "mmdc",
 
         -- Rust:
         "rust-analyzer",
@@ -9729,9 +9730,9 @@ return {
       },
       image = { 
         enabled = true,
-        markdown = {
-          mermaid = false,
-        },
+        -- markdown = {
+        --   mermaid = false,
+        -- },
       },
     },
     keys = {
