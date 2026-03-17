@@ -2457,10 +2457,13 @@ vim.filetype.add({
 })
 
 -- Mason-Binaries zum System-Pfad hinzufügen (behebt "CLI not found")
--- vim.env.PATH = vim.fn.expand("$HOME/.local/share/nvim/mason/bin:") .. vim.env.PATH
+vim.env.PATH = vim.fn.expand("$HOME/.local/share/nvim/mason/bin:") .. vim.env.PATH
 
 -- In lua/config/options.lua ganz unten:
--- vim.opt.rtp:prepend("/home/jk/.local/share/nvim/site")
+vim.opt.rtp:prepend("/home/jk/.local/share/nvim/site")
+
+-- In lua/config/options.lua (ganz oben)
+vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 
 ```
 
