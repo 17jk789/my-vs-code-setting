@@ -9196,6 +9196,8 @@ return {
 
       vim.cmd("colorscheme catppuccin")
 
+      local colors = require("catppuccin.palettes").get_palette("mocha")
+
       -- local groups = {
       --   "Normal",
       --   "NormalNC",
@@ -9232,6 +9234,11 @@ return {
       for _, group in ipairs(groups) do
         vim.api.nvim_set_hl(0, group, { bg = "none" })
       end
+
+      vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#fab387", bold = true, bg = "none" })
+      vim.api.nvim_set_hl(0, "CursorLineNr", { fg = colors.mauve, bold = true, bg = "none" })
+      -- vim.api.nvim_set_hl(0, "LineNr", { fg = colors.surface0, bg = "none" })
+      -- vim.api.nvim_set_hl(0, "CursorLine", { bg = colors.surface0}) 
 
       -- Terminal Background beim Start ändern
       vim.api.nvim_create_autocmd("VimEnter", {
