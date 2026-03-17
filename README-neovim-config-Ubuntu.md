@@ -9236,7 +9236,7 @@ return {
       end
 
       vim.api.nvim_set_hl(0, "CursorLineNr", { fg = "#fab387", bold = true, bg = "none" })
-      vim.api.nvim_set_hl(0, "CursorLineNr", { fg = colors.mauve, bold = true, bg = "none" })
+      -- vim.api.nvim_set_hl(0, "CursorLineNr", { fg = colors.mauve, bold = true, bg = "none" })
       -- vim.api.nvim_set_hl(0, "LineNr", { fg = colors.surface0, bg = "none" })
       -- vim.api.nvim_set_hl(0, "CursorLine", { bg = colors.surface0}) 
 
