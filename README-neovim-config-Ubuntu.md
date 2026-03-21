@@ -258,6 +258,7 @@ sudo apt install gzip
 sudo npm install -g typescript
 # sudo apt install texlive-full latexmk zathura zathura-pdf-poppler
 sudo apt install texlive-base texlive-latex-recommended texlive-fonts-recommended latexmk zathura zathura-pdf-poppler
+# sudo apt install texlive-latex-extra texlive-pictures texlive-fonts-extra
 sudo apt install hunspell-de-de hunspell-en-us
 sudo snap install ghostty --classic  # besser für Lazyvim als gnome-terminal oder konsole (KDE)
 # sudo apt install alacritty
