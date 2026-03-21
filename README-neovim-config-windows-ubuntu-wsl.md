@@ -1,6 +1,4 @@
-
-
-
+# SOON
 
 ```json
 {
@@ -14,6 +12,13 @@
                 "action": "closeTab"
             },
             "id": "User.closeTab.0"
+        },
+        {
+            "command": 
+            {
+                "action": "adjustFontSize"
+            },
+            "id": "User.adjustFontSize.D3F0B923"
         }
     ],
     "copyFormatting": "none",
@@ -56,12 +61,12 @@
             "keys": "alt+shift+d"
         },
         {
-            "id": null,
-            "keys": "ctrl+plus"
+            "id": "Terminal.DecreaseFontSize",
+            "keys": "ctrl+minus"
         },
         {
-            "id": null,
-            "keys": "ctrl+minus"
+            "id": "Terminal.IncreaseFontSize",
+            "keys": "ctrl+plus"
         },
         {
             "id": "Terminal.CopyToClipboard",
@@ -112,7 +117,7 @@
                 "face": "JetBrainsMono Nerd Font",
                 "size": 11
             },
-            "opacity": 40,
+            "opacity": 80,
             "useAcrylic": true
         },
         "list": 
@@ -190,39 +195,10 @@
             "selectionBackground": "#FFFFFF",
             "white": "#CCCCCC",
             "yellow": "#C19C00"
-        },
-        {
-            "cursorColor": "#F5E0DC",
-            "selectionBackground": "#585B70",
-
-            "background": "#1E1E2E",
-            "foreground": "#CDD6F4",
-
-            "black": "#45475A",
-            "red": "#F38BA8",
-            "green": "#A6E3A1",
-            "yellow": "#F9E2AF",
-            "blue": "#89B4FA",
-            "purple": "#F5C2E7",
-            "cyan": "#94E2D5",
-            "white": "#BAC2DE",
-
-            "brightBlack": "#585B70",
-            "brightRed": "#F38BA8",
-            "brightGreen": "#A6E3A1",
-            "brightYellow": "#F9E2AF",
-            "brightBlue": "#89B4FA",
-            "brightPurple": "#F5C2E7",
-            "brightCyan": "#94E2D5",
-            "brightWhite": "#A6ADC8"
         }
     ],
-    // "showTabsInTitlebar": true,
-    // "tabWidthMode": "equal",
-    "themes": [],
-    // "useAcrylicInTabRow": true
+    "themes": []
 }
-
 ```
 
 ```bash
@@ -231,3 +207,11 @@ wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64
 tar -xzf nvim-linux-x86_64.tar.gz
 sudo mv nvim-linux-x86_64 /opt/nvim
 ```
+
+
+JetBrainsMonoNerdFontMono-Regular.ttf
+JetBrainsMonoNerdFontMono-Bold.ttf
+JetBrainsMonoNerdFontMono-Italic.ttf
+JetBrainsMonoNerdFontMono-BoldItalic.ttf
+
+JetBrainsMono Nerd Font
