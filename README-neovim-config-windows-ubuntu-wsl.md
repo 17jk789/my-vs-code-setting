@@ -345,9 +345,14 @@ tar -xzf nvim-linux-x86_64.tar.gz
 sudo mv nvim-linux-x86_64 /opt/nvim
 ```
 
+JetBrainsMonoNerdFont-Regular.ttf
 
-JetBrainsMonoNerdFontMono-Regular.ttf
+und noch
+
+JetBrainsMonoNerdFont-Bold.ttf
+JetBrainsMonoNerdFont-Italic.ttf
+
+<!-- JetBrainsMonoNerdFontMono-Regular.ttf
 JetBrainsMonoNerdFontMono-Bold.ttf
 JetBrainsMonoNerdFontMono-Italic.ttf
-JetBrainsMonoNerdFontMono-BoldItalic.ttf
-JetBrainsMonoNerdFont.ttf
+JetBrainsMonoNerdFontMono-BoldItalic.ttf -->
