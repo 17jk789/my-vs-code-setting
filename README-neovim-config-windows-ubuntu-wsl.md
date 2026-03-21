@@ -203,6 +203,10 @@
 
 WezTerm:
 
+```bash
+code .wezterm.lua
+```
+
 ```lua
 local wezterm = require("wezterm")
 
