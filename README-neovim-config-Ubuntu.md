@@ -304,7 +304,7 @@ nvim
 sudo apt install htop
 sudo apt install btop # nvim ~/.config/btop/btop.conf
 sudo apt install nvtop
-sudo apt install ranger
+sudo apt install ranger w3m-img ranger-devicons
 sudo apt install time
 sudo apt install tmux
 sudo apt install wofi
