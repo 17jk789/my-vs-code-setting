@@ -1,4 +1,8 @@
-# SOON
+# Windows Config
+
+Install WSL and use `README-neovim-config-Ubuntu.md`.
+
+## Windows Terminal
 
 ```json
 {
@@ -201,7 +205,7 @@
 }
 ```
 
-WezTerm:
+## WezTerm:
 
 ```bash
 # winget install --id wez.wezterm -e
@@ -346,5 +350,4 @@ JetBrainsMonoNerdFontMono-Regular.ttf
 JetBrainsMonoNerdFontMono-Bold.ttf
 JetBrainsMonoNerdFontMono-Italic.ttf
 JetBrainsMonoNerdFontMono-BoldItalic.ttf
-
-JetBrainsMono Nerd Font
+JetBrainsMonoNerdFont.ttf
