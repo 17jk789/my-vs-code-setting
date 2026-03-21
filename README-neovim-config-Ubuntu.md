@@ -308,9 +308,15 @@ sudo apt install ranger w3m-img ranger-devicons
 sudo apt install time
 sudo apt install tmux
 sudo apt install wofi
+sudo apt install zoxide
+echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
+# sudo apt install just
 # source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal -> Strg + R
 echo 'source /usr/share/doc/fzf/examples/key-bindings.bash' >> ~/.bashrc
 # npm install -g @mermaid-js/mermaid-cli
+sudo apt install clamav clamav-daemon
+sudo freshclam
+clamscan -r ~/.config/nvim
 ```
 
 ## Update NeoVim
