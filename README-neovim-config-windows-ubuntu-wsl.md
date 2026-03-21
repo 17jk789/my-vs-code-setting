@@ -298,6 +298,7 @@ return {
 		{ key = "n", mods = "CTRL|SHIFT", action = wezterm.action.SpawnWindow },
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
 		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
+		{ key = "Enter", mods = "CTRL|SHIFT", action = wezterm.action.TogglePaneZoomState },
 
 		-- Tabs
 		{ key = "Tab", mods = "CTRL", action = wezterm.action.ActivateTabRelative(1) },
