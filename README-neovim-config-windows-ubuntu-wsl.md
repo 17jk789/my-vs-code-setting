@@ -216,10 +216,10 @@ return {
 	-- WINDOW / UI
 	window_decorations = "RESIZE",
 	window_padding = {
-		left = 6,
-		right = 6,
-		top = 4,
-		bottom = 4,
+		left = 4,
+		right = 4,
+		top = 2,
+		bottom = 2,
 	},
 
 	initial_cols = 110,  -- Breite
@@ -242,8 +242,42 @@ return {
 
 	-- Farben (nur Cursor überschreiben, NICHT background doppelt!)
 	colors = {
-		cursor_bg = "#25be6a",
-		cursor_fg = "#f2f4f8",
+		cursor_bg = "#f5a97f",
+		cursor_fg = "#1e1e2e",
+
+		tab_bar = {
+			background = "#1e1e2e",  -- gleiche Farbe wie das Fenster-Hintergrund-Theme
+
+			active_tab = {
+				bg_color = "#1e1e2e",      -- gleiche Farbe wie Hintergrund
+				-- fg_color = "#f5a97f",      -- Textfarbe aktive Tab
+				fg_color = "#ffffff",
+				intensity = "Bold",
+				underline = "None",
+				italic = false,
+				strikethrough = false,
+			},
+
+			-- inactive_tab = {
+			-- 	bg_color = "#181825",      -- leicht dunkler als Hintergrund
+			-- 	fg_color = "#cdd6f4",      -- Textfarbe inaktive Tab
+			-- },
+
+			-- inactive_tab_hover = {
+			-- 	bg_color = "#1c1b26",      -- beim Hover etwas heller
+			-- 	fg_color = "#cdd6f4",
+			-- },
+
+			-- new_tab = {
+			-- 	bg_color = "#1e1e2e",
+			-- 	fg_color = "#94e2d5",
+			-- },
+
+			-- new_tab_hover = {
+			-- 	bg_color = "#1c1b26",
+			-- 	fg_color = "#94e2d5",
+			-- },
+		},
 	},
 
 	-- 🐚 STANDARD SHELL = PowerShell (WICHTIG)
@@ -295,7 +329,6 @@ return {
 		{ key = "0", mods = "CTRL", action = wezterm.action.ResetFontSize },
 	},
 }
-
 
 ```
 
