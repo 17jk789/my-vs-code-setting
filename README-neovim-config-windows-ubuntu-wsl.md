@@ -231,6 +231,9 @@ return {
 	font = wezterm.font("JetBrainsMono Nerd Font"),
 	font_size = 13.5,
 
+	allow_square_glyphs_to_overflow_width = "Never",
+    harfbuzz_features = { "calt=0", "liga=0" },
+
 	-- CURSOR
 	default_cursor_style = "SteadyBlock",
 
@@ -261,6 +264,7 @@ return {
 		{ key = "n", mods = "CTRL|SHIFT", action = wezterm.action.SpawnWindow },
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
 		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
+	        { key = "Enter", mods = "CTRL|SHIFT", action = wezterm.action.TogglePaneZoomState },
 
 		-- Tabs
 		{ key = "Tab", mods = "CTRL", action = wezterm.action.ActivateTabRelative(1) },
