@@ -235,7 +235,11 @@ return {
 	text_background_opacity = 1.0,
 
 	-- FONT
-	font = wezterm.font("JetBrainsMono Nerd Font"),
+	font = wezterm.font_with_fallback {
+		"JetBrainsMono Nerd Font",  -- Hauptfont für Text + Icons
+		"Segoe UI Emoji",           -- Emoji-Fallback
+		"Noto Color Emoji",         -- alternative Fallbacks
+	},
 	font_size = 13.5,
 
 	-- CURSOR
@@ -337,6 +341,7 @@ return {
 
 ```
 
+## Install NeoVim
 
 ```bash
 cd ~/Downloads
@@ -345,9 +350,15 @@ tar -xzf nvim-linux-x86_64.tar.gz
 sudo mv nvim-linux-x86_64 /opt/nvim
 ```
 
+## Nerdfonz:
+
+```bash
+Get-ChildItem -Path "$env:LOCALAPPDATA\Microsoft\Windows\Fonts" -Filter *.ttf
+```
+
 JetBrainsMonoNerdFont-Regular.ttf
 
-und noch
+und noch (etv.)
 
 JetBrainsMonoNerdFont-Bold.ttf
 JetBrainsMonoNerdFont-Italic.ttf
