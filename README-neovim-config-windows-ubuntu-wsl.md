@@ -204,6 +204,8 @@
 WezTerm:
 
 ```bash
+# winget install --id wez.wezterm -e
+winget install wez.wezterm
 code .wezterm.lua
 ```
 
