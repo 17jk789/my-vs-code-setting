@@ -2450,11 +2450,11 @@ vim.opt.mouse = "a"
 
 vim.opt.winbar = "%=%m %f  | %l/%L"
 
-vim.filetype.add({
-  extension = {
-    fxml = "xml",
-  },
-})
+-- vim.filetype.add({
+--   extension = {
+--     fxml = "xml",
+--   },
+-- })
 
 -- Mason-Binaries zum System-Pfad hinzufügen (behebt "CLI not found")
 vim.env.PATH = vim.fn.expand("$HOME/.local/share/nvim/mason/bin:") .. vim.env.PATH
@@ -6484,7 +6484,8 @@ code plugins/web-dev.lua
 return {
   {
     "neovim/nvim-lspconfig",
-    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "xml", "fxml" },
+    -- ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "xml", "fxml" },
+    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "xml" },
     opts = {
       servers = {
         -- Deaktiviere doppelte/standard Server, wir verwenden hier andere Tools
@@ -6507,7 +6508,8 @@ return {
 
         -- XML & FXML Support
         lemminx = {
-          filetypes = { "xml", "fxml" },
+          -- filetypes = { "xml", "fxml" },
+          filetypes = { "xml" },
         },
 
         eslint = {
@@ -6550,7 +6552,8 @@ return {
 
   {
     "stevearc/conform.nvim",
-    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "xml", "fxml" },
+    -- ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "xml", "fxml" },
+    ft = { "html", "css", "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "xml" },
     opts = {
       formatters_by_ft = {
         javascript = { "prettier" },
@@ -6561,7 +6564,7 @@ return {
         html = { "prettier" },
         css = { "prettier" },
         xml = { "xmlformat" },
-        fxml = { "xmlformat" },
+        -- fxml = { "xmlformat" },
       },
       -- optional: automatische Formatierung auf Save
       -- format_on_save = {
@@ -7704,6 +7707,13 @@ vim.api.nvim_create_autocmd(
     end,
   }
 )
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "*.fxml",
+  callback = function()
+    vim.bo.filetype = "xml"
+  end,
+})
 
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
