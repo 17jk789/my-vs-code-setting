@@ -201,6 +201,95 @@
 }
 ```
 
+WezTerm:
+
+```lua
+local wezterm = require("wezterm")
+
+return {
+	-- WINDOW / UI
+	window_decorations = "RESIZE",
+	window_padding = {
+		left = 6,
+		right = 6,
+		top = 4,
+		bottom = 4,
+	},
+
+	-- BLUR (Windows Acrylic)
+	win32_system_backdrop = "Acrylic",
+	window_background_opacity = 0.8,
+	text_background_opacity = 1.0,
+
+	-- FONT
+	font = wezterm.font("JetBrainsMono Nerd Font"),
+	font_size = 13.5,
+
+	-- CURSOR
+	default_cursor_style = "SteadyBlock",
+
+	-- 🎨 CATPPUCCIN THEME (richtig geschrieben!)
+	color_scheme = "Catppuccin Mocha",
+
+	-- Farben (nur Cursor überschreiben, NICHT background doppelt!)
+	colors = {
+		cursor_bg = "#25be6a",
+		cursor_fg = "#f2f4f8",
+	},
+
+	-- 🐚 STANDARD SHELL = PowerShell (WICHTIG)
+	default_prog = { "pwsh.exe" }, -- PowerShell Core
+	-- Alternative (falls nicht installiert):
+	-- default_prog = { "powershell.exe" },
+
+	-- TERMINAL
+	term = "xterm-256color",
+	scrollback_lines = 30000000,
+
+	-- TAB / SPLIT
+	enable_tab_bar = true,
+
+	-- KEYBINDS
+	keys = {
+		{ key = "m", mods = "CTRL", action = wezterm.action.ToggleFullScreen },
+		{ key = "n", mods = "CTRL|SHIFT", action = wezterm.action.SpawnWindow },
+		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
+		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
+
+		-- Tabs
+		{ key = "Tab", mods = "CTRL", action = wezterm.action.ActivateTabRelative(1) },
+		{ key = "Tab", mods = "CTRL|SHIFT", action = wezterm.action.ActivateTabRelative(-1) },
+
+		-- Splits
+		{ key = "o", mods = "CTRL|SHIFT", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
+		{ key = "e", mods = "CTRL|SHIFT", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
+
+		-- Navigation
+		{ key = "LeftArrow", mods = "ALT", action = wezterm.action.ActivatePaneDirection("Left") },
+		{ key = "RightArrow", mods = "ALT", action = wezterm.action.ActivatePaneDirection("Right") },
+		{ key = "UpArrow", mods = "ALT", action = wezterm.action.ActivatePaneDirection("Up") },
+		{ key = "DownArrow", mods = "ALT", action = wezterm.action.ActivatePaneDirection("Down") },
+
+		-- Resize
+		{ key = "LeftArrow", mods = "ALT|SHIFT", action = wezterm.action.AdjustPaneSize({ "Left", 10 }) },
+		{ key = "RightArrow", mods = "ALT|SHIFT", action = wezterm.action.AdjustPaneSize({ "Right", 10 }) },
+		{ key = "UpArrow", mods = "ALT|SHIFT", action = wezterm.action.AdjustPaneSize({ "Up", 10 }) },
+		{ key = "DownArrow", mods = "ALT|SHIFT", action = wezterm.action.AdjustPaneSize({ "Down", 10 }) },
+
+		-- Clipboard
+		{ key = "c", mods = "CTRL|SHIFT", action = wezterm.action.CopyTo("Clipboard") },
+		{ key = "v", mods = "CTRL|SHIFT", action = wezterm.action.PasteFrom("Clipboard") },
+
+		-- Font size
+		{ key = "=", mods = "CTRL", action = wezterm.action.IncreaseFontSize },
+		{ key = "-", mods = "CTRL", action = wezterm.action.DecreaseFontSize },
+		{ key = "0", mods = "CTRL", action = wezterm.action.ResetFontSize },
+	},
+}
+
+```
+
+
 ```bash
 cd ~/Downloads
 wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
