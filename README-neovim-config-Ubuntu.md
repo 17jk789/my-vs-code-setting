@@ -309,6 +309,7 @@ sudo apt install time
 sudo apt install tmux
 sudo apt install wofi
 sudo apt install zoxide
+sudo apt install ghex
 echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
 # sudo apt install just
 # source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal -> Strg + R
