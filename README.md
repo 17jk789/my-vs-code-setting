@@ -8,6 +8,8 @@ This repository contains my personal **Visual Studio Code / NeoVim settings**.
 
 - [NeoVim Ubuntu](README-neovim-config-Ubuntu.md)  
 - [NeoVim Arch](README-neovim-config-Arch.md) - SOON!!!
+- [Windows WSL NeoVim](README-neovim-config-windows-ubuntu-wsl.md)
+- [IDEA Vim](README-idea-config.md)  
 - [VS Code](README-vs-code-config.md)
 
 ---
