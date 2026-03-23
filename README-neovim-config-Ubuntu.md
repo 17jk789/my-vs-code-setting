@@ -318,6 +318,8 @@ echo 'source /usr/share/doc/fzf/examples/key-bindings.bash' >> ~/.bashrc
 sudo apt install clamav clamav-daemon
 sudo freshclam
 clamscan -r ~/.config/nvim
+sudo apt install rkhunter
+sudo rkhunter --check
 ```
 
 ## Update NeoVim
