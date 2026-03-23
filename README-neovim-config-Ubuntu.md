@@ -317,7 +317,8 @@ echo 'source /usr/share/doc/fzf/examples/key-bindings.bash' >> ~/.bashrc
 # npm install -g @mermaid-js/mermaid-cli
 sudo apt install clamav clamav-daemon
 sudo freshclam
-clamscan -r ~/.config/nvim
+clamscan -r -i ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
+clamscan -r -i ~/.cargo ~/.sdkman ~/.npm ~/.local/lib/python3*/site-packages ~/Downloads
 sudo apt install rkhunter
 sudo rkhunter --check
 ```
