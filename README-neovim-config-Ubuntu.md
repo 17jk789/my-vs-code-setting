@@ -2581,7 +2581,16 @@ vim.api.nvim_create_user_command("Open", function(opts)
     return
   end
 
-  vim.fn.jobstart({ "xdg-open", file }, { detach = true })
+  -- Tool-Auswahl: wslview für WSL, xdg-open für natives Linux
+  local cmd = vim.env.WSL_DISTRO_NAME ~= nil and "wslview" or "xdg-open"
+
+  -- Prüfen, ob das Tool überhaupt existiert
+  if vim.fn.executable(cmd) == 0 then
+    vim.notify("Programm '" .. cmd .. "' not found. Please install it!", vim.log.levels.ERROR)
+    return
+  end
+
+  vim.fn.jobstart({ cmd, file }, { detach = true })
 end, {
   nargs = "?",
   complete = "file",
@@ -8212,11 +8221,16 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- Test Report öffnen
     map_if_free("n", "<leader>rrtr", function()
-      vim.fn.jobstart(
-        { "xdg-open", "./app/build/reports/tests/test/index.html" },
-        { detach = true }
-      )
-    end, { desc = "Gradle View Test Report (XDG)", silent = true, buffer = true })
+      -- Bestimmt das Tool: wslview für WSL, sonst xdg-open
+      local cmd = vim.env.WSL_DISTRO_NAME ~= nil and "wslview" or "xdg-open"
+      local file = "./app/build/reports/tests/test/index.html"
+
+      if vim.fn.filereadable(file) == 1 then
+        vim.fn.jobstart({ cmd, file }, { detach = true })
+      else
+        vim.notify("Report not found: " .. file, vim.log.levels.WARN)
+      end
+    end, { desc = "Gradle View Test Report", silent = true, buffer = true })
 
     -- Nur fehlgeschlagene Tests rerun
     map_if_free("n", "<leader>rrtf", function()
@@ -10965,15 +10979,20 @@ N E O V I M - J U L I A N]],
               action = function()
                 local url = "https://github.com/17jk789/my-vs-code-setting/blob/main/README-neovim-config.md"
                 local cmd
+
                 if vim.fn.has("mac") == 1 then
-                  cmd = {"open", url}
+                  cmd = { "open", url }
+                elseif vim.env.WSL_DISTRO_NAME ~= nil then
+                  -- Speziell für WSL: Nutzt den Windows-Standardbrowser
+                  cmd = { "wslview", url }
                 elseif vim.fn.has("unix") == 1 then
-                  cmd = {"xdg-open", url}
-                elseif vim.fn.has("win32") == 1 then
-                  cmd = {"cmd", "/c", "start", "", url} -- Windows-safe Variante
+                  cmd = { "xdg-open", url }
                 end
+
                 if cmd then
-                  vim.fn.jobstart(cmd, {detach = true})
+                  vim.fn.jobstart(cmd, { detach = true })
+                else
+                  vim.notify("No suitable command found to open the URL.", vim.log.levels.ERROR)
                 end
               end
             },
