@@ -295,7 +295,7 @@ return {
 
 	-- TERMINAL
 	term = "xterm-256color",
-	scrollback_lines = 30000000,
+	scrollback_lines = 3000000,
 
 	-- TAB / SPLIT
 	enable_tab_bar = true,
