@@ -258,8 +258,8 @@ return {
 
 			active_tab = {
 				bg_color = "#1e1e2e",      -- gleiche Farbe wie Hintergrund
-				-- fg_color = "#f5a97f",      -- Textfarbe aktive Tab
-				fg_color = "#ffffff",
+				fg_color = "#f5a97f",      -- Textfarbe aktive Tab
+				-- fg_color = "#ffffff",
 				intensity = "Bold",
 				underline = "None",
 				italic = false,
