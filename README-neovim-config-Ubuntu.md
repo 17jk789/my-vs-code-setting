@@ -457,6 +457,7 @@ touch main.py
 # Aktiviert nur für diesen Befehl die venv automatisch
 source venv/bin/activate
 pip install --upgrade pip
+pip install bandit
 # pip install 'python-lsp-server[all]' black ruff debugpy
 # pip install pynvim jupyter-client ipykernel 
 # pip install black ruff
@@ -524,7 +525,7 @@ touch main.py
 # Aktiviert nur für diesen Befehl die venv automatisch
 source venv/bin/activate
 pip install --upgrade pip
-pip install pynvim jupyter_client ipykernel pylatexenc jupytext pynvim nbformat nbconvert notebook
+pip install pynvim jupyter_client ipykernel pylatexenc jupytext pynvim nbformat nbconvert notebook bandit
 # python -m ipykernel install --user --name mein_projekt
 python -m ipykernel install --user --name=pneovim --display-name "Python (P-NeoVim)"
 sudo chown -R $USER:$USER /home/jk/.local/share/jupyter
