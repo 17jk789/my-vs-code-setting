@@ -10214,21 +10214,27 @@ return {
       terminal = {
         enabled = true,
       },
-      image = { 
-        -- Hier prüfen wir die Umgebungsvariablen direkt in den Options
+      image = {
+        -- Aktiviert Bilder, wenn wir in Kitty-Terminal sind
         enabled = (function()
           local term = os.getenv("TERM") or ""
           local term_program = os.getenv("TERM_PROGRAM") or ""
-          local kitty_id = os.getenv("KITTY_WINDOW_ID") or ""  -- Check für echtes Kitty
-          -- Aktiviert Bilder nur für Ghostty oder wenn "kitty" im Namen vorkommt
-          return term:find("kitty") ~= nil or term_program == "Ghostty"
+          local kitty_window = os.getenv("KITTY_WINDOW_ID") or ""
+
+          -- Bilder aktivieren, wenn:
+          -- 1. TERM enthält "kitty"
+          -- 2. oder KITTY_WINDOW_ID gesetzt ist (echtes Kitty)
+          -- 3. oder TERM_PROGRAM Ghostty ist (optional)
+          return term:find("kitty") ~= nil or kitty_window ~= "" or term_program == "Ghostty"
         end)(),
       },
     },
     keys = {
       {
         "<leader>tt",
-        function() require("snacks").terminal() end,
+        function()
+          require("snacks").terminal()
+        end,
         desc = "Terminal",
       },
     },
