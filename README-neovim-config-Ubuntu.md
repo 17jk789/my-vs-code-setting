@@ -8134,16 +8134,21 @@ return {
 
       local ok, dap_python = pcall(require, "dap-python")
       if ok then
-          -- wähle den Python Interpreter für Debugging
-          local python_bin = vim.fn.exepath("python3")  -- Standard
-          -- optional: venv im Projekt nutzen
+          -- Pfad zum Mason-Debugger (hier liegt das installierte debugpy)
+          local mason_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
+          
+          -- Prüfen, ob wir in einem lokalen Projekt-venv sind (optionaler Bonus)
           local venv = vim.fn.getcwd() .. "/.venv/bin/python"
+          
           if vim.fn.executable(venv) == 1 then
-              python_bin = venv
+              -- Wenn Projekt-Venv da ist, nutze das (debugpy muss dort AUCH installiert sein)
+              dap_python.setup(venv)
+          else
+              -- Sonst nutze immer den globalen Mason-Debugger (sicherste Methode)
+              dap_python.setup(mason_path)
           end
 
-          dap_python.setup(python_bin)        -- Adapter starten
-          dap_python.test_runner = "pytest"   -- optional
+          dap_python.test_runner = "pytest"
       else
           vim.notify("dap-python konnte nicht geladen werden", vim.log.levels.WARN)
       end
