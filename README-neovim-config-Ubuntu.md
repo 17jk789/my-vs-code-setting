@@ -2208,8 +2208,9 @@ shell_integration no-cursor
 background_opacity 0.8
 dynamic_background_opacity yes
 # window_padding_width 15
-# hide_window_decorations yes#
-wayland_titlebar_color #f5a97f
+# hide_window_decorations yes
+# wayland_titlebar_color #f5a97f
+wayland_titlebar_color #1e1e2e
 
 ```
 
