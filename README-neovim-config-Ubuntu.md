@@ -10007,7 +10007,7 @@ return {
         desc = "Terminal",
       },
     },
-  }
+  },
 
   -- Mason UI umranden
   {
