@@ -5721,8 +5721,42 @@ return {
   },
 
   -- 2. Image.nvim (Optimiert für Ghostty/Kitty)
+  -- {
+  --   "3rd/image.nvim",
+  --   opts = {
+  --     backend = "kitty", 
+  --     max_width = 150,
+  --     max_height = 30,
+  --     max_height_window_percentage = math.huge,
+  --     max_width_window_percentage = math.huge,
+  --     window_overlap_clear_enabled = true,
+  --     editor_only_render_when_focused = true,
+  --     tmux_show_boundary = false,
+  --     -- Aktiviert die Integration für Markdown-Dateien selbst
+  --     integrations = {
+  --       markdown = {
+  --         enabled = true,
+  --         clear_in_insert_mode = false,
+  --         download_remote_images = true,
+  --         only_render_image_at_cursor = false,
+  --         filetypes = { "markdown", "vimwiki", "quarto" }, -- Quarto für Notebook-Feeling
+  --       },
+  --     },
+  --   },
+  -- },
+
   {
     "3rd/image.nvim",
+    cond = function()
+      -- Prüft auf gängige Terminal-Indikatoren für das Kitty-Protokoll
+      local term = os.getenv("TERM") or ""
+      local term_program = os.getenv("TERM_PROGRAM") or ""
+      
+      -- Ghostty und Kitty setzen meist spezifische Variablen
+      -- WezTerm wird hier ignoriert, da es zwar ein eigenes Protokoll hat, 
+      -- aber image.nvim explizit auf das "backend = kitty" konfiguriert ist.
+      return term:find("kitty") ~= nil or term_program == "Ghostty"
+    end,
     opts = {
       backend = "kitty", 
       max_width = 150,
@@ -5732,14 +5766,13 @@ return {
       window_overlap_clear_enabled = true,
       editor_only_render_when_focused = true,
       tmux_show_boundary = false,
-      -- Aktiviert die Integration für Markdown-Dateien selbst
       integrations = {
         markdown = {
           enabled = true,
           clear_in_insert_mode = false,
           download_remote_images = true,
           only_render_image_at_cursor = false,
-          filetypes = { "markdown", "vimwiki", "quarto" }, -- Quarto für Notebook-Feeling
+          filetypes = { "markdown", "vimwiki", "quarto" },
         },
       },
     },
