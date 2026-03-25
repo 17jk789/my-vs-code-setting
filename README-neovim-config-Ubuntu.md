@@ -10219,6 +10219,7 @@ return {
         enabled = (function()
           local term = os.getenv("TERM") or ""
           local term_program = os.getenv("TERM_PROGRAM") or ""
+          local kitty_id = os.getenv("KITTY_WINDOW_ID") or ""  -- Check für echtes Kitty
           -- Aktiviert Bilder nur für Ghostty oder wenn "kitty" im Namen vorkommt
           return term:find("kitty") ~= nil or term_program == "Ghostty"
         end)(),
