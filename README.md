@@ -1,7 +1,7 @@
 <p float="left">
-  <img src="images/1.png" width="100" />
-  <img src="images/2.png" width="100" />
-  <img src="images/3.png" width="100" />
+  <img src="images/1.png" width="400" />
+  <img src="images/2.png" width="400" />
+  <img src="images/3.png" width="400" />
 </p>
 
 # My VS-Code and NeoVim setting
