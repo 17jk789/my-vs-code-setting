@@ -9033,35 +9033,39 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     local opts = { noremap = true, silent = true, buffer = true }
 
-    vim.keymap.set("n", "<leader>rid", function() 
-      run_in_term("code .") 
-    end, { desc = "Open Project in VS Code", silent = true, buffer = true })
-    vim.keymap.set("n", "<leader>rir", function() 
-      run_in_term("pycharm .") 
-    end, { desc = "Open Project in PyCharm", silent = true, buffer = true })
+    -- Projekt öffnen
+    vim.keymap.set("n", "<leader>rid", function() run_in_term("code .") end, { desc = "Open Project in VS Code", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rir", function() run_in_term("pycharm .") end, { desc = "Open Project in PyCharm", silent = true, buffer = true })
+
+    -- Python Run & Testing
     vim.keymap.set("n", "<leader>rra", ":split | terminal python3 %<CR>", { desc = "Python Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrt", ":split | terminal pytest<CR>", { desc = "Pytest Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrv", ":split | terminal python3 -m venv .venv<CR>", { desc = "Python Create Venv (Split)", silent = true, buffer = true })
+    
+    -- Linting & Formatting
+    vim.keymap.set("n", "<leader>rlf", ":!black %<CR>", { desc = "Format with Black", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rll", ":!flake8 %<CR>", { desc = "Lint with Flake8", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<F5>", function()
-      require("dap").continue()
-    end, opts)
+    -- Tests
+    vim.keymap.set("n", "<leader>rraT", ":split | terminal pytest %<CR>", { desc = "Run current file tests", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<F9>", function()
-      require("dap").toggle_breakpoint()
-    end, opts)
+    -- DAP Debugging
+    vim.keymap.set("n", "<F5>", function() require("dap").continue() end, opts)
+    vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, opts)
+    vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, opts)
+    vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, opts)
+    vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, opts)
 
-    vim.keymap.set("n", "<F10>", function()
-      require("dap").step_over()
-    end, opts)
+    -- Virtuelle Umgebung aktivieren/deaktivieren
+    vim.keymap.set("n", "<leader>rav", ":split | terminal source .venv/bin/activate<CR>", { desc = "Activate Venv", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rdv", ":split | terminal deactivate<CR>", { desc = "Deactivate Venv", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<F11>", function()
-      require("dap").step_into()
-    end, opts)
+    -- Jupyter / IPython
+    vim.keymap.set("n", "<leader>rij", ":split | terminal jupyter console --kernel python3<CR>", { desc = "Open Jupyter Console", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<F12>", function()
-      require("dap").step_out()
-    end, opts)
+    -- Docstrings / TODOs
+    vim.keymap.set("n", "<leader>rtd", ":lua require('neogen').generate()<CR>", { desc = "Generate Docstring (Neogen)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rtf", ":TodoTelescope<CR>", { desc = "Find TODOs", silent = true, buffer = true })
   end,
 })
 
