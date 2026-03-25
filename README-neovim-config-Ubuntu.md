@@ -6024,11 +6024,13 @@ return {
     end,
     opts = {
       backend = "kitty",
-      max_width = 90,
-      max_height = 20,
+      max_width = 150,
+      max_height = 30,
       max_width_window_percentage = math.huge,
       max_height_window_percentage = math.huge,
-      editor_only_render_when_focused = false,
+      window_overlap_clear_enabled = true,
+      editor_only_render_when_focused = true,
+      tmux_show_boundary = false,
       integrations = {
         markdown = {
           enabled = true,
