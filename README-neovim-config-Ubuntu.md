@@ -1958,7 +1958,7 @@ shell-integration = bash
 shell-integration-features = no-cursor
 
 # SCROLLBACK
-scrollback-limit = 30000000
+scrollback-limit = 3000000
 
 # CLIPBOARD & MAUS
 clipboard-read = allow
@@ -2248,6 +2248,219 @@ normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
 bold   = { family = "JetBrainsMono Nerd Font", style = "Bold" }
 italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
 
+term = "xterm-256color"
+scrollback-limit = 3000000
+
+[[keyboard.bindings]]
+key = "M"
+mods = "Control"
+action = "ToggleMaximized"
+
+[[keyboard.bindings]]
+key = "M"
+mods = "Control|Shift"
+action = "ToggleFullscreen"
+
+[[keyboard.bindings]]
+key = ","
+mods = "Control|Shift"
+action = "ReloadConfig"
+
+[[keyboard.bindings]]
+key = "Enter"
+mods = "Control|Shift"
+action = "ToggleSplitZoom"
+
+[[keyboard.bindings]]
+key = "c"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "v"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "Equal"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "0"
+mods = "Control"
+action = "ResetFontSize"
+
+# Tab & window management
+[[keyboard.bindings]]
+key = "t"
+mods = "Control|Shift"
+action = "SpawnNewTab"
+
+[[keyboard.bindings]]
+key = "w"
+mods = "Control|Shift"
+action = "Close"
+
+[[keyboard.bindings]]
+key = "n"
+mods = "Control|Shift"
+action = "SpawnNewWindow"
+
+[[keyboard.bindings]]
+key = "q"
+mods = "Control|Shift"
+action = "Quit"
+
+[[keyboard.bindings]]
+key = "Tab"
+mods = "Control"
+action = "NextTab"
+
+[[keyboard.bindings]]
+key = "Tab"
+mods = "Control|Shift"
+action = "PreviousTab"
+
+# Split creation
+[[keyboard.bindings]]
+key = "O"
+mods = "Control|Shift"
+action = "SpawnSplitRight"
+
+[[keyboard.bindings]]
+key = "E"
+mods = "Control|Shift"
+action = "SpawnSplitDown"
+
+# Split navigation
+[[keyboard.bindings]]
+key = "Left"
+mods = "Alt"
+action = "ActivateSplitLeft"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Alt"
+action = "ActivateSplitRight"
+
+[[keyboard.bindings]]
+key = "Up"
+mods = "Alt"
+action = "ActivateSplitUp"
+
+[[keyboard.bindings]]
+key = "Down"
+mods = "Alt"
+action = "ActivateSplitDown"
+
+# Split resize
+[[keyboard.bindings]]
+key = "Left"
+mods = "Alt|Shift"
+action = "ResizeSplitLeft"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Alt|Shift"
+action = "ResizeSplitRight"
+
+[[keyboard.bindings]]
+key = "Up"
+mods = "Alt|Shift"
+action = "ResizeSplitUp"
+
+[[keyboard.bindings]]
+key = "Down"
+mods = "Alt|Shift"
+action = "ResizeSplitDown"
+
+[[keyboard.bindings]]
+key = "Equal"
+mods = "Alt|Shift"
+action = "EqualizeSplits"
+
+[colors.primary]
+background = "#1E1E2E"
+foreground = "#CDD6F4"
+dim_foreground = "#CDD6F4"
+bright_foreground = "#CDD6F4"
+
+[colors.cursor]
+text = "#1E1E2E"
+cursor = "#F5E0DC"
+
+[colors.vi_mode_cursor]
+text = "#1EE2E"
+cursor = "#B4BEFE"
+
+[colors.search.matches]
+foreground = "#1E1E2E"
+background = "#A6ADC8"
+
+[colors.search.focused_match]
+foreground = "#1E1E2E"
+background = "#A6E3A1"
+
+[colors.footer_bar]
+foreground = "#1E1E2E"
+background = "#A6ADC8"
+
+[colors.hints.start]
+foreground = "#1E1E2E"
+background = "#F9E2AF"
+
+[colors.hints.end]
+foreground = "#1E1E2E"
+background = "#A6ADC8"
+
+[colors.selection]
+text = "#1E1E2E"
+background = "#F5E0DC"
+
+[colors.normal]
+black   = "#45475A"
+red     = "#F38BA8"
+green   = "#A6E3A1"
+yellow  = "#F9E2AF"
+blue    = "#89B4FA"
+magenta = "#F5C2E7"
+cyan    = "#94E2D5"
+white   = "#BAC2DE"
+
+[colors.bright]
+black   = "#585B70"
+red     = "#F38BA8"
+green   = "#A6E3A1"
+yellow  = "#F9E2AF"
+blue    = "#89B4FA"
+magenta = "#F5C2E7"
+cyan    = "#94E2D5"
+white   = "#A6ADC8"
+
+[colors.dim]
+black   = "#45475A"
+red     = "#F38BA8"
+green   = "#A6E3A1"
+yellow  = "#F9E2AF"
+blue    = "#89B4FA"
+magenta = "#F5C2E7"
+cyan    = "#94E2D5"
+white   = "#BAC2DE"
+
+[[colors.indexed_colors]]
+index = 16
+color = "#A6ADC8"
+
+[[colors.indexed_colors]]
+index = 17
+color = "#F5C2E7"
+
 # Nightfox Alacritty Colors
 ## name: carbonfox
 ## upstream: https://github.com/edeneast/nightfox.nvim/raw/main/extra/carbonfox/alacritty.toml
@@ -2326,9 +2539,9 @@ white = "#bebebe"
 index = 16
 color = "#3ddbd9"
 
-[[colors.indexed_colors]]
-index = 17
-color = "#ff7eb6"
+# [[colors.indexed_colors]]
+# index = 17
+# color = "#ff7eb6"
 
 # Nightfox Alacritty Colors
 ## name: nightfox
