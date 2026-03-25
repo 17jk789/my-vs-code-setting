@@ -94,6 +94,7 @@ This repository is released under the **Apache License 2.0**.
     - [MariaDB](#mariadb)
       - [create-maria-pro.sh](#create-maria-prosh)
 - [Ghostty Configuration](#ghostty-configuration)
+- [Kitty Configuration](#kitty-configuration)
 - [Alacritty Configuration](#alacritty-configuration)
   - [oh-my-posh](#oh-my-posh)
   - [ranger](#ranger)
@@ -2030,6 +2031,176 @@ keybind = ctrl+shift+comma=reload_config
 # keybind = ctrl+v=paste_from_clipboard
 
 # keybind = shift+r=text:ranger\r
+
+```
+
+# Kitty Configuration
+
+```bash
+nvim ~/.config/kitty/kitty.conf
+```
+
+```bash
+# WINDOW / UI
+hide_window_decorations no
+window_padding_width 6 4
+confirm_os_window_close 0
+
+# macOS-SPEZIFISCH (Kitty Syntax)
+# macos_titlebar_color system
+# macos_option_as_alt yes
+
+# HINTERGRUND
+background #000000
+# background_opacity 0.85
+# background_blur 10
+
+# Pfad zum Bild
+background_image /home/jk/Pictures/walpaper4-new.jpg
+background_image_layout scaled
+# Kitty nutzt 'scaled', 'mirror', 'tiled' oder 'centered'. 
+# 'scaled' kommt 'cover' am nächsten.
+
+# FONT
+font_family      JetBrainsMono Nerd Font
+bold_font        auto
+italic_font      auto
+bold_italic_font auto
+font_size        13.5
+
+# CURSOR
+cursor_shape block
+cursor #25be6a
+cursor_text_color #f2f4f8
+shell_integration no-cursor
+
+# THEME (Catppuccin Mocha manuell oder via 'kitty +kitten themes')
+# Da Kitty Themes meist externe Dateien sind, hier die Core-Farben:
+include current-theme.conf
+
+
+# Catppuccin Mocha für Kitty
+
+foreground              #cdd6f4
+background              #1e1e2e
+selection_foreground    #1e1e2e
+selection_background    #f5e0dc
+
+# Cursor Farben
+cursor                  #f5e0dc
+cursor_text_color       #1e1e2e
+
+# URL Farbe
+url_color               #f5e0dc
+
+# Kitty Window Border Farben
+active_border_color     #b4befe
+inactive_border_color   #6c7086
+bell_border_color       #f9e2af
+
+# Tab Bar Farben
+active_tab_foreground   #11111b
+active_tab_background   #cba6f8
+inactive_tab_foreground #cdd6f4
+inactive_tab_background #181825
+tab_bar_background      #11111b
+
+# Die 16 Terminal Farben
+
+# Black
+color0 #45475a
+color8 #585b70
+
+# Red
+color1 #f38ba8
+color9 #f38ba8
+
+# Green
+color2  #a6e3a1
+color10 #a6e3a1
+
+# Yellow
+color3  #f9e2af
+color11 #f9e2af
+
+# Blue
+color4  #89b4fa
+color12 #89b4fa
+
+# Magenta
+color5  #f5c2e7
+color13 #f5c2e7
+
+# Cyan
+color6  #94e2d5
+color14 #94e2d5
+
+# White
+color7  #bac2de
+color15 #a6adc8
+
+# TERMINAL CORE
+term xterm-256color
+
+# SCROLLBACK
+scrollback_lines 20000
+
+# CLIPBOARD & MAUS
+copy_on_select yes
+focus_follows_mouse no
+mouse_hide_wait 3.0
+
+# KEYBINDS (Korrekt übersetzt auf Kitty-Aktionen)
+
+# WINDOW MANAGEMENT
+map ctrl+shift+n new_os_window
+map ctrl+shift+q quit
+map ctrl+shift+m toggle_maximized
+map ctrl+shift+f toggle_fullscreen
+
+# TABS
+map ctrl+shift+t new_tab
+map ctrl+shift+w close_tab
+map ctrl+tab next_tab
+map ctrl+shift+tab previous_tab
+map shift+ctrl+, move_tab_backward
+map shift+ctrl+. move_tab_forward
+
+# SPLITS (Layout muss auf 'splits' stehen: enabled_layouts splits)
+enabled_layouts splits
+map ctrl+shift+o launch --location=vsplit
+map ctrl+shift+e launch --location=hsplit
+
+# SPLIT NAVIGATION
+map alt+left neighboring_window left
+map alt+right neighboring_window right
+map alt+up neighboring_window up
+map alt+down neighboring_window down
+
+# SPLIT RESIZE
+map alt+shift+left resize_window narrower 10
+map alt+shift+right resize_window wider 10
+map alt+shift+up resize_window taller 10
+map alt+shift+down resize_window shorter 10
+
+# SPLIT ZOOM
+map ctrl+shift+enter toggle_layout_action zoom_toggle
+
+# CLIPBOARD
+map ctrl+shift+c copy_to_clipboard
+map ctrl+shift+v paste_from_clipboard
+
+# FONT SIZE
+map ctrl+equal change_font_size all +1.0
+map ctrl+minus change_font_size all -1.0
+map ctrl+zero  change_font_size all 0
+
+# CONFIG
+map ctrl+comma edit_config
+map ctrl+shift+comma load_config_file
+
+# Ranger Shortcut
+map shift+r combine : send_text all ranger\r
 
 ```
 
