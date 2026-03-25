@@ -9961,27 +9961,52 @@ return {
     end,
   },
 
+  -- {
+  -- "folke/snacks.nvim",
+  --   opts = {
+  --     terminal = {
+  --       enabled = true,  -- Snacks Terminal aktivieren
+  --     },
+  --     image = { 
+  --       enabled = true,
+  --       -- markdown = {
+  --       --   mermaid = false,
+  --       -- },
+  --     },
+  --   },
+  --   keys = {
+  --     {
+  --       "<leader>tt",
+  --       function() require("snacks").terminal() end, -- Terminal aufrufen
+  --       desc = "Terminal",
+  --     },
+  --   },
+  -- },
+
   {
-  "folke/snacks.nvim",
+    "folke/snacks.nvim",
     opts = {
       terminal = {
-        enabled = true,  -- Snacks Terminal aktivieren
+        enabled = true,
       },
       image = { 
-        enabled = true,
-        -- markdown = {
-        --   mermaid = false,
-        -- },
+        -- Hier prüfen wir die Umgebungsvariablen direkt in den Options
+        enabled = (function()
+          local term = os.getenv("TERM") or ""
+          local term_program = os.getenv("TERM_PROGRAM") or ""
+          -- Aktiviert Bilder nur für Ghostty oder wenn "kitty" im Namen vorkommt
+          return term:find("kitty") ~= nil or term_program == "Ghostty"
+        end)(),
       },
     },
     keys = {
       {
         "<leader>tt",
-        function() require("snacks").terminal() end, -- Terminal aufrufen
+        function() require("snacks").terminal() end,
         desc = "Terminal",
       },
     },
-  },
+  }
 
   -- Mason UI umranden
   {
