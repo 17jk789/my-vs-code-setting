@@ -10214,20 +10214,20 @@ return {
       terminal = {
         enabled = true,
       },
-      image = {
-        -- Aktiviert Bilder, wenn wir in Kitty-Terminal sind
-        enabled = (function()
-          local term = os.getenv("TERM") or ""
-          local term_program = os.getenv("TERM_PROGRAM") or ""
-          local kitty_window = os.getenv("KITTY_WINDOW_ID") or ""
+      -- image = {
+      --   -- Aktiviert Bilder, wenn wir in Kitty-Terminal sind
+      --   enabled = (function()
+      --     local term = os.getenv("TERM") or ""
+      --     local term_program = os.getenv("TERM_PROGRAM") or ""
+      --     local kitty_window = os.getenv("KITTY_WINDOW_ID") or ""
 
-          -- Bilder aktivieren, wenn:
-          -- 1. TERM enthält "kitty"
-          -- 2. oder KITTY_WINDOW_ID gesetzt ist (echtes Kitty)
-          -- 3. oder TERM_PROGRAM Ghostty ist (optional)
-          return term:find("kitty") ~= nil or kitty_window ~= "" or term_program == "Ghostty"
-        end)(),
-      },
+      --     -- Bilder aktivieren, wenn:
+      --     -- 1. TERM enthält "kitty"
+      --     -- 2. oder KITTY_WINDOW_ID gesetzt ist (echtes Kitty)
+      --     -- 3. oder TERM_PROGRAM Ghostty ist (optional)
+      --     return term:find("kitty") ~= nil or kitty_window ~= "" or term_program == "Ghostty"
+      --   end)(),
+      -- },
     },
     keys = {
       {
