@@ -2071,10 +2071,6 @@ font_size        13.5
 
 # CURSOR
 cursor_shape block
-# cursor #25be6a
-cursor #f5a97f
-cursor_text_color #f2f4f8
-shell_integration no-cursor
 
 # THEME (Catppuccin Mocha manuell oder via 'kitty +kitten themes')
 # Da Kitty Themes meist externe Dateien sind, hier die Core-Farben:
@@ -2203,6 +2199,17 @@ map ctrl+shift+comma load_config_file
 
 # Ranger Shortcut
 map shift+r combine : send_text all ranger\r
+
+# cursor #25be6a
+cursor #f5a97f
+cursor_text_color #f2f4f8
+shell_integration no-cursor
+
+background_opacity 0.8
+dynamic_background_opacity yes
+# window_padding_width 15
+# hide_window_decorations yes#
+wayland_titlebar_color #f5a97f
 
 ```
 
