@@ -9047,7 +9047,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rll", ":!flake8 %<CR>", { desc = "Lint with Flake8", silent = true, buffer = true })
 
     -- Tests
-    vim.keymap.set("n", "<leader>rraT", ":split | terminal pytest %<CR>", { desc = "Run current file tests", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrrT", ":split | terminal pytest %<CR>", { desc = "Run current file tests", silent = true, buffer = true })
 
     -- DAP Debugging
     vim.keymap.set("n", "<F5>", function() require("dap").continue() end, opts)
