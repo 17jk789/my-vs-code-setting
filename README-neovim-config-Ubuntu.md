@@ -6240,74 +6240,151 @@ code lsp/python.lua
 
 -- return M
 
+-- local M = {}
+
+-- M.setup = function(capabilities)
+--     local lspconfig = require('lspconfig')
+
+--     -- bessere Completion-Capabilities
+--     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+--     lspconfig.pylsp.setup({
+--         capabilities = capabilities,
+
+--         settings = {
+--             pylsp = {
+--                 plugins = {
+--                     -- klassische Linters AUS
+--                     pycodestyle = { enabled = false },
+--                     pyflakes    = { enabled = false },
+--                     pylint      = { enabled = false },
+--                     mccabe      = { enabled = false },
+
+--                     -- Completion
+--                     rope_completion = { enabled = false },
+--                     jedi_completion = { enabled = true },
+
+--                     -- Formatierung
+--                     -- black = {
+--                     --     enabled = true,
+--                     --     line_length = 88,
+--                     -- },
+
+--                     -- andere Formatierer deaktiviert
+--                     yapf = { enabled = false },
+--                     ruff = { enabled = false },
+--                 },
+--             },
+--         },
+
+--         on_attach = function(client, bufnr)
+--             -- Diagnostics anlassen
+--             client.server_capabilities.diagnosticProvider = true
+
+--             -- Formatierung über pylsp (falls verfügbar)
+--             client.server_capabilities.documentFormattingProvider = true
+
+--             -- Semantic Tokens deaktivieren (optional)
+--             client.server_capabilities.semanticTokensProvider = nil
+
+--             -- Hilfsfunktion für Buffer-Local Keymaps
+--             local buf_map = function(mode, lhs, rhs, opts)
+--                 opts = opts or {}
+--                 opts.buffer = bufnr
+--                 vim.keymap.set(mode, lhs, rhs, opts)
+--             end
+
+--             -- LSP Keymaps
+--             -- buf_map('n', 'gd', vim.lsp.buf.definition) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+--             buf_map('n', 'K', vim.lsp.buf.hover)
+--             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
+--             -- buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+--             buf_map('n', '<leader>f', function()
+--                 vim.lsp.buf.format({ async = true })
+--             end)
+--             buf_map('n', '<leader>oi', function()
+--                 vim.lsp.buf.execute_command({
+--                     command = 'pylsp.organizeImports',
+--                     arguments = { vim.api.nvim_buf_get_name(0) },
+--                 })
+--             end)
+--         end,
+--     })
+-- end
+
+-- return M
+
 local M = {}
 
 M.setup = function(capabilities)
     local lspconfig = require('lspconfig')
 
-    -- bessere Completion-Capabilities
     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-    lspconfig.pylsp.setup({
+    lspconfig.pyright.setup({
         capabilities = capabilities,
 
         settings = {
-            pylsp = {
-                plugins = {
-                    -- klassische Linters AUS
-                    pycodestyle = { enabled = false },
-                    pyflakes    = { enabled = false },
-                    pylint      = { enabled = false },
-                    mccabe      = { enabled = false },
+            python = {
+                analysis = {
+                    typeCheckingMode = "strict", -- MAXIMUM STRICTNESS
+                    autoSearchPaths = true,
+                    useLibraryCodeForTypes = true,
+                    diagnosticMode = "workspace",
 
-                    -- Completion
-                    rope_completion = { enabled = false },
-                    jedi_completion = { enabled = true },
-
-                    -- Formatierung
-                    -- black = {
-                    --     enabled = true,
-                    --     line_length = 88,
-                    -- },
-
-                    -- andere Formatierer deaktiviert
-                    yapf = { enabled = false },
-                    ruff = { enabled = false },
+                    reportMissingImports = true,
+                    reportMissingTypeStubs = false,
+                    reportUnusedVariable = true,
+                    reportUnusedImport = true,
+                    reportOptionalMemberAccess = true,
+                    reportOptionalSubscript = true,
+                    reportGeneralTypeIssues = true,
                 },
             },
         },
 
         on_attach = function(client, bufnr)
-            -- Diagnostics anlassen
-            client.server_capabilities.diagnosticProvider = true
+            -- pyright macht KEIN formatting
+            client.server_capabilities.documentFormattingProvider = false
 
-            -- Formatierung über pylsp (falls verfügbar)
-            client.server_capabilities.documentFormattingProvider = true
-
-            -- Semantic Tokens deaktivieren (optional)
+            -- optional cleaner look
             client.server_capabilities.semanticTokensProvider = nil
 
-            -- Hilfsfunktion für Buffer-Local Keymaps
             local buf_map = function(mode, lhs, rhs, opts)
                 opts = opts or {}
                 opts.buffer = bufnr
                 vim.keymap.set(mode, lhs, rhs, opts)
             end
 
-            -- LSP Keymaps
-            -- buf_map('n', 'gd', vim.lsp.buf.definition) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+            -- Keymaps
             buf_map('n', 'K', vim.lsp.buf.hover)
             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
-            -- buf_map('n', '<leader>ca', vim.lsp.buf.code_action) -- Diese Tastenkombination ist bereits in plugins/keymaps definiert.
+            buf_map('n', '<leader>ca', vim.lsp.buf.code_action)
+
+            -- Format (kommt von ruff/null-ls)
             buf_map('n', '<leader>f', function()
                 vim.lsp.buf.format({ async = true })
             end)
-            buf_map('n', '<leader>oi', function()
-                vim.lsp.buf.execute_command({
-                    command = 'pylsp.organizeImports',
-                    arguments = { vim.api.nvim_buf_get_name(0) },
+        end,
+    })
+
+    -- Null-ls / Ruff Setup
+    local null_ls = require("null-ls")
+    null_ls.setup({
+        sources = {
+            null_ls.builtins.diagnostics.ruff,
+            null_ls.builtins.formatting.ruff,
+        },
+        on_attach = function(client, bufnr)
+            if client.supports_method("textDocument/formatting") then
+                local group = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+                vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
+                vim.api.nvim_create_autocmd("BufWritePre", {
+                    group = group,
+                    buffer = bufnr,
+                    callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
                 })
-            end)
+            end
         end,
     })
 end
@@ -7929,13 +8006,13 @@ return {
       local codelldb_path =
         mason_path .. "/packages/codelldb/extension/adapter/codelldb"
 
-      -- require("mason-nvim-dap").setup({
-      --   ensure_installed = { "codelldb" , "python"},
-      -- })
-      
       require("mason-nvim-dap").setup({
-        ensure_installed = { "codelldb"},
+        ensure_installed = { "codelldb" , "python"},
       })
+      
+      -- require("mason-nvim-dap").setup({
+      --   ensure_installed = { "codelldb"},
+      -- })
 
       -- Mason Debug Adapter
       -- require("mason-nvim-dap").setup({
@@ -8054,6 +8131,22 @@ return {
       -- else
       --   vim.notify("dap-python konnte nicht geladen werden", vim.log.levels.WARN)
       -- end
+
+      local ok, dap_python = pcall(require, "dap-python")
+      if ok then
+          -- wähle den Python Interpreter für Debugging
+          local python_bin = vim.fn.exepath("python3")  -- Standard
+          -- optional: venv im Projekt nutzen
+          local venv = vim.fn.getcwd() .. "/.venv/bin/python"
+          if vim.fn.executable(venv) == 1 then
+              python_bin = venv
+          end
+
+          dap_python.setup(python_bin)        -- Adapter starten
+          dap_python.test_runner = "pytest"   -- optional
+      else
+          vim.notify("dap-python konnte nicht geladen werden", vim.log.levels.WARN)
+      end
     end,
   },
 
@@ -9504,13 +9597,13 @@ return {
         -- "kotlin_language_server",
 
         -- Python:
-        -- "pyright", 
-        "python-lsp-server", -- früber "pylsp",
+        "pyright", 
+        -- "python-lsp-server", -- früber "pylsp",
         -- "pylsp-mypy" -- optional, für Typ-Prüfung
         -- "python-lsp-black",
         -- "black",
-        -- "ruff",
-        -- "debugpy",
+        "ruff",
+        "debugpy",
         -- "mypy",
 
         -- HTML:
