@@ -1847,7 +1847,8 @@ adjust-cell-width = 0%
 
 # CURSOR
 cursor-style = block
-cursor-color = #25be6a
+# cursor-color = #25be6a
+cursor-color = #f5a97f
 cursor-text = #f2f4f8
 
 theme = Catppuccin Mocha
