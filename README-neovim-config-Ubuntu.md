@@ -5971,24 +5971,26 @@ return {
   {
     "3rd/image.nvim",
     cond = function()
-      -- Prüft auf gängige Terminal-Indikatoren für das Kitty-Protokoll
       local term = os.getenv("TERM") or ""
       local term_program = os.getenv("TERM_PROGRAM") or ""
-      
-      -- Ghostty und Kitty setzen meist spezifische Variablen
-      -- WezTerm wird hier ignoriert, da es zwar ein eigenes Protokoll hat, 
-      -- aber image.nvim explizit auf das "backend = kitty" konfiguriert ist.
-      return term:find("kitty") ~= nil or term_program == "Ghostty"
+      local kitty_protocol = os.getenv("KITTY_WINDOW_ID") -- Kitty setzt diese Variable
+
+      -- Prüft auf echte Kitty-Umgebung oder Ghostty
+      if kitty_protocol and kitty_protocol ~= "" then
+        return true
+      elseif term:find("kitty") or term_program == "Ghostty" then
+        return true
+      end
+
+      return false
     end,
     opts = {
-      backend = "kitty", 
-      max_width = 150,
-      max_height = 30,
-      max_height_window_percentage = math.huge,
+      backend = "kitty",
+      max_width = 90,
+      max_height = 20,
       max_width_window_percentage = math.huge,
-      window_overlap_clear_enabled = true,
-      editor_only_render_when_focused = true,
-      tmux_show_boundary = false,
+      max_height_window_percentage = math.huge,
+      editor_only_render_when_focused = false,
       integrations = {
         markdown = {
           enabled = true,
