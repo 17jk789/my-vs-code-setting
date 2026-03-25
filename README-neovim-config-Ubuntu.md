@@ -9037,6 +9037,26 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rra", ":split | terminal python3 %<CR>", { desc = "Python Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrt", ":split | terminal pytest<CR>", { desc = "Pytest Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrv", ":split | terminal python3 -m venv .venv<CR>", { desc = "Python Create Venv (Split)", silent = true, buffer = true })
+
+    vim.keymap.set("n", "<F5>", function()
+      require("dap").continue()
+    end, opts)
+
+    vim.keymap.set("n", "<F9>", function()
+      require("dap").toggle_breakpoint()
+    end, opts)
+
+    vim.keymap.set("n", "<F10>", function()
+      require("dap").step_over()
+    end, opts)
+
+    vim.keymap.set("n", "<F11>", function()
+      require("dap").step_into()
+    end, opts)
+
+    vim.keymap.set("n", "<F12>", function()
+      require("dap").step_out()
+    end, opts)
   end,
 })
 
