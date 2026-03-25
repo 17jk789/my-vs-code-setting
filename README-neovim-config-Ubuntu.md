@@ -2071,7 +2071,8 @@ font_size        13.5
 
 # CURSOR
 cursor_shape block
-cursor #25be6a
+# cursor #25be6a
+cursor #f5a97f
 cursor_text_color #f2f4f8
 shell_integration no-cursor
 
