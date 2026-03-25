@@ -126,6 +126,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/programmierprojekt.lua](#pluginsprogrammierprojektlua)
   - [plugins/dap.lua](#pluginsdaplua)
   - [config/autocmds.lua](#configautocmdslua)
+  - [plugins/image\_toggle.lua](#pluginsimage_togglelua)
   - [plugins/mason.lua](#pluginsmasonlua)
   - [plugins/theme.lua](#pluginsthemelua)
   - [plugins/latex.lua](#pluginslatexlua)
@@ -2761,6 +2762,7 @@ cd ~/.config/nvim/lua
         ├── db.lua
         ├── fzf.lua
         ├── git.lua
+        ├── image_toggle.lua
         ├── go.lua
         ├── java.lua
         ├── javascript.lua
@@ -3067,6 +3069,42 @@ vim.keymap.set("n", "<leader>ta", function()
     print("Autoformat: OFF (Safe mode enabled)")
   end
 end, { desc = "Toggle Autoformat Global" })
+
+local json_file = vim.fn.expand("~/.config/nvim/image_toggle_status.json")
+
+-- JSON erstellen, falls nicht existiert
+if vim.fn.filereadable(json_file) == 0 then
+  vim.fn.writefile({ vim.fn.json_encode({ display = false }) }, json_file)
+end
+
+-- Hilfsfunktion, um Status in die JSON zu schreiben
+local function save_status(value)
+  vim.fn.writefile({ vim.fn.json_encode({ display = value }) }, json_file)
+end
+
+-- Commands, die nur JSON ändern
+vim.api.nvim_create_user_command("ImageON", function()
+  save_status(true)
+  print("JSON: display = true")
+end, {})
+
+vim.api.nvim_create_user_command("ImageOFF", function()
+  save_status(false)
+  print("JSON: display = false")
+end, {})
+
+vim.api.nvim_create_user_command("ImageToggle", function()
+  local ok, data = pcall(vim.fn.json_decode, table.concat(vim.fn.readfile(json_file), "\n"))
+  local current = ok and data and data.display or false
+  save_status(not current)
+  print("JSON: display = " .. tostring(not current))
+end, {})
+
+-- Keymaps
+vim.keymap.set("n", "<leader>io", "<cmd>ImageON<cr>", { noremap = true, silent = true, desc = "ImageON" })
+vim.keymap.set("n", "<leader>if", "<cmd>ImageOFF<cr>", { noremap = true, silent = true, desc = "ImageOFF" })
+vim.keymap.set("n", "<leader>it", "<cmd>ImageToggle<cr>", { noremap = true, silent = true, desc = "ImageToggle" })
+
 
 ```
 
@@ -5968,40 +6006,40 @@ return {
   --   },
   -- },
 
-  {
-    "3rd/image.nvim",
-    cond = function()
-      local term = os.getenv("TERM") or ""
-      local term_program = os.getenv("TERM_PROGRAM") or ""
-      local kitty_protocol = os.getenv("KITTY_WINDOW_ID") -- Kitty setzt diese Variable
+  -- {
+  --   "3rd/image.nvim",
+  --   cond = function()
+  --     local term = os.getenv("TERM") or ""
+  --     local term_program = os.getenv("TERM_PROGRAM") or ""
+  --     local kitty_protocol = os.getenv("KITTY_WINDOW_ID") -- Kitty setzt diese Variable
 
-      -- Prüft auf echte Kitty-Umgebung oder Ghostty
-      if kitty_protocol and kitty_protocol ~= "" then
-        return true
-      elseif term:find("kitty") or term_program == "Ghostty" then
-        return true
-      end
+  --     -- Prüft auf echte Kitty-Umgebung oder Ghostty
+  --     if kitty_protocol and kitty_protocol ~= "" then
+  --       return true
+  --     elseif term:find("kitty") or term_program == "Ghostty" then
+  --       return true
+  --     end
 
-      return false
-    end,
-    opts = {
-      backend = "kitty",
-      max_width = 90,
-      max_height = 20,
-      max_width_window_percentage = math.huge,
-      max_height_window_percentage = math.huge,
-      editor_only_render_when_focused = false,
-      integrations = {
-        markdown = {
-          enabled = true,
-          clear_in_insert_mode = false,
-          download_remote_images = true,
-          only_render_image_at_cursor = false,
-          filetypes = { "markdown", "vimwiki", "quarto", "latex" },
-        },
-      },
-    },
-  },
+  --     return false
+  --   end,
+  --   opts = {
+  --     backend = "kitty",
+  --     max_width = 90,
+  --     max_height = 20,
+  --     max_width_window_percentage = math.huge,
+  --     max_height_window_percentage = math.huge,
+  --     editor_only_render_when_focused = false,
+  --     integrations = {
+  --       markdown = {
+  --         enabled = true,
+  --         clear_in_insert_mode = false,
+  --         download_remote_images = true,
+  --         only_render_image_at_cursor = false,
+  --         filetypes = { "markdown", "vimwiki", "quarto", "latex" },
+  --       },
+  --     },
+  --   },
+  -- },
   
   -- 3. EMPFEHLUNG: Render-Markdown für schöneres UI
   -- Dies verbessert das Aussehen von Markdown-Blöcken im Editor enorm.
@@ -9293,6 +9331,123 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Kill MATLAB / Close Plot", silent = true, buffer = true })
   end,
 })
+
+```
+
+
+## plugins/image_toggle.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/image_toggle.lua
+```
+
+```bash
+nano plugins/image_toggle.lua
+```
+
+```bash
+code plugins/image_toggle.lua
+```
+
+```lua
+-- plugins/image_toggle.lua
+
+-- Pfad zur JSON-Datei
+local json_file = vim.fn.expand("~/.config/nvim/image_toggle_status.json")
+
+-- Initialisiere die JSON-Datei, falls sie nicht existiert
+if vim.fn.filereadable(json_file) == 0 then
+  vim.fn.writefile({ vim.fn.json_encode({ display = true }) }, json_file)
+end
+
+-- Status aus JSON lesen
+local function read_status()
+  local ok, data = pcall(vim.fn.json_decode, table.concat(vim.fn.readfile(json_file), "\n"))
+  if ok and data and data.display ~= nil then
+    return data.display
+  end
+  return false
+end
+
+local image_status = read_status()
+
+-- Plugin Konfiguration
+return {
+  "3rd/image.nvim",
+  cond = image_status, -- Plugin nur laden, wenn display = true
+  opts = {
+    backend = "kitty",
+    max_width = 90,
+    max_height = 20,
+    max_width_window_percentage = math.huge,
+    max_height_window_percentage = math.huge,
+    editor_only_render_when_focused = false,
+    integrations = {
+      markdown = {
+        enabled = true,
+        clear_in_insert_mode = false,
+        download_remote_images = true,
+        only_render_image_at_cursor = false,
+        filetypes = { "markdown", "vimwiki", "quarto", "latex", "tex" },
+      },
+    },
+  },
+  config = function(_, opts)
+    local ok, image = pcall(require, "image")
+    if not ok then
+      return
+    end
+
+    image.setup(opts)
+    vim.g.image_display = image_status
+
+    local function safe_render()
+      if image.render_at_cursor then
+        image.render_at_cursor()
+      elseif image.render_file then
+        image.render_file(vim.api.nvim_buf_get_name(0))
+      elseif image.render then
+        image.render()
+      end
+    end
+
+    local function save_status(value)
+      vim.fn.writefile({ vim.fn.json_encode({ display = value }) }, json_file)
+    end
+
+    vim.g.image_on = function()
+      vim.g.image_display = true
+      if opts.integrations and opts.integrations.markdown then
+        opts.integrations.markdown.enabled = true
+      end
+      safe_render()
+      save_status(true)
+      print("ImageON")
+    end
+
+    vim.g.image_off = function()
+      vim.g.image_display = false
+      if opts.integrations and opts.integrations.markdown then
+        opts.integrations.markdown.enabled = false
+      end
+      image.clear()
+      save_status(false)
+      print("ImageOFF")
+    end
+
+    vim.g.image_toggle = function()
+      if vim.g.image_display then
+        vim.g.image_off()
+      else
+        vim.g.image_on()
+      end
+    end
+  end,
+}
 
 ```
 
