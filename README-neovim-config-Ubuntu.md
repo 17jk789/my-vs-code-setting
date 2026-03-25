@@ -2189,7 +2189,7 @@ map ctrl+shift+c copy_to_clipboard
 map ctrl+shift+v paste_from_clipboard
 
 # FONT SIZE
-map ctrl+equal change_font_size all +1.0
+map ctrl+plus change_font_size all +1.0
 map ctrl+minus change_font_size all -1.0
 map ctrl+zero  change_font_size all 0
 
