@@ -5969,7 +5969,8 @@ return {
       -- WICHTIG: Erlaubt Molten, Markdown-Inhalte im Output-Fenster zu rendern
       vim.g.molten_auto_open_output = true
       vim.g.molten_output_win_max_height = 30
-      vim.g.molten_virt_text_output = true
+      -- vim.g.molten_virt_text_output = true
+      vim.g.molten_virt_text_output = false
       vim.g.molten_use_border_highlights = true
       vim.g.molten_virt_lines_off_by_1 = true
       
@@ -6025,8 +6026,8 @@ return {
     end,
     opts = {
       backend = "kitty",
-      max_width = 150,
-      max_height = 30,
+      max_width = 100,
+      max_height = 20,
       max_width_window_percentage = math.huge,
       max_height_window_percentage = math.huge,
       window_overlap_clear_enabled = true,
@@ -6053,7 +6054,8 @@ return {
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
     -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     opts = {
-      file_types = { "markdown", "quarto", "python"},
+      -- file_types = { "markdown", "quarto", "python" },
+      file_types = { "markdown", "quarto" },
           
       code = {
         style = 'full',
@@ -6079,7 +6081,8 @@ return {
         python = {
           extension = "md",
           style = "markdown",
-          force_ft = "markdown", -- WICHTIG: Damit vi` funktioniert
+          -- force_ft = "markdown", -- WICHTIG: Damit vi` funktioniert
+          force_ft = nil,
           converter = "pylatexenc", -- Oder "mmarkdown" / "none"
         },
       },
@@ -6112,27 +6115,73 @@ return {
       --   original_handler(err, result, ctx, config)
       -- end
 
-      local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
-      vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
-        local filtered = {}
-        if result and result.diagnostics then
-          for _, d in ipairs(result.diagnostics) do
-            -- Wir prüfen, ob die Quelle 'pycodestyle' ist (Groß/Kleinschreibung egal)
-            local source = d.source or ""
-            if not source:lower():find("pycodestyle") then
-              table.insert(filtered, d)
+      -- local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
+      -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+      --   local filtered = {}
+      --   if result and result.diagnostics then
+      --     for _, d in ipairs(result.diagnostics) do
+      --       -- Wir prüfen, ob die Quelle 'pycodestyle' ist (Groß/Kleinschreibung egal)
+      --       local source = d.source or ""
+      --       if not source:lower():find("pycodestyle") then
+      --         table.insert(filtered, d)
+      --       end
+      --     end
+      --     result.diagnostics = filtered
+      --   end
+      --   original_handler(err, result, ctx, config)
+      -- end
+
+      -- local function filter_diagnostics(diagnostics)
+      --   local filtered = {}
+
+      --   for _, d in ipairs(diagnostics) do
+      --     local source = d.source or ""
+
+      --     if not source:lower():find("pycodestyle") then
+      --       table.insert(filtered, d)
+      --     end
+      --   end
+
+      --   return filtered
+      -- end
+
+      if not vim.g._otter_diagnostic_filter then
+        vim.g._otter_diagnostic_filter = true
+
+        local original = vim.lsp.handlers["textDocument/publishDiagnostics"]
+
+        vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+          if result and result.diagnostics then
+            local client = vim.lsp.get_client_by_id(ctx.client_id)
+
+            if client and client.name == "otter-ls" then
+              local filtered = {}
+
+              for _, d in ipairs(result.diagnostics) do
+                local source = d.source or ""
+
+                if not source:lower():find("pycodestyle") then
+                  table.insert(filtered, d)
+                end
+              end
+
+              result.diagnostics = filtered
             end
           end
-          result.diagnostics = filtered
+
+          return original(err, result, ctx, config)
         end
-        original_handler(err, result, ctx, config)
       end
 
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "markdown",
         group = group,
         callback = function()
-          require("otter").activate({"python"})
+          -- require("otter").activate({"python"})
+          if not vim.b.otter_activated then
+            require("otter").activate({ "python" })
+            vim.b.otter_activated = true
+          end
         end,
       })
     end,
