@@ -6145,32 +6145,57 @@ return {
       --   return filtered
       -- end
 
-      if not vim.g._otter_diagnostic_filter then
-        vim.g._otter_diagnostic_filter = true
+      -- if not vim.g._otter_diagnostic_filter then
+      --   vim.g._otter_diagnostic_filter = true
 
-        local original = vim.lsp.handlers["textDocument/publishDiagnostics"]
+      --   local original = vim.lsp.handlers["textDocument/publishDiagnostics"]
 
-        vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
-          if result and result.diagnostics then
-            local client = vim.lsp.get_client_by_id(ctx.client_id)
+      --   vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+      --     if result and result.diagnostics then
+      --       local client = vim.lsp.get_client_by_id(ctx.client_id)
 
-            if client and client.name == "otter-ls" then
-              local filtered = {}
+      --       if client and client.name == "otter-ls" then
+      --         local filtered = {}
 
-              for _, d in ipairs(result.diagnostics) do
-                local source = d.source or ""
+      --         for _, d in ipairs(result.diagnostics) do
+      --           local source = d.source or ""
 
-                if not source:lower():find("pycodestyle") then
-                  table.insert(filtered, d)
-                end
+      --           if not source:lower():find("pycodestyle") then
+      --             table.insert(filtered, d)
+      --           end
+      --         end
+
+      --         result.diagnostics = filtered
+      --       end
+      --     end
+
+      --     return original(err, result, ctx, config)
+      --   end
+      -- end
+
+      local original = vim.lsp.handlers["textDocument/publishDiagnostics"]
+
+      vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+        if result and result.diagnostics then
+          local client = vim.lsp.get_client_by_id(ctx.client_id)
+
+          if client and (client.name == "pyright" or client.name == "ruff_lsp") then
+            local filtered = {}
+
+            for _, d in ipairs(result.diagnostics) do
+              local source = d.source or ""
+
+              -- Beispiel: pycodestyle ignorieren
+              if not source:lower():find("pycodestyle") then
+                table.insert(filtered, d)
               end
-
-              result.diagnostics = filtered
             end
-          end
 
-          return original(err, result, ctx, config)
+            result.diagnostics = filtered
+          end
         end
+
+        return original(err, result, ctx, config)
       end
 
       vim.api.nvim_create_autocmd("FileType", {
