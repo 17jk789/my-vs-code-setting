@@ -6516,7 +6516,7 @@ lspconfig.pyright.setup({
     end,
 })
 
--- 🧹 NULL-LS (LINT + FORMAT + SECURITY)
+-- NULL-LS (LINT + FORMAT + SECURITY)
 null_ls.setup({
     sources = {
         -- Ruff (Lint)
