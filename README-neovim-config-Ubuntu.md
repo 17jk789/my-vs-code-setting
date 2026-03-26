@@ -5969,8 +5969,8 @@ return {
       -- WICHTIG: Erlaubt Molten, Markdown-Inhalte im Output-Fenster zu rendern
       vim.g.molten_auto_open_output = true
       vim.g.molten_output_win_max_height = 30
-      -- vim.g.molten_virt_text_output = true
-      vim.g.molten_virt_text_output = false
+      vim.g.molten_virt_text_output = true
+      -- vim.g.molten_virt_text_output = false
       vim.g.molten_use_border_highlights = true
       vim.g.molten_virt_lines_off_by_1 = true
       
@@ -6081,8 +6081,8 @@ return {
         python = {
           extension = "md",
           style = "markdown",
-          -- force_ft = "markdown", -- WICHTIG: Damit vi` funktioniert
-          force_ft = nil,
+          force_ft = "markdown", -- WICHTIG: Damit vi` funktioniert
+          -- force_ft = nil,
           converter = "pylatexenc", -- Oder "mmarkdown" / "none"
         },
       },
