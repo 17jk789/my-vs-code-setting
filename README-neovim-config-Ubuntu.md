@@ -1952,6 +1952,7 @@ theme = Catppuccin Mocha
 # term = alacritty
 # term = wezterm
 # term = kitty
+# term = xterm-kitty
 # term = foot
 term = xterm-256color
 # cursor-style = block
