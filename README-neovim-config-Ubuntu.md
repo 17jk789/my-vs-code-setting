@@ -6315,79 +6315,210 @@ code lsp/python.lua
 
 -- return M
 
+-- local M = {}
+
+-- M.setup = function(capabilities)
+--     local lspconfig = require('lspconfig')
+
+--     capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+--     lspconfig.pyright.setup({
+--         capabilities = capabilities,
+
+--         settings = {
+--             python = {
+--                 analysis = {
+--                     typeCheckingMode = "strict", -- MAXIMUM STRICTNESS
+--                     autoSearchPaths = true,
+--                     useLibraryCodeForTypes = true,
+--                     diagnosticMode = "workspace",
+
+--                     reportMissingImports = true,
+--                     reportMissingTypeStubs = false,
+--                     reportUnusedVariable = true,
+--                     reportUnusedImport = true,
+--                     reportOptionalMemberAccess = true,
+--                     reportOptionalSubscript = true,
+--                     reportGeneralTypeIssues = true,
+--                 },
+--             },
+--         },
+
+--         on_attach = function(client, bufnr)
+--             -- pyright macht KEIN formatting
+--             client.server_capabilities.documentFormattingProvider = false
+
+--             -- optional cleaner look
+--             client.server_capabilities.semanticTokensProvider = nil
+
+--             local buf_map = function(mode, lhs, rhs, opts)
+--                 opts = opts or {}
+--                 opts.buffer = bufnr
+--                 vim.keymap.set(mode, lhs, rhs, opts)
+--             end
+
+--             -- Keymaps
+--             buf_map('n', 'K', vim.lsp.buf.hover)
+--             buf_map('n', '<leader>rn', vim.lsp.buf.rename)
+--             buf_map('n', '<leader>ca', vim.lsp.buf.code_action)
+
+--             -- Format (kommt von ruff/null-ls)
+--             buf_map('n', '<leader>f', function()
+--                 vim.lsp.buf.format({ async = true })
+--             end)
+--         end,
+--     })
+
+--     -- Null-ls / Ruff Setup
+--     local null_ls = require("null-ls")
+--     null_ls.setup({
+--         sources = {
+--             null_ls.builtins.diagnostics.ruff,
+--             null_ls.builtins.formatting.ruff,
+--         },
+--         on_attach = function(client, bufnr)
+--             if client.supports_method("textDocument/formatting") then
+--                 local group = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+--                 vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
+--                 vim.api.nvim_create_autocmd("BufWritePre", {
+--                     group = group,
+--                     buffer = bufnr,
+--                     callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
+--                 })
+--             end
+--         end,
+--     })
+-- end
+
+-- return M
+
 local M = {}
 
 M.setup = function(capabilities)
-    local lspconfig = require('lspconfig')
+local lspconfig = require('lspconfig')
+local null_ls = require("null-ls")
 
-    capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+-- bessere capabilities
+capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-    lspconfig.pyright.setup({
-        capabilities = capabilities,
+-- Pyright Setup (MAXIMUM PROFESSIONAL)
+lspconfig.pyright.setup({
+    capabilities = capabilities,
 
-        settings = {
-            python = {
-                analysis = {
-                    typeCheckingMode = "strict", -- MAXIMUM STRICTNESS
-                    autoSearchPaths = true,
-                    useLibraryCodeForTypes = true,
-                    diagnosticMode = "workspace",
+    settings = {
+        python = {
+            analysis = {
+                typeCheckingMode = "strict",
+                diagnosticMode = "workspace",
 
-                    reportMissingImports = true,
-                    reportMissingTypeStubs = false,
-                    reportUnusedVariable = true,
-                    reportUnusedImport = true,
-                    reportOptionalMemberAccess = true,
-                    reportOptionalSubscript = true,
-                    reportGeneralTypeIssues = true,
-                },
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                autoImportCompletions = true,
+
+                -- maximale Strenge
+                reportMissingImports = true,
+                reportMissingTypeStubs = false,
+                reportUnusedVariable = true,
+                reportUnusedImport = true,
+                reportOptionalMemberAccess = true,
+                reportOptionalSubscript = true,
+                reportGeneralTypeIssues = true,
+                reportPrivateImportUsage = true,
+                reportUnnecessaryTypeIgnoreComment = true,
+                reportImplicitStringConcatenation = true,
+                reportCallInDefaultInitializer = true,
+                reportUnboundVariable = true,
+
+                -- Performance
+                indexing = true,
             },
         },
+    },
 
-        on_attach = function(client, bufnr)
-            -- pyright macht KEIN formatting
-            client.server_capabilities.documentFormattingProvider = false
+    on_attach = function(client, bufnr)
+        -- Pyright kein Formatting
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.semanticTokensProvider = nil
 
-            -- optional cleaner look
-            client.server_capabilities.semanticTokensProvider = nil
+        local map = function(mode, lhs, rhs)
+            vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
+        end
 
-            local buf_map = function(mode, lhs, rhs, opts)
-                opts = opts or {}
-                opts.buffer = bufnr
-                vim.keymap.set(mode, lhs, rhs, opts)
-            end
+        -- Navigation
+        map('n', 'K', vim.lsp.buf.hover)
+        map('n', 'gd', vim.lsp.buf.definition)
+        map('n', 'gD', vim.lsp.buf.declaration)
+        map('n', 'gi', vim.lsp.buf.implementation)
+        map('n', 'gr', vim.lsp.buf.references)
 
-            -- Keymaps
-            buf_map('n', 'K', vim.lsp.buf.hover)
-            buf_map('n', '<leader>rn', vim.lsp.buf.rename)
-            buf_map('n', '<leader>ca', vim.lsp.buf.code_action)
+        -- Refactor
+        map('n', '<leader>rn', vim.lsp.buf.rename)
+        map('n', '<leader>ca', vim.lsp.buf.code_action)
 
-            -- Format (kommt von ruff/null-ls)
-            buf_map('n', '<leader>f', function()
-                vim.lsp.buf.format({ async = true })
-            end)
-        end,
-    })
+        -- Diagnostics
+        map('n', '<leader>d', vim.diagnostic.open_float)
+        map('n', '[d', vim.diagnostic.goto_prev)
+        map('n', ']d', vim.diagnostic.goto_next)
 
-    -- Null-ls / Ruff Setup
-    local null_ls = require("null-ls")
-    null_ls.setup({
-        sources = {
-            null_ls.builtins.diagnostics.ruff,
-            null_ls.builtins.formatting.ruff,
-        },
-        on_attach = function(client, bufnr)
-            if client.supports_method("textDocument/formatting") then
-                local group = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
-                vim.api.nvim_clear_autocmds({ group = group, buffer = bufnr })
-                vim.api.nvim_create_autocmd("BufWritePre", {
-                    group = group,
-                    buffer = bufnr,
-                    callback = function() vim.lsp.buf.format({ bufnr = bufnr }) end,
-                })
-            end
-        end,
-    })
+        -- Format
+        map('n', '<leader>f', function()
+            vim.lsp.buf.format({ async = true })
+        end)
+    end,
+})
+
+-- 🧹 NULL-LS (LINT + FORMAT + SECURITY)
+null_ls.setup({
+    sources = {
+        -- Ruff (Lint)
+        null_ls.builtins.diagnostics.ruff,
+
+        -- Formatting (empfohlen stabiler als ruff-format hier)
+        null_ls.builtins.formatting.black.with({
+            extra_args = { "--fast" }
+        }),
+
+        -- Security
+        null_ls.builtins.diagnostics.bandit,
+
+        -- Typing ergänzend
+        null_ls.builtins.diagnostics.mypy.with({
+            extra_args = { "--strict" }
+        }),
+    },
+
+    on_attach = function(client, bufnr)
+        if client.supports_method("textDocument/formatting") then
+            local group = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                group = group,
+                buffer = bufnr,
+                callback = function()
+                    vim.lsp.buf.format({
+                        bufnr = bufnr,
+                        timeout_ms = 2000,
+                    })
+                end,
+            })
+        end
+    end,
+})
+
+-- Diagnostics UI verbessern
+vim.diagnostic.config({
+    virtual_text = false, -- cleaner
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+    severity_sort = true,
+
+    float = {
+        border = "rounded",
+        source = "always",
+    },
+})
+
 end
 
 return M
