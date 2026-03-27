@@ -3223,6 +3223,7 @@ return {
           },
         },
 
+        rust_analyzer = false,
         -- rust_analyzer = {
         --   settings = {
         --     ["rust-analyzer"] = {
@@ -4245,6 +4246,8 @@ return {
         },
 
         server = {
+          -- cmd = { vim.fn.stdpath("data") .. "/mason/bin/rust-analyzer" },
+
           on_attach = function(_, bufnr)
             -- KEINE Konflikte mit den bestehenden Keymaps
             -- nur zusätzliche LSP Superpowers
