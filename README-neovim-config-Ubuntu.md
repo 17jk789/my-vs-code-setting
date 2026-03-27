@@ -8998,14 +8998,16 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrt", function() my_cargo("test") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
 
     vim.keymap.set("n", "<leader>rrAa", function()
-      my_cargo([[
-        sh -c "cargo fmt -- --check &&
-              cargo clippy --all-targets --all-features -- -D warnings &&
-              cargo build --all-targets --all-features &&
-              cargo test --all-targets --all-features &&
-              cargo audit &&
-              cargo deny check"
-      ]])
+      local cmd = [[
+    cargo fmt -- --check &&
+    cargo clippy --all-targets --all-features -- -D warnings &&
+    cargo build --all-targets --all-features &&
+    cargo test --all-targets --all-features &&
+    cargo audit &&
+    cargo deny check
+    ]]
+
+      vim.fn.jobstart({ "sh", "-c", cmd }, { detach = false })
     end, { desc = "Cargo Full Pipeline", silent = true, buffer = true })
 
     -- Release Mode
