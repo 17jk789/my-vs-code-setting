@@ -4297,9 +4297,9 @@ return {
               vim.cmd.RustLsp("testables")
             end, "Rust Testables")
 
-            map("n", "<leader>rrx", function()
+            map("<leader>rrx", function()
               vim.cmd("!cargo clippy --all --all-features -- -Dwarnings")
-            end)
+            end, "Run full clippy")
           end,
 
           -------------------------
@@ -4446,7 +4446,8 @@ return {
               -------------------------
 
               files = {
-                watcher = "client",
+                -- watcher = "client",
+                watcher = "server",
               },
             },
           },
@@ -4470,7 +4471,8 @@ return {
   {
     "Saecki/crates.nvim",
     ft = { "toml" },
-    event = { "BufRead Cargo.toml" },
+    -- event = { "BufRead Cargo.toml" },
+    event = { "BufReadPre Cargo.toml" }
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
