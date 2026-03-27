@@ -4296,6 +4296,10 @@ return {
             map("<leader>rt", function()
               vim.cmd.RustLsp("testables")
             end, "Rust Testables")
+
+            map("n", "<leader>rrx", function()
+              vim.cmd("!cargo clippy --all --all-features -- -Dwarnings")
+            end)
           end,
 
           -------------------------
@@ -4318,12 +4322,16 @@ return {
 
               checkOnSave = {
                 command = "clippy",
-                extraArgs = {
-                  "--all",
-                  "--all-features",
-                  "--",
-                  "-Dwarnings",
-                },
+
+                -- This enables full Clippy analysis on every save.
+                -- It is very accurate but also a CPU-heavy operation ("CPU killer"),
+                -- especially in large projects or WSL environments.
+                -- extraArgs = {
+                --   "--all",
+                --   "--all-features",
+                --   "--",
+                --   "-Dwarnings",
+                -- },
               },
 
               -------------------------
