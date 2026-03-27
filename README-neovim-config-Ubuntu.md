@@ -4263,8 +4263,15 @@ return {
 
           on_attach = function(_, bufnr)
 
+            -- local map = function(keys, func, desc)
+            --   vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+            -- end
+
             local map = function(keys, func, desc)
-              vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+              vim.keymap.set("n", keys, func, {
+                buffer = bufnr,
+                desc = desc or "",
+              })
             end
 
             -- Rust spezielle Features
@@ -4274,7 +4281,7 @@ return {
             end, "Expand Macro")
 
             map("<leader>rh", function()
-              vim.cmd.RustLsp("hover actions")
+              vim.cmd.RustLsp("hoverActions")
             end, "Hover Actions")
 
             map("<leader>rca", function()
@@ -4472,7 +4479,7 @@ return {
     "Saecki/crates.nvim",
     ft = { "toml" },
     -- event = { "BufRead Cargo.toml" },
-    event = { "BufReadPre Cargo.toml" }
+    event = { "BufReadPre Cargo.toml" },
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
