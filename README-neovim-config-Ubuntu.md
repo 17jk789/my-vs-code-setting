@@ -8998,17 +8998,21 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrt", function() my_cargo("test") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
 
     vim.keymap.set("n", "<leader>rrAa", function()
-      local cmd = [[
-    cargo fmt -- --check &&
-    cargo clippy --all-targets --all-features -- -D warnings &&
-    cargo build --all-targets --all-features &&
-    cargo test --all-targets --all-features &&
-    cargo audit &&
-    cargo deny check
-    ]]
+      local cmd = table.concat({
+        "cargo fmt --all -- --check",
+        "cargo check --all-targets --all-features",
+        "cargo clippy --all-targets --all-features -- -D warnings",
+        "cargo test --all-features",
+        "cargo audit",
+        "cargo deny check",
+      }, " && ")
 
-      vim.fn.jobstart({ "sh", "-c", cmd }, { detach = false })
-    end, { desc = "Cargo Full Pipeline", silent = true, buffer = true })
+      vim.cmd("split | terminal bash -c " .. vim.fn.shellescape(cmd))
+    end, {
+      desc = "Rust Full CI Pipeline (Ultimate)",
+      silent = true,
+      buffer = true,
+    })
 
     -- Release Mode
     vim.keymap.set("n", "<leader>rrR", function() my_cargo("run --release") end, { desc = "Cargo Run Release (Split)", silent = true, buffer = true })
