@@ -8996,6 +8996,17 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrb", function() my_cargo("build") end, { desc = "Cargo Build (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rra", function() my_cargo("build && cargo run") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
 
+    vim.keymap.set("n", "<leader>rra", function()
+      my_cargo([[
+        sh -c "cargo fmt -- --check &&
+              cargo clippy --all-targets --all-features -- -D warnings &&
+              cargo build --all-targets --all-features &&
+              cargo test --all-targets --all-features &&
+              cargo audit &&
+              cargo deny check"
+      ]])
+    end, { desc = "Cargo Full Pipeline", silent = true, buffer = true })
+
     -- Release Mode
     vim.keymap.set("n", "<leader>rrR", function() my_cargo("run --release") end, { desc = "Cargo Run Release (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrBR", function() my_cargo("build --release") end, { desc = "Cargo Build Release (Split)", silent = true, buffer = true })
