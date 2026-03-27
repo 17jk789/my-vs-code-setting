@@ -10011,6 +10011,10 @@ nano plugins/mason.lua
 code plugins/mason.lua
 ```
 
+```bash
+rm ~/.cargo/bin/rust-analyzer
+```
+
 ```lua
 -- plugins/mason.lua
 
@@ -10023,7 +10027,7 @@ return {
         "mmdc",
 
         -- Rust:
-        -- "rust-analyzer",
+        "rust-analyzer",
         -- "rustfmt",
 
         -- C++: 
