@@ -4232,13 +4232,21 @@ return {
     "mrcjkb/rustaceanvim",
     version = "^8",
     ft = { "rust" },
+
     config = function()
       vim.g.rustaceanvim = {
+
+        -------------------------
+        -- TOOLS
+        -------------------------
+
         tools = {
           autoSetHints = true,
+
           hover_actions = {
             auto_focus = true,
           },
+
           inlay_hints = {
             auto = true,
             show_parameter_hints = true,
@@ -4247,16 +4255,19 @@ return {
           },
         },
 
+        -------------------------
+        -- LSP SERVER
+        -------------------------
+
         server = {
-          -- cmd = { vim.fn.stdpath("data") .. "/mason/bin/rust-analyzer" },
 
           on_attach = function(_, bufnr)
-            -- KEINE Konflikte mit den bestehenden Keymaps
-            -- nur zusätzliche LSP Superpowers
 
             local map = function(keys, func, desc)
               vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
             end
+
+            -- Rust spezielle Features
 
             map("<leader>re", function()
               vim.cmd.RustLsp("expandMacro")
@@ -4273,15 +4284,37 @@ return {
             map("<leader>rj", function()
               vim.cmd.RustLsp("joinLines")
             end, "Join Lines")
+
+            map("<leader>rr", function()
+              vim.cmd.RustLsp("runnables")
+            end, "Rust Runnables")
+
+            map("<leader>rd", function()
+              vim.cmd.RustLsp("debuggables")
+            end, "Rust Debuggables")
+
+            map("<leader>rt", function()
+              vim.cmd.RustLsp("testables")
+            end, "Rust Testables")
           end,
+
+          -------------------------
+          -- rust-analyzer settings
+          -------------------------
 
           default_settings = {
             ["rust-analyzer"] = {
-              -- MAX STRICT + PERFORMANCE
+
               diagnostics = {
                 enable = true,
-                experimental = { enable = true },
+                experimental = {
+                  enable = true,
+                },
               },
+
+              -------------------------
+              -- Clippy on Save
+              -------------------------
 
               checkOnSave = {
                 command = "clippy",
@@ -4289,42 +4322,98 @@ return {
                   "--all",
                   "--all-features",
                   "--",
-                  "-Dwarnings", -- macht alles strikt (sehr wichtig)
+                  "-Dwarnings",
                 },
               },
 
+              -------------------------
+              -- Cargo
+              -------------------------
+
               cargo = {
                 allFeatures = true,
-                buildScripts = { enable = true },
+                buildScripts = {
+                  enable = true,
+                },
                 loadOutDirsFromCheck = true,
                 autoreload = true,
               },
 
+              -------------------------
+              -- Proc Macros
+              -------------------------
+
               procMacro = {
                 enable = true,
-                ignored = {},
               },
+
+              -------------------------
+              -- Completion
+              -------------------------
 
               completion = {
-                autoimport = { enable = true },
-                autoself = { enable = true },
-                postfix = { enable = true },
-                fullFunctionSignatures = { enable = true },
-                callable = { snippets = "fill_arguments" },
+
+                autoimport = {
+                  enable = true,
+                },
+
+                autoself = {
+                  enable = true,
+                },
+
+                postfix = {
+                  enable = true,
+                },
+
+                callable = {
+                  snippets = "fill_arguments",
+                },
+
+                fullFunctionSignatures = {
+                  enable = true,
+                },
               },
 
+              -------------------------
+              -- Inlay hints
+              -------------------------
+
               inlayHints = {
-                bindingModeHints = { enable = true },
-                chainingHints = { enable = true },
-                closingBraceHints = { enable = true, minLines = 1 },
-                closureReturnTypeHints = { enable = "always" },
+
+                bindingModeHints = {
+                  enable = true,
+                },
+
+                chainingHints = {
+                  enable = true,
+                },
+
+                closingBraceHints = {
+                  enable = true,
+                  minLines = 1,
+                },
+
+                closureReturnTypeHints = {
+                  enable = "always",
+                },
+
                 lifetimeElisionHints = {
                   enable = "always",
                   useParameterNames = true,
                 },
-                parameterHints = { enable = true },
-                typeHints = { enable = true },
+
+                parameterHints = {
+                  enable = true,
+                },
+
+                typeHints = {
+                  enable = true,
+                },
               },
+
+              -------------------------
+              -- CodeLens
+              -------------------------
 
               lens = {
                 enable = true,
@@ -4334,19 +4423,37 @@ return {
                 references = true,
               },
 
+              -------------------------
+              -- Hover
+              -------------------------
+
               hover = {
-                actions = { enable = true },
+                actions = {
+                  enable = true,
+                },
               },
 
+              -------------------------
+              -- Performance Boost
+              -------------------------
+
               files = {
-                watcher = "client", -- Performance Boost
+                watcher = "client",
               },
             },
           },
         },
 
-        -- du hast schon eigenes DAP → kein Override
-        dap = nil,
+        -------------------------
+        -- Debug Adapter
+        -------------------------
+
+        dap = {
+          adapter = require("rustaceanvim.config").get_codelldb_adapter(
+            vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/adapter/codelldb",
+            vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/lldb/lib/liblldb.so"
+          ),
+        },
       }
     end,
   },
@@ -4387,7 +4494,33 @@ return {
   },
 
   -- Neotest (modern + kompatibel mit deinem Setup)
-  {
+  -- {
+  --   "nvim-neotest/neotest",
+  --   dependencies = {
+  --     "nvim-neotest/nvim-nio",
+  --     "rouge8/neotest-rust",
+  --   },
+  --   config = function()
+  --     -- require("neotest").setup({
+  --     --   adapters = {
+  --     --     require("neotest-rust")({
+  --     --       args = { "--all-features", "--nocapture" },
+  --     --       dap_adapter = "lldb",
+  --     --     }),
+  --     --   },
+  --     -- })
+  --     require("neotest").setup({
+  --       adapters = {
+  --         require("neotest-rust")({
+  --           args = { "--all-features" },
+  --           dap_adapter = "codelldb",
+  --         }),
+  --       },
+  --     })
+  --   end,
+  -- },
+
+{
     "nvim-neotest/neotest",
     dependencies = {
       "nvim-neotest/nvim-nio",
@@ -4397,8 +4530,8 @@ return {
       require("neotest").setup({
         adapters = {
           require("neotest-rust")({
-            args = { "--all-features", "--nocapture" },
-            dap_adapter = "lldb",
+            args = { "--all-features" },
+            dap_adapter = "codelldb",
           }),
         },
       })
