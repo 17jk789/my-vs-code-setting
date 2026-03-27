@@ -8939,6 +8939,26 @@ vim.api.nvim_create_autocmd("FileType", {
       cargo_test({ "--test", file, "--nocapture" })
     end, { desc = "Cargo Test File", silent = true, buffer = true })
 
+    vim.keymap.set("n", "<leader>rrntr", function()
+      require("neotest").run.run()
+    end, { desc = "Run Nearest Test" })
+
+    vim.keymap.set("n", "<leader>rrntf", function()
+      require("neotest").run.run(vim.fn.expand("%"))
+    end, { desc = "Run File Tests" })
+
+    vim.keymap.set("n", "<leader>rrnts", function()
+      require("neotest").summary.toggle()
+    end, { desc = "Test Summary" })
+
+    vim.keymap.set("n", "<leader>rrnto", function()
+      require("neotest").output.open({ enter = true })
+    end, { desc = "Test Output" })
+
+    vim.keymap.set("n", "<leader>rrntx", function()
+      require("neotest").run.stop()
+    end, { desc = "Stop Tests" })
+
     -- Stop Running Job
     vim.keymap.set("n", "<leader>tnx", function()
       if is_job_running() then
