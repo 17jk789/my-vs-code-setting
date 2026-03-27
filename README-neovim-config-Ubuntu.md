@@ -8994,7 +8994,7 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Run / Build Basics
     vim.keymap.set("n", "<leader>rrr", function() my_cargo("run") end, { desc = "Cargo Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrb", function() my_cargo("build") end, { desc = "Cargo Build (Split)", silent = true, buffer = true })
-    vim.keymap.set("n", "<leader>rra", function() my_cargo("build && cargo run") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrAa", function() my_cargo("build && cargo run") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrt", function() my_cargo("test") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
 
     vim.keymap.set("n", "<leader>rrA", function()
@@ -9169,7 +9169,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "[t", "<cmd>cprev<CR>", { buffer = true })
 
     -- Standard Audit
-    vim.keymap.set("n", "<leader>rrAa", function() my_cargo("audit") end, { desc = "Cargo Audit", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrAr", function() my_cargo("audit") end, { desc = "Cargo Audit", silent = true, buffer = true })
 
     -- Versucht Sicherheitslücken direkt zu beheben (aktualisiert Cargo.toml/lock)
     vim.keymap.set("n", "<leader>rrAf", function() my_cargo("audit fix") end, { desc = "Cargo Audit Fix", silent = true, buffer = true })
