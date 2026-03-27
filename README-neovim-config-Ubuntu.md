@@ -8585,17 +8585,33 @@ return {
         },
       }
 
+      -- dap.configurations.rust = {
+      --   {
+      --     name = "Debug",
+      --     type = "codelldb",
+      --     request = "launch",
+      --     program = function()
+      --       return vim.fn.input(
+      --         "Path to executable: ",
+      --         vim.fn.getcwd() .. "/target/debug/",
+      --         "file"
+      --       )
+      --     end,
+      --     cwd = "${workspaceFolder}",
+      --     stopOnEntry = false,
+      --     args = {},
+      --   },
+      -- }
+
       dap.configurations.rust = {
         {
-          name = "Debug",
+          name = "Debug Rust",
           type = "codelldb",
           request = "launch",
           program = function()
-            return vim.fn.input(
-              "Path to executable: ",
-              vim.fn.getcwd() .. "/target/debug/",
-              "file"
-            )
+            local cwd = vim.fn.getcwd()
+            local crate = vim.fn.fnamemodify(cwd, ":t")
+            return cwd .. "/target/debug/" .. crate
           end,
           cwd = "${workspaceFolder}",
           stopOnEntry = false,
