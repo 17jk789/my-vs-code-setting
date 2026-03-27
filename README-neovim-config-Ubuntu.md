@@ -8661,18 +8661,18 @@ end
 -- 'async = true' sorgt dafür, dass die LSP-Formatierung **nicht den Editor blockiert**.
 -- Der Rust Analyzer formatiert die Datei im Hintergrund, während du weiterarbeiten kannst.
 -- Filter stellt sicher, dass nur 'rust_analyzer' die Formatierung übernimmt.
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = augroup,
-  pattern = "*.rs",
-  callback = function()
-    vim.lsp.buf.format({
-      async = true,
-      filter = function(client)
-        return client.name == "rust_analyzer"
-      end,
-    })
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   group = augroup,
+--   pattern = "*.rs",
+--   callback = function()
+--     vim.lsp.buf.format({
+--       async = true,
+--       filter = function(client)
+--         return client.name == "rust_analyzer"
+--       end,
+--     })
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
