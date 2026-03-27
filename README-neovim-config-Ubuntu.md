@@ -8995,8 +8995,9 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrr", function() my_cargo("run") end, { desc = "Cargo Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrb", function() my_cargo("build") end, { desc = "Cargo Build (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rra", function() my_cargo("build && cargo run") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrt", function() my_cargo("test") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>rra", function()
+    vim.keymap.set("n", "<leader>rrA", function()
       my_cargo([[
         sh -c "cargo fmt -- --check &&
               cargo clippy --all-targets --all-features -- -D warnings &&
@@ -9111,23 +9112,23 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 
     -- Keymaps
-    vim.keymap.set("n", "<leader>rrt", function()
+    vim.keymap.set("n", "<leader>rret", function()
       cargo_test({})
-    end, { desc = "Cargo Test (Workspace)", silent = true, buffer = true })
+    end, { desc = "Cargo Test (Workspace) - experimental", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>rrT", function()
+    vim.keymap.set("n", "<leader>rreT", function()
       cargo_test({ "--nocapture" })
-    end, { desc = "Cargo Test No Capture", silent = true, buffer = true })
+    end, { desc = "Cargo Test No Capture - experimental", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>rrf", function()
+    vim.keymap.set("n", "<leader>rref", function()
       local testname = vim.fn.expand("<cword>")
       cargo_test({ testname, "--nocapture" })
-    end, { desc = "Cargo Test Current", silent = true, buffer = true })
+    end, { desc = "Cargo Test Current - experimental", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>tnf", function()
+    vim.keymap.set("n", "<leader>tnef", function()
       local file = vim.fn.expand("%:t:r")
       cargo_test({ "--test", file, "--nocapture" })
-    end, { desc = "Cargo Test File", silent = true, buffer = true })
+    end, { desc = "Cargo Test File - experimental", silent = true, buffer = true })
 
     vim.keymap.set("n", "<leader>rrntr", function()
       require("neotest").run.run()
