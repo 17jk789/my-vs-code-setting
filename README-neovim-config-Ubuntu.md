@@ -2878,6 +2878,18 @@ vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
 vim.api.nvim_set_hl(0, "SnacksNormal", { fg = "#cba6f7", bg = "NONE" })
 vim.api.nvim_set_hl(0, "SnacksIndent", { fg = "#585b70", bg = "NONE" })
 
+vim.diagnostic.config({
+  virtual_text = {
+    prefix = "●",
+    spacing = 2,
+    source = "if_many",
+  },
+  float = {
+    border = "rounded",
+  },
+  severity_sort = true,
+})
+
 ```
 
 ## config/keymaps.lua
@@ -3211,54 +3223,54 @@ return {
           },
         },
 
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              diagnostics = {
-                disabled = {
-                  "unresolved-proc-macro",
-                  "unlinked-file",
-                },
-              },
+        -- rust_analyzer = {
+        --   settings = {
+        --     ["rust-analyzer"] = {
+        --       diagnostics = {
+        --         disabled = {
+        --           "unresolved-proc-macro",
+        --           "unlinked-file",
+        --         },
+        --       },
 
-              formatting = {
-                useCrate = true,  -- verwendet rustfmt
-              },
+        --       formatting = {
+        --         useCrate = true,  -- verwendet rustfmt
+        --       },
 
-              cargo = {
-                allFeatures = true,
-                buildScripts = { enable = true },
-              },
+        --       cargo = {
+        --         allFeatures = true,
+        --         buildScripts = { enable = true },
+        --       },
 
-              procMacro = { enable = true },
-              lens = { enable = true },
+        --       procMacro = { enable = true },
+        --       lens = { enable = true },
 
-              completion = {
-                autoimport = { enable = true },
-              },
+        --       completion = {
+        --         autoimport = { enable = true },
+        --       },
 
-              checkOnSave = {
-                command = "clippy",  -- Linter: Findet Stilfehler und logische Patzer (sehr gründlich)
-                -- command = "check", -- Standard: Prüft nur, ob der Code kompiliert (schnellste Option)
-                -- command = "test", -- Tests: Validiert auch den Code innerhalb deiner Test-Module
-                -- command = "build", -- Kompilieren: Erstellt das komplette Binary (langsam, meist unnötig für LSP)
-              },
+        --       checkOnSave = {
+        --         command = "clippy",  -- Linter: Findet Stilfehler und logische Patzer (sehr gründlich)
+        --         -- command = "check", -- Standard: Prüft nur, ob der Code kompiliert (schnellste Option)
+        --         -- command = "test", -- Tests: Validiert auch den Code innerhalb deiner Test-Module
+        --         -- command = "build", -- Kompilieren: Erstellt das komplette Binary (langsam, meist unnötig für LSP)
+        --       },
 
-              inlayHints = {
-                enable = true,
-                typeHints = true,
-                parameterHints = true,
-                lifetimeElisionHints = "always",
-                closureReturnTypeHints = { enable = "always" },
-                bindingModeHints = { enable = true },
-              },
+        --       inlayHints = {
+        --         enable = true,
+        --         typeHints = true,
+        --         parameterHints = true,
+        --         lifetimeElisionHints = "always",
+        --         closureReturnTypeHints = { enable = "always" },
+        --         bindingModeHints = { enable = true },
+        --       },
 
-              files = {
-                watcher = "client",
-              },
-            },
-          },
-        },
+        --       files = {
+        --         watcher = "client",
+        --       },
+        --     },
+        --   },
+        -- },
       },
     },
   },
@@ -4137,79 +4149,256 @@ code plugins/rust.lua
 --   },
 -- }
 
-return {
-  -- {
-  --   "Saecki/crates.nvim",
-  --   ft = { "toml" },
-  --   dependencies = {
-  --     "nvim-lua/plenary.nvim",
-  --     -- "hrsh7th/nvim-cmp", -- blink.cmp braucht das nicht, sonst lädst du unnötig nvim-cmp mit
-  --   },
-  --   config = function()
-  --     require("crates").setup({
-  --       popup = {
-  --         border = "rounded",
-  --       },
-  --     })
-  --   end,
-  -- },
+-- return {
+--   -- {
+--   --   "Saecki/crates.nvim",
+--   --   ft = { "toml" },
+--   --   dependencies = {
+--   --     "nvim-lua/plenary.nvim",
+--   --     -- "hrsh7th/nvim-cmp", -- blink.cmp braucht das nicht, sonst lädst du unnötig nvim-cmp mit
+--   --   },
+--   --   config = function()
+--   --     require("crates").setup({
+--   --       popup = {
+--   --         border = "rounded",
+--   --       },
+--   --     })
+--   --   end,
+--   -- },
 
+--   {
+--     "Saecki/crates.nvim",
+--     ft = { "toml" },
+--     event = { "BufRead Cargo.toml" }, -- lädt nur bei Cargo.toml
+--     dependencies = {
+--       "nvim-lua/plenary.nvim",
+--     },
+--     opts = {
+--       popup = {
+--         border = "rounded",
+--       },
+--       completion = {
+--         crates = {
+--           enabled = true,
+--         },
+--       },
+--     },
+--   },
+
+--   -- {
+--   --   "nvim-neotest/neotest",
+--   --   dependencies = {
+--   --     "nvim-neotest/nvim-nio",
+--   --     "rouge8/neotest-rust", -- Dieser Adapter ist LSP-unabhängig - aber This repository was archived by the owner on Aug 19, 2025. It is now read-only. 
+--   --   },
+--   --   config = function()
+--   --     require("neotest").setup({
+--   --       adapters = {
+--   --         require("neotest-rust")({
+--   --           args = { "--nocapture" },
+--   --           -- Er erkennt Tests über Treesitter, egal was dein LSP macht
+--   --         }),
+--   --       },
+--   --     })
+--   --   end,
+--   -- },
+
+--   {
+--     "stevearc/aerial.nvim",
+--     ft = { "rust" }, -- toml/lua nicht nötig, wenn Rust-only
+--     keys = {
+--       { "<leader>rua", "<cmd>AerialToggle! right<CR>", desc = "Rust Outline" },
+--     },
+--     opts = {
+--       backends = { "lsp" }, -- nur LSP wenn rust-analyzer gut konfiguriert
+--       layout = {
+--         min_width = 35,
+--         default_direction = "right",
+--         placement = "window",
+--       },
+--       attach_mode = "global",
+--       show_guides = true,
+--       close_on_select = true,
+--       filter_kind = false, -- professioneller: nichts hart filtern
+--     },
+--   }
+-- }
+
+return {
+  {
+    "mrcjkb/rustaceanvim",
+    version = "^8",
+    ft = { "rust" },
+    config = function()
+      vim.g.rustaceanvim = {
+        tools = {
+          autoSetHints = true,
+          hover_actions = {
+            auto_focus = true,
+          },
+          inlay_hints = {
+            auto = true,
+            show_parameter_hints = true,
+            parameter_hints_prefix = " ",
+            other_hints_prefix = "=> ",
+          },
+        },
+
+        server = {
+          on_attach = function(_, bufnr)
+            -- KEINE Konflikte mit den bestehenden Keymaps
+            -- nur zusätzliche LSP Superpowers
+
+            local map = function(keys, func, desc)
+              vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+            end
+
+            map("<leader>re", function()
+              vim.cmd.RustLsp("expandMacro")
+            end, "Expand Macro")
+
+            map("<leader>rh", function()
+              vim.cmd.RustLsp("hover actions")
+            end, "Hover Actions")
+
+            map("<leader>rca", function()
+              vim.cmd.RustLsp("codeAction")
+            end, "Rust Code Action")
+
+            map("<leader>rj", function()
+              vim.cmd.RustLsp("joinLines")
+            end, "Join Lines")
+          end,
+
+          default_settings = {
+            ["rust-analyzer"] = {
+              -- MAX STRICT + PERFORMANCE
+              diagnostics = {
+                enable = true,
+                experimental = { enable = true },
+              },
+
+              checkOnSave = {
+                command = "clippy",
+                extraArgs = {
+                  "--all",
+                  "--all-features",
+                  "--",
+                  "-Dwarnings", -- macht alles strikt (sehr wichtig)
+                },
+              },
+
+              cargo = {
+                allFeatures = true,
+                buildScripts = { enable = true },
+                loadOutDirsFromCheck = true,
+                autoreload = true,
+              },
+
+              procMacro = {
+                enable = true,
+                ignored = {},
+              },
+
+              completion = {
+                autoimport = { enable = true },
+                autoself = { enable = true },
+                postfix = { enable = true },
+                fullFunctionSignatures = { enable = true },
+                callable = { snippets = "fill_arguments" },
+              },
+
+              inlayHints = {
+                bindingModeHints = { enable = true },
+                chainingHints = { enable = true },
+                closingBraceHints = { enable = true, minLines = 1 },
+                closureReturnTypeHints = { enable = "always" },
+                lifetimeElisionHints = {
+                  enable = "always",
+                  useParameterNames = true,
+                },
+                parameterHints = { enable = true },
+                typeHints = { enable = true },
+              },
+
+              lens = {
+                enable = true,
+                run = true,
+                debug = true,
+                implementations = true,
+                references = true,
+              },
+
+              hover = {
+                actions = { enable = true },
+              },
+
+              files = {
+                watcher = "client", -- Performance Boost
+              },
+            },
+          },
+        },
+
+        -- du hast schon eigenes DAP → kein Override
+        dap = nil,
+      }
+    end,
+  },
+
+  -- crates bleibt gleich (perfekt)
   {
     "Saecki/crates.nvim",
     ft = { "toml" },
-    event = { "BufRead Cargo.toml" }, -- lädt nur bei Cargo.toml
+    event = { "BufRead Cargo.toml" },
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
     opts = {
-      popup = {
-        border = "rounded",
-      },
+      popup = { border = "rounded" },
       completion = {
-        crates = {
-          enabled = true,
-        },
+        crates = { enabled = true },
       },
     },
   },
 
-  -- {
-  --   "nvim-neotest/neotest",
-  --   dependencies = {
-  --     "nvim-neotest/nvim-nio",
-  --     "rouge8/neotest-rust", -- Dieser Adapter ist LSP-unabhängig - aber This repository was archived by the owner on Aug 19, 2025. It is now read-only. 
-  --   },
-  --   config = function()
-  --     require("neotest").setup({
-  --       adapters = {
-  --         require("neotest-rust")({
-  --           args = { "--nocapture" },
-  --           -- Er erkennt Tests über Treesitter, egal was dein LSP macht
-  --         }),
-  --       },
-  --     })
-  --   end,
-  -- },
-
+  -- outline bleibt gleich
   {
     "stevearc/aerial.nvim",
-    ft = { "rust" }, -- toml/lua nicht nötig, wenn Rust-only
+    ft = { "rust" },
     keys = {
       { "<leader>rua", "<cmd>AerialToggle! right<CR>", desc = "Rust Outline" },
     },
     opts = {
-      backends = { "lsp" }, -- nur LSP wenn rust-analyzer gut konfiguriert
+      backends = { "lsp" },
       layout = {
         min_width = 35,
         default_direction = "right",
-        placement = "window",
       },
       attach_mode = "global",
       show_guides = true,
       close_on_select = true,
-      filter_kind = false, -- professioneller: nichts hart filtern
     },
-  }
+  },
+
+  -- Neotest (modern + kompatibel mit deinem Setup)
+  {
+    "nvim-neotest/neotest",
+    dependencies = {
+      "nvim-neotest/nvim-nio",
+      "rouge8/neotest-rust",
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-rust")({
+            args = { "--all-features", "--nocapture" },
+            dap_adapter = "lldb",
+          }),
+        },
+      })
+    end,
+  },
 }
 
 ```
@@ -9814,7 +10003,7 @@ return {
         "mmdc",
 
         -- Rust:
-        "rust-analyzer",
+        -- "rust-analyzer",
         -- "rustfmt",
 
         -- C++: 
