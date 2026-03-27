@@ -20,7 +20,7 @@ This repository contains my personal **NeoVim settings**.
 - 100% **Rust** Support (Perfect IDE + VS Code Level + Rust Plugins + extras)
 - 90% **C und C++** Support (VS Code Level + C/C++ Plugins)
 - 90% **Java** Support (VS Code Level + Java Plugins)
-- 80% **Python** Support (VS Code Level + basic Python Plugins)
+- 90% **Python** Support (VS Code Level + Python Plugins)
 - 80% **HTML** Support (VS Code Level + basic HTML Plugins)
 - 80% **CSS** Support (VS Code Level + basic CSS Plugins)
 - 80% **JavaScript** Support (VS Code Level + basic JavaScript Plugins)
