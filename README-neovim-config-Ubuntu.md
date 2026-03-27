@@ -3223,7 +3223,9 @@ return {
           },
         },
 
-        rust_analyzer = false,
+        rust_analyzer = {
+          enabled = false,
+        },
         -- rust_analyzer = {
         --   settings = {
         --     ["rust-analyzer"] = {
@@ -4400,6 +4402,14 @@ return {
           }),
         },
       })
+    end,
+  },
+
+  {
+    "stevearc/conform.nvim",
+    opts = function(_, opts)
+      opts.formatters_by_ft = opts.formatters_by_ft or {}
+      opts.formatters_by_ft.rust = { "rustfmt" }
     end,
   },
 }
@@ -8656,7 +8666,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*.rs",
   callback = function()
     vim.lsp.buf.format({
-      async = false,
+      async = true,
       filter = function(client)
         return client.name == "rust_analyzer"
       end,
