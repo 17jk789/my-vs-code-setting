@@ -6445,121 +6445,177 @@ return {
     end,
   },
 
+  -- {
+  --   "jmbuhr/otter.nvim",
+  --   ft = { "markdown" },
+  --   dependencies = { "neovim/nvim-lspconfig" },
+  --   config = function()
+  --     local group = vim.api.nvim_create_augroup("OtterSetup", { clear = true })
+      
+  --     -- Filter für E303 (Too many blank lines)
+  --     -- local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
+  --     -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+  --     --   local filtered = {}
+  --     --   if result and result.diagnostics then
+  --     --     for _, d in ipairs(result.diagnostics) do
+  --     --       -- Ignoriert E303 und die Nachricht "too many blank lines"
+  --     --       if not (d.code == "E303" or d.message:lower():find("too many blank lines")) then
+  --     --         table.insert(filtered, d)
+  --     --       end
+  --     --     end
+  --     --     result.diagnostics = filtered
+  --     --   end
+  --     --   original_handler(err, result, ctx, config)
+  --     -- end
+
+  --     -- local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
+  --     -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+  --     --   local filtered = {}
+  --     --   if result and result.diagnostics then
+  --     --     for _, d in ipairs(result.diagnostics) do
+  --     --       -- Wir prüfen, ob die Quelle 'pycodestyle' ist (Groß/Kleinschreibung egal)
+  --     --       local source = d.source or ""
+  --     --       if not source:lower():find("pycodestyle") then
+  --     --         table.insert(filtered, d)
+  --     --       end
+  --     --     end
+  --     --     result.diagnostics = filtered
+  --     --   end
+  --     --   original_handler(err, result, ctx, config)
+  --     -- end
+
+  --     -- local function filter_diagnostics(diagnostics)
+  --     --   local filtered = {}
+
+  --     --   for _, d in ipairs(diagnostics) do
+  --     --     local source = d.source or ""
+
+  --     --     if not source:lower():find("pycodestyle") then
+  --     --       table.insert(filtered, d)
+  --     --     end
+  --     --   end
+
+  --     --   return filtered
+  --     -- end
+
+  --     -- if not vim.g._otter_diagnostic_filter then
+  --     --   vim.g._otter_diagnostic_filter = true
+
+  --     --   local original = vim.lsp.handlers["textDocument/publishDiagnostics"]
+
+  --     --   vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+  --     --     if result and result.diagnostics then
+  --     --       local client = vim.lsp.get_client_by_id(ctx.client_id)
+
+  --     --       if client and client.name == "otter-ls" then
+  --     --         local filtered = {}
+
+  --     --         for _, d in ipairs(result.diagnostics) do
+  --     --           local source = d.source or ""
+
+  --     --           if not source:lower():find("pycodestyle") then
+  --     --             table.insert(filtered, d)
+  --     --           end
+  --     --         end
+
+  --     --         result.diagnostics = filtered
+  --     --       end
+  --     --     end
+
+  --     --     return original(err, result, ctx, config)
+  --     --   end
+  --     -- end
+
+  --     local original = vim.lsp.handlers["textDocument/publishDiagnostics"]
+
+  --     vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+  --       if result and result.diagnostics then
+  --         local client = vim.lsp.get_client_by_id(ctx.client_id)
+
+  --         if client and (client.name == "pyright" or client.name == "ruff_lsp") then
+  --           local filtered = {}
+
+  --           for _, d in ipairs(result.diagnostics) do
+  --             local source = d.source or ""
+
+  --             -- Beispiel: pycodestyle ignorieren
+  --             if not source:lower():find("pycodestyle") then
+  --               table.insert(filtered, d)
+  --             end
+  --           end
+
+  --           result.diagnostics = filtered
+  --         end
+  --       end
+
+  --       return original(err, result, ctx, config)
+  --     end
+
+  --     vim.api.nvim_create_autocmd("FileType", {
+  --       pattern = "markdown",
+  --       group = group,
+  --       callback = function()
+  --         -- require("otter").activate({"python"})
+  --         if not vim.b.otter_activated then
+  --           require("otter").activate({ "python" })
+  --           vim.b.otter_activated = true
+  --         end
+  --       end,
+  --     })
+  --   end,
+  -- }
+
   {
     "jmbuhr/otter.nvim",
     ft = { "markdown" },
     dependencies = { "neovim/nvim-lspconfig" },
+
     config = function()
       local group = vim.api.nvim_create_augroup("OtterSetup", { clear = true })
-      
-      -- Filter für E303 (Too many blank lines)
-      -- local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
-      -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
-      --   local filtered = {}
-      --   if result and result.diagnostics then
-      --     for _, d in ipairs(result.diagnostics) do
-      --       -- Ignoriert E303 und die Nachricht "too many blank lines"
-      --       if not (d.code == "E303" or d.message:lower():find("too many blank lines")) then
-      --         table.insert(filtered, d)
-      --       end
-      --     end
-      --     result.diagnostics = filtered
-      --   end
-      --   original_handler(err, result, ctx, config)
-      -- end
 
-      -- local original_handler = vim.lsp.handlers["textDocument/publishDiagnostics"]
-      -- vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
-      --   local filtered = {}
-      --   if result and result.diagnostics then
-      --     for _, d in ipairs(result.diagnostics) do
-      --       -- Wir prüfen, ob die Quelle 'pycodestyle' ist (Groß/Kleinschreibung egal)
-      --       local source = d.source or ""
-      --       if not source:lower():find("pycodestyle") then
-      --         table.insert(filtered, d)
-      --       end
-      --     end
-      --     result.diagnostics = filtered
-      --   end
-      --   original_handler(err, result, ctx, config)
-      -- end
-
-      -- local function filter_diagnostics(diagnostics)
-      --   local filtered = {}
-
-      --   for _, d in ipairs(diagnostics) do
-      --     local source = d.source or ""
-
-      --     if not source:lower():find("pycodestyle") then
-      --       table.insert(filtered, d)
-      --     end
-      --   end
-
-      --   return filtered
-      -- end
-
-      -- if not vim.g._otter_diagnostic_filter then
-      --   vim.g._otter_diagnostic_filter = true
-
-      --   local original = vim.lsp.handlers["textDocument/publishDiagnostics"]
-
-      --   vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
-      --     if result and result.diagnostics then
-      --       local client = vim.lsp.get_client_by_id(ctx.client_id)
-
-      --       if client and client.name == "otter-ls" then
-      --         local filtered = {}
-
-      --         for _, d in ipairs(result.diagnostics) do
-      --           local source = d.source or ""
-
-      --           if not source:lower():find("pycodestyle") then
-      --             table.insert(filtered, d)
-      --           end
-      --         end
-
-      --         result.diagnostics = filtered
-      --       end
-      --     end
-
-      --     return original(err, result, ctx, config)
-      --   end
-      -- end
-
-      local original = vim.lsp.handlers["textDocument/publishDiagnostics"]
-
-      vim.lsp.handlers["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
-        if result and result.diagnostics then
-          local client = vim.lsp.get_client_by_id(ctx.client_id)
-
-          if client and (client.name == "pyright" or client.name == "ruff_lsp") then
-            local filtered = {}
-
-            for _, d in ipairs(result.diagnostics) do
-              local source = d.source or ""
-
-              -- Beispiel: pycodestyle ignorieren
-              if not source:lower():find("pycodestyle") then
-                table.insert(filtered, d)
-              end
-            end
-
-            result.diagnostics = filtered
-          end
+      -- Sichere Otter Activation
+      local function activate_otter()
+        if vim.b.otter_activated then
+          return
         end
 
-        return original(err, result, ctx, config)
+        -- Nur wenn Python Codeblock existiert
+        if vim.fn.search("```python", "nw") == 0 then
+          return
+        end
+
+        local ok, otter = pcall(require, "otter")
+        if not ok then
+          return
+        end
+
+        -- zusätzlicher Schutz (verhindert seltene doppelte Aktivierung)
+        vim.schedule(function()
+          otter.activate({ "python" })
+          vim.b.otter_activated = true
+        end)
       end
 
+      -- Markdown öffnen
       vim.api.nvim_create_autocmd("FileType", {
         pattern = "markdown",
         group = group,
+        callback = activate_otter,
+      })
+
+      -- Bei Buffer Wechsel (z.B. nach Reload)
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+        pattern = "*.md",
+        group = group,
+        callback = activate_otter,
+      })
+
+      -- Otter Buffers verstecken
+      vim.api.nvim_create_autocmd("BufReadPost", {
+        pattern = "*.otter.py",
         callback = function()
-          -- require("otter").activate({"python"})
-          if not vim.b.otter_activated then
-            require("otter").activate({ "python" })
-            vim.b.otter_activated = true
-          end
+          vim.bo.buflisted = false
+          vim.bo.bufhidden = "hide"
         end,
       })
     end,
