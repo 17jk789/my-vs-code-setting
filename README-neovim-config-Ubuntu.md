@@ -8610,7 +8610,8 @@ code plugins/dap.lua
 return {
   {
     "mfussenegger/nvim-dap",
-    cmd = { "DapContinue", "DapToggleBreakpoint", "DapUI" },
+    -- cmd = { "DapContinue", "DapToggleBreakpoint", "DapUI" },
+    cmd = { "DapContinue", "DapToggleBreakpoint", "DapUI", "DapMemoryView" },
     dependencies = {
       {
         "rcarriga/nvim-dap-ui",
