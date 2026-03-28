@@ -178,16 +178,24 @@ sudo apt install curl wget unzip build-essential cmark fzf luarocks gcc-multilib
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
 # cargo install --locked critcmp
-cargo install --locked cargo-nextest cargo-audit cargo-auditable cargo-deny flamegraph samply
+cargo install --locked cargo-nextest 
+cargo install --locked cargo-audit 
+cargo install --locked cargo-auditable 
+cargo install --locked cargo-deny 
+cargo install --locked flamegraph 
+cargo install --locked samply
+cargo install --locked cargo-watch
+cargo install --locked cargo-expand
 rustup component add rustfmt
 # cargo install --locked cargo-watch cargo-expand 
 sudo apt install make golang-go
 
 # Für C/C++ (keines extra)
-# sudo apt install checksec
+sudo apt install checksec # or binutils
 
 # rustup component add rustfmt
-sudo apt install clang cmake ninja-build gdb
+sudo apt install clang cmake ninja-build gdb lldb rr
+cargo install --locked probe-rs # or probe-rs-tools
 sudo apt install openjdk-21-jdk openjdk-25-jdk maven
 sudo apt install nasm binutils
 
