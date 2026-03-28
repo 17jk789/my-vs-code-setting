@@ -178,7 +178,7 @@ sudo apt install curl wget unzip build-essential cmark fzf luarocks gcc-multilib
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
 # cargo install --locked critcmp
-cargo install --locked cargo-nextest cargo-audit cargo-auditable cargo-deny 
+cargo install --locked cargo-nextest cargo-audit cargo-auditable cargo-deny flamegraph
 rustup component add rustfmt
 # cargo install --locked cargo-watch cargo-expand 
 sudo apt install make golang-go
@@ -9188,6 +9188,10 @@ vim.api.nvim_create_autocmd("FileType", {
 
     -- Bonus: Cargo Deny (falls installiert, prüft auch Lizenzen und Dubletten)
     vim.keymap.set("n", "<leader>rrAd", function() my_cargo("deny check") end, { desc = "Cargo Deny Check", silent = true, buffer = true })
+
+    vim.keymap.set("n", "<leader>rrf", function()
+      my_cargo("flamegraph")
+    end, { desc = "Cargo Flamegraph", silent = true, buffer = true })
 
     -- Hilfsfunktion um den Projektnamen (Binärdatei) zu finden
     local function get_project_name()
