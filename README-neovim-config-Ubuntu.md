@@ -2965,11 +2965,11 @@ vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 -- vim.keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<cr>", { desc = "Go to Previous Diagnostic", silent = true, buffer = true })
 -- vim.keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<cr>", { desc = "Go to Next Diagnostic", silent = true, buffer = true })
 
-vim.keymap.set("n", "<F5>", "<cmd>lua require'dap'.continue()<cr>", { desc = "DAP Continue", silent = true, buffer = true })
-vim.keymap.set("n", "<F9>", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", { desc = "DAP Toggle Breakpoint", silent = true, buffer = true })
-vim.keymap.set("n", "<F10>", "<cmd>lua require'dap'.step_over()<cr>", { desc = "DAP Step Over", silent = true, buffer = true })
-vim.keymap.set("n", "<F11>", "<cmd>lua require'dap'.step_into()<cr>", { desc = "DAP Step Into", silent = true, buffer = true })
-vim.keymap.set("n", "<F12>", "<cmd>lua require'dap'.step_out()<cr>", { desc = "DAP Step Out", silent = true, buffer = true })
+-- vim.keymap.set("n", "<F5>", "<cmd>lua require'dap'.continue()<cr>", { desc = "DAP Continue", silent = true, buffer = true })
+-- vim.keymap.set("n", "<F9>", "<cmd>lua require'dap'.toggle_breakpoint()<cr>", { desc = "DAP Toggle Breakpoint", silent = true, buffer = true })
+-- vim.keymap.set("n", "<F10>", "<cmd>lua require'dap'.step_over()<cr>", { desc = "DAP Step Over", silent = true, buffer = true })
+-- vim.keymap.set("n", "<F11>", "<cmd>lua require'dap'.step_into()<cr>", { desc = "DAP Step Into", silent = true, buffer = true })
+-- vim.keymap.set("n", "<F12>", "<cmd>lua require'dap'.step_out()<cr>", { desc = "DAP Step Out", silent = true, buffer = true })
 
 vim.keymap.set("n", "L", ":BufferLineCycleNext<CR>", { silent = true })
 vim.keymap.set("n", "H", ":BufferLineCyclePrev<CR>", { silent = true })
@@ -9021,7 +9021,7 @@ return {
       -- TELESCOPE (SAFE LOAD!)
       local ok_telescope, telescope = pcall(require, "telescope")
       if ok_telescope then
-        pcall(telescope.load_extension, "dap") -- 🔥 KEIN CRASH MEHR
+        pcall(telescope.load_extension, "dap") -- KEIN CRASH MEHR
       end
 
       -- KEYMAPS (STABIL)
@@ -9611,27 +9611,25 @@ vim.api.nvim_create_autocmd("FileType", {
     -- (Erfordert nvim-neotest/neotest-watch, falls du das willst)
     -- vim.keymap.set("n", "<leader>tnw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, { desc = "Test Watch Toggle" })
 
+    -- vim.keymap.set("n", "<F5>", function()
+    --   require("dap").continue()
+    -- end, opts)
 
+    -- vim.keymap.set("n", "<F9>", function()
+    --   require("dap").toggle_breakpoint()
+    -- end, opts)
 
-    vim.keymap.set("n", "<F5>", function()
-      require("dap").continue()
-    end, opts)
+    -- vim.keymap.set("n", "<F10>", function()
+    --   require("dap").step_over()
+    -- end, opts)
 
-    vim.keymap.set("n", "<F9>", function()
-      require("dap").toggle_breakpoint()
-    end, opts)
+    -- vim.keymap.set("n", "<F11>", function()
+    --   require("dap").step_into()
+    -- end, opts)
 
-    vim.keymap.set("n", "<F10>", function()
-      require("dap").step_over()
-    end, opts)
-
-    vim.keymap.set("n", "<F11>", function()
-      require("dap").step_into()
-    end, opts)
-
-    vim.keymap.set("n", "<F12>", function()
-      require("dap").step_out()
-    end, opts)
+    -- vim.keymap.set("n", "<F12>", function()
+    --   require("dap").step_out()
+    -- end, opts)
   end,
 })
 
@@ -9852,25 +9850,25 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Open Project in Clion", silent = true, buffer = true })
 
     -- .../app
-    vim.keymap.set("n", "<F5>", function()
-      require("dap").continue()
-    end, opts)
+    -- vim.keymap.set("n", "<F5>", function()
+    --   require("dap").continue()
+    -- end, opts)
 
-    vim.keymap.set("n", "<F9>", function()
-      require("dap").toggle_breakpoint()
-    end, opts)
+    -- vim.keymap.set("n", "<F9>", function()
+    --   require("dap").toggle_breakpoint()
+    -- end, opts)
 
-    vim.keymap.set("n", "<F10>", function()
-      require("dap").step_over()
-    end, opts)
+    -- vim.keymap.set("n", "<F10>", function()
+    --   require("dap").step_over()
+    -- end, opts)
 
-    vim.keymap.set("n", "<F11>", function()
-      require("dap").step_into()
-    end, opts)
+    -- vim.keymap.set("n", "<F11>", function()
+    --   require("dap").step_into()
+    -- end, opts)
 
-    vim.keymap.set("n", "<F12>", function()
-      require("dap").step_out()
-    end, opts)
+    -- vim.keymap.set("n", "<F12>", function()
+    --   require("dap").step_out()
+    -- end, opts)
 
     -- vim.keymap.set(
     --   "n",
@@ -10006,11 +10004,11 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrrT", ":split | terminal pytest %<CR>", { desc = "Run current file tests", silent = true, buffer = true })
 
     -- DAP Debugging
-    vim.keymap.set("n", "<F5>", function() require("dap").continue() end, opts)
-    vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, opts)
-    vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, opts)
-    vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, opts)
-    vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, opts)
+    -- vim.keymap.set("n", "<F5>", function() require("dap").continue() end, opts)
+    -- vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, opts)
+    -- vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, opts)
+    -- vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, opts)
+    -- vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, opts)
 
     -- Virtuelle Umgebung aktivieren/deaktivieren
     vim.keymap.set("n", "<leader>rav", ":split | terminal source .venv/bin/activate<CR>", { desc = "Activate Venv", silent = true, buffer = true })
