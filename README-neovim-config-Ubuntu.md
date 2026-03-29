@@ -9611,25 +9611,25 @@ vim.api.nvim_create_autocmd("FileType", {
     -- (Erfordert nvim-neotest/neotest-watch, falls du das willst)
     -- vim.keymap.set("n", "<leader>tnw", function() require("neotest").watch.toggle(vim.fn.expand("%")) end, { desc = "Test Watch Toggle" })
 
-    -- vim.keymap.set("n", "<F5>", function()
-    --   require("dap").continue()
-    -- end, opts)
+    vim.keymap.set("n", "<F5>", function()
+      require("dap").continue()
+    end, opts)
 
-    -- vim.keymap.set("n", "<F9>", function()
-    --   require("dap").toggle_breakpoint()
-    -- end, opts)
+    vim.keymap.set("n", "<F9>", function()
+      require("dap").toggle_breakpoint()
+    end, opts)
 
-    -- vim.keymap.set("n", "<F10>", function()
-    --   require("dap").step_over()
-    -- end, opts)
+    vim.keymap.set("n", "<F10>", function()
+      require("dap").step_over()
+    end, opts)
 
-    -- vim.keymap.set("n", "<F11>", function()
-    --   require("dap").step_into()
-    -- end, opts)
+    vim.keymap.set("n", "<F11>", function()
+      require("dap").step_into()
+    end, opts)
 
-    -- vim.keymap.set("n", "<F12>", function()
-    --   require("dap").step_out()
-    -- end, opts)
+    vim.keymap.set("n", "<F12>", function()
+      require("dap").step_out()
+    end, opts)
   end,
 })
 
@@ -9850,25 +9850,25 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Open Project in Clion", silent = true, buffer = true })
 
     -- .../app
-    -- vim.keymap.set("n", "<F5>", function()
-    --   require("dap").continue()
-    -- end, opts)
+    vim.keymap.set("n", "<F5>", function()
+      require("dap").continue()
+    end, opts)
 
-    -- vim.keymap.set("n", "<F9>", function()
-    --   require("dap").toggle_breakpoint()
-    -- end, opts)
+    vim.keymap.set("n", "<F9>", function()
+      require("dap").toggle_breakpoint()
+    end, opts)
 
-    -- vim.keymap.set("n", "<F10>", function()
-    --   require("dap").step_over()
-    -- end, opts)
+    vim.keymap.set("n", "<F10>", function()
+      require("dap").step_over()
+    end, opts)
 
-    -- vim.keymap.set("n", "<F11>", function()
-    --   require("dap").step_into()
-    -- end, opts)
+    vim.keymap.set("n", "<F11>", function()
+      require("dap").step_into()
+    end, opts)
 
-    -- vim.keymap.set("n", "<F12>", function()
-    --   require("dap").step_out()
-    -- end, opts)
+    vim.keymap.set("n", "<F12>", function()
+      require("dap").step_out()
+    end, opts)
 
     -- vim.keymap.set(
     --   "n",
@@ -10004,11 +10004,11 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrrT", ":split | terminal pytest %<CR>", { desc = "Run current file tests", silent = true, buffer = true })
 
     -- DAP Debugging
-    -- vim.keymap.set("n", "<F5>", function() require("dap").continue() end, opts)
-    -- vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, opts)
-    -- vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, opts)
-    -- vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, opts)
-    -- vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, opts)
+    vim.keymap.set("n", "<F5>", function() require("dap").continue() end, opts)
+    vim.keymap.set("n", "<F9>", function() require("dap").toggle_breakpoint() end, opts)
+    vim.keymap.set("n", "<F10>", function() require("dap").step_over() end, opts)
+    vim.keymap.set("n", "<F11>", function() require("dap").step_into() end, opts)
+    vim.keymap.set("n", "<F12>", function() require("dap").step_out() end, opts)
 
     -- Virtuelle Umgebung aktivieren/deaktivieren
     vim.keymap.set("n", "<leader>rav", ":split | terminal source .venv/bin/activate<CR>", { desc = "Activate Venv", silent = true, buffer = true })
