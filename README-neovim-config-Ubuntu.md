@@ -9628,6 +9628,20 @@ vim.api.nvim_create_autocmd("FileType", {
       my_cargo('watch -x "check"')
     end, { desc = "Cargo Watch Check", buffer = true })
 
+    vim.keymap.set("n", "<leader>rrWw", function()
+      my_cargo('watch -x "test"')
+    end, { desc = "Cargo Watch Test", buffer = true })
+
+    vim.keymap.set("n", "<leader>rrAA", function()I
+      local args = vim.fn.input("Args: ")
+      my_cargo("run -- " .. args)
+    end, { desc = "Cargo Run with Args", buffer = true })
+
+    vim.keymap.set("n", "<leader>rrAD", function()
+      local dep = vim.fn.input("Add crate: ")
+      my_cargo("add " .. dep)
+    end, { desc = "Cargo Add", buffer = true })
+
     -- Die Klassiker (Run & Stop)
     -- vim.keymap.set("n", "<leader>tnr", function() require("neotest").run.run() end, { desc = "Test Run (Nearest)", buffer = true })
     -- vim.keymap.set("n", "<leader>tnf", function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = "Test Run (File)", buffer = true })
