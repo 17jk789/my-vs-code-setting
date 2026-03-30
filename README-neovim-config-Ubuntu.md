@@ -9632,7 +9632,7 @@ vim.api.nvim_create_autocmd("FileType", {
       my_cargo('watch -x "test"')
     end, { desc = "Cargo Watch Test", buffer = true })
 
-    vim.keymap.set("n", "<leader>rrAA", function()I
+    vim.keymap.set("n", "<leader>rrAA", function()
       local args = vim.fn.input("Args: ")
       my_cargo("run -- " .. args)
     end, { desc = "Cargo Run with Args", buffer = true })
