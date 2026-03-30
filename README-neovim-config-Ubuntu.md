@@ -150,7 +150,7 @@ This repository is released under the **Apache License 2.0**.
 
 ## To do
 
-- Probleme mit LuaSnip
+- Commands!!!
 
 # Requirements
 
