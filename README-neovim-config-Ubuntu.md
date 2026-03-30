@@ -9660,6 +9660,10 @@ vim.api.nvim_create_autocmd("FileType", {
       my_cargo("run --features " .. feat)
     end, { desc = "Cargo Run Features", buffer = true })
 
+    vim.keymap.set("n", "<leader>rrm", function()
+      my_cargo("expand")
+    end, { desc = "Cargo Expand", buffer = true })
+
     -- Die Klassiker (Run & Stop)
     -- vim.keymap.set("n", "<leader>tnr", function() require("neotest").run.run() end, { desc = "Test Run (Nearest)", buffer = true })
     -- vim.keymap.set("n", "<leader>tnf", function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = "Test Run (File)", buffer = true })
