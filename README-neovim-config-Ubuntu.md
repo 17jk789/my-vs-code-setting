@@ -9676,6 +9676,10 @@ vim.api.nvim_create_autocmd("FileType", {
       my_cargo("fix --allow-dirty --allow-staged")
     end, { desc = "Cargo Fix", buffer = true })
 
+    vim.keymap.set("n", "<leader>rrAcf", function()
+      my_cargo("check --lib")
+    end, { desc = "Cargo Check (Fast)", buffer = true })
+
     -- Die Klassiker (Run & Stop)
     -- vim.keymap.set("n", "<leader>tnr", function() require("neotest").run.run() end, { desc = "Test Run (Nearest)", buffer = true })
     -- vim.keymap.set("n", "<leader>tnf", function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = "Test Run (File)", buffer = true })
