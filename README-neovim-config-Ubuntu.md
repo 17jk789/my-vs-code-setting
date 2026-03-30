@@ -9613,7 +9613,7 @@ vim.api.nvim_create_autocmd("FileType", {
     -- Quality / Professional Dev Tools
     vim.keymap.set("n", "<leader>rrc", function() my_cargo("check") end, { desc = "Cargo Check (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrl", function() my_cargo("clippy") end, { desc = "Cargo Clippy (Split)", silent = true, buffer = true })
-    vim.keymap.set("n", "<leader>rrF", function() my_cargo("fmt") end, { desc = "Cargo Format (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrFs", function() my_cargo("fmt") end, { desc = "Cargo Format (Split)", silent = true, buffer = true })
 
     -- Cleanup / Docs / Benchmarks
     vim.keymap.set("n", "<leader>rrx", function() my_cargo("clean") end, { desc = "Cargo Clean (Split)", silent = true, buffer = true })
@@ -9621,8 +9621,8 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrBM", function() my_cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true })
 
     -- Cargo Files schnell öffnen
-    vim.keymap.set("n", "<leader>rrC", ":edit Cargo.toml<CR>", { desc = "Edit Cargo.toml (Split)", silent = true, buffer = true })
-    vim.keymap.set("n", "<leader>rrL", ":edit Cargo.lock<CR>", { desc = "Edit Cargo.lock (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrCc", ":edit Cargo.toml<CR>", { desc = "Edit Cargo.toml (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrLl", ":edit Cargo.lock<CR>", { desc = "Edit Cargo.lock (Split)", silent = true, buffer = true })
 
     -- Die Klassiker (Run & Stop)
     -- vim.keymap.set("n", "<leader>tnr", function() require("neotest").run.run() end, { desc = "Test Run (Nearest)", buffer = true })
