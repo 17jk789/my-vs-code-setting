@@ -9311,7 +9311,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rra", function() my_cargo("build && cargo run") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrt", function() my_cargo("test") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>rrAa", function()
+    vim.keymap.set("n", "<leader>rrAar", function()
       local cmd = table.concat({
         "cargo fmt --all -- --check",
         "cargo check --all-targets --all-features",
@@ -9324,6 +9324,37 @@ vim.api.nvim_create_autocmd("FileType", {
       vim.cmd("split | terminal bash -c " .. vim.fn.shellescape(cmd))
     end, {
       desc = "Rust Full CI Pipeline (Ultimate)",
+      silent = true,
+      buffer = true,
+    })
+
+    vim.keymap.set("n", "<leader>rrAaa", function()
+      local cmd = table.concat({
+        -- Format & Style
+        "cargo fmt --all -- --check",
+
+        -- Static Checks
+        "cargo check --all-targets --all-features",
+        "cargo clippy --all-targets --all-features -- -D warnings -W clippy::pedantic -W clippy::nursery",
+
+        -- Tests
+        "cargo test --all-features --all-targets",
+
+        -- UB / Unsafe Checks (best effort)
+        "cargo +nightly miri test",
+
+        -- Dependency Security
+        "cargo audit",
+        "cargo deny check",
+
+        -- Outdated Dependencies (optional aber sinnvoll)
+        "cargo outdated || true",
+
+      }, " && ")
+
+      vim.cmd("split | terminal bash -c " .. vim.fn.shellescape(cmd))
+    end, {
+      desc = "Rust Ultimate Safety Pipeline",
       silent = true,
       buffer = true,
     })
