@@ -9688,6 +9688,10 @@ vim.api.nvim_create_autocmd("FileType", {
       my_cargo("build --workspace")
     end, { desc = "Workspace Build", buffer = true })
 
+    vim.keymap.set("n", "<leader>rrCl", function()
+      my_cargo("clippy --fix --allow-dirty")
+    end, { desc = "Clippy Fix", buffer = true })
+
     -- Die Klassiker (Run & Stop)
     -- vim.keymap.set("n", "<leader>tnr", function() require("neotest").run.run() end, { desc = "Test Run (Nearest)", buffer = true })
     -- vim.keymap.set("n", "<leader>tnf", function() require("neotest").run.run(vim.fn.expand("%")) end, { desc = "Test Run (File)", buffer = true })
