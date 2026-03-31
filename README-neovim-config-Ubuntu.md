@@ -2993,6 +2993,81 @@ vim.keymap.set("n", "dd", '"_dd', { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, { desc = "Range Code Action" })
 
+local function get_current_dir()
+  return vim.fn.expand("%:p:h")
+end
+
+local function build_path(dir, file)
+  return vim.fn.fnameescape(dir .. "/" .. file)
+end
+
+local function ensure_dir(path)
+  local dir = vim.fn.fnamemodify(path, ":h")
+  if vim.fn.isdirectory(dir) == 0 then
+    vim.fn.mkdir(dir, "p")
+  end
+end
+
+function _G.complete_from_current_dir(arglead)
+  local dir = get_current_dir()
+  local results = vim.fn.getcompletion(dir .. "/" .. arglead, "file")
+
+  return vim.tbl_map(function(path)
+    return path:gsub("^" .. dir .. "/", "")
+  end, results)
+end
+
+local function open_relative(cmd, raw_args)
+  local dir = get_current_dir()
+
+  -- split nur beim ersten |
+  local file, extra = raw_args:match("^(.-)%s*|%s*(.+)$")
+
+  if not file then
+    file = raw_args
+  end
+
+  -- Datei / Split
+  if file == "" then
+    vim.cmd(cmd)
+  else
+    local full_path = dir .. "/" .. file
+    ensure_dir(full_path)
+    vim.cmd(cmd .. " " .. build_path(dir, file))
+  end
+
+  -- Extra Commands (z.B. term, terminal, etc.)
+  if extra and extra ~= "" then
+    -- wenn irgendein terminal command vorkommt
+    if extra:match("^term") or extra:match("^terminal") then
+      vim.cmd("lcd " .. vim.fn.fnameescape(dir))
+    end
+
+    vim.cmd(extra)
+  end
+end
+
+vim.api.nvim_create_user_command("Ee", function(opts)
+  open_relative("edit", opts.args)
+end, {
+  nargs = "*",
+  complete = "customlist,v:lua.complete_from_current_dir",
+})
+
+vim.api.nvim_create_user_command("Spp", function(opts)
+  open_relative("split", opts.args)
+end, {
+  nargs = "*",
+  complete = "customlist,v:lua.complete_from_current_dir",
+})
+
+vim.api.nvim_create_user_command("Vspp", function(opts)
+  open_relative("vsplit", opts.args)
+end, {
+  nargs = "*",
+  complete = "customlist,v:lua.complete_from_current_dir",
+})
+
 -- :Open <file> -> öffnet Datei mit xdg-open / OS Default App
 vim.api.nvim_create_user_command("Open", function(opts)
   local file = opts.args ~= "" and opts.args or vim.fn.expand("%:p")
