@@ -4483,8 +4483,30 @@ return {
               -- Completion
               -------------------------
 
-              completion = {
+              -- completion = {
 
+              --   autoimport = {
+              --     enable = true,
+              --   },
+
+              --   autoself = {
+              --     enable = true,
+              --   },
+
+              --   postfix = {
+              --     enable = true,
+              --   },
+
+              --   callable = {
+              --     snippets = "fill_arguments",
+              --   },
+
+              --   fullFunctionSignatures = {
+              --     enable = true,
+              --   },
+              -- },
+
+              completion = {
                 autoimport = {
                   enable = true,
                 },
@@ -4504,14 +4526,56 @@ return {
                 fullFunctionSignatures = {
                   enable = true,
                 },
-              },
+
+                completionItemLabelDetails = {
+                  enable = true,
+                },
+
+                limit = {
+                  maxItems = 200,
+                },
+
+                hideDeprecated = true,
+              }
 
               -------------------------
               -- Inlay hints
               -------------------------
 
-              inlayHints = {
+              -- inlayHints = {
 
+              --   bindingModeHints = {
+              --     enable = true,
+              --   },
+
+              --   chainingHints = {
+              --     enable = true,
+              --   },
+
+              --   closingBraceHints = {
+              --     enable = true,
+              --     minLines = 1,
+              --   },
+
+              --   closureReturnTypeHints = {
+              --     enable = "always",
+              --   },
+
+              --   lifetimeElisionHints = {
+              --     enable = "always",
+              --     useParameterNames = true,
+              --   },
+
+              --   parameterHints = {
+              --     enable = true,
+              --   },
+
+              --   typeHints = {
+              --     enable = true,
+              --   },
+              -- },
+
+              inlayHints = {
                 bindingModeHints = {
                   enable = true,
                 },
@@ -4541,11 +4605,24 @@ return {
                 typeHints = {
                   enable = true,
                 },
+
+                renderColons = true,
+                locationLinks = true,
+
+                maxLength = 25,
               },
 
               -------------------------
               -- CodeLens
               -------------------------
+
+              -- lens = {
+              --   enable = true,
+              --   run = true,
+              --   debug = true,
+              --   implementations = true,
+              --   references = true,
+              -- },
 
               lens = {
                 enable = true,
@@ -4553,6 +4630,7 @@ return {
                 debug = true,
                 implementations = true,
                 references = true,
+                refresh = true,
               },
 
               -------------------------
