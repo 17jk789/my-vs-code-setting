@@ -4536,7 +4536,7 @@ return {
                 },
 
                 hideDeprecated = true,
-              }
+              },
 
               -------------------------
               -- Inlay hints
