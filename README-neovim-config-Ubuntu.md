@@ -3092,6 +3092,40 @@ end, {
   complete = "file",
 })
 
+vim.api.nvim_create_user_command("Openn", function(opts)
+  local dir = vim.fn.expand("%:p:h")
+
+  -- wenn kein Argument → aktuelle Datei
+  local file
+  if opts.args == "" then
+    file = vim.fn.expand("%:p")
+  else
+    file = dir .. "/" .. opts.args
+  end
+
+  file = vim.fn.fnameescape(file)
+
+  -- prüfen ob Datei existiert
+  if vim.fn.filereadable(file) == 0 then
+    vim.notify("File not found: " .. file, vim.log.levels.ERROR)
+    return
+  end
+
+  -- Tool wählen
+  local cmd = vim.env.WSL_DISTRO_NAME ~= nil and "wslview" or "xdg-open"
+
+  if vim.fn.executable(cmd) == 0 then
+    vim.notify("Programm '" .. cmd .. "' not found!", vim.log.levels.ERROR)
+    return
+  end
+
+  -- öffnen
+  vim.fn.jobstart({ cmd, file }, { detach = true })
+end, {
+  nargs = "?",
+  complete = "customlist,v:lua.complete_from_current_dir",
+})
+
 -- Explorer öffnen, sollte schon gehen.
 -- map_if_free("n", "<leader>e", Snacks.picker.explorer)
 -- vim.keymap.set("n", "<leader>e", function() Snacks.explorer() end, { desc = "File Explorer" })
