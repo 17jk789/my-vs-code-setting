@@ -142,6 +142,7 @@ This repository is released under the **Apache License 2.0**.
   - [config/lazyvim.lua](#configlazyvimlua)
   - [plugins/snacks.lua](#pluginssnackslua)
   - [config/lazy.lua](#configlazylua)
+  - [config/copilot.lua](#configcopilotlua)
 
 ## Notes
 
@@ -2768,6 +2769,7 @@ cd ~/.config/nvim/lua
         ├── bash.lua
         ├── cpp.lua
         ├── completion.lua
+        ├── copilot.lua
         ├── dap.lua
         ├── db.lua
         ├── fzf.lua
@@ -13235,5 +13237,36 @@ require("lazy").setup({
     border = "rounded",
   },
 })
+
+```
+
+## config/copilot.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim config/copilot.lua
+```
+
+```bash
+nano config/copilot.lua
+```
+
+```bash
+code config/copilot.lua
+```
+
+```lua
+-- plugins/copilot.lua
+
+{
+  "github/copilot.vim",
+  event = "InsertEnter",
+  config = function()
+    vim.keymap.set("i", "<C-J>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
+  end,
+}
 
 ```
