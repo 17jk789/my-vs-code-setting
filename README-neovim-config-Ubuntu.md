@@ -13273,25 +13273,25 @@ require("lazy").setup({
 
 ## config/copilot.lua
 
-```bash
+<!-- ```bash
 git clone --depth=1 https://github.com/github/copilot.vim.git \
   ~/.config/nvim/pack/github/start/copilot.vim
-```
+``` -->
 
 ```bash
 cd ~/.config/nvim/lua
 ```
 
 ```bash
-vim config/copilot.lua
+vim plugins/copilot.lua
 ```
 
 ```bash
-nano config/copilot.lua
+nano plugins/copilot.lua
 ```
 
 ```bash
-code config/copilot.lua
+code plugins/copilot.lua
 ```
 
 ```lua
@@ -13306,12 +13306,12 @@ code config/copilot.lua
 -- }
 
 -- keine Tab überschreibung
-vim.g.copilot_no_tab_map = true
-vim.g.copilot_assume_mapped = true
+-- vim.g.copilot_no_tab_map = true
+-- vim.g.copilot_assume_mapped = true
 
 -- optional: standardmäßig AUS (sicherer)
-vim.g.copilot_enabled = false -- optional: standardmäßig AUS
-vim.cmd("Copilot disable")
+-- vim.g.copilot_enabled = false -- optional: standardmäßig AUS
+-- vim.cmd("Copilot disable")
 
 -- Keymaps
 -- vim.keymap.set("i", "<C-j>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
@@ -13319,9 +13319,22 @@ vim.cmd("Copilot disable")
 -- vim.keymap.set("i", "<C-h>", "<Plug>(copilot-previous)")
 -- vim.keymap.set("i", "<C-e>", "<Plug>(copilot-dismiss)")
 
+return {
+  {
+    "github/copilot.vim",
+    event = "InsertEnter",
+    config = function()
+      vim.g.copilot_no_tab_map = true
+      vim.g.copilot_assume_mapped = true
+
+      vim.cmd("Copilot disable")
+    end,
+  },
+}
+
 ```
 
-Update Copilot:
+<!-- Update Copilot:
 
 Einfach:
 
@@ -13337,4 +13350,4 @@ rm -rf ~/.config/nvim/pack/github/start/copilot.vim
 
 git clone --depth=1 https://github.com/github/copilot.vim.git \
 ~/.config/nvim/pack/github/start/copilot.vim
-```
+``` -->
