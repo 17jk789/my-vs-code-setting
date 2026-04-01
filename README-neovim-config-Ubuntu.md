@@ -3238,6 +3238,33 @@ end, { desc = "Toggle Autoformat Global" })
 -- vim.keymap.set("n", "<leader>if", "<cmd>ImageOFF<cr>", { noremap = true, silent = true, desc = "ImageOFF" })
 -- vim.keymap.set("n", "<leader>it", "<cmd>ImageToggle<cr>", { noremap = true, silent = true, desc = "ImageToggle" })
 
+-- Copilot Accept (wie VS Code Tab)
+vim.keymap.set("i", "<Tab>", function()
+  if vim.fn["copilot#Accept"]("") ~= "" then
+    return vim.fn["copilot#Accept"]("<CR>")
+  end
+  return "<Tab>"
+end, { expr = true, silent = true })
+
+-- Copilot Navigation
+vim.keymap.set("i", "<C-l>", "<Plug>(copilot-next)")
+vim.keymap.set("i", "<C-h>", "<Plug>(copilot-previous)")
+vim.keymap.set("i", "<C-e>", "<Plug>(copilot-dismiss)")
+
+-- Toggle AI Mode
+vim.keymap.set("n", "<leader>ai", function()
+  if vim.g.copilot_enabled then
+    vim.cmd("Copilot disable")
+    vim.g.copilot_enabled = false
+    vim.g.blink_cmp_enabled = true
+    print("Copilot OFF | blink ON")
+  else
+    vim.cmd("Copilot enable")
+    vim.g.copilot_enabled = true
+    vim.g.blink_cmp_enabled = false
+    print("Copilot ON | blink OFF")
+  end
+end, { desc = "Toggle Copilot / blink" })
 
 ```
 
@@ -3921,6 +3948,10 @@ return {
     },
 
     opts = {
+      enabled = function()
+        return vim.g.blink_cmp_enabled ~= false
+      end,
+
       keymap = {
         preset = "default",
 
@@ -13243,6 +13274,11 @@ require("lazy").setup({
 ## config/copilot.lua
 
 ```bash
+git clone --depth=1 https://github.com/github/copilot.vim.git \
+  ~/.config/nvim/pack/github/start/copilot.vim
+```
+
+```bash
 cd ~/.config/nvim/lua
 ```
 
@@ -13261,12 +13297,44 @@ code config/copilot.lua
 ```lua
 -- plugins/copilot.lua
 
-{
-  "github/copilot.vim",
-  event = "InsertEnter",
-  config = function()
-    vim.keymap.set("i", "<C-J>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
-  end,
-}
+-- {
+--   "github/copilot.vim",
+--   event = "InsertEnter",
+--   config = function()
+--     vim.keymap.set("i", "<C-J>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
+--   end,
+-- }
 
+-- keine Tab überschreibung
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+
+-- optional: standardmäßig AUS (sicherer)
+vim.g.copilot_enabled = false -- optional: standardmäßig AUS
+vim.cmd("Copilot disable")
+
+-- Keymaps
+-- vim.keymap.set("i", "<C-j>", 'copilot#Accept("<CR>")', { expr = true, silent = true })
+-- vim.keymap.set("i", "<C-l>", "<Plug>(copilot-next)")
+-- vim.keymap.set("i", "<C-h>", "<Plug>(copilot-previous)")
+-- vim.keymap.set("i", "<C-e>", "<Plug>(copilot-dismiss)")
+
+```
+
+Update Copilot:
+
+Einfach:
+
+```bash
+cd ~/.config/nvim/pack/github/start/copilot.vim
+git pull
+```
+
+Manchmal klappt git pull nicht sauber → dann:
+
+```bash
+rm -rf ~/.config/nvim/pack/github/start/copilot.vim
+
+git clone --depth=1 https://github.com/github/copilot.vim.git \
+~/.config/nvim/pack/github/start/copilot.vim
 ```
