@@ -3238,33 +3238,33 @@ end, { desc = "Toggle Autoformat Global" })
 -- vim.keymap.set("n", "<leader>if", "<cmd>ImageOFF<cr>", { noremap = true, silent = true, desc = "ImageOFF" })
 -- vim.keymap.set("n", "<leader>it", "<cmd>ImageToggle<cr>", { noremap = true, silent = true, desc = "ImageToggle" })
 
--- Copilot Accept (wie VS Code Tab)
-vim.keymap.set("i", "<Tab>", function()
-  if vim.fn["copilot#Accept"]("") ~= "" then
-    return vim.fn["copilot#Accept"]("<CR>")
-  end
-  return "<Tab>"
-end, { expr = true, silent = true })
+-- -- Copilot Accept (wie VS Code Tab)
+-- vim.keymap.set("i", "<Tab>", function()
+--   if vim.fn["copilot#Accept"]("") ~= "" then
+--     return vim.fn["copilot#Accept"]("<CR>")
+--   end
+--   return "<Tab>"
+-- end, { expr = true, silent = true })
 
--- Copilot Navigation
-vim.keymap.set("i", "<C-l>", "<Plug>(copilot-next)")
-vim.keymap.set("i", "<C-h>", "<Plug>(copilot-previous)")
-vim.keymap.set("i", "<C-e>", "<Plug>(copilot-dismiss)")
+-- -- Copilot Navigation
+-- vim.keymap.set("i", "<C-l>", "<Plug>(copilot-next)")
+-- vim.keymap.set("i", "<C-h>", "<Plug>(copilot-previous)")
+-- vim.keymap.set("i", "<C-e>", "<Plug>(copilot-dismiss)")
 
--- Toggle AI Mode
-vim.keymap.set("n", "<leader>ai", function()
-  if vim.g.copilot_enabled then
-    vim.cmd("Copilot disable")
-    vim.g.copilot_enabled = false
-    vim.g.blink_cmp_enabled = true
-    print("Copilot OFF | blink ON")
-  else
-    vim.cmd("Copilot enable")
-    vim.g.copilot_enabled = true
-    vim.g.blink_cmp_enabled = false
-    print("Copilot ON | blink OFF")
-  end
-end, { desc = "Toggle Copilot / blink" })
+-- -- Toggle AI Mode
+-- vim.keymap.set("n", "<leader>ai", function()
+--   if vim.g.copilot_enabled then
+--     vim.cmd("Copilot disable")
+--     vim.g.copilot_enabled = false
+--     vim.g.blink_cmp_enabled = true
+--     print("Copilot OFF | blink ON")
+--   else
+--     vim.cmd("Copilot enable")
+--     vim.g.copilot_enabled = true
+--     vim.g.blink_cmp_enabled = false
+--     print("Copilot ON | blink OFF")
+--   end
+-- end, { desc = "Toggle Copilot / blink" })
 
 ```
 
@@ -3939,6 +3939,81 @@ code plugins/completion.lua
 --   },
 -- }
 
+-- return {
+--   {
+--     "saghen/blink.cmp",
+--     event = "InsertEnter",
+--     dependencies = {
+--       "rafamadriz/friendly-snippets",
+--     },
+
+--     opts = {
+--       enabled = function()
+--         return vim.g.blink_cmp_enabled ~= false
+--       end,
+
+--       keymap = {
+--         preset = "default",
+
+--         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+
+--         -- ["<CR>"] = {
+--         --   "accept",
+--         --   auto_select = false,
+--         -- },
+
+--         ["<CR>"] = {
+--           function(cmp)
+--             if cmp.is_visible() and cmp.get_selected_item() then
+--               return cmp.accept()
+--             end
+--           end,
+--           "fallback",
+--         },
+
+--         ["<Tab>"] = {
+--           function(cmp)
+--             if cmp.is_visible() then
+--               return cmp.select_next()
+--             end
+--           end,
+--           "snippet_forward",
+--           "fallback",
+--         },
+
+--         ["<S-Tab>"] = {
+--           function(cmp)
+--             if cmp.is_visible() then
+--               return cmp.select_prev()
+--             end
+--           end,
+--           "snippet_backward",
+--           "fallback",
+--         },
+--       },
+
+--       completion = {
+--         menu = { auto_show = true },
+--         ghost_text = { enabled = false },
+--       },
+
+--       sources = {
+--         default = { "lsp", "path", "buffer" },
+--         providers = {
+--           lsp = { score_offset = 1000 },
+--           path = { score_offset = 750 },
+--           buffer = {
+--             score_offset = 500,
+--             min_keyword_length = 3,
+--           },
+--         },
+--       },
+
+--       signature = { enabled = true },
+--     },
+--   },
+-- }
+
 return {
   {
     "saghen/blink.cmp",
@@ -3957,11 +4032,6 @@ return {
 
         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
 
-        -- ["<CR>"] = {
-        --   "accept",
-        --   auto_select = false,
-        -- },
-
         ["<CR>"] = {
           function(cmp)
             if cmp.is_visible() and cmp.get_selected_item() then
@@ -3971,8 +4041,15 @@ return {
           "fallback",
         },
 
+        -- ELITE TAB (Copilot + blink perfekt kombiniert)
         ["<Tab>"] = {
           function(cmp)
+            -- 1. Copilot hat PRIORITÄT
+            if vim.fn["copilot#Accept"]("") ~= "" then
+              return vim.fn["copilot#Accept"]("\\<CR>")
+            end
+
+            -- 2. blink completion
             if cmp.is_visible() then
               return cmp.select_next()
             end
@@ -3993,23 +4070,46 @@ return {
       },
 
       completion = {
-        menu = { auto_show = true },
-        ghost_text = { enabled = false },
-      },
+        menu = {
+          auto_show = true,
+          border = "rounded", -- nicer UI
+        },
 
-      sources = {
-        default = { "lsp", "path", "buffer" },
-        providers = {
-          lsp = { score_offset = 1000 },
-          path = { score_offset = 750 },
-          buffer = {
-            score_offset = 500,
-            min_keyword_length = 3,
+        list = {
+          selection = {
+            preselect = false, -- verhindert falsche auto-selections
+          },
+        },
+
+        ghost_text = {
+          enabled = false, -- wichtig für Copilot!
+        },
+
+        -- Copilot-safe
+        accept = {
+          auto_brackets = {
+            enabled = false,
           },
         },
       },
 
-      signature = { enabled = true },
+      sources = {
+        default = { "lsp", "path", "buffer" },
+
+        providers = {
+          lsp = { score_offset = 1000 },
+          path = { score_offset = 750 },
+
+          buffer = {
+            score_offset = 500,
+            min_keyword_length = 4, -- weniger spam = mehr performance
+          },
+        },
+      },
+
+      signature = {
+        enabled = true,
+      },
     },
   },
 }
@@ -13319,15 +13419,50 @@ code plugins/copilot.lua
 -- vim.keymap.set("i", "<C-h>", "<Plug>(copilot-previous)")
 -- vim.keymap.set("i", "<C-e>", "<Plug>(copilot-dismiss)")
 
+-- return {
+--   {
+--     "github/copilot.vim",
+--     event = "InsertEnter",
+--     config = function()
+--       vim.g.copilot_no_tab_map = true
+--       vim.g.copilot_assume_mapped = true
+--       vim.g.copilot_enabled = false
+--     end,
+--   },
+-- }
+
 return {
   {
     "github/copilot.vim",
     event = "InsertEnter",
     config = function()
+      -- Grundeinstellungen
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_assume_mapped = true
+      vim.g.copilot_enabled = true
 
-      vim.cmd("Copilot disable")
+      -- Accept (wie VS Code Tab)
+      vim.keymap.set("i", "<Tab>", 'copilot#Accept("\\<CR>")', {
+        expr = true,
+        silent = true,
+        replace_keycodes = false,
+      })
+
+      -- Navigation
+      vim.keymap.set("i", "<C-l>", "<Plug>(copilot-next)", { silent = true })
+      vim.keymap.set("i", "<C-h>", "<Plug>(copilot-previous)", { silent = true })
+      vim.keymap.set("i", "<C-e>", "<Plug>(copilot-dismiss)", { silent = true })
+
+      -- Toggle
+      vim.keymap.set("n", "<leader>ai", function()
+        vim.g.copilot_enabled = not vim.g.copilot_enabled
+
+        if vim.g.copilot_enabled then
+          print("Copilot ON")
+        else
+          print("Copilot OFF")
+        end
+      end, { desc = "Toggle Copilot" })
     end,
   },
 }
