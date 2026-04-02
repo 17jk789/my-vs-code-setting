@@ -4072,7 +4072,7 @@ return {
       completion = {
         menu = {
           auto_show = true,
-          border = "rounded", -- nicer UI
+          -- border = "rounded", -- nicer UI
         },
 
         list = {
