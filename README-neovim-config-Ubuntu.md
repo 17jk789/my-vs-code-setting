@@ -4654,6 +4654,7 @@ return {
 
                 callable = {
                   snippets = "fill_arguments",
+                  -- snippets = "none", -- momenates Problem neovim 0.12
                 },
 
                 fullFunctionSignatures = {
