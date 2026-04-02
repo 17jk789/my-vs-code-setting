@@ -13434,19 +13434,20 @@ code plugins/copilot.lua
 return {
   {
     "github/copilot.vim",
-    event = "InsertEnter",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
       -- Grundeinstellungen
       vim.g.copilot_no_tab_map = true
       vim.g.copilot_assume_mapped = true
       vim.g.copilot_enabled = true
 
-      -- Accept (wie VS Code Tab)
-      vim.keymap.set("i", "<Tab>", 'copilot#Accept("\\<CR>")', {
-        expr = true,
-        silent = true,
-        replace_keycodes = false,
-      })
+      -- Copilot beim Öffnen aktivieren
+      vim.cmd("Copilot enable")
+
+      -- Accept
+      vim.keymap.set("i", "<C-J>", function()
+        return vim.fn["copilot#Accept"]("")
+      end, { expr = true, silent = true })
 
       -- Navigation
       vim.keymap.set("i", "<C-l>", "<Plug>(copilot-next)", { silent = true })
@@ -13456,16 +13457,13 @@ return {
       -- Toggle
       vim.keymap.set("n", "<leader>ai", function()
         vim.g.copilot_enabled = not vim.g.copilot_enabled
-
-        if vim.g.copilot_enabled then
-          print("Copilot ON")
-        else
-          print("Copilot OFF")
-        end
+        vim.cmd(vim.g.copilot_enabled and "Copilot enable" or "Copilot disable")
+        print(vim.g.copilot_enabled and "Copilot ON" or "Copilot OFF")
       end, { desc = "Toggle Copilot" })
     end,
   },
 }
+
 
 ```
 
