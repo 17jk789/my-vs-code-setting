@@ -4115,19 +4115,28 @@ return {
         -- ELITE TAB (Copilot + blink perfekt kombiniert)
         ["<Tab>"] = {
           function(cmp)
-            -- 1. Copilot hat PRIORITÄT
-            if vim.fn["copilot#Accept"]("") ~= "" then
-              return vim.fn["copilot#Accept"]("\\<CR>")
+            -- 1. Copilot FIRST
+            local copilot = vim.fn["copilot#Accept"]("")
+            if copilot ~= "" then
+              vim.api.nvim_feedkeys(copilot, "n", false)
+              return true
             end
 
-            -- 2. blink completion
+            -- 2. Completion
             if cmp.is_visible() then
               return cmp.select_next()
             end
+
+            -- 3. Snippet
+            if cmp.snippet_active() then
+              return cmp.snippet_forward()
+            end
+
+            return false
           end,
-          "snippet_forward",
           "fallback",
         },
+
 
         ["<S-Tab>"] = {
           function(cmp)
@@ -13517,9 +13526,9 @@ return {
       vim.cmd("Copilot enable")
 
       -- Accept
-      vim.keymap.set("i", "<C-J>", function()
-        return vim.fn["copilot#Accept"]("")
-      end, { expr = true, silent = true })
+      -- vim.keymap.set("i", "<C-J>", function()
+      --   return vim.fn["copilot#Accept"]("")
+      -- end, { expr = true, silent = true })
 
       -- Navigation
       vim.keymap.set("i", "<C-l>", "<Plug>(copilot-next)", { silent = true })
