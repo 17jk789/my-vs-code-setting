@@ -4014,6 +4014,77 @@ code plugins/completion.lua
 --   },
 -- }
 
+-- return {
+--   {
+--     "saghen/blink.cmp",
+--     event = "InsertEnter",
+--     dependencies = {
+--       "rafamadriz/friendly-snippets",
+--     },
+
+--     opts = {
+--       keymap = {
+--         preset = "default",
+
+--         ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+
+--         -- ["<CR>"] = {
+--         --   "accept",
+--         --   auto_select = false,
+--         -- },
+
+--         ["<CR>"] = {
+--           function(cmp)
+--             if cmp.is_visible() and cmp.get_selected_item() then
+--               return cmp.accept()
+--             end
+--           end,
+--           "fallback",
+--         },
+
+--         ["<Tab>"] = {
+--           function(cmp)
+--             if cmp.is_visible() then
+--               return cmp.select_next()
+--             end
+--           end,
+--           "snippet_forward",
+--           "fallback",
+--         },
+
+--         ["<S-Tab>"] = {
+--           function(cmp)
+--             if cmp.is_visible() then
+--               return cmp.select_prev()
+--             end
+--           end,
+--           "snippet_backward",
+--           "fallback",
+--         },
+--       },
+
+--       completion = {
+--         menu = { auto_show = true },
+--         ghost_text = { enabled = false },
+--       },
+
+--       sources = {
+--         default = { "lsp", "path", "buffer" },
+--         providers = {
+--           lsp = { score_offset = 1000 },
+--           path = { score_offset = 750 },
+--           buffer = {
+--             score_offset = 500,
+--             min_keyword_length = 3,
+--           },
+--         },
+--       },
+
+--       signature = { enabled = true },
+--     },
+--   },
+-- }
+
 return {
   {
     "saghen/blink.cmp",
