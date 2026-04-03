@@ -343,6 +343,212 @@ return {
 
 ```
 
+## Alecritty:
+
+```bash
+winget install Alacritty.Alacritty
+
+cd .\AppData\Roaming
+mkdir alacritty
+cd alacritty
+vim .\alacritty.toml
+```
+
+```text
+# ─── WINDOW / UI ─────────────────────────────────────────────
+[window]
+decorations = "None"
+opacity = 0.80
+blur = true
+
+padding = { x = 4, y = 2 }
+dimensions = { columns = 110, lines = 25 }
+
+# ─── FONT ────────────────────────────────────────────────────
+[font]
+size = 13.5
+
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+bold   = { family = "JetBrainsMono Nerd Font", style = "Bold" }
+italic = { family = "JetBrainsMono Nerd Font", style = "Italic" }
+
+# ─── CURSOR ──────────────────────────────────────────────────
+[cursor]
+style = { shape = "Block", blinking = "Never" }
+
+# ─── TERMINAL ────────────────────────────────────────────────
+[terminal]
+osc52 = "CopyPaste"
+
+[env]
+TERM = "xterm-256color"
+
+[scrolling]
+history = 30000
+
+# ─── WSL START ───────────────────────────────────────────────
+[terminal.shell]
+program = "wsl.exe"
+args = ["-d", "Ubuntu", "--cd", "~"]
+
+# ─── COLORS ──────────────────────────────────────────────────
+[colors.primary]
+background = "#1E1E2E"
+foreground = "#CDD6F4"
+
+[colors.cursor]
+text   = "#1E1E2E"
+cursor = "#F5A97F"
+
+[colors.selection]
+text       = "#1E1E2E"
+background = "#F5E0DC"
+
+[colors.normal]
+black   = "#45475A"
+red     = "#F38BA8"
+green   = "#A6E3A1"
+yellow  = "#F9E2AF"
+blue    = "#89B4FA"
+magenta = "#F5C2E7"
+cyan    = "#94E2D5"
+white   = "#BAC2DE"
+
+[colors.bright]
+black   = "#585B70"
+red     = "#F38BA8"
+green   = "#A6E3A1"
+yellow  = "#F9E2AF"
+blue    = "#89B4FA"
+magenta = "#F5C2E7"
+cyan    = "#94E2D5"
+white   = "#A6ADC8"
+
+# ─── KEYBINDS ───────────────────────────────────────────────
+
+# Window
+[[keyboard.bindings]]
+key = "M"
+mods = "Control"
+action = "ToggleFullscreen"
+
+[[keyboard.bindings]]
+key = "N"
+mods = "Control|Shift"
+action = "CreateNewWindow"
+
+[[keyboard.bindings]]
+key = "Q"
+mods = "Control|Shift"
+action = "Quit"
+
+# ─── SEND KEYS (für Zellij → Splits/Tabs funktionieren!) ───
+
+# New Tab (Ctrl+Shift+T)
+[[keyboard.bindings]]
+key = "T"
+mods = "Control|Shift"
+chars = "\u0014"
+
+# Close Tab (Ctrl+Shift+W)
+[[keyboard.bindings]]
+key = "W"
+mods = "Control|Shift"
+chars = "\u0017"
+
+# Split Right (Ctrl+Shift+O)
+[[keyboard.bindings]]
+key = "O"
+mods = "Control|Shift"
+chars = "\u000f"
+
+# Split Down (Ctrl+Shift+E)
+[[keyboard.bindings]]
+key = "E"
+mods = "Control|Shift"
+chars = "\u0005"
+
+# Zoom (Ctrl+Shift+Enter)
+[[keyboard.bindings]]
+key = "Enter"
+mods = "Control|Shift"
+chars = "\u000d"
+
+# ─── Navigation (ALT Pfeile → durchreichen) ───
+
+[[keyboard.bindings]]
+key = "Left"
+mods = "Alt"
+chars = "\u001b[D"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Alt"
+chars = "\u001b[C"
+
+[[keyboard.bindings]]
+key = "Up"
+mods = "Alt"
+chars = "\u001b[A"
+
+[[keyboard.bindings]]
+key = "Down"
+mods = "Alt"
+chars = "\u001b[B"
+
+# ─── Resize (ALT+SHIFT) ───
+
+[[keyboard.bindings]]
+key = "Left"
+mods = "Alt|Shift"
+chars = "\u001b[1;4D"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Alt|Shift"
+chars = "\u001b[1;4C"
+
+[[keyboard.bindings]]
+key = "Up"
+mods = "Alt|Shift"
+chars = "\u001b[1;4A"
+
+[[keyboard.bindings]]
+key = "Down"
+mods = "Alt|Shift"
+chars = "\u001b[1;4B"
+
+# ─── Clipboard ───────────────────────────────────────────────
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
+
+[[keyboard.bindings]]
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+# ─── Font ────────────────────────────────────────────────────
+
+[[keyboard.bindings]]
+key = "Equals"
+mods = "Control"
+action = "IncreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Minus"
+mods = "Control"
+action = "DecreaseFontSize"
+
+[[keyboard.bindings]]
+key = "Key0"
+mods = "Control"
+action = "ResetFontSize"
+
+```
+
 ## Install NeoVim
 
 ```bash
