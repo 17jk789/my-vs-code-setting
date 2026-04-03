@@ -358,6 +358,7 @@ vim .\alacritty.toml
 # ─── WINDOW / UI ─────────────────────────────────────────────
 [window]
 decorations = "None"
+# decorations = "Full"
 opacity = 0.80
 blur = true
 
