@@ -3267,6 +3267,37 @@ end, { desc = "Toggle Autoformat Global" })
 --   end
 -- end, { desc = "Toggle Copilot / blink" })
 
+vim.api.nvim_create_user_command("LspInfo", function()
+  local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+
+  if vim.tbl_isempty(clients) then
+    vim.notify("No active LSP clients", vim.log.levels.INFO)
+    return
+  end
+
+  local buf = vim.api.nvim_get_current_buf()
+  local lines = {}
+
+  table.insert(lines, "Active LSP clients (buffer " .. buf .. "):\n")
+
+  for _, client in ipairs(clients) do
+    table.insert(lines, "• Name: " .. client.name)
+    table.insert(lines, "  id: " .. client.id)
+    table.insert(lines, "  root: " .. (client.config.root_dir or "nil"))
+    table.insert(lines, "  cmd: " .. table.concat(client.config.cmd or {}, " "))
+    table.insert(lines, "")
+  end
+
+  vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO, {
+    title = "LSP Info",
+  })
+end, {})
+
+vim.api.nvim_create_user_command("LspClient", function()
+  vim.cmd("checkhealth lsp")
+end, {})
+
+
 ```
 
 ## plugins/lsp.lua
