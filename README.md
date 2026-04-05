@@ -12,13 +12,11 @@ This repository contains my personal **Visual Studio Code / NeoVim settings**.
 > This repo was not created for public distribution.
 > It is intended only for my own use, so I can use my settings on another computer without logging into my GitHub account.
 
-- [NeoVim Ubuntu](README-neovim-config-Ubuntu.md)  
-- [NeoVim Arch](README-neovim-config-Arch.md) - SOON!!!
-- [Windows WSL NeoVim](README-neovim-config-windows-ubuntu-wsl.md)
-- [IDEA Vim](README-idea-config.md)  
-- [VS Code](README-vs-code-config.md)
-
----
+- [`NeoVim Ubuntu`](README-neovim-config-Ubuntu.md)  
+- [`NeoVim Arch`](README-neovim-config-Arch.md)
+- [`Windows WSL NeoVim`](README-neovim-config-windows-ubuntu-wsl.md)
+- [`IDEA Vim`](README-idea-config.md)  
+- [`VS Code`](README-vs-code-config.md)
 
 ## Disclaimer
 
@@ -33,13 +31,9 @@ I am **not responsible** for any issues, errors, or damage that may occur from u
 
 Use them **at your own risk**.
 
----
-
 ## License
 
 This repository is released under the **Apache License 2.0**.
-
----
 
 ## Notes
 
