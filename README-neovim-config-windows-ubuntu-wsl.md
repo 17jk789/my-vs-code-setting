@@ -250,6 +250,8 @@ return {
 
 	-- CURSOR
 	default_cursor_style = "SteadyBlock",
+	-- default_cursor_style = "BlinkingBlock",
+	-- cursor_blink_rate = 500,
 
 	-- CATPPUCCIN THEME (richtig geschrieben!)
 	color_scheme = "Catppuccin Mocha",
@@ -260,10 +262,10 @@ return {
 		cursor_fg = "#1e1e2e",
 
 		tab_bar = {
-			background = "#1e1e2e",  -- gleiche Farbe wie das Fenster-Hintergrund-Theme
+			background = "#181825",  -- gleiche Farbe wie das Fenster-Hintergrund-Theme
 
 			active_tab = {
-				bg_color = "#1e1e2e",      -- gleiche Farbe wie Hintergrund
+				bg_color = "#181825",      -- gleiche Farbe wie Hintergrund
 				fg_color = "#f5a97f",      -- Textfarbe aktive Tab
 				-- fg_color = "#ffffff",
 				intensity = "Bold",
@@ -296,7 +298,18 @@ return {
 
 	-- STANDARD SHELL = PowerShell (WICHTIG)
 	-- default_prog = { "pwsh.exe" }, -- PowerShell Core
-    default_prog = { "wsl.exe", "-d", "Ubuntu", "--cd", "/mnt/c/Users/julia" },
+    -- default_prog = { "wsl.exe", "-d", "Ubuntu", "--cd", "/mnt/c/Users/julia" },
+
+    default_domain = "WSL:Ubuntu",
+
+    wsl_domains = {
+        {
+            name = "WSL:Ubuntu",
+            distribution = "Ubuntu",
+            default_cwd = "/mnt/c/Users/julia",
+        },
+    },
+
     -- default_prog = { "pwsh.exe", "-NoLogo", "-NoExit", "-Command", "wsl.exe -d Ubuntu --cd /mnt/c/Users/julia" },
 	-- Alternative (falls nicht installiert):
 	-- default_prog = { "powershell.exe" },
