@@ -290,8 +290,8 @@ return {
 
 	-- 🐚 STANDARD SHELL = PowerShell (WICHTIG)
 	-- default_prog = { "pwsh.exe" }, -- PowerShell Core
-    -- default_prog = { "wsl.exe", "-d", "Ubuntu", "--cd", "/mnt/c/Users/julia" },
-    default_prog = { "pwsh.exe", "-NoLogo", "-NoExit", "-Command", "wsl.exe -d Ubuntu --cd /mnt/c/Users/julia" },
+    default_prog = { "wsl.exe", "-d", "Ubuntu", "--cd", "/mnt/c/Users/julia" },
+    -- default_prog = { "pwsh.exe", "-NoLogo", "-NoExit", "-Command", "wsl.exe -d Ubuntu --cd /mnt/c/Users/julia" },
 	-- Alternative (falls nicht installiert):
 	-- default_prog = { "powershell.exe" },
 
