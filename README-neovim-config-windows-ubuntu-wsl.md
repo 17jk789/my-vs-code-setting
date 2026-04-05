@@ -267,6 +267,7 @@ return {
     colors = {
         cursor_bg = "#f5a97f",
         cursor_fg = "#1e1e2e",
+        split = "#45475A",
 
         tab_bar = {
             background = "#141414",
