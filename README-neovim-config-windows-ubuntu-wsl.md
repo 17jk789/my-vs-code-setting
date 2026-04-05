@@ -309,8 +309,8 @@ return {
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
 		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
         {
-            key = "p",
-            mods = "CTRL|SHIFT",
+            key = "t",
+            mods = "CTRL|ALT",
             action = wezterm.action.SpawnCommandInNewTab {
             args = { "powershell.exe" },
             }
@@ -332,16 +332,16 @@ return {
 		{ key = "o", mods = "CTRL|SHIFT", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 		{ key = "e", mods = "CTRL|SHIFT", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
         {
-            key = "v",
-            mods = "CTRL|SHIFT",
+            key = "o",
+            mods = "CTRL|ALT",
             action = wezterm.action.SplitHorizontal {
                 args = { "pwsh.exe", "-NoLogo" },
                 domain = "CurrentPaneDomain"
             }
         },
         {
-            key = "h",
-            mods = "CTRL|SHIFT",
+            key = "e",
+            mods = "CTRL|ALT",
             action = wezterm.action.SplitVertical {
                 args = { "pwsh.exe", "-NoLogo" },
                 domain = "CurrentPaneDomain"
