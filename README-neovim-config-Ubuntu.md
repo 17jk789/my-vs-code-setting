@@ -2901,6 +2901,8 @@ vim.diagnostic.config({
   severity_sort = true,
 })
 
+-- vim.opt.guicursor = "n-v-c:block,i:block-blinkwait500-blinkon500-blinkoff500"
+
 ```
 
 ## config/keymaps.lua
