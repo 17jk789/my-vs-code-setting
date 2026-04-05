@@ -269,10 +269,10 @@ return {
 		cursor_fg = "#1e1e2e",
 
 		tab_bar = {
-			background = "#181825",  -- gleiche Farbe wie das Fenster-Hintergrund-Theme
+			background = "#141414",  -- gleiche Farbe wie das Fenster-Hintergrund-Theme
 
 			active_tab = {
-				bg_color = "#181825",      -- gleiche Farbe wie Hintergrund
+				bg_color = "#141414",      -- gleiche Farbe wie Hintergrund
 				fg_color = "#f5a97f",      -- Textfarbe aktive Tab
 				-- fg_color = "#ffffff",
 				intensity = "Bold",
