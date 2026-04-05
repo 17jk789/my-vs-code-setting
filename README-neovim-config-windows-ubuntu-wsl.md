@@ -1,6 +1,6 @@
 # Windows Config
 
-Install WSL and use `[README-neovim-config-Ubuntu.md](./README-neovim-config-Ubuntu.md)`.
+Install WSL and use [`README-neovim-config-Ubuntu.md`](./README-neovim-config-Ubuntu.md).
 
 This repository contains my personal **NeoVim settings**.
 
