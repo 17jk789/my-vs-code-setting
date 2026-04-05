@@ -312,9 +312,9 @@ return {
 	font_size = 13.5,
 
 	-- CURSOR
-	default_cursor_style = "SteadyBlock",
-	-- default_cursor_style = "BlinkingBlock",
-	-- cursor_blink_rate = 500,
+	-- default_cursor_style = "SteadyBlock",
+	default_cursor_style = "BlinkingBlock",
+	cursor_blink_rate = 500,
 
 	-- CATPPUCCIN THEME (richtig geschrieben!)
 	color_scheme = "Catppuccin Mocha",
