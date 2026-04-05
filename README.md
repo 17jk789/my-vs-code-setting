@@ -4,9 +4,9 @@
   <img src="images/3.png" width="400" />
 </p>
 
-# My VS-Code and NeoVim setting on Windows and Linux (Ubuntu and Arch)
+# My Visual Studio Code, IDEA Vim and NeoVim setting on Windows and Linux (Ubuntu and Arch)
 
-This repository contains my personal **Visual Studio Code / NeoVim settings**.
+This repository contains my personal **Visual Studio Code / IDEA Vim / NeoVim settings**.
 
 > ⚠️ **Important:**
 > This repo was not created for public distribution.
