@@ -360,6 +360,7 @@ return {
         --     }
         -- },
 		{ key = "Enter", mods = "CTRL|SHIFT", action = wezterm.action.TogglePaneZoomState },
+		-- { key = "Enter", mods = "CTRL|ALT", action = wezterm.action.TogglePaneZoomState },
 
 		-- Tabs
 		{ key = "Tab", mods = "CTRL", action = wezterm.action.ActivateTabRelative(1) },
