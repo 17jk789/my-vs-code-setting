@@ -240,6 +240,13 @@ return {
     -- use_fancy_tab_bar = false,
     hide_tab_bar_if_only_one_tab = true,
 
+	front_end = "OpenGL",
+	-- front_end = "WebGpu",
+
+	max_fps = 120,
+	-- max_fps = 144,
+	animation_fps = 60,
+
 	-- FONT
 	font = wezterm.font_with_fallback {
 		"JetBrainsMono Nerd Font",  -- Hauptfont für Text + Icons
