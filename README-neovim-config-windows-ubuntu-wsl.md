@@ -306,6 +306,13 @@ return {
 	keys = {
 		{ key = "m", mods = "CTRL", action = wezterm.action.ToggleFullScreen },
 		{ key = "n", mods = "CTRL|SHIFT", action = wezterm.action.SpawnWindow },
+        {
+            key = "n",
+            mods = "CTRL|ALT",
+            action = wezterm.action.SpawnCommandInNewWindow {
+                args = { "powershell.exe" },
+            },
+        },
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
 		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
         {
