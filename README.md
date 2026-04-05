@@ -4,7 +4,7 @@
   <img src="images/3.png" width="400" />
 </p>
 
-# My VS-Code and NeoVim setting
+# My VS-Code and NeoVim setting on Windows and Linux (Ubuntu and Arch)
 
 This repository contains my personal **Visual Studio Code / NeoVim settings**.
 
