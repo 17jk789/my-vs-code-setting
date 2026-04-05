@@ -331,6 +331,22 @@ return {
 		-- Splits
 		{ key = "o", mods = "CTRL|SHIFT", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
 		{ key = "e", mods = "CTRL|SHIFT", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
+        {
+            key = "v",
+            mods = "CTRL|SHIFT",
+            action = wezterm.action.SplitHorizontal {
+                args = { "pwsh.exe", "-NoLogo" },
+                domain = "CurrentPaneDomain"
+            }
+        },
+        {
+            key = "h",
+            mods = "CTRL|SHIFT",
+            action = wezterm.action.SplitVertical {
+                args = { "pwsh.exe", "-NoLogo" },
+                domain = "CurrentPaneDomain"
+            }
+        },
 
 		-- Navigation
 		{ key = "LeftArrow", mods = "ALT", action = wezterm.action.ActivatePaneDirection("Left") },
