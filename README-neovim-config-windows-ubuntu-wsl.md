@@ -310,7 +310,7 @@ return {
             key = "n",
             mods = "CTRL|ALT",
             action = wezterm.action.SpawnCommandInNewWindow {
-                args = { "powershell.exe" },
+                args = { "powershell.exe", "-NoLogo" },
             },
         },
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
@@ -319,7 +319,7 @@ return {
             key = "t",
             mods = "CTRL|ALT",
             action = wezterm.action.SpawnCommandInNewTab {
-            args = { "powershell.exe" },
+            args = { "powershell.exe", "-NoLogo" },
             }
         },
         -- {
