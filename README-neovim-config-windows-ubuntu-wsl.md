@@ -219,11 +219,14 @@ local wezterm = require("wezterm")
 return {
 	-- WINDOW / UI
 	window_decorations = "RESIZE",
+	-- window_decorations = "INTEGRATED_BUTTONS|RESIZE",
+    -- window_decorations = "TITLE|RESIZE",
+
 	window_padding = {
 		left = 4,
 		right = 4,
-		top = 2,
-		bottom = 2,
+		top = 4,
+		bottom = 4,
 	},
 
 	initial_cols = 110,  -- Breite
@@ -231,8 +234,11 @@ return {
 
 	-- BLUR (Windows Acrylic)
 	win32_system_backdrop = "Acrylic",
+    -- win32_system_backdrop = "Mica",
 	window_background_opacity = 0.8,
 	text_background_opacity = 1.0,
+    -- use_fancy_tab_bar = false,
+    hide_tab_bar_if_only_one_tab = true,
 
 	-- FONT
 	font = wezterm.font_with_fallback {
@@ -376,6 +382,17 @@ return {
 		{ key = "-", mods = "CTRL", action = wezterm.action.DecreaseFontSize },
 		{ key = "0", mods = "CTRL", action = wezterm.action.ResetFontSize },
 	},
+
+    mouse_bindings = {
+        -- STRG + linke Maustaste gedrückt + ziehen = Fenster bewegen
+        {
+            event = { Drag = { streak = 1, button = "Left" } },
+            mods = "CTRL",
+            action = wezterm.action_callback(function(window, pane)
+                window:perform_action(wezterm.action.StartWindowDrag, pane)
+            end),
+        },
+    },
 }
 
 ```
