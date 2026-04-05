@@ -245,7 +245,7 @@ return {
 	-- CURSOR
 	default_cursor_style = "SteadyBlock",
 
-	-- 🎨 CATPPUCCIN THEME (richtig geschrieben!)
+	-- CATPPUCCIN THEME (richtig geschrieben!)
 	color_scheme = "Catppuccin Mocha",
 
 	-- Farben (nur Cursor überschreiben, NICHT background doppelt!)
@@ -288,7 +288,7 @@ return {
 		},
 	},
 
-	-- 🐚 STANDARD SHELL = PowerShell (WICHTIG)
+	-- STANDARD SHELL = PowerShell (WICHTIG)
 	-- default_prog = { "pwsh.exe" }, -- PowerShell Core
     default_prog = { "wsl.exe", "-d", "Ubuntu", "--cd", "/mnt/c/Users/julia" },
     -- default_prog = { "pwsh.exe", "-NoLogo", "-NoExit", "-Command", "wsl.exe -d Ubuntu --cd /mnt/c/Users/julia" },
