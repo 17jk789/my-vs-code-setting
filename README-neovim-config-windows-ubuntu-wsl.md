@@ -308,6 +308,20 @@ return {
 		{ key = "n", mods = "CTRL|SHIFT", action = wezterm.action.SpawnWindow },
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
 		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
+        {
+            key = "p",
+            mods = "CTRL|SHIFT",
+            action = wezterm.action.SpawnCommandInNewTab {
+            args = { "powershell.exe" },
+            }
+        },
+        -- {
+        --     key = "w",
+        --     mods = "CTRL|SHIFT",
+        --     action = wezterm.action.SpawnCommandInNewTab {
+        --     args = { "wsl.exe", "-d", "Ubuntu", "--cd", "/mnt/c/Users/julia" },
+        --     }
+        -- },
 		{ key = "Enter", mods = "CTRL|SHIFT", action = wezterm.action.TogglePaneZoomState },
 
 		-- Tabs
