@@ -264,44 +264,48 @@ return {
 	color_scheme = "Catppuccin Mocha",
 
 	-- Farben (nur Cursor überschreiben, NICHT background doppelt!)
-	colors = {
-		cursor_bg = "#f5a97f",
-		cursor_fg = "#1e1e2e",
+    colors = {
+        cursor_bg = "#f5a97f",
+        cursor_fg = "#1e1e2e",
 
-		tab_bar = {
-			background = "#141414",  -- gleiche Farbe wie das Fenster-Hintergrund-Theme
+        tab_bar = {
+            background = "#141414",
 
-			active_tab = {
-				bg_color = "#141414",      -- gleiche Farbe wie Hintergrund
-				fg_color = "#f5a97f",      -- Textfarbe aktive Tab
-				-- fg_color = "#ffffff",
-				intensity = "Bold",
-				underline = "None",
-				italic = false,
-				strikethrough = false,
-			},
+            active_tab = {
+                bg_color = "#1a1a2a",
+                fg_color = "#f5a97f",
+                intensity = "Bold",
+            },
 
-			-- inactive_tab = {
-			-- 	bg_color = "#181825",      -- leicht dunkler als Hintergrund
-			-- 	fg_color = "#cdd6f4",      -- Textfarbe inaktive Tab
-			-- },
+            inactive_tab = {
+                bg_color = "#1e1e2e",
+                fg_color = "#6c7086",
+            },
 
-			-- inactive_tab_hover = {
-			-- 	bg_color = "#1c1b26",      -- beim Hover etwas heller
-			-- 	fg_color = "#cdd6f4",
-			-- },
+            inactive_tab_hover = {
+                bg_color = "#1a1a2a",
+                fg_color = "#cdd6f4",
+            },
 
-			-- new_tab = {
-			-- 	bg_color = "#1e1e2e",
-			-- 	fg_color = "#94e2d5",
-			-- },
+            new_tab = {
+                bg_color = "#1e1e2e",
+                fg_color = "#f5a97f",
+            },
 
-			-- new_tab_hover = {
-			-- 	bg_color = "#1c1b26",
-			-- 	fg_color = "#94e2d5",
-			-- },
-		},
-	},
+            new_tab_hover = {
+                bg_color = "#1a1a2a",
+                fg_color = "#f5a97f",
+            },
+        },
+    },
+
+    window_frame = {
+        active_titlebar_bg = "#1e1e2e",
+        inactive_titlebar_bg = "#1e1e2e",
+
+        active_titlebar_fg = "#f5a97f",
+        inactive_titlebar_fg = "#6c7086",
+    },
 
 	-- STANDARD SHELL = PowerShell (WICHTIG)
 	-- default_prog = { "pwsh.exe" }, -- PowerShell Core
