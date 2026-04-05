@@ -1,6 +1,29 @@
 # Windows Config
 
-Install WSL and use `README-neovim-config-Ubuntu.md`.
+Install WSL and use `[README-neovim-config-Ubuntu.md](./README-neovim-config-Ubuntu.md)`.
+
+This repository contains my personal **NeoVim settings**.
+
+> ⚠️ **Important:**
+> This repo was not created for public distribution.
+> It is intended only for my own use, so I can use my settings on another computer without logging into my GitHub account.
+
+## Disclaimer
+
+These settings are provided **as-is**, without any warranty.
+
+I am **not responsible** for any issues, errors, or damage that may occur from using them, including but not limited to:
+
+* configuration problems
+* loss of data
+* software issues
+* compatibility problems
+
+Use them **at your own risk**.
+
+## License
+
+This repository is released under the **Apache License 2.0**.
 
 ## Windows Terminal
 
