@@ -166,7 +166,7 @@ This repository is released under the **Apache License 2.0**.
 
 </details>
 
-Installiere NeoVim: [Neovim](https://neovim.io/)
+Installiere NeoVim: [`Neovim`](https://neovim.io/)
 
 > **Hinweis:**  
 > Lade das Archiv `nvim-linux-x86_64.tar.gz` manuell von der NeoVim-Website herunter  
