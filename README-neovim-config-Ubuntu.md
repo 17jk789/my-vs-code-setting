@@ -11198,6 +11198,8 @@ return {
 
         -- Lua:
         -- "lua_ls",
+        "lua-language-server",
+        "stylua",
 
         -- JavaScript:
         "typescript-language-server",
