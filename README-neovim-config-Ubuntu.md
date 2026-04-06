@@ -13570,10 +13570,23 @@ return {
       vim.keymap.set("i", "<C-e>", "<Plug>(copilot-dismiss)", { silent = true })
 
       -- Toggle
+      -- vim.keymap.set("n", "<leader>ai", function()
+      --   vim.g.copilot_enabled = not vim.g.copilot_enabled
+      --   vim.cmd(vim.g.copilot_enabled and "Copilot enable" or "Copilot disable")
+      --   print(vim.g.copilot_enabled and "Copilot ON" or "Copilot OFF")
+      -- end, { desc = "Toggle Copilot" })
       vim.keymap.set("n", "<leader>ai", function()
-        vim.g.copilot_enabled = not vim.g.copilot_enabled
-        vim.cmd(vim.g.copilot_enabled and "Copilot enable" or "Copilot disable")
-        print(vim.g.copilot_enabled and "Copilot ON" or "Copilot OFF")
+        -- Aktuellen Zustand prüfen via :Copilot status (indirekt)
+        local output = vim.fn.systemlist("Copilot status")
+        local enabled = not vim.tbl_contains(output, "Disabled globally by :Copilot disable")
+
+        if enabled then
+          vim.cmd("Copilot disable")
+          print("Copilot OFF")
+        else
+          vim.cmd("Copilot enable")
+          print("Copilot ON")
+        end
       end, { desc = "Toggle Copilot" })
     end,
   },
