@@ -460,19 +460,10 @@ return {
 
 		-- Splits
 		{ key = "o", mods = "CTRL|SHIFT", action = wezterm.action.SplitHorizontal({ domain = "CurrentPaneDomain" }) },
-		{ key = "e", mods = "CTRL|SHIFT", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
         {
             key = "o",
             mods = "CTRL|ALT",
             action = wezterm.action.SplitHorizontal {
-                args = { "pwsh.exe", "-NoLogo" },
-                domain = "CurrentPaneDomain"
-            }
-        },
-        {
-            key = "e",
-            mods = "CTRL|ALT",
-            action = wezterm.action.SplitVertical {
                 args = { "pwsh.exe", "-NoLogo" },
                 domain = "CurrentPaneDomain"
             }
@@ -486,6 +477,15 @@ return {
                     "-d", "archlinux",
                     "-u", "devuser",
                 },
+                domain = "CurrentPaneDomain"
+            }
+        },
+		{ key = "e", mods = "CTRL|SHIFT", action = wezterm.action.SplitVertical({ domain = "CurrentPaneDomain" }) },
+        {
+            key = "e",
+            mods = "CTRL|ALT",
+            action = wezterm.action.SplitVertical {
+                args = { "pwsh.exe", "-NoLogo" },
                 domain = "CurrentPaneDomain"
             }
         },
