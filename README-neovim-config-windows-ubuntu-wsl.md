@@ -278,6 +278,8 @@ return {
 	-- window_decorations = "INTEGRATED_BUTTONS|RESIZE",
     -- window_decorations = "TITLE|RESIZE",
 
+    window_close_confirmation = "NeverPrompt",
+
 	window_padding = {
 		left = 4,
 		right = 4,
@@ -299,9 +301,11 @@ return {
 	front_end = "OpenGL",
 	-- front_end = "WebGpu",
 
-	max_fps = 120,
+	max_fps = 60,
+	-- max_fps = 120,
 	-- max_fps = 144,
-	animation_fps = 60,
+	animation_fps = 30,
+	-- animation_fps = 60,
 
 	-- FONT
 	font = wezterm.font_with_fallback {
@@ -401,12 +405,21 @@ return {
             },
         },
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
-		{ key = "w", mods = "CTRL|SHIFT", action = wezterm.action.CloseCurrentTab({ confirm = false }) },
+        {
+            key = "w",
+            mods = "CTRL|SHIFT",
+            action = wezterm.action_callback(function(window, pane)
+                window:perform_action(
+                wezterm.action.CloseCurrentTab({ confirm = false }),
+                pane
+                )
+            end),
+        },
         {
             key = "t",
             mods = "CTRL|ALT",
             action = wezterm.action.SpawnCommandInNewTab {
-            args = { "powershell.exe", "-NoLogo" },
+                args = { "powershell.exe", "-NoLogo" },
             }
         },
         -- {
