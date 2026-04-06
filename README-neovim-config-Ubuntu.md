@@ -322,6 +322,7 @@ sudo apt install wofi
 sudo apt install zoxide
 sudo apt install ghex
 sudo apt install bat
+sudo apt install dos2unix
 echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
 # sudo apt install just
 # source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal -> Strg + R
