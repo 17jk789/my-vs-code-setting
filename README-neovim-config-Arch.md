@@ -153,7 +153,8 @@ docker --version
 ```
 
 ```bash
-sudo pacman -S wl-clipboard fd python-virtualenv python-pip
+# sudo pacman -S wl-clipboard fd python python-virtualenv python-pip
+sudo pacman -S wl-clipboard fd python python-pip
 # sudo pacman -S python-pipx
 # pipx ensurepath
 # pipx install black
