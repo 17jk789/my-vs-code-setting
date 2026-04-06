@@ -538,7 +538,7 @@ return {
 
 ```
 
-## Alecritty:
+## Alacritty:
 
 ```bash
 winget install Alacritty.Alacritty
