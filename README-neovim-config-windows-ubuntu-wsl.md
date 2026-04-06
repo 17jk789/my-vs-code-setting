@@ -411,22 +411,11 @@ return {
                 args = {
                     "wsl.exe",
                     "-d", "archlinux",
-                    "-u", "devuser",
-                    "--cd", "."
+                    "-u", "devuser"
                 }
             },
         },
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
-        {
-            key = "w",
-            mods = "CTRL|SHIFT",
-            action = wezterm.action_callback(function(window, pane)
-                window:perform_action(
-                wezterm.action.CloseCurrentTab({ confirm = false }),
-                pane
-                )
-            end),
-        },
         {
             key = "t",
             mods = "CTRL|ALT",
@@ -441,10 +430,19 @@ return {
                 args = {
                     "wsl.exe",
                     "-d", "archlinux",
-                    "-u", "devuser",
-                    "--cd", "."
+                    "-u", "devuser"
                 }
             }
+        },
+        {
+            key = "w",
+            mods = "CTRL|SHIFT",
+            action = wezterm.action_callback(function(window, pane)
+                window:perform_action(
+                wezterm.action.CloseCurrentTab({ confirm = false }),
+                pane
+                )
+            end),
         },
         -- {
         --     key = "w",
@@ -487,7 +485,6 @@ return {
                     "wsl.exe",
                     "-d", "archlinux",
                     "-u", "devuser",
-                    "--cd", "."
                 },
                 domain = "CurrentPaneDomain"
             }
@@ -500,7 +497,6 @@ return {
                     "wsl.exe",
                     "-d", "archlinux",
                     "-u", "devuser",
-                    "--cd", "."
                 },
                 domain = "CurrentPaneDomain"
             }
