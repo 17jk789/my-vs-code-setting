@@ -404,6 +404,18 @@ return {
                 args = { "powershell.exe", "-NoLogo" },
             },
         },
+        {
+            key = "n",
+            mods = "CTRL|ALT|SHIFT",
+            action = wezterm.action.SpawnCommandInNewWindow {
+                args = {
+                    "wsl.exe",
+                    "-d", "archlinux",
+                    "-u", "devuser",
+                    "--cd", "."
+                }
+            },
+        },
 		{ key = "t", mods = "CTRL|SHIFT", action = wezterm.action.SpawnTab("CurrentPaneDomain") },
         {
             key = "w",
@@ -420,6 +432,18 @@ return {
             mods = "CTRL|ALT",
             action = wezterm.action.SpawnCommandInNewTab {
                 args = { "powershell.exe", "-NoLogo" },
+            }
+        },
+        {
+            key = "t",
+            mods = "CTRL|ALT|SHIFT",
+            action = wezterm.action.SpawnCommandInNewTab {
+                args = {
+                    "wsl.exe",
+                    "-d", "archlinux",
+                    "-u", "devuser",
+                    "--cd", "."
+                }
             }
         },
         -- {
@@ -452,6 +476,32 @@ return {
             mods = "CTRL|ALT",
             action = wezterm.action.SplitVertical {
                 args = { "pwsh.exe", "-NoLogo" },
+                domain = "CurrentPaneDomain"
+            }
+        },
+        {
+            key = "o",
+            mods = "CTRL|ALT|SHIFT",
+            action = wezterm.action.SplitHorizontal {
+                args = {
+                    "wsl.exe",
+                    "-d", "archlinux",
+                    "-u", "devuser",
+                    "--cd", "."
+                },
+                domain = "CurrentPaneDomain"
+            }
+        },
+        {
+            key = "e",
+            mods = "CTRL|ALT|SHIFT",
+            action = wezterm.action.SplitVertical {
+                args = {
+                    "wsl.exe",
+                    "-d", "archlinux",
+                    "-u", "devuser",
+                    "--cd", "."
+                },
                 domain = "CurrentPaneDomain"
             }
         },
