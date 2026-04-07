@@ -13844,10 +13844,55 @@ return {
       return " N/A"
     end
 
-    -- Füge Akku ganz links in lualine_x ein
-    table.insert(opts.sections.lualine_x, 1, battery)
+    -- LSP
+    local function lsp_server()
+      local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
+      if #buf_clients == 0 then
+        return "LSP: None"
+      end
+      local names = {}
+      for _, client in pairs(buf_clients) do
+        if client.name ~= "null-ls" then
+          table.insert(names, client.name)
+        end
+      end
+      -- return " " .. table.concat(names, ", ")
+      return " " .. table.concat(names, ", ")
+    end
+
+    -- Kodierung (UTF-8 etc.)
+    local function encoding()
+      local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc
+      -- return " " .. enc:upper()
+      return " " .. enc:upper()
+    end
+
+    -- Füge Komponenten mit Trennern hinzu
+    local x = opts.sections.lualine_x
+    -- table.insert(x, 1, { battery, separator = { right = "" } })
+    -- table.insert(x, 2, { lsp_server, separator = { right = "" } })
+    -- table.insert(x, 3, { encoding, separator = { right = "" } })
+    -- table.insert(x, 1, { battery })
+    -- table.insert(x, 2, { lsp_server })
+    -- table.insert(x, 3, { encoding })
+    table.insert(x, 1, {
+      battery,
+      separator = { left = "" },
+      color = { fg = "#89B4FA", bg = "#313244" },
+    })
+
+    table.insert(x, 2, {
+      lsp_server,
+      color = { fg = "#89B4FA", bg = "#313244" },
+    })
+
+    table.insert(x, 3, {
+      encoding,
+      separator = { right = "" },
+      color = { fg = "#89B4FA", bg = "#313244" },
+    })
   end,
-}   
+}
 
 ```
 
