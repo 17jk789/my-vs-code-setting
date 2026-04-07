@@ -7332,6 +7332,11 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 lspconfig.pyright.setup({
     capabilities = capabilities,
 
+    -- Diagnostics aus
+    handlers = {
+        ["$/progress"] = function() end,
+    },
+
     settings = {
         python = {
             analysis = {
