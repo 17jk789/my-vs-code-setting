@@ -13857,39 +13857,47 @@ return {
         end
       end
       -- return " " .. table.concat(names, ", ")
-      return " " .. table.concat(names, ", ")
+      -- return " " .. table.concat(names, ", ")
+      return table.concat(names, ", ")
     end
 
     -- Kodierung (UTF-8 etc.)
     local function encoding()
       local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc
       -- return " " .. enc:upper()
-      return " " .. enc:upper()
+      -- return " " .. enc:upper()
+      return enc:upper()
     end
 
     -- Füge Komponenten mit Trennern hinzu
-    local x = opts.sections.lualine_x
+    -- local x = opts.sections.lualine_x
     -- table.insert(x, 1, { battery, separator = { right = "" } })
     -- table.insert(x, 2, { lsp_server, separator = { right = "" } })
     -- table.insert(x, 3, { encoding, separator = { right = "" } })
     -- table.insert(x, 1, { battery })
     -- table.insert(x, 2, { lsp_server })
     -- table.insert(x, 3, { encoding })
-    table.insert(x, 1, {
+
+    -- Stelle sicher, dass theme auf catppuccin steht
+    opts.options = vim.tbl_extend("keep", opts.options or {}, {
+      theme = "catppuccin",
+    })
+
+    -- Füge Komponenten OHNE feste Farben hinzu
+    table.insert(opts.sections.lualine_z, 1, {
       battery,
       separator = { left = "" },
-      color = { fg = "#89B4FA", bg = "#313244" },
+      -- Kein color={} → nutzt automatisch catppuccin Modus-Farben
     })
 
-    table.insert(x, 2, {
+    table.insert(opts.sections.lualine_y, 1, {
       lsp_server,
-      color = { fg = "#89B4FA", bg = "#313244" },
+      separator = { left = "", right = "" },
     })
 
-    table.insert(x, 3, {
+    table.insert(opts.sections.lualine_y, 2, {
       encoding,
       separator = { right = "" },
-      color = { fg = "#89B4FA", bg = "#313244" },
     })
   end,
 }
