@@ -13857,16 +13857,16 @@ return {
         end
       end
       -- return " " .. table.concat(names, ", ")
-      -- return " " .. table.concat(names, ", ")
-      return table.concat(names, ", ")
+      return " " .. table.concat(names, ", ")
+      -- return table.concat(names, ", ")
     end
 
     -- Kodierung (UTF-8 etc.)
     local function encoding()
       local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc
       -- return " " .. enc:upper()
-      -- return " " .. enc:upper()
-      return enc:upper()
+      return " " .. enc:upper()
+      -- return enc:upper()
     end
 
     -- Füge Komponenten mit Trennern hinzu
