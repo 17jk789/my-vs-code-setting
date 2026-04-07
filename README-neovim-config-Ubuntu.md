@@ -280,6 +280,7 @@ sudo snap install ghostty --classic  # besser für Lazyvim als gnome-terminal od
 # sudo apt install default-jre
 # sudo snap install languagetool
 # sudo apt install vim vim-common
+sudo apt install acpi
 ```
 
 ```bash
