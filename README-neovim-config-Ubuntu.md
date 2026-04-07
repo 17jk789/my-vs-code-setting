@@ -13828,10 +13828,10 @@ return {
         handle:close()
         result = string.gsub(result, "\n", "")
         if tonumber(result) then
-          return "🔋 " .. result .. "%%"
+          return "🔋" .. result .. "%%"
         end
       end
-      return "🔋 N/A"
+      return "🔋N/A"
     end
 
     -- Füge Akku zur lualine_x-Sektion hinzu
