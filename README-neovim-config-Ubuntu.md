@@ -12775,6 +12775,75 @@ code plugins/alpha.lua
 --   end,
 -- }
 
+-- Neovim Version
+local v = vim.version()
+local nvim_version = string.format("Neovim v%d.%d.%d", v.major, v.minor, v.patch)
+
+-- LazyVim Version (best effort)
+local lazy_version = (function()
+  local ok, Config = pcall(require, "lazy.core.config")
+  -- Prüfen ob Config UND die Plugins-Tabelle existieren
+  if not (ok and Config and Config.plugins) then 
+    return "LazyVim" 
+  end
+
+  local p = Config.plugins["LazyVim"]
+  if not p then return "LazyVim" end
+
+  -- Version/Tag sicher auslesen
+  local version = p.version or p.tag or "stable"
+  
+  -- Commit nur kürzen, wenn er wirklich existiert
+  local commit = ""
+  if type(p.commit) == "string" then
+    commit = string.format(" (%s)", p.commit:sub(1, 7))
+  end
+
+  return "LazyVim " .. version .. commit
+end)()
+
+-- OS + Linux Distribution + Version
+local os_info = (function()
+  local file = io.open("/etc/os-release", "r")
+  if not file then
+    return "Linux (unknown distro)"
+  end
+
+  local data = file:read("*a")
+  file:close()
+
+  local pretty = data:match('PRETTY_NAME="(.-)"')
+
+  if pretty then
+    -- optional: " (Noble Numbat)" entfernen
+    pretty = pretty:gsub("%s*%b()", "")
+
+    return pretty
+  end
+
+  return "Linux"
+end)()
+
+-- ASCII art found in:
+-- https://github.com/MaximilianLloyd/ascii.nvim/
+-- Original author unknown.
+local header = [[
+                                                                    
+       ████ ██████           █████      ██                    
+      ███████████             █████                            
+      █████████ ███████████████████ ███   ███████████  
+     █████████  ███    █████████████ █████ ██████████████  
+    █████████ ██████████ █████████ █████ █████ ████ █████  
+  ███████████ ███    ███ █████████ █████ █████ ████ █████ 
+ ██████  █████████████████████ ████ █████ █████ ████ ██████
+
+N E O V I M - J U L I A N
+
+__NVIM__ / __LAZY__ / __OS__]]
+
+header = header:gsub("__NVIM__", nvim_version):gsub("__LAZY__", lazy_version):gsub("__OS__", os_info)
+
+
 return {
   {
     "folke/snacks.nvim",
@@ -12992,17 +13061,20 @@ return {
           -- ASCII art found in:
           -- https://github.com/MaximilianLloyd/ascii.nvim/
           -- Original author unknown.
-          header = [[
-                                                                    
-       ████ ██████           █████      ██                    
-      ███████████             █████                            
-      █████████ ███████████████████ ███   ███████████  
-     █████████  ███    █████████████ █████ ██████████████  
-    █████████ ██████████ █████████ █████ █████ ████ █████  
-  ███████████ ███    ███ █████████ █████ █████ ████ █████ 
- ██████  █████████████████████ ████ █████ █████ ████ ██████
 
-N E O V I M - J U L I A N]],
+--           header = [[
+--                                                                     
+--        ████ ██████           █████      ██                    
+--       ███████████             █████                            
+--       █████████ ███████████████████ ███   ███████████  
+--      █████████  ███    █████████████ █████ ██████████████  
+--     █████████ ██████████ █████████ █████ █████ ████ █████  
+--   ███████████ ███    ███ █████████ █████ █████ ████ █████ 
+--  ██████  █████████████████████ ████ █████ █████ ████ ██████
+
+-- N E O V I M - J U L I A N]],
+
+          header = banner,
 
           -- ASCII art found in:
           -- https://github.com/MaximilianLloyd/ascii.nvim/
