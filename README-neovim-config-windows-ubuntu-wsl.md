@@ -287,6 +287,37 @@ return {
 		bottom = 4,
 	},
 
+    -- wezterm.on("window-resized", function(window, pane)
+    --     local dims = window:get_dimensions()
+    --     local overrides = window:get_config_overrides() or {}
+
+    --     local total_horizontal_padding = dims.pixel_width - dims.viewport_width
+    --     local total_vertical_padding = dims.pixel_height - dims.viewport_height
+
+    --     local left = math.floor(total_horizontal_padding / 2)
+    --     local right = total_horizontal_padding - left
+    --     local top = math.floor(total_vertical_padding / 2)
+    --     local bottom = total_vertical_padding - top
+
+    --     -- Nur aktualisieren, wenn sich etwas geändert hat
+    --     if not (
+    --         overrides.window_padding and
+    --         overrides.window_padding.left == left and
+    --         overrides.window_padding.right == right and
+    --         overrides.window_padding.top == top and
+    --         overrides.window_padding.bottom == bottom
+    --     ) then
+    --         window:set_config_overrides {
+    --         window_padding = {
+    --             left = left,
+    --             right = right,
+    --             top = top,
+    --             bottom = bottom,
+    --         }
+    --         }
+    --     end
+    -- end)   
+
 	initial_cols = 110,  -- Breite
 	initial_rows = 25,   -- Höhe
 
