@@ -13862,6 +13862,36 @@ return {
       -- return table.concat(names, ", ")
     end
 
+    -- Anzahl geladener Plugins (LazyVim / lazy.nvim)
+    local plugin_cache = nil
+
+    -- wird genau einmal nach Lazy-Load gesetzt
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "LazyDone",
+      callback = function()
+        local ok, lazy = pcall(require, "lazy")
+        if not ok then return end
+
+        local stats = lazy.stats()
+        plugin_cache = (stats and stats.loaded) or 0
+      end,
+    })
+
+    local function plugins_loaded()
+      -- Fallback, falls Lazy noch nicht fertig ist
+      if plugin_cache == nil then
+        local ok, lazy = pcall(require, "lazy")
+        if not ok then
+          return " 0 PLG"
+        end
+
+        local stats = lazy.stats()
+        return " " .. ((stats and stats.loaded) or 0) .. " PLG"
+      end
+
+      return " " .. plugin_cache .. " PLG"
+    end
+
     -- Kodierung (UTF-8 etc.)
     local function encoding()
       local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc
@@ -13896,7 +13926,12 @@ return {
       separator = { left = "", right = "" },
     })
 
-    table.insert(opts.sections.lualine_y, 2, {
+    table.insert(opts.sections.lualine_y, 3, {
+      plugins_loaded,
+      separator = { left = "", right = "" },
+    })
+
+    table.insert(opts.sections.lualine_y, 3, {
       encoding,
       separator = { right = "" },
     })
