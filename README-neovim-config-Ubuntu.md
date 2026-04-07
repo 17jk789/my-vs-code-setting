@@ -13862,7 +13862,7 @@ return {
 
           -- kürzen auf max 8 Zeichen
           if #name > 8 then
-            name = name:sub(1, 8) .. "…"
+            name = name:sub(1, 9) .. "…"
           end
 
           names[#names + 1] = name
