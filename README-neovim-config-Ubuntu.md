@@ -13820,23 +13820,40 @@ code plugins/lualine.lua
 return {
   "nvim-lualine/lualine.nvim",
   opts = function(_, opts)
-    -- Funktion für Akku-Abfrage
     local function battery()
       local handle = io.popen("acpi -b 2>/dev/null | grep -o '[0-9]\\+%' | head -n1 | tr -d '%'")
       if handle then
         local result = handle:read("*a")
         handle:close()
-        result = string.gsub(result, "\n", "")
+        result = string.gsub(result, "%D", "") -- Nur Zahlen extrahieren
         if tonumber(result) then
-          return "🔋" .. result .. "%%"
+          local charge = tonumber(result)
+          local icon = " "
+          if charge < 20 then
+            icon = " "
+          elseif charge < 40 then
+            icon = " "
+          elseif charge < 60 then
+            icon = " "
+          elseif charge < 80 then
+            icon = " "
+          end
+          return icon .. charge .. "%%"
         end
       end
-      return "🔋N/A"
+      return " N/A"
     end
 
-    -- Füge Akku zur lualine_x-Sektion hinzu
+    -- Füge Akku ganz links in lualine_x ein
     table.insert(opts.sections.lualine_x, 1, battery)
   end,
 }   
 
 ```
+
+or
+
+```lua
+-- soon
+```
+
