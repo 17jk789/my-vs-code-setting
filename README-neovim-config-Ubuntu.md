@@ -12777,29 +12777,27 @@ code plugins/alpha.lua
 
 -- Neovim Version
 local v = vim.version()
-local nvim_version = string.format("Neovim v%d.%d.%d", v.major, v.minor, v.patch)
+local nvim_version = string.format("NeoVim v%d.%d.%d", v.major, v.minor, v.patch)
 
 -- LazyVim Version (best effort)
+-- LazyVim Version (best effort)
 local lazy_version = (function()
-  local ok, Config = pcall(require, "lazy.core.config")
-  -- Prüfen ob Config UND die Plugins-Tabelle existieren
-  if not (ok and Config and Config.plugins) then 
-    return "LazyVim" 
+  -- 1. Versuch: Die offizielle LazyVim Config nutzen (wie dein Terminal-Check)
+  local ok_lv, lv_config = pcall(require, "lazyvim.config")
+  if ok_lv and lv_config.version then
+    return "LazyVim " .. lv_config.version
   end
 
-  local p = Config.plugins["LazyVim"]
-  if not p then return "LazyVim" end
-
-  -- Version/Tag sicher auslesen
-  local version = p.version or p.tag or "stable"
-  
-  -- Commit nur kürzen, wenn er wirklich existiert
-  local commit = ""
-  if type(p.commit) == "string" then
-    commit = string.format(" (%s)", p.commit:sub(1, 7))
+  -- 2. Fallback: Direkt über lazy.nvim Metadaten (für Commit-Infos)
+  local ok_lazy, Config = pcall(require, "lazy.core.config")
+  if ok_lazy and Config.plugins and Config.plugins["LazyVim"] then
+    local p = Config.plugins["LazyVim"]
+    local version = p.version or p.tag or "stable"
+    local commit = type(p.commit) == "string" and (" (" .. p.commit:sub(1, 7) .. ")") or ""
+    return "LazyVim " .. version .. commit
   end
 
-  return "LazyVim " .. version .. commit
+  return "LazyVim"
 end)()
 
 -- OS + Linux Distribution + Version
