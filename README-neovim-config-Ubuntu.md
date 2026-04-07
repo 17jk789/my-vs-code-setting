@@ -5994,10 +5994,11 @@ return {
       -- require("java").setup() -- Doppeltes require("java").setup() vermeiden Sonst: Debug/Test Bugs, Code-Actions verschwinden manchmal, doppelte LSP-Attachs, wird aber dennoch benötigt!
       -- Setup nvim-java
 
-      local handlers = {
-        -- ["language/status"] = function(_, _) end,
-        ["$/progress"] = function(_, _) end,
-      }
+      -- wir haben noice.lua und brauchen daher keine eigenen Handler mehr für jdtls Notifications
+      -- local handlers = {
+      --   -- ["language/status"] = function(_, _) end,
+      --   ["$/progress"] = function(_, _) end,
+      -- }
 
       require("java").setup(
         -- {
