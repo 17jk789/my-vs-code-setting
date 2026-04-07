@@ -13865,7 +13865,7 @@ return {
     local function encoding()
       local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc
       -- return " " .. enc:upper()
-      return " " .. enc:upper()
+      return " " .. enc:upper() .. " "
       -- return enc:upper()
     end
 
