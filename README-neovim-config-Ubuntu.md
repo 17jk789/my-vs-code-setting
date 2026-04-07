@@ -13072,7 +13072,7 @@ return {
 
 -- N E O V I M - J U L I A N]],
 
-          header = banner,
+          header = header,
 
           -- ASCII art found in:
           -- https://github.com/MaximilianLloyd/ascii.nvim/
