@@ -144,6 +144,7 @@ This repository is released under the **Apache License 2.0**.
   - [config/lazy.lua](#configlazylua)
   - [config/copilot.lua](#configcopilotlua)
   - [config/noice.lua](#confignoicelua)
+  - [config/lualine.lua](#configlualinelua)
 
 ## Notes
 
@@ -2785,6 +2786,7 @@ cd ~/.config/nvim/lua
         ├── lazy.lua
         ├── lsp.lua
         ├── ltex.lua
+        ├── lualine.lua
         ├── markdown.lua
         ├── mason.lua
         ├── matlab.lua
@@ -13790,5 +13792,50 @@ return {
     },
   },
 }
+
+```
+
+## config/lualine.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/lualine.lua
+```
+
+```bash
+nano plugins/lualine.lua
+```
+
+```bash
+code plugins/lualine.lua
+```
+
+```lua
+-- plugins/lualine.lua
+
+return {
+  "nvim-lualine/lualine.nvim",
+  opts = function(_, opts)
+    -- Funktion für Akku-Abfrage
+    local function battery()
+      local handle = io.popen("acpi -b 2>/dev/null | grep -o '[0-9]\\+%' | head -n1 | tr -d '%'")
+      if handle then
+        local result = handle:read("*a")
+        handle:close()
+        result = string.gsub(result, "\n", "")
+        if tonumber(result) then
+          return "🔋 " .. result .. "%%"
+        end
+      end
+      return "🔋 N/A"
+    end
+
+    -- Füge Akku zur lualine_x-Sektion hinzu
+    table.insert(opts.sections.lualine_x, 1, battery)
+  end,
+}   
 
 ```
