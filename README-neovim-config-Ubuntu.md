@@ -168,11 +168,11 @@ This repository is released under the **Apache License 2.0**.
 
 </details>
 
-Installiere NeoVim: [`Neovim`](https://neovim.io/)
+<!-- Installiere NeoVim: [`Neovim`](https://neovim.io/)
 
 > **Hinweis:**  
 > Lade das Archiv `nvim-linux-x86_64.tar.gz` manuell von der NeoVim-Website herunter  
-> und speichere es im Ordner `~/Downloads`, bevor du die folgenden Befehle ausführst.
+> und speichere es im Ordner `~/Downloads`, bevor du die folgenden Befehle ausführst. -->
 
 ```bash
 sudo apt update
@@ -289,6 +289,7 @@ sudo apt install acpi
 # cp /usr/share/vim/vim*/spell/en.utf-8.spl ~/.local/share/nvim/spell/en_us.utf-8.spl
 # cp /usr/share/vim/vim*/spell/de.utf-8.spl ~/.local/share/nvim/spell/de_de.utf-8.spl
 cd ~/Downloads
+wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
 tar -xzf nvim-linux-x86_64.tar.gz
 sudo mv nvim-linux-x86_64 /opt/nvim
 echo 'export PATH="$PATH:/opt/nvim/bin"' >> ~/.bashrc
