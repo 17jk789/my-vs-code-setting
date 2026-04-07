@@ -143,6 +143,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/snacks.lua](#pluginssnackslua)
   - [config/lazy.lua](#configlazylua)
   - [config/copilot.lua](#configcopilotlua)
+  - [config/noice.lua](#confignoicelua)
 
 ## Notes
 
@@ -2787,6 +2788,7 @@ cd ~/.config/nvim/lua
         ├── markdown.lua
         ├── mason.lua
         ├── matlab.lua
+        ├── noice.lua
         ├── programmierprojekt.lua
         ├── notify.lua
         ├── rust.lua
@@ -7333,9 +7335,9 @@ lspconfig.pyright.setup({
     capabilities = capabilities,
 
     -- Diagnostics aus
-    handlers = {
-        ["$/progress"] = function() end,
-    },
+    -- handlers = {
+    --     ["$/progress"] = function() end,
+    -- },
 
     settings = {
         python = {
@@ -13674,3 +13676,67 @@ rm -rf ~/.config/nvim/pack/github/start/copilot.vim
 git clone --depth=1 https://github.com/github/copilot.vim.git \
 ~/.config/nvim/pack/github/start/copilot.vim
 ``` -->
+
+## config/noice.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/noice.lua
+```
+
+```bash
+nano plugins/noice.lua
+```
+
+```bash
+code plugins/noice.lua
+```
+
+```lua
+-- plugins/noice.lua
+
+return {
+  "folke/noice.nvim",
+  event = "VeryLazy",
+  opts = {
+    -- Hier definieren wir die Ausnahme-Regel
+    routes = {
+      {
+        filter = {
+          -- Trifft auf jede Art von Nachricht/UI-Element zu
+          any = {
+            { event = "msg_show" },
+            { event = "lsp", kind = "progress" },
+            { event = "notify" },
+          },
+          -- Bedingung: Nur wenn es Python oder Java ist
+          cond = function()
+            local ft = vim.bo.filetype
+            return ft == "python" or ft == "java"
+          end,
+        },
+        opts = { skip = true }, -- Diese Nachrichten werden ignoriert
+      },
+    },
+    lsp = {
+      progress = {
+        enabled = true, -- Für alle anderen Sprachen bleibt es an
+      },
+      override = {
+        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+        ["vim.lsp.util.stylize_markdown"] = true,
+        ["cmp.entry.get_documentation"] = true,
+      },
+    },
+    presets = {
+      bottom_search = true,
+      command_palette = true,
+      long_message_to_split = true,
+    },
+  },
+}
+
+```
