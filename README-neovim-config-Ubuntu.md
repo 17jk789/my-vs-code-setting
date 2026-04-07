@@ -13850,7 +13850,8 @@ return {
       local clients = vim.lsp.get_clients({ bufnr = 0 })
 
       if not clients or vim.tbl_isempty(clients) then
-        return " LSP: None"
+        return "  None"
+        -- return "  None"
       end
 
       local names = {}
@@ -13869,10 +13870,12 @@ return {
       end
 
       if #names == 0 then
-        return " LSP: None"
+        return "  None"
+        -- return "  None"
       end
 
-      return " " .. table.concat(names, ", ")
+      return "  " .. table.concat(names, ", ")
+      -- return "  " .. table.concat(names, ", ")
     end
 
     -- Anzahl geladener Plugins (LazyVim / lazy.nvim)
@@ -13883,7 +13886,9 @@ return {
       pattern = "LazyDone",
       callback = function()
         local ok, lazy = pcall(require, "lazy")
-        if not ok then return end
+        if not ok then
+          return
+        end
 
         local stats = lazy.stats()
         plugin_cache = (stats and stats.loaded) or 0
@@ -13895,22 +13900,31 @@ return {
       if plugin_cache == nil then
         local ok, lazy = pcall(require, "lazy")
         if not ok then
-          return " 0 PLG"
+          -- return "  0"
+          return " 󰗼 0"
         end
 
         local stats = lazy.stats()
-        return " " .. ((stats and stats.loaded) or 0) .. " PLG"
+        -- return "  " .. ((stats and stats.loaded) or 0)
+        return " 󰗼 " .. ((stats and stats.loaded) or 0)
       end
 
-      return " " .. plugin_cache .. " PLG"
+      -- return "  " .. plugin_cache
+      return " 󰗼 " .. plugin_cache
     end
 
     -- Kodierung (UTF-8 etc.)
     local function encoding()
       local enc = (vim.bo.fenc ~= "" and vim.bo.fenc) or vim.o.enc
       -- return " " .. enc:upper()
-      return " " .. enc:upper() .. " "
+      return " " .. enc:upper()
       -- return enc:upper()
+    end
+
+    local function file_format()
+      local fmt = vim.bo.fileformat:upper()
+      local icon = fmt == "UNIX" and "LF" or "CRLF"
+      return " " .. icon .. " "
     end
 
     -- Füge Komponenten mit Trennern hinzu
@@ -13930,7 +13944,7 @@ return {
     -- Füge Komponenten OHNE feste Farben hinzu
     table.insert(opts.sections.lualine_z, 1, {
       battery,
-      separator = { left = "" },
+      separator = { left = "", right = "" },
       -- Kein color={} → nutzt automatisch catppuccin Modus-Farben
     })
 
@@ -13939,17 +13953,23 @@ return {
       separator = { left = "", right = "" },
     })
 
-    table.insert(opts.sections.lualine_y, 3, {
+    table.insert(opts.sections.lualine_y, 2, {
       plugins_loaded,
       separator = { left = "", right = "" },
     })
 
     table.insert(opts.sections.lualine_y, 3, {
       encoding,
-      separator = { right = "" },
+      separator = { left = "", right = "" },
+    })
+
+    table.insert(opts.sections.lualine_y, 4, {
+      file_format,
+      separator = { left = "", right = "" },
     })
   end,
 }
+
 
 ```
 
