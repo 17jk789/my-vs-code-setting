@@ -2875,7 +2875,62 @@ vim.opt.updatetime = 250
 vim.opt.mouse = "a"
 -- vim.opt.mouse = "nvi"
 
-vim.opt.winbar = "%=%m %f  | %l/%L"
+-- vim.opt.winbar = "%=%m %f  | %l/%L"
+
+local function get_ls_style()
+  local path = vim.fn.expand("%:p")
+  if path == "" then
+    return ""
+  end
+
+  -- Home kürzen zu ~
+  local home = vim.fn.expand("$HOME")
+  local rel_path = path:gsub("^" .. vim.pesc(home), "~")
+
+  -- File stats
+  local stat = vim.uv.fs_stat(path)
+  if not stat then
+    return rel_path
+  end
+
+  local perms = vim.fn.getfperm(path)
+  local size = stat.size
+
+  local mtime = os.date("%b %d %H:%M", stat.mtime.sec)
+
+  -- local file = vim.fn.fnamemodify(path, ":t")
+
+  -- local text = table.concat({
+  --   -- " " .. rel_path,
+  --   rel_path,
+  --   "󰌾 " .. perms,
+  --   "󰈔 " .. size .. "B",
+  --   " " .. mtime,
+  --   -- "󰈙 " .. file,
+  -- }, " › ")
+
+  local text = table.concat({
+    -- " " .. rel_path,
+    rel_path,
+    perms,
+    size .. "B",
+    mtime,
+    -- "󰈙 " .. file,
+  }, " › ")
+
+  -- limit 80% window width
+  local winwidth = vim.fn.winwidth(0)
+  local maxlen = math.floor(winwidth * 0.8)
+
+  if vim.fn.strdisplaywidth(text) > maxlen then
+    text = vim.fn.strcharpart(text, 0, maxlen - 1) .. "…"
+  end
+
+  return "%=%m " .. text
+end
+
+_G.winbar = get_ls_style
+vim.opt.winbar = "%!v:lua.winbar()"
 
 -- vim.filetype.add({
 --   extension = {
