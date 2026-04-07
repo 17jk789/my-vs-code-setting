@@ -175,6 +175,7 @@ sudo pacman -S hunspell hunspell-de hunspell-en_us
 # sudo pacman -S jre-openjdk
 # sudo pacman -S languagetool
 # sudo pacman -S vim
+sudo pacman -S acpi
 ```
 
 ```bash
