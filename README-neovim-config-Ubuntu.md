@@ -13847,19 +13847,32 @@ return {
 
     -- LSP
     local function lsp_server()
-      local buf_clients = vim.lsp.get_active_clients({ bufnr = 0 })
-      if #buf_clients == 0 then
-        return "LSP: None"
+      local clients = vim.lsp.get_clients({ bufnr = 0 })
+
+      if not clients or vim.tbl_isempty(clients) then
+        return " LSP: None"
       end
+
       local names = {}
-      for _, client in pairs(buf_clients) do
-        if client.name ~= "null-ls" then
-          table.insert(names, client.name)
+
+      for _, client in ipairs(clients) do
+        if client.name and client.name ~= "null-ls" then
+          local name = client.name
+
+          -- kürzen auf max 8 Zeichen
+          if #name > 8 then
+            name = name:sub(1, 8) .. "…"
+          end
+
+          names[#names + 1] = name
         end
       end
-      -- return " " .. table.concat(names, ", ")
+
+      if #names == 0 then
+        return " LSP: None"
+      end
+
       return " " .. table.concat(names, ", ")
-      -- return table.concat(names, ", ")
     end
 
     -- Anzahl geladener Plugins (LazyVim / lazy.nvim)
