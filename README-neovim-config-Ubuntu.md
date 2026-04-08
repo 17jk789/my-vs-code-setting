@@ -7498,9 +7498,9 @@ lspconfig.pyright.setup({
     capabilities = capabilities,
 
     -- Diagnostics aus
-    -- handlers = {
-    --     ["$/progress"] = function() end,
-    -- },
+    handlers = {
+      ["$/progress"] = function(_, _) end,
+    },
 
     settings = {
         python = {
