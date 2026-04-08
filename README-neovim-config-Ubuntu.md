@@ -6107,10 +6107,10 @@ return {
       -- Setup nvim-java
 
       -- wir haben noice.lua und brauchen daher keine eigenen Handler mehr für jdtls Notifications
-      -- local handlers = {
-      --   -- ["language/status"] = function(_, _) end,
-      --   ["$/progress"] = function(_, _) end,
-      -- }
+      local handlers = {
+        -- ["language/status"] = function(_, _) end,
+        ["$/progress"] = function(_, _) end,
+      }
 
       require("java").setup(
         -- {
