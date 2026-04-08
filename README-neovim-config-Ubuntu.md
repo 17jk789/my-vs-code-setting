@@ -11357,6 +11357,7 @@ return {
         -- "java-test", -- https://github.com/nvim-java/nvim-java installirt das automatisch
         -- "vscode-java-test",
         -- "kotlin_language_server",
+        "checkstyle",
 
         -- Python:
         "pyright", 
