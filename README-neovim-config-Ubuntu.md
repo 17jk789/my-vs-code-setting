@@ -9746,6 +9746,19 @@ function _G.run_in_term(cmd)
   vim.cmd("split | terminal " .. cmd)
 end
 
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  group = vim.api.nvim_create_augroup("WslLineEndings", { clear = true }),
+  pattern = "*",
+  callback = function()
+    local path = vim.fn.expand("%:p")
+    if path:find("^/mnt/") then
+      vim.opt_local.fileformat = "dos"
+    else
+      vim.opt_local.fileformat = "unix"
+    end
+  end,
+})
+
 -- Formatierung beim Speichern:
 -- 'async = true' sorgt dafür, dass die LSP-Formatierung **nicht den Editor blockiert**.
 -- Der Rust Analyzer formatiert die Datei im Hintergrund, während du weiterarbeiten kannst.
