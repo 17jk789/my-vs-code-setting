@@ -108,6 +108,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/rust.lua](#pluginsrustlua)
   - [plugins/cpp.lua](#pluginscpplua)
   - [plugins/java.lua](#pluginsjavalua)
+  - [plugins/none-ls.lua](#pluginsnone-lslua)
   - [plugins/python.lua](#pluginspythonlua)
   - [lsp/python.lua](#lsppythonlua)
   - [lsp/lua.lua](#lsplualua)
@@ -2793,6 +2794,7 @@ cd ~/.config/nvim/lua
         ├── mason.lua
         ├── matlab.lua
         ├── noice.lua
+        ├── none-ls.lua
         ├── programmierprojekt.lua
         ├── notify.lua
         ├── rust.lua
@@ -6539,6 +6541,56 @@ return {
     -- :lua vim.lsp.inlay_hint.enable(true)
     -- oder einfach 
     -- :lua vim.lsp.inlay_hint.enable(false)
+  },
+}
+
+```
+
+## plugins/none-ls.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/none-ls.lua
+```
+
+```bash
+nano plugins/none-ls.lua
+```
+
+```bash
+code plugins/none-ls.lua
+```
+
+```lua
+-- plugins/none-ls.lua
+
+return {
+  {
+    "nvimtools/none-ls.nvim",
+    ft = "java", 
+    opts = function(_, opts)
+      local nls = require("null-ls")
+
+      -- Sucht nach der checkstyle.xml im Projekt (nach oben hin)
+      local found = vim.fs.find({
+        "config/checkstyle/checkstyle.xml",
+        "checkstyle.xml",
+      }, { upward = true, stop = vim.loop.os_homedir() })
+
+      -- Nur hinzufügen, wenn eine Datei gefunden wurde
+      if #found > 0 then
+        opts.sources = opts.sources or {}
+        table.insert(
+          opts.sources,
+          nls.builtins.diagnostics.checkstyle.with({
+            extra_args = { "-c", found[1] }, -- Das erste gefundene File nutzen
+          })
+        )
+      end
+    end,
   },
 }
 
