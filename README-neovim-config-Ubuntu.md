@@ -13985,46 +13985,46 @@ code plugins/noice.lua
 ```lua
 -- plugins/noice.lua
 
-return {
-  "folke/noice.nvim",
-  event = "VeryLazy",
-  opts = {
-    -- Hier definieren wir die Ausnahme-Regel
-    routes = {
-      {
-        filter = {
-          -- Trifft auf jede Art von Nachricht/UI-Element zu
-          any = {
-            { event = "msg_show" },
-            { event = "lsp", kind = "progress" },
-            { event = "notify" },
-          },
-          -- Bedingung: Nur wenn es Python oder Java ist
-          cond = function()
-            local ft = vim.bo.filetype
-            return ft == "python" or ft == "java"
-          end,
-        },
-        opts = { skip = true }, -- Diese Nachrichten werden ignoriert
-      },
-    },
-    lsp = {
-      progress = {
-        enabled = true, -- Für alle anderen Sprachen bleibt es an
-      },
-      override = {
-        ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-        ["vim.lsp.util.stylize_markdown"] = true,
-        ["cmp.entry.get_documentation"] = true,
-      },
-    },
-    presets = {
-      bottom_search = true,
-      command_palette = true,
-      long_message_to_split = true,
-    },
-  },
-}
+-- return {
+--   "folke/noice.nvim",
+--   event = "VeryLazy",
+--   opts = {
+--     -- Hier definieren wir die Ausnahme-Regel
+--     routes = {
+--       {
+--         filter = {
+--           -- Trifft auf jede Art von Nachricht/UI-Element zu
+--           any = {
+--             { event = "msg_show" },
+--             { event = "lsp", kind = "progress" },
+--             { event = "notify" },
+--           },
+--           -- Bedingung: Nur wenn es Python oder Java ist
+--           cond = function()
+--             local ft = vim.bo.filetype
+--             return ft == "python" or ft == "java"
+--           end,
+--         },
+--         opts = { skip = true }, -- Diese Nachrichten werden ignoriert
+--       },
+--     },
+--     lsp = {
+--       progress = {
+--         enabled = true, -- Für alle anderen Sprachen bleibt es an
+--       },
+--       override = {
+--         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+--         ["vim.lsp.util.stylize_markdown"] = true,
+--         ["cmp.entry.get_documentation"] = true,
+--       },
+--     },
+--     presets = {
+--       bottom_search = true,
+--       command_palette = true,
+--       long_message_to_split = true,
+--     },
+--   },
+-- }
 
 ```
 
