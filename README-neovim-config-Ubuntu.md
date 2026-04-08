@@ -3334,7 +3334,7 @@ end, { desc = "Toggle Autoformat Global" })
 -- end, { desc = "Toggle Copilot / blink" })
 
 vim.api.nvim_create_user_command("LspInfo", function()
-  local clients = vim.lsp.get_active_clients({ bufnr = 0 })
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
 
   if vim.tbl_isempty(clients) then
     vim.notify("No active LSP clients", vim.log.levels.INFO)
@@ -3347,10 +3347,24 @@ vim.api.nvim_create_user_command("LspInfo", function()
   table.insert(lines, "Active LSP clients (buffer " .. buf .. "):\n")
 
   for _, client in ipairs(clients) do
+    -- SICHERER AUFRUF: pcall verhindert, dass nvim-java/jdtls alles zum Absturz bringt
+    local success, cmd_list = pcall(function()
+      local raw = client.config.cmd
+      if type(raw) == "function" then
+        return raw()
+      end
+      return raw
+    end)
+
+    -- Fallback, falls der Aufruf fehlschlägt oder kein Table kommt
+    if not success or type(cmd_list) ~= "table" then
+      cmd_list = { "Befehl konnte nicht gelesen werden (LSP geschützt)" }
+    end
+
     table.insert(lines, "• Name: " .. client.name)
     table.insert(lines, "  id: " .. client.id)
     table.insert(lines, "  root: " .. (client.config.root_dir or "nil"))
-    table.insert(lines, "  cmd: " .. table.concat(client.config.cmd or {}, " "))
+    table.insert(lines, "  cmd: " .. table.concat(cmd_list, " "))
     table.insert(lines, "")
   end
 
@@ -3358,6 +3372,11 @@ vim.api.nvim_create_user_command("LspInfo", function()
     title = "LSP Info",
   })
 end, {})
+
+vim.api.nvim_create_user_command("LspClient", function()
+  vim.cmd("checkhealth lsp")
+end, {})
+
 
 vim.api.nvim_create_user_command("LspClient", function()
   vim.cmd("checkhealth lsp")
