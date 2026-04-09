@@ -14156,8 +14156,10 @@ return {
   "folke/noice.nvim",
   event = "VeryLazy",
 
-  config = function()
-    require("noice").setup({
+  opts = function()
+    vim.g.noice_pyjava_filter = true
+
+    return {
       routes = {
         {
           filter = {
@@ -14166,25 +14168,19 @@ return {
               { event = "lsp", kind = "progress" },
               { event = "notify" },
             },
-
             cond = function()
-              local ft = vim.bo.filetype
-
-              -- Default: Noice ist AN
-              if vim.g.noice_enabled == false then
-                if ft == "python" or ft == "java" then
-                  return true -- skip
-                end
+              if not vim.g.noice_pyjava_filter then
+                return false
               end
 
-              return false
+              local ft = vim.bo.filetype
+              return ft == "python" or ft == "java"
             end,
           },
           opts = { skip = true },
         },
       },
 
-      -- LSP settings
       lsp = {
         progress = {
           enabled = true,
@@ -14201,24 +14197,24 @@ return {
         command_palette = true,
         long_message_to_split = true,
       },
-    })
-
-    vim.g.noice_enabled = true
-
-    vim.api.nvim_create_user_command("NoiceOn", function()
-      vim.g.noice_enabled = true
-      print("Noice ENABLED")
-    end, {})
-
-    vim.api.nvim_create_user_command("NoiceOff", function()
-      vim.g.noice_enabled = false
-      print("Noice DISABLED (Python/Java blocked)")
-    end, {})
-
-    vim.api.nvim_create_user_command("NoiceStatus", function()
-      print("Noice enabled = " .. tostring(vim.g.noice_enabled))
-    end, {})
+    }
   end,
+
+  keys = {
+    {
+      "<leader>un",
+      function()
+        vim.g.noice_pyjava_filter = not vim.g.noice_pyjava_filter
+
+        if vim.g.noice_pyjava_filter then
+          vim.notify("Noice: Python/Java Filter ON")
+        else
+          vim.notify("Noice: Python/Java Filter OFF")
+        end
+      end,
+      desc = "Toggle Noice Python/Java Filter",
+    },
+  },
 }
 
 ```
