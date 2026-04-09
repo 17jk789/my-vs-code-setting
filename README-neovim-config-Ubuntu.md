@@ -8448,26 +8448,47 @@ return {
         },
 
         eslint = {
-          settings = { workingDirectory = { mode = "location" } },
+          settings = { 
+            workingDirectory = { mode = "location" },
+          },
           -- settings = { workingDirectory = { mode = "auto" } },
         },
       },
-      setup = {
-        eslint = function()
-          -- Fixe ESLint-Fehler bei Save, nur wenn ESLint aktiv ist
-          vim.api.nvim_create_autocmd("BufWritePre", {
-            callback = function(args)
-              for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = args.buf })) do
-                if client.name == "eslint" then
-                  vim.cmd("EslintFixAll")
-                  return
-                end
-              end
-            end,
-          })
-        end,
-      },
     },
+      -- setup = {
+      --   eslint = function()
+      --     -- Fixe ESLint-Fehler bei Save, nur wenn ESLint aktiv ist
+      --     vim.api.nvim_create_autocmd("BufWritePre", {
+      --       callback = function(args)
+      --         for _, client in ipairs(vim.lsp.get_active_clients({ bufnr = args.buf })) do
+      --           if client.name == "eslint" then
+      --             vim.cmd("EslintFixAll")
+      --             return
+      --           end
+      --         end
+      --       end,
+      --     })
+      --   end,
+      -- },
+
+    config = function()
+      local group = vim.api.nvim_create_augroup("eslint_fix", { clear = true })
+
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = group,
+        callback = function(args)
+          for _, client in ipairs(vim.lsp.get_clients({ bufnr = args.buf })) do
+            if client.name == "eslint" then
+              vim.lsp.buf.code_action({
+                context = { only = { "source.fixAll.eslint" } },
+                apply = true,
+              })
+              return
+            end
+          end
+        end,
+      })
+    end,
   },
 
   {
