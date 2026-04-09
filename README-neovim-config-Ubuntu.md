@@ -14152,46 +14152,74 @@ code plugins/noice.lua
 ```lua
 -- plugins/noice.lua
 
--- return {
---   "folke/noice.nvim",
---   event = "VeryLazy",
---   opts = {
---     -- Hier definieren wir die Ausnahme-Regel
---     routes = {
---       {
---         filter = {
---           -- Trifft auf jede Art von Nachricht/UI-Element zu
---           any = {
---             { event = "msg_show" },
---             { event = "lsp", kind = "progress" },
---             { event = "notify" },
---           },
---           -- Bedingung: Nur wenn es Python oder Java ist
---           cond = function()
---             local ft = vim.bo.filetype
---             return ft == "python" or ft == "java"
---           end,
---         },
---         opts = { skip = true }, -- Diese Nachrichten werden ignoriert
---       },
---     },
---     lsp = {
---       progress = {
---         enabled = true, -- Für alle anderen Sprachen bleibt es an
---       },
---       override = {
---         ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
---         ["vim.lsp.util.stylize_markdown"] = true,
---         ["cmp.entry.get_documentation"] = true,
---       },
---     },
---     presets = {
---       bottom_search = true,
---       command_palette = true,
---       long_message_to_split = true,
---     },
---   },
--- }
+return {
+  "folke/noice.nvim",
+  event = "VeryLazy",
+
+  config = function()
+    require("noice").setup({
+      routes = {
+        {
+          filter = {
+            any = {
+              { event = "msg_show" },
+              { event = "lsp", kind = "progress" },
+              { event = "notify" },
+            },
+
+            cond = function()
+              local ft = vim.bo.filetype
+
+              -- Default: Noice ist AN
+              if vim.g.noice_enabled == false then
+                if ft == "python" or ft == "java" then
+                  return true -- skip
+                end
+              end
+
+              return false
+            end,
+          },
+          opts = { skip = true },
+        },
+      },
+
+      -- LSP settings
+      lsp = {
+        progress = {
+          enabled = true,
+        },
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true,
+        },
+      },
+
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        long_message_to_split = true,
+      },
+    })
+
+    vim.g.noice_enabled = true
+
+    vim.api.nvim_create_user_command("NoiceOn", function()
+      vim.g.noice_enabled = true
+      print("Noice ENABLED")
+    end, {})
+
+    vim.api.nvim_create_user_command("NoiceOff", function()
+      vim.g.noice_enabled = false
+      print("Noice DISABLED (Python/Java blocked)")
+    end, {})
+
+    vim.api.nvim_create_user_command("NoiceStatus", function()
+      print("Noice enabled = " .. tostring(vim.g.noice_enabled))
+    end, {})
+  end,
+}
 
 ```
 
