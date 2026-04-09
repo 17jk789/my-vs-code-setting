@@ -5596,6 +5596,26 @@ code plugins/java.lua
 --   },
 -- }
 
+local function find_style_xml()
+  local cwd = vim.fn.getcwd()
+
+  -- mögliche Kandidaten im Projekt
+  local candidates = {
+    cwd .. "/config/checkstyle/checkstyle.xml",
+    cwd .. "/checkstyle.xml",
+    cwd .. "/google_checks.xml",
+  }
+
+  for _, file in ipairs(candidates) do
+    if vim.fn.filereadable(file) == 1 then
+      return file
+    end
+  end
+
+  -- Fallback auf deine globale Datei
+  return vim.fn.stdpath("config") .. "/lang-servers/intellij-java-google-style.xml"
+end
+
 return {
   -- {
   --   "L3MON4D3/LuaSnip",
@@ -6388,18 +6408,26 @@ return {
             -- Reformat on save
             -- Wenn du es in NeoVim schon machst.
             -- Sonst bekommst du unnötige Diff-Noise im Team.
+            -- format = {
+            --   enabled = true,
+            --   -- Bei Rroblemen
+            --   -- enabled = false,
+            --   settings = {
+            --     profile = "GoogleStyle",
+            --     -- ~/.config/nvim/lang-servers/intellij-java-google-style.xml
+            --     url = vim.fn.stdpath("config")
+            --       .. "/lang-servers/intellij-java-google-style.xml",
+
+            --     -- Alternative: ~/my-xm-slyte/Default.xml
+            --     -- url = vim.fn.expand("~/my-xm-slyte/Default.xml"),
+            --   }
+            -- },
+
             format = {
               enabled = true,
-              -- Bei Rroblemen
-              -- enabled = false,
               settings = {
                 profile = "GoogleStyle",
-                -- ~/.config/nvim/lang-servers/intellij-java-google-style.xml
-                url = vim.fn.stdpath("config")
-                  .. "/lang-servers/intellij-java-google-style.xml",
-
-                -- Alternative: ~/my-xm-slyte/Default.xml
-                -- url = vim.fn.expand("~/my-xm-slyte/Default.xml"),
+                url = find_style_xml(),
               }
             },
 
