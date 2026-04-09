@@ -146,6 +146,7 @@ This repository is released under the **Apache License 2.0**.
   - [config/copilot.lua](#configcopilotlua)
   - [config/noice.lua](#confignoicelua)
   - [config/lualine.lua](#configlualinelua)
+  - [config/avante.lua](#configavantelua)
 
 ## Notes
 
@@ -14320,3 +14321,57 @@ or
 -- soon
 ```
 
+## config/avante.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/avante.lua
+```
+
+```bash
+nano plugins/avante.lua
+```
+
+```bash
+code plugins/avante.lua
+```
+
+```lua
+-- plugins/lualine.lua
+
+return {
+  "yetone/avante.nvim",
+  event = "VeryLazy",
+  lazy = false,
+  version = false,
+  opts = {
+    provider = "copilot", -- Nutzt bestehendes Setup
+    auto_suggestions_provider = "copilot",
+    behaviour = {
+      auto_suggestions = false, -- Konfliktvermeidung mit blink.cmp
+      minimal_diff = true,
+    },
+  },
+  build = "make", -- Windows-Nutzer: "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false"
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+    "stevearc/dressing.nvim",
+    "nvim-lua/plenary.nvim",
+    "MunifTanjim/nui.nvim",
+    "zbirenbaum/copilot.lua", -- Bestehende Integration
+    {
+      "HakonHarnes/img-clip.nvim",
+      opts = { default = { embed_image_as_base64 = false, prompt_for_file_name = false, drag_and_drop = { insert_mode = true }, use_absolute_path = true } },
+    },
+    {
+      "MeanderingProgrammer/render-markdown.nvim",
+      opts = { file_types = { "markdown", "Avante" } },
+      ft = { "markdown", "Avante" },
+    },
+  },
+}
+
+```
