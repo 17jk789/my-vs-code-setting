@@ -108,7 +108,7 @@ This repository is released under the **Apache License 2.0**.
   - [plugins/rust.lua](#pluginsrustlua)
   - [plugins/cpp.lua](#pluginscpplua)
   - [plugins/java.lua](#pluginsjavalua)
-  - [plugins/none-ls.lua](#pluginsnone-lslua)
+  - [plugins/checkstyle.lua](#pluginscheckstylelua)
   - [plugins/python.lua](#pluginspythonlua)
   - [lsp/python.lua](#lsppythonlua)
   - [lsp/lua.lua](#lsplualua)
@@ -2774,6 +2774,7 @@ cd ~/.config/nvim/lua
         ├── alpha.lua
         ├── asm.lua
         ├── bash.lua
+        ├── checkstyle.lua
         ├── cpp.lua
         ├── completion.lua
         ├── copilot.lua
@@ -2794,7 +2795,6 @@ cd ~/.config/nvim/lua
         ├── mason.lua
         ├── matlab.lua
         ├── noice.lua
-        ├── none-ls.lua
         ├── programmierprojekt.lua
         ├── notify.lua
         ├── rust.lua
@@ -6565,50 +6565,88 @@ return {
 
 ```
 
-## plugins/none-ls.lua
+## plugins/checkstyle.lua
 
 ```bash
 cd ~/.config/nvim/lua
 ```
 
 ```bash
-vim plugins/none-ls.lua
+vim plugins/checkstyle.lua
 ```
 
 ```bash
-nano plugins/none-ls.lua
+nano plugins/checkstyle.lua
 ```
 
 ```bash
-code plugins/none-ls.lua
+code plugins/checkstyle.lua
 ```
 
 ```lua
--- plugins/none-ls.lua
+-- plugins/checkstyle.lua
 
 return {
   {
-    "nvimtools/none-ls.nvim",
-    ft = "java", 
-    opts = function(_, opts)
-      local nls = require("null-ls")
+    "mfussenegger/nvim-lint",
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local lint = require("lint")
 
-      -- Sucht nach der checkstyle.xml im Projekt (nach oben hin)
-      local found = vim.fs.find({
-        "config/checkstyle/checkstyle.xml",
-        "checkstyle.xml",
-      }, { upward = true, stop = vim.loop.os_homedir() })
+      -- CHECKSTYLE CONFIG FIX
+      lint.linters.checkstyle = {
+        cmd = "checkstyle",
+        stdin = false,
+        args = function()
+          local config = vim.fs.find(
+            { "config/checkstyle/checkstyle.xml", "checkstyle.xml" },
+            {
+              upward = true,
+              path = vim.fn.expand("%:p:h"),
+              stop = vim.loop.os_homedir(),
+            }
+          )
 
-      -- Nur hinzufügen, wenn eine Datei gefunden wurde
-      if #found > 0 then
-        opts.sources = opts.sources or {}
-        table.insert(
-          opts.sources,
-          nls.builtins.diagnostics.checkstyle.with({
-            extra_args = { "-c", found[1] }, -- Das erste gefundene File nutzen
-          })
-        )
-      end
+          return {
+            "-f", "sarif",
+            "-c", (#config > 0 and config[1] or "google_checks.xml"),
+            vim.api.nvim_buf_get_name(0),
+          }
+        end,
+        stream = "stdout",
+        ignore_exitcode = true,
+        parser = require("lint.parser").from_errorformat(
+          "%f:%l:%c: %m",
+          {
+            source = "checkstyle",
+            severity = vim.diagnostic.severity.WARN,
+          }
+        ),
+      }
+
+      -- FILETYPE ZUWEISUNG
+      lint.linters_by_ft = {
+        java = { "checkstyle" },
+      }
+
+      -- DIAGNOSTICS (INLINE!)
+      vim.diagnostic.config({
+        virtual_text = {
+          prefix = "●",
+          source = "always",
+        },
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+      })
+
+      -- AUTOCMD: beim Speichern + beim Öffnen
+      vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
+        group = vim.api.nvim_create_augroup("nvim-lint-java", { clear = true }),
+        callback = function()
+          lint.try_lint()
+        end,
+      })
     end,
   },
 }
