@@ -784,6 +784,10 @@ wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64
 tar -xzf nvim-linux-x86_64.tar.gz
 sudo mv nvim-linux-x86_64 /opt/nvim
 sudo apt install wslu
+sudo apt update && sudo apt install dos2unix
+dos2unix gradlew
+nvim .
+chmod +x gradlew
 ```
 
 ## Nerdfonz:
