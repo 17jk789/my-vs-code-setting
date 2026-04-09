@@ -2774,6 +2774,7 @@ cd ~/.config/nvim/lua
     └── plugins/
         ├── alpha.lua
         ├── asm.lua
+        ├── avante.lua
         ├── bash.lua
         ├── checkstyle.lua
         ├── cpp.lua
