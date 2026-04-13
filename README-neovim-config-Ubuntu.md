@@ -147,6 +147,7 @@ This repository is released under the **Apache License 2.0**.
   - [config/avante.lua](#configavantelua)
   - [config/noice.lua](#confignoicelua)
   - [config/lualine.lua](#configlualinelua)
+  - [config/discord.lua](#configdiscordlua)
 
 ## Notes
 
@@ -2782,6 +2783,7 @@ cd ~/.config/nvim/lua
         ├── copilot.lua
         ├── dap.lua
         ├── db.lua
+        ├── discord.lua
         ├── fzf.lua
         ├── git.lua
         ├── image_toggle.lua
@@ -14399,4 +14401,41 @@ or
 
 ```lua
 -- soon
+```
+
+## config/discord.lua
+
+```bash
+cd ~/.config/nvim/lua
+```
+
+```bash
+vim plugins/discord.lua
+```
+
+```bash
+nano plugins/discord.lua
+```
+
+```bash
+code plugins/discord.lua
+```
+
+```lua
+-- plugins/discord.lua
+
+return {
+  "andweeb/presence.nvim",
+  event = "VeryLazy", -- Wichtig: Lädt das Plugin erst, wenn alles bereit ist
+  config = function()
+    require("presence").setup({
+      auto_update = true,
+      editing_text = "Editing %s",
+      file_explorer_text = "Browsing %s",
+      show_time = true,
+      -- Hier kannst du nichts am Pfad ändern, presence.nvim sucht automatisch.
+    })
+  end,
+}
+
 ```
