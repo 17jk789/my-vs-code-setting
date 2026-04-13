@@ -14095,7 +14095,7 @@ code plugins/avante.lua
 ```
 
 ```lua
--- plugins/lualine.lua
+-- plugins/avante.lua
 
 return {
   "yetone/avante.nvim",
