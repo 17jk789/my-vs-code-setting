@@ -14439,3 +14439,18 @@ return {
 }
 
 ```
+
+or
+
+```lua
+-- plugins/discord.lua
+
+{
+  'vyfor/cord.nvim',
+   ---@type CordConfig
+  opts = {
+    -- ...
+  }
+}
+```
+
