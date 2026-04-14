@@ -14445,12 +14445,18 @@ or
 ```lua
 -- plugins/discord.lua
 
-{
+return {
   'vyfor/cord.nvim',
-   ---@type CordConfig
+  build = ':Cord update',
   opts = {
-    -- ...
-  }
+    display = {
+      theme = 'atom', -- Aktiviert das Atom Material Design
+    },
+    timer = {
+      reset_on_change = false, -- Timer läuft beim Dateiwechsel einfach weiter
+    },
+  },
 }
+
 ```
 
