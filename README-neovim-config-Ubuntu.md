@@ -14365,12 +14365,17 @@ return {
       theme = "catppuccin",
     })
 
+    -- Prüfen, ob ein Akku-Verzeichnis existiert (funktioniert unter Linux/macOS)
+    local has_battery = vim.fn.isdirectory("/sys/class/power_supply/BAT0") == 1 
+                    or vim.fn.isdirectory("/sys/class/power_supply/BAT1") == 1
+
     -- Füge Komponenten OHNE feste Farben hinzu
-    table.insert(opts.sections.lualine_z, 1, {
-      battery,
-      separator = { left = "", right = "" },
-      -- Kein color={} → nutzt automatisch catppuccin Modus-Farben
-    })
+    if has_battery then
+      table.insert(opts.sections.lualine_z, 1, {
+        battery,
+        separator = { left = "", right = "" },
+      })
+    end
 
     table.insert(opts.sections.lualine_y, 1, {
       lsp_server,
