@@ -12515,6 +12515,13 @@ return {
 
 ## plugins/markdown.lua
 
+Nach der Instalation:
+
+```bash
+cd /home/jk/.local/share/nvim/lazy/markdown-preview.nvim
+git checkout -- app/yarn.lock   
+```
+
 ```bash
 cd ~/.config/nvim/lua
 ```
