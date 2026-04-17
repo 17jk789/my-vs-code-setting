@@ -136,9 +136,7 @@ sudo pacman -S nasm binutils
 # sudo archlinux-java set java-21-openjdk
 # yay -S gradle
 
-curl -s "https://get.sdkman.io" | bash
-source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk install gradle
+sudo pacman -S gradle
 # sdk install gradle 8.6
 ```
 
