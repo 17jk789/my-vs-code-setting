@@ -247,3 +247,123 @@ sudo rkhunter --check
 Danach kannst du wirklich einfach den Rest aus deiner [`README-neovim-config-Ubuntu.md`](./README-neovim-config-Ubuntu.md) übernehmen.
 Nur die Installation ist anders – genau wie du wolltest.
 Und später ggf. nochmal bei LazyVim schauen, falls sich Setup-Schritte geändert haben.
+
+## Ghostty
+
+```txt
+# =========================
+# WINDOW / UI
+# =========================
+window-decoration = auto
+window-padding-x = 6
+window-padding-y = 4
+window-inherit-working-directory = true
+
+# =========================
+# BACKGROUND (clean, no image)
+# =========================
+background = #000000
+# background-opacity = 1.0
+
+# =========================
+# FONT
+# =========================
+font-family = "JetBrainsMono Nerd Font Complete"
+font-size = 13.5
+window-title-font-family = "JetBrainsMono Nerd Font Complete"
+
+adjust-cell-height = 0%
+adjust-cell-width = 0%
+
+# =========================
+# CURSOR
+# =========================
+cursor-style = block
+cursor-color = #f5a97f
+cursor-text = #f2f4f8
+
+# =========================
+# THEME
+# =========================
+theme = Catppuccin Mocha
+
+# =========================
+# TERMINAL CORE
+# =========================
+term = xterm-256color
+shell-integration = bash
+shell-integration-features = no-cursor
+
+scrollback-limit = 3000000
+
+# =========================
+# CLIPBOARD / MOUSE
+# =========================
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = true
+mouse-hide-while-typing = true
+confirm-close-surface = false
+
+# =========================
+# KEYBINDS - WINDOW
+# =========================
+keybind = ctrl+m=toggle_maximize
+keybind = ctrl+shift+m=toggle_fullscreen
+keybind = global:cmd+=toggle_quick_terminal
+keybind = shift+ctrl+,=move_tab:-1
+keybind = shift+ctrl+.=move_tab:+1
+
+keybind = ctrl+shift+n=new_window
+keybind = ctrl+shift+q=quit
+
+# =========================
+# TABS
+# =========================
+keybind = ctrl+shift+t=new_tab
+keybind = ctrl+shift+w=close_surface
+keybind = ctrl+tab=next_tab
+keybind = ctrl+shift+tab=previous_tab
+
+# =========================
+# SPLITS
+# =========================
+keybind = ctrl+shift+o=new_split:right
+keybind = ctrl+shift+e=new_split:down
+
+keybind = alt+left=goto_split:left
+keybind = alt+right=goto_split:right
+keybind = alt+up=goto_split:up
+keybind = alt+down=goto_split:down
+
+keybind = alt+p=goto_split:previous
+keybind = alt+n=goto_split:next
+
+keybind = alt+shift+left=resize_split:left,10
+keybind = alt+shift+right=resize_split:right,10
+keybind = alt+shift+up=resize_split:up,10
+keybind = alt+shift+down=resize_split:down,10
+
+keybind = alt+shift+equal=equalize_splits
+keybind = ctrl+shift+enter=toggle_split_zoom
+
+# =========================
+# CLIPBOARD SHORTCUTS
+# =========================
+keybind = performable:ctrl+shift+c=copy_to_clipboard
+keybind = performable:ctrl+shift+v=paste_from_clipboard
+
+# =========================
+# FONT SIZE
+# =========================
+keybind = ctrl+equal=increase_font_size:1
+keybind = ctrl+minus=decrease_font_size:1
+keybind = ctrl+zero=reset_font_size
+
+# =========================
+# CONFIG
+# =========================
+keybind = ctrl+comma=open_config
+keybind = ctrl+shift+comma=reload_config
+
+```
