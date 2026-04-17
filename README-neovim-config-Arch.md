@@ -251,63 +251,54 @@ Und später ggf. nochmal bei LazyVim schauen, falls sich Setup-Schritte geänder
 ## Ghostty
 
 ```txt
-# =========================
 # WINDOW / UI
-# =========================
 window-decoration = auto
 window-padding-x = 6
 window-padding-y = 4
 window-inherit-working-directory = true
 
-# =========================
-# BACKGROUND (clean, no image)
-# =========================
+# HINTERGRUND (GLAS / HYPRLAND)
 background = #000000
-# background-opacity = 1.0
+background-opacity = 0.85
+background-blur-radius = 10
 
-# =========================
+background-image = /home/jk/Pictures/walpaper4-new.jpg
+background-image-fit = cover
+background-image-position = center
+
 # FONT
-# =========================
 font-family = "JetBrainsMono Nerd Font Complete"
+font-family-italic = "JetBrainsMono Nerd Font Complete"
+font-family-bold = "JetBrainsMono Nerd Font Complete"
+font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
 font-size = 13.5
 window-title-font-family = "JetBrainsMono Nerd Font Complete"
 
 adjust-cell-height = 0%
 adjust-cell-width = 0%
 
-# =========================
 # CURSOR
-# =========================
 cursor-style = block
 cursor-color = #f5a97f
 cursor-text = #f2f4f8
 
-# =========================
-# THEME
-# =========================
 theme = Catppuccin Mocha
 
-# =========================
 # TERMINAL CORE
-# =========================
 term = xterm-256color
 shell-integration = bash
 shell-integration-features = no-cursor
 
 scrollback-limit = 3000000
 
-# =========================
-# CLIPBOARD / MOUSE
-# =========================
+# CLIPBOARD & MAUS
 clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
 mouse-hide-while-typing = true
 confirm-close-surface = false
 
-# =========================
-# KEYBINDS - WINDOW
-# =========================
+# KEYBINDS
 keybind = ctrl+m=toggle_maximize
 keybind = ctrl+shift+m=toggle_fullscreen
 keybind = global:cmd+=toggle_quick_terminal
@@ -317,17 +308,13 @@ keybind = shift+ctrl+.=move_tab:+1
 keybind = ctrl+shift+n=new_window
 keybind = ctrl+shift+q=quit
 
-# =========================
 # TABS
-# =========================
 keybind = ctrl+shift+t=new_tab
 keybind = ctrl+shift+w=close_surface
 keybind = ctrl+tab=next_tab
 keybind = ctrl+shift+tab=previous_tab
 
-# =========================
 # SPLITS
-# =========================
 keybind = ctrl+shift+o=new_split:right
 keybind = ctrl+shift+e=new_split:down
 
@@ -347,22 +334,16 @@ keybind = alt+shift+down=resize_split:down,10
 keybind = alt+shift+equal=equalize_splits
 keybind = ctrl+shift+enter=toggle_split_zoom
 
-# =========================
-# CLIPBOARD SHORTCUTS
-# =========================
+# CLIPBOARD
 keybind = performable:ctrl+shift+c=copy_to_clipboard
 keybind = performable:ctrl+shift+v=paste_from_clipboard
 
-# =========================
 # FONT SIZE
-# =========================
 keybind = ctrl+equal=increase_font_size:1
 keybind = ctrl+minus=decrease_font_size:1
 keybind = ctrl+zero=reset_font_size
 
-# =========================
 # CONFIG
-# =========================
 keybind = ctrl+comma=open_config
 keybind = ctrl+shift+comma=reload_config
 
