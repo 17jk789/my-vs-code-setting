@@ -86,7 +86,8 @@ This repository is released under the **Apache License 2.0**.
 ```bash
 sudo pacman -Syu
 sudo systemctl enable --now ufw # Wichtig -> Firewall aktivieren!!!
-sudo pacman -S curl wget unzip base-devel cmark fzf luarocks gcc git-delta shellcheck
+sudo pacman -S curl wget unzip base-devel cmark fzf luarocks gcc git-delta shellcheck lib32-gcc-libs
+sudo bash -c 'grep -q "^\[multilib\]" /etc/pacman.conf || printf "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf'
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
 # cargo install --locked critcmp
@@ -103,7 +104,8 @@ rustup component add rustfmt
 sudo pacman -S make go
 
 # Für C/C++ (keines extra)
-sudo pacman -S checksec # or binutils
+# sudo pacman -S checksec # or binutils
+yay -S checksec
 
 # rustup component add rustfmt
 sudo pacman -S clang cmake ninja gdb lldb rr
