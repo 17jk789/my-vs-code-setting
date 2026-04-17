@@ -286,7 +286,7 @@ theme = Catppuccin Mocha
 
 # TERMINAL CORE
 term = xterm-256color
-shell-integration = bash
+shell-integration = fish
 shell-integration-features = no-cursor
 
 scrollback-limit = 3000000
