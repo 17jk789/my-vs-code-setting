@@ -86,6 +86,15 @@ This repository is released under the **Apache License 2.0**.
 ```bash
 sudo pacman -Syu
 sudo systemctl enable --now ufw # Wichtig -> Firewall aktivieren!!!
+
+sudo pacman -S --needed git base-devel
+cd /tmp
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+
+sudo pacman -S --needed base-devel git
+
 sudo pacman -S curl wget unzip base-devel cmark fzf luarocks gcc git-delta shellcheck lib32-gcc-libs
 sudo bash -c 'grep -q "^\[multilib\]" /etc/pacman.conf || printf "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf'
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -213,6 +222,7 @@ nvim
 ```bash
 # Könnte nützlich sein
 
+sudo pacman -S fastfetch
 sudo pacman -S htop
 sudo pacman -S btop # nvim ~/.config/btop/btop.conf
 sudo pacman -S nvtop
