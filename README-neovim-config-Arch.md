@@ -257,14 +257,16 @@ window-padding-x = 6
 window-padding-y = 4
 window-inherit-working-directory = true
 
-# HINTERGRUND (GLAS / HYPRLAND)
-background = #000000
-background-opacity = 0.85
-background-blur-radius = 10
+confirm-close-surface = false
 
-background-image = /home/jk/Pictures/walpaper4-new.jpg
-background-image-fit = cover
-background-image-position = center
+# HINTERGRUND (GLAS / HYPRLAND)
+background = #18130b
+background-opacity = 0.7
+background-blur-radius = 20
+
+# background-image = /home/jk/Pictures/walpaper4-new.jpg
+# background-image-fit = cover
+# background-image-position = center
 
 # FONT
 font-family = "JetBrainsMono Nerd Font Complete"
@@ -277,25 +279,49 @@ window-title-font-family = "JetBrainsMono Nerd Font Complete"
 adjust-cell-height = 0%
 adjust-cell-width = 0%
 
-# CURSOR
+# THEME
 cursor-style = block
-cursor-color = #f5a97f
-cursor-text = #f2f4f8
 
-theme = Catppuccin Mocha
+foreground = #ece1d4
+background = #18130b
+
+cursor-color = #ece1d4
+cursor-text = #d2c4b4
+
+selection-foreground = #3d2e16
+selection-background = #dcc3a1
+
+# ANSI palette
+palette = 0=#4c4c4c
+palette = 1=#ffb4ab
+palette = 2=#ece1d4
+palette = 3=#aca98a
+palette = 4=#f1be6d
+palette = 5=#ffb4ab
+palette = 6=#ece1d4
+palette = 7=#f0f0f0
+palette = 8=#ece1d4
+palette = 9=#c49ea0
+palette = 10=#9ec49f
+palette = 11=#c4c19e
+palette = 12=#a39ec4
+palette = 13=#c49ec4
+palette = 14=#9ec3c4
+palette = 15=#e7e7e7
+
 
 # TERMINAL CORE
 term = xterm-256color
 shell-integration = fish
 shell-integration-features = no-cursor
 
-scrollback-limit = 3000000
+scrollback-limit = 30000
 
 # CLIPBOARD & MAUS
 clipboard-read = allow
 clipboard-write = allow
 copy-on-select = true
-mouse-hide-while-typing = true
+# mouse-hide-while-typing = true
 confirm-close-surface = false
 
 # KEYBINDS
