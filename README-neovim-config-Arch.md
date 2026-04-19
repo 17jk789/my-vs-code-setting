@@ -121,6 +121,7 @@ sudo pacman -S clang cmake ninja gdb lldb rr
 cargo install --locked probe-rs # or probe-rs-tools
 sudo pacman -S jdk21-openjdk jdk-openjdk maven
 sudo pacman -S nasm binutils
+sudo pacman -S --needed base-devel multiarch-utils
 
 # Für Go
 # sudo pacman -S go
