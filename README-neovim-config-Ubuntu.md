@@ -1841,20 +1841,20 @@ window-inherit-working-directory = true
 # macos-option-as-alt = true
 
 # HINTERGRUND
-# background-opacity = 0.85
-background = #000000
+background-opacity = 0.85
+# background = #000000
 # background-blur-radius = 10 # Weichzeichner-Radius
-# background-blur = macos-glass-regular
-# background-opacity = 0.5	
+background-blur = macos-glass-regular
+background-opacity = 0.5	
 
 # Pfad zum Bild (achte auf .jpg)
-background-image = /home/jk/Pictures/walpaper4-new.jpg
+# background-image = /home/jk/Pictures/walpaper4-new.jpg
 
 # Füllt das Fenster komplett aus (behält Proportionen, schneidet Ränder ggf. ab)
-background-image-fit = cover
+# background-image-fit = cover
 
 # Zentriert das Bild, damit die Ränder gleichmäßig beschnitten werden
-background-image-position = center
+# background-image-position = center
 
 # FONT
 font-family = "JetBrainsMono Nerd Font Complete"
@@ -1873,11 +1873,51 @@ adjust-cell-width = 0%
 # CURSOR
 cursor-style = block
 # cursor-color = #25be6a
-cursor-color = #f5a97f
-cursor-text = #f2f4f8
+# cursor-color = #f5a97f
+# cursor-text = #f2f4f8
 
-theme = Catppuccin Mocha
+# theme = Catppuccin Mocha
 # theme = matugen
+
+foreground = #dee3e5
+background = #0f1416
+selection-foreground = #1d343a
+selection-background = #b2cbd2
+
+cursor-color = #dee3e5
+cursor-text = #bfc8cb
+
+# Black
+palette = 0=#4c4c4c
+palette = 8=#dee3e5
+
+# Red
+palette = 1=#ffb4ab
+palette = 9=#c49ea0
+
+# Green
+palette = 2=#dee3e5
+palette = 10=#9ec49f
+
+# Yellow
+palette = 3=#aca98a
+palette = 11=#c4c19e
+
+# Blue
+palette = 4=#84d2e6
+palette = 12=#a39ec4
+
+# Magenta
+palette = 5=#ffb4ab
+palette = 13=#c49ec4
+
+# Cyan
+palette = 6=#dee3e5
+palette = 14=#9ec3c4
+
+# White
+palette = 7=#f0f0f0
+palette = 15=#e7e7e7
 
 # AUSWAHL 
 # selection-foreground = #f2f4f8 
@@ -1980,14 +2020,15 @@ theme = Catppuccin Mocha
 # term = foot
 term = xterm-256color
 # cursor-style = block
-shell-integration = bash
+# shell-integration = bash
+shell-integration = fish
 # cursor-style-blink = false
 shell-integration-features = no-cursor
 custom-shader = "shaders/cursor_warp.glsl"
 custom-shader-animation = always
 
 # SCROLLBACK
-scrollback-limit = 3000000
+scrollback-limit = 300000
 
 # CLIPBOARD & MAUS
 clipboard-read = allow
