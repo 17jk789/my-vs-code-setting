@@ -1821,6 +1821,20 @@ echo "  nvim"
 
 ```bash
 git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
+# ln -s ~/.config/kitty/colors-matugen.conf ~/.config/ghostty/themes/matugen
+grep -v "/\*" ~/.config/kitty/colors-matugen.conf | sed -E \
+-e 's/^color([0-9]+) +/palette = \1=/' \
+-e 's/^foreground +/foreground = /' \
+-e 's/^background +/background = /' \
+-e 's/^cursor +/cursor-color = /' \
+-e 's/^cursor_text_color +/cursor-text = /' \
+-e 's/^selection_foreground +/selection-foreground = /' \
+-e 's/^selection_background +/selection-background = /' \
+-e 's/^url_color +/selection-background = /' \
+> ~/.config/ghostty/themes/matugen
+```
+
+```bash
 vim ~/.config/ghostty/config
 ```
 
@@ -1873,6 +1887,7 @@ cursor-color = #f5a97f
 cursor-text = #f2f4f8
 
 theme = Catppuccin Mocha
+# theme = matugen
 
 # AUSWAHL 
 # selection-foreground = #f2f4f8 
