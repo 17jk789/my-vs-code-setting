@@ -1820,6 +1820,7 @@ echo "  nvim"
 > [More](https://gist.github.com/hensg/43bc71c21d1f79385892352a390aa2ca)
 
 ```bash
+git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 vim ~/.config/ghostty/config
 ```
 
@@ -1977,6 +1978,8 @@ term = xterm-256color
 shell-integration = bash
 # cursor-style-blink = false
 shell-integration-features = no-cursor
+custom-shader = "shaders/cursor_warp.glsl"
+custom-shader-animation = always
 
 # SCROLLBACK
 scrollback-limit = 3000000
