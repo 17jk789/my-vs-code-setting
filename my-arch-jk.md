@@ -74,20 +74,6 @@ cd jetbrains-toolbox-[VERSION]/bin
 ```
 
 ```bash
-# sudo pacman -S code
-yay -S visual-studio-code-bin
-yay -S discord
-yay -S signal-desktop
-yay -S librewolf-bin
-sudo pacman -S kate
-sudo pacman -S gwenview
-sudo pacman -S okular
-sudo pacman -S vlc
-sudo pacman -S konsole
-
-```
-
-```bash
 # Ich würde noch Docker installieren
 sudo pacman -S docker docker-compose
 sudo systemctl enable --now docker
@@ -178,6 +164,7 @@ sudo pacman -S btop # nvim ~/.config/btop/btop.conf
 sudo pacman -S nvtop
 sudo pacman -S ranger w3m ranger-devicons
 sudo pacman -S time
+sudo pacman -S hyperfine
 sudo pacman -S tmux
 sudo pacman -S wofi
 sudo pacman -S zoxide
@@ -186,6 +173,22 @@ sudo pacman -S bat
 sudo pacman -S yazi
 sudo pacman -S lazygit
 sudo pacman -S tree
+sudo pacman -S ripgrep
+sudo pacman -S fd
+sudo pacman -S eza
+sudo pacman -S tldr
+sudo pacman -S jq
+# sudo pacman -S code
+yay -S visual-studio-code-bin
+yay -S discord
+yay -S signal-desktop
+yay -S librewolf-bin
+sudo pacman -S kate
+sudo pacman -S gwenview
+sudo pacman -S okular
+sudo pacman -S vlc
+sudo pacman -S konsole
+sudo pacman -S obsidian
 git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 
 # echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
