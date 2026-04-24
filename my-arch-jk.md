@@ -185,6 +185,7 @@ sudo pacman -S ghex
 sudo pacman -S bat
 sudo pacman -S yazi
 sudo pacman -S lazygit
+git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 
 # echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
 echo 'zoxide init fish | source' >> ~/.config/fish/config.fish
@@ -248,139 +249,21 @@ rm ~/.cargo/bin/rust-analyzer
 cd /home/jk/.local/share/nvim/lazy/markdown-preview.nvim
 git checkout -- app/yarn.lock   
 
+# lazygit
+
+# Verzeichnis erstellen
+mkdir -p ~/.config/lazygit/
+
+# Die Konfiguration direkt mit printf schreiben (sicherer in fish)
+printf "git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never --line-numbers
+os:
+  editCommand: 'nvim'" > ~/.config/lazygit/config.yml
+
 ```
 
 ```vim
 :lua vim.lsp.buf.format()
-```
-
-Danach kannst du wirklich einfach den Rest aus deiner [`README-neovim-config-Ubuntu.md`](./README-neovim-config-Ubuntu.md) übernehmen.
-Nur die Installation ist anders – genau wie du wolltest.
-Und später ggf. nochmal bei LazyVim schauen, falls sich Setup-Schritte geändert haben.
-
-## Ghostty
-
-```txt
-# WINDOW / UI
-window-decoration = auto
-window-padding-x = 6
-window-padding-y = 4
-window-inherit-working-directory = true
-
-confirm-close-surface = false
-
-# HINTERGRUND (GLAS / HYPRLAND)
-background = #18130b
-background-opacity = 0.7
-background-blur-radius = 20
-
-# background-image = /home/jk/Pictures/walpaper4-new.jpg
-# background-image-fit = cover
-# background-image-position = center
-
-# FONT
-font-family = "JetBrainsMono Nerd Font Complete"
-font-family-italic = "JetBrainsMono Nerd Font Complete"
-font-family-bold = "JetBrainsMono Nerd Font Complete"
-font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
-font-size = 13.5
-window-title-font-family = "JetBrainsMono Nerd Font Complete"
-
-adjust-cell-height = 0%
-adjust-cell-width = 0%
-
-# THEME
-cursor-style = block
-
-foreground = #ece1d4
-background = #18130b
-
-cursor-color = #ece1d4
-cursor-text = #d2c4b4
-
-selection-foreground = #3d2e16
-selection-background = #dcc3a1
-
-# ANSI palette
-palette = 0=#4c4c4c
-palette = 1=#ffb4ab
-palette = 2=#ece1d4
-palette = 3=#aca98a
-palette = 4=#f1be6d
-palette = 5=#ffb4ab
-palette = 6=#ece1d4
-palette = 7=#f0f0f0
-palette = 8=#ece1d4
-palette = 9=#c49ea0
-palette = 10=#9ec49f
-palette = 11=#c4c19e
-palette = 12=#a39ec4
-palette = 13=#c49ec4
-palette = 14=#9ec3c4
-palette = 15=#e7e7e7
-
-
-# TERMINAL CORE
-term = xterm-256color
-shell-integration = fish
-shell-integration-features = no-cursor
-
-scrollback-limit = 30000
-
-# CLIPBOARD & MAUS
-clipboard-read = allow
-clipboard-write = allow
-copy-on-select = true
-# mouse-hide-while-typing = true
-confirm-close-surface = false
-
-# KEYBINDS
-keybind = ctrl+m=toggle_maximize
-keybind = ctrl+shift+m=toggle_fullscreen
-keybind = global:cmd+=toggle_quick_terminal
-keybind = shift+ctrl+,=move_tab:-1
-keybind = shift+ctrl+.=move_tab:+1
-
-keybind = ctrl+shift+n=new_window
-keybind = ctrl+shift+q=quit
-
-# TABS
-keybind = ctrl+shift+t=new_tab
-keybind = ctrl+shift+w=close_surface
-keybind = ctrl+tab=next_tab
-keybind = ctrl+shift+tab=previous_tab
-
-# SPLITS
-keybind = ctrl+shift+o=new_split:right
-keybind = ctrl+shift+e=new_split:down
-
-keybind = alt+left=goto_split:left
-keybind = alt+right=goto_split:right
-keybind = alt+up=goto_split:up
-keybind = alt+down=goto_split:down
-
-keybind = alt+p=goto_split:previous
-keybind = alt+n=goto_split:next
-
-keybind = alt+shift+left=resize_split:left,10
-keybind = alt+shift+right=resize_split:right,10
-keybind = alt+shift+up=resize_split:up,10
-keybind = alt+shift+down=resize_split:down,10
-
-keybind = alt+shift+equal=equalize_splits
-keybind = ctrl+shift+enter=toggle_split_zoom
-
-# CLIPBOARD
-keybind = performable:ctrl+shift+c=copy_to_clipboard
-keybind = performable:ctrl+shift+v=paste_from_clipboard
-
-# FONT SIZE
-keybind = ctrl+equal=increase_font_size:1
-keybind = ctrl+minus=decrease_font_size:1
-keybind = ctrl+zero=reset_font_size
-
-# CONFIG
-keybind = ctrl+comma=open_config
-keybind = ctrl+shift+comma=reload_config
-
 ```
