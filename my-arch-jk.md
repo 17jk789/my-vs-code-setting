@@ -189,6 +189,10 @@ sudo pacman -S okular
 sudo pacman -S vlc
 sudo pacman -S konsole
 sudo pacman -S obsidian
+sudo pacman -S plasma-systemmonitor
+yay -S mission-center
+sudo pacman -S gimp
+
 git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 
 # echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
