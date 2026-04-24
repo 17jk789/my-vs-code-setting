@@ -1,4 +1,4 @@
-function create-cpp-pro --argument-symbol action name
+function create-cpp-pro --argument-names action name
     # Prüfen auf korrekte Argumente
     if test "$action" != "new"; or test -z "$name"
         echo "Usage: create-cpp-pro new <project-name>"
