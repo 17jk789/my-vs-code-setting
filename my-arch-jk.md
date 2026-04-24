@@ -1,3 +1,5 @@
+Fish not bash oder zsh!!!
+
 ```bash
 sudo pacman -Syu
 git clone https://github.com/end-4/dots-hyprland.git
@@ -182,6 +184,8 @@ sudo pacman -S zoxide
 sudo pacman -S ghex
 sudo pacman -S bat
 sudo pacman -S yazi
+sudo pacman -S lazygit
+
 # echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
 echo 'zoxide init fish | source' >> ~/.config/fish/config.fish
 # sudo pacman -S just
@@ -202,6 +206,52 @@ clamscan -r -i ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/n
 clamscan -r -i ~/.cargo ~/.sdkman ~/.npm ~/.local/lib/python3*/site-packages ~/Downloads
 sudo pacman -S rkhunter
 sudo rkhunter --check
+```
+
+after neovim config:
+
+```bash
+# Cpp
+find ~ -name ".clang-format" -path "*/.cache/nvim/*" -delete
+
+# Java
+mkdir -p ~/.config/nvim/lang-servers
+
+curl -L \
+https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml \
+-o ~/.config/nvim/lang-servers/intellij-java-google-style.xml
+
+# asm
+
+# 1. Verzeichnis erstellen
+mkdir -p ~/.config/asm-lsp/
+
+# 2. Die Konfiguration schreiben (mit printf)
+printf 'version = "0.10.0"
+
+[default_config]
+assembler = "gas"
+instruction_set = "x86-64"
+
+[default_config.opts]
+compiler = "as"
+diagnostics = true
+default_diagnostics = true' > ~/.config/asm-lsp/.asm-lsp.toml
+
+# 3. Bestätigung
+echo "Globale Konfiguration unter ~/.config/asm-lsp/.asm-lsp.toml wurde erstellt."
+
+# rust
+rm ~/.cargo/bin/rust-analyzer
+
+# markdown 
+cd /home/jk/.local/share/nvim/lazy/markdown-preview.nvim
+git checkout -- app/yarn.lock   
+
+```
+
+```vim
+:lua vim.lsp.buf.format()
 ```
 
 Danach kannst du wirklich einfach den Rest aus deiner [`README-neovim-config-Ubuntu.md`](./README-neovim-config-Ubuntu.md) übernehmen.
