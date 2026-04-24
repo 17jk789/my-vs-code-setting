@@ -180,11 +180,13 @@ sudo pacman -S fd
 sudo pacman -S eza
 sudo pacman -S tldr
 sudo pacman -S jq
+sudo pacman -S nwg-displays
 # sudo pacman -S code
 yay -S visual-studio-code-bin
 yay -S discord
 yay -S signal-desktop
 yay -S librewolf-bin
+sudo pacman -S ark
 sudo pacman -S kate
 sudo pacman -S gwenview
 sudo pacman -S okular
@@ -200,6 +202,7 @@ sudo pacman -S thunderbird
 sudo pacman -S qalculate-gtk
 sudo pacman -S obs-studio
 yay -S morgen-bin
+sudo pacman -S kdeconnect
 
 git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 
