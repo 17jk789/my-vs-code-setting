@@ -91,6 +91,7 @@ sudo pacman -S wl-clipboard fd python python-pip
 # pipx install ruff
 
 sudo pacman -S ripgrep
+sudo pacman -S zoxide
 sudo pacman -S nodejs npm
 sudo pacman -S gzip
 sudo npm install -g typescript
