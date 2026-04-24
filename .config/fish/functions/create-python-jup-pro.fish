@@ -1,4 +1,4 @@
-function create-python-pro --argument-symbol action name
+function create-python-pro --argument-names action name
     # Prüfen auf korrekte Argumente
     if test "$action" != "new"; or test -z "$name"
         echo "Usage: create-python-jup-pro new <projektname>"
@@ -35,9 +35,9 @@ function create-python-pro --argument-symbol action name
     python -m ipykernel install --user --name=pneovim --display-name "Python (P-NeoVim)"
 
     # Berechtigungen für Jupyter korrigieren (Pfade dynamisch über $USER)
-    sudo chown -R $USER:$USER $HOME/.local/share/jupyter
-    mkdir -p $HOME/.local/share/jupyter/runtime
-    chmod -R 700 $HOME/.local/share/jupyter/runtime
+    sudo chown -R $USER:$USER "$HOME/.local/share/jupyter"
+    mkdir -p "$HOME/.local/share/jupyter/runtime"
+    chmod -R 700 "$HOME/.local/share/jupyter/runtime"
 
     echo "✅ Projekt $PROJECT_NAME erstellt."
     echo "💡 Die virtuelle Umgebung ist aktiv. Nutze 'deactivate' zum Beenden."
