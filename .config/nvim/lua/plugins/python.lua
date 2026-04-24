@@ -306,6 +306,7 @@ return {
   {
     "benlubas/molten-nvim",
     ft = { "markdown", "python" },
+    lazy = false,
     version = "^1.0.0",
     build = ":UpdateRemotePlugins",
     init = function()
