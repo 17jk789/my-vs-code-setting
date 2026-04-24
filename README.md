@@ -12,6 +12,12 @@ This repository contains my personal **Visual Studio Code / IDEA Vim / NeoVim (L
 > This repo was not created for public distribution.
 > It is intended only for my own use, so I can use my settings on another computer without logging into my GitHub account.
 
+new:
+
+- [`JK Arch`](my-arch-jk.md)
+
+old:
+
 - [`NeoVim Ubuntu`](README-neovim-config-Ubuntu.md)  
 - [`NeoVim Arch`](README-neovim-config-Arch.md)
 - [`Windows WSL NeoVim`](README-neovim-config-windows-ubuntu-wsl.md)
