@@ -194,6 +194,10 @@ sudo pacman -S obsidian
 sudo pacman -S plasma-systemmonitor
 yay -S mission-center
 sudo pacman -S gimp
+sudo pacman -S kdenlive
+sudo pacman -S thunderbird
+sudo pacman -S qalculate-gtk
+sudo pacman -S obs-studio
 
 git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 
