@@ -1,4 +1,4 @@
-function create-c-pro --argument-symbol action name
+function create-c-pro --argument-names action name
     # Prüfen auf korrekte Argumente
     if test "$action" != "new"; or test -z "$name"
         echo "Usage: create-c-pro new <project-name>"
