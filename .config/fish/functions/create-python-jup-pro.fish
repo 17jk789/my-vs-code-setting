@@ -19,7 +19,7 @@ function reate-python-jup-pro --argument-names action name
     cd "$PROJECT_DIR"
 
     # Virtuelle Umgebung (venv) erstellen
-    python3 -m venv venv
+    python3.12 -m venv venv
 
     # Hauptdatei erstellen
     touch main.py
