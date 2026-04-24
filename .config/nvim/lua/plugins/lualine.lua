@@ -3,29 +3,29 @@
 return {
   "nvim-lualine/lualine.nvim",
   opts = function(_, opts)
-    local function battery()
-      local handle = io.popen("acpi -b 2>/dev/null | grep -o '[0-9]\\+%' | head -n1 | tr -d '%'")
-      if handle then
-        local result = handle:read("*a")
-        handle:close()
-        result = string.gsub(result, "%D", "") -- Nur Zahlen extrahieren
-        if tonumber(result) then
-          local charge = tonumber(result)
-          local icon = " "
-          if charge < 20 then
-            icon = " "
-          elseif charge < 40 then
-            icon = " "
-          elseif charge < 60 then
-            icon = " "
-          elseif charge < 80 then
-            icon = " "
-          end
-          return icon .. charge .. "%%"
-        end
-      end
-      return " N/A"
-    end
+    -- local function battery()
+    --   local handle = io.popen("acpi -b 2>/dev/null | grep -o '[0-9]\\+%' | head -n1 | tr -d '%'")
+    --   if handle then
+    --     local result = handle:read("*a")
+    --     handle:close()
+    --     result = string.gsub(result, "%D", "") -- Nur Zahlen extrahieren
+    --     if tonumber(result) then
+    --       local charge = tonumber(result)
+    --       local icon = " "
+    --       if charge < 20 then
+    --         icon = " "
+    --       elseif charge < 40 then
+    --         icon = " "
+    --       elseif charge < 60 then
+    --         icon = " "
+    --       elseif charge < 80 then
+    --         icon = " "
+    --       end
+    --       return icon .. charge .. "%%"
+    --     end
+    --   end
+    --   return " N/A"
+    -- end
 
     -- LSP
     local function lsp_server()
@@ -128,12 +128,12 @@ return {
                     or vim.fn.isdirectory("/sys/class/power_supply/BAT1") == 1
 
     -- Füge Komponenten OHNE feste Farben hinzu
-    if has_battery then
-      table.insert(opts.sections.lualine_z, 1, {
-        battery,
-        separator = { left = "", right = "" },
-      })
-    end
+    -- if has_battery then
+    --   table.insert(opts.sections.lualine_z, 1, {
+    --     battery,
+    --     separator = { left = "", right = "" },
+    --   })
+    -- end
 
     table.insert(opts.sections.lualine_y, 1, {
       lsp_server,
