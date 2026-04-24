@@ -218,7 +218,6 @@ mkdir -p ~/.config/fish/conf.d
 echo 'fzf_key_bindings' >> ~/.config/fish/config.fish
 sudo pacman -S just
 
-
 # npm install -g @mermaid-js/mermaid-cli
 sudo pacman -S clamav
 sudo freshclam
