@@ -22,6 +22,7 @@ font-family-italic = "JetBrainsMono Nerd Font Complete"
 font-family-bold = "JetBrainsMono Nerd Font Complete"
 font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
 window-title-font-family = "JetBrainsMono Nerd Font Complete"
+# font-size = 13.5
 
 adjust-cell-height = 0%
 adjust-cell-width = 0%
