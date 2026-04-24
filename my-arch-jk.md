@@ -1,6 +1,3 @@
-
-
-
 ```bash
 sudo pacman -Syu
 git clone https://github.com/end-4/dots-hyprland.git
