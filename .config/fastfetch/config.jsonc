@@ -18,15 +18,13 @@
       "format": "Arch Linux"
     },
 
+    "host",
+
     {
       "type": "kernel",
       "format": "{release}-arch"
     },
-    "title",
-    "separator",
-    "os",
-    "host",
-    "kernel",
+
     "uptime",
     "packages",
     "shell",
