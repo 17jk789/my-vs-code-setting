@@ -185,6 +185,7 @@ sudo pacman -S ghex
 sudo pacman -S bat
 sudo pacman -S yazi
 sudo pacman -S lazygit
+sudo pacman -S tree
 git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 
 # echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
