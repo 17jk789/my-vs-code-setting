@@ -1,4 +1,4 @@
-function create-python-pro --argument-symbol action name
+function create-python-pro --argument-names action name
     # Prüfen auf korrekte Argumente
     if test "$action" != "new"; or test -z "$name"
         echo "Usage: create-python-pro new <projektname>"
