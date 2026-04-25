@@ -198,6 +198,7 @@ sudo pacman -S plasma-systemmonitor
 yay -S mission-center
 sudo pacman -S gimp
 sudo pacman -S kdenlive
+# sudo pacman -S shotcut
 sudo pacman -S blender
 sudo pacman -S thunderbird
 sudo pacman -S qalculate-gtk
