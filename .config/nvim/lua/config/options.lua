@@ -34,56 +34,106 @@ vim.opt.mouse = "a"
 
 -- vim.opt.winbar = "%=%m %f  | %l/%L"
 
+-- local function get_ls_style()
+--   local path = vim.fn.expand("%:p")
+--   if path == "" then
+--     return ""
+--   end
+
+--   -- Home kürzen zu ~
+--   local home = vim.fn.expand("$HOME")
+--   local rel_path = path:gsub("^" .. vim.pesc(home), "~")
+
+--   -- File stats
+--   local stat = vim.uv.fs_stat(path)
+--   if not stat then
+--     return rel_path
+--   end
+
+--   local perms = vim.fn.getfperm(path)
+--   local size = stat.size
+
+--   local mtime = os.date("%b %d %H:%M", stat.mtime.sec)
+
+--   -- local file = vim.fn.fnamemodify(path, ":t")
+
+--   -- local text = table.concat({
+--   --   -- " " .. rel_path,
+--   --   rel_path,
+--   --   "󰌾 " .. perms,
+--   --   "󰈔 " .. size .. "B",
+--   --   " " .. mtime,
+--   --   -- "󰈙 " .. file,
+--   -- }, " › ")
+
+--   local text = table.concat({
+--     -- " " .. rel_path,
+--     rel_path,
+--     perms,
+--     size .. "B",
+--     mtime,
+--     -- "󰈙 " .. file,
+--   }, " › ")
+
+--   -- limit 80% window width
+--   local winwidth = vim.fn.winwidth(0)
+--   local maxlen = math.floor(winwidth * 0.8)
+
+--   if vim.fn.strdisplaywidth(text) > maxlen then
+--     text = vim.fn.strcharpart(text, 0, maxlen - 1) .. "…"
+--   end
+
+--   return "%=%m " .. text
+-- end
+
 local function get_ls_style()
-  local path = vim.fn.expand("%:p")
-  if path == "" then
+  -- Das Fenster, das gerade gerendert wird
+  local winid = vim.g.statusline_winid or vim.api.nvim_get_current_win()
+  local bufnr = vim.api.nvim_win_get_buf(winid)
+  
+  -- 1. Hardcore Filter: Buffer-Typen und Filetypes
+  local ft = vim.bo[bufnr].filetype
+  local bt = vim.bo[bufnr].buftype
+
+  -- Erweitere die Liste, falls Snacks Explorer einen anderen Namen nutzt
+  if bt ~= "" 
+     or ft == "snacks_explorer" 
+     or ft == "snacks_layout" 
+     or ft == "snacks_picker_list" 
+     or ft:find("snacks") 
+  then
     return ""
   end
 
-  -- Home kürzen zu ~
+  -- 2. Pfad-Check: Verhindert Anzeige in leeren Buffern
+  local path = vim.api.nvim_buf_get_name(bufnr)
+  if path == "" or path:find("snacks_explorer") then
+    return ""
+  end
+
+  -- 3. Daten sammeln
   local home = vim.fn.expand("$HOME")
   local rel_path = path:gsub("^" .. vim.pesc(home), "~")
-
-  -- File stats
   local stat = vim.uv.fs_stat(path)
-  if not stat then
-    return rel_path
+  
+  local info = rel_path
+  if stat then
+    local perms = vim.fn.getfperm(path)
+    local size = math.floor(stat.size / 1024) .. "KB"
+    local mtime = os.date("%b %d %H:%M", stat.mtime.sec)
+    info = string.format("%s › %s › %s › %s", rel_path, perms, size, mtime)
   end
 
-  local perms = vim.fn.getfperm(path)
-  local size = stat.size
+  -- 4. Platz-Check
+  local winwidth = vim.api.nvim_win_get_width(winid)
+  if winwidth < 50 then return "" end -- Zu schmal (z.B. Explorer-Leiste)
 
-  local mtime = os.date("%b %d %H:%M", stat.mtime.sec)
-
-  -- local file = vim.fn.fnamemodify(path, ":t")
-
-  -- local text = table.concat({
-  --   -- " " .. rel_path,
-  --   rel_path,
-  --   "󰌾 " .. perms,
-  --   "󰈔 " .. size .. "B",
-  --   " " .. mtime,
-  --   -- "󰈙 " .. file,
-  -- }, " › ")
-
-  local text = table.concat({
-    -- " " .. rel_path,
-    rel_path,
-    perms,
-    size .. "B",
-    mtime,
-    -- "󰈙 " .. file,
-  }, " › ")
-
-  -- limit 80% window width
-  local winwidth = vim.fn.winwidth(0)
   local maxlen = math.floor(winwidth * 0.8)
-
-  if vim.fn.strdisplaywidth(text) > maxlen then
-    text = vim.fn.strcharpart(text, 0, maxlen - 1) .. "…"
+  if #info > maxlen then
+    info = "…" .. info:sub(-(maxlen - 1))
   end
 
-  return "%=%m " .. text
+  return "%=%m " .. info
 end
 
 _G.winbar = get_ls_style
