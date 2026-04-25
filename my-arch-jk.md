@@ -205,6 +205,8 @@ sudo pacman -S obs-studio
 yay -S morgen-bin
 sudo pacman -S kdeconnect
 yay -S python312
+sudo pacman -S libreoffice-fresh libreoffice-fresh-de
+sudo pacman -S ttf-liberation
 
 git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 
