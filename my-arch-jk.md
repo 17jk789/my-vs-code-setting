@@ -196,6 +196,7 @@ sudo pacman -S konsole
 sudo pacman -S obsidian
 sudo pacman -S plasma-systemmonitor
 yay -S mission-center
+sudo pacman -S krita
 sudo pacman -S gimp
 sudo pacman -S kdenlive
 # sudo pacman -S shotcut
