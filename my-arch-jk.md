@@ -203,6 +203,8 @@ sudo pacman -S blender
 sudo pacman -S thunderbird
 sudo pacman -S qalculate-gtk
 sudo pacman -S obs-studio
+sudo pacman -S discover flatpak
+sudo pacman -S kclock
 yay -S morgen-bin
 sudo pacman -S kdeconnect
 yay -S python312
