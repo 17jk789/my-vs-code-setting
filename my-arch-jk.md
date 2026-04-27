@@ -212,6 +212,10 @@ yay -S python312
 sudo pacman -S libreoffice-fresh libreoffice-fresh-de
 sudo pacman -S ttf-liberation
 
+# für yazi
+sudo pacman -S xdg-utils
+sudo pacman -S perl-file-mimeinfo
+
 git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 
 # echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
