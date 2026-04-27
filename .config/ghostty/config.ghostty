@@ -16,7 +16,8 @@ background-blur-radius = 20
 # background-image-position = center
 
 # FONT
-font-family = "JetBrainsMono Nerd Font"
+font-family = "JetBrains Mono Nerd Font"
+# font-family = "JetBrainsMono Nerd Font"
 # font-family = "JetBrainsMono Nerd Font Complete"
 font-thicken = true
 # font-family-italic = "JetBrainsMono Nerd Font Complete"
@@ -31,7 +32,8 @@ adjust-cell-width = 0%
 cursor-style = block
 
 # TERMINAL CORE
-term = xterm-256color
+term = ghostty
+# term = xterm-256color
 # cursor-style = block
 # shell-integration = bash
 shell-integration = fish
