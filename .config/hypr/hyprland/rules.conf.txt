@@ -1,0 +1,6 @@
+# Turn on Blure in Ghostty
+
+# windowrule = match:class .*, no_blur on
+
+windowrule = no_blur off, match:class com.mitchellh.ghostty
+windowrule = opacity 0.8 0.7, match:class com.mitchellh.ghostty
