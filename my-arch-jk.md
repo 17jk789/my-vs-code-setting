@@ -188,6 +188,7 @@ yay -S discord
 yay -S signal-desktop
 yay -S brave-bin
 # yay -S mullvad-browser-bin
+# yay -S google-chrome
 yay -S librewolf-bin
 sudo pacman -S ark
 sudo pacman -S kate
