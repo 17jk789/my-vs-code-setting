@@ -239,6 +239,8 @@ clamscan -r -i ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/n
 clamscan -r -i ~/.cargo ~/.sdkman ~/.npm ~/.local/lib/python3*/site-packages ~/Downloads
 sudo pacman -S rkhunter
 sudo rkhunter --check
+
+# sudo pacman -Rns cachyos-hello
 ```
 
 after neovim config:
