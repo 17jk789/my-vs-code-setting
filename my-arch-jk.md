@@ -244,6 +244,10 @@ sudo pacman -S rkhunter
 sudo rkhunter --check
 
 # sudo pacman -Rns cachyos-hello
+
+# fun
+
+yay -S en-croissant-bin
 ```
 
 after neovim config:
