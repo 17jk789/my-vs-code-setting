@@ -170,7 +170,7 @@ local header = [[
 
 N E O V I M - J U L I A N
 
-__NVIM__ / __LAZY__ / JKNV 3.6.9 / Arch Linux]]
+__NVIM__ / __LAZY__ / JKNV 3.6.9 / Arch Linux x86_64]]
 
 header = header:gsub("__NVIM__", nvim_version):gsub("__LAZY__", lazy_version):gsub("__OS__", os_info)
 
