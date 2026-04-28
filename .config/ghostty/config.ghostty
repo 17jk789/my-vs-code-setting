@@ -19,7 +19,11 @@ background-blur-radius = 20
 font-family = "JetBrains Mono Nerd Font"
 # font-family = "JetBrainsMono Nerd Font"
 # font-family = "JetBrainsMono Nerd Font Complete"
-font-thicken = true
+selection-invert-fg-bg = true
+gl-screen-composite = true
+prefetch-glyphs = true
+font-variation-settings = "wght=750"
+font-thicken = false
 # font-family-italic = "JetBrainsMono Nerd Font Complete"
 # font-family-bold = "JetBrainsMono Nerd Font Complete"
 # font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
