@@ -1,0 +1,8 @@
+format = """
+$os$cmd_duration $directory$git_branch
+  $character"""
+
+[os]
+disabled = false
+style = "bg:252 fg:235" 
+format = "[](bold fg:252)[ ]($style)[](bold fg:252) "
