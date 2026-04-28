@@ -186,6 +186,8 @@ sudo pacman -S nwg-displays
 yay -S visual-studio-code-bin
 yay -S discord
 yay -S signal-desktop
+yay -S brave-bin
+# yay -S mullvad-browser-bin
 yay -S librewolf-bin
 sudo pacman -S ark
 sudo pacman -S kate
