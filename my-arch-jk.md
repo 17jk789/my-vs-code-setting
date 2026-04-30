@@ -214,6 +214,7 @@ sudo pacman -S kdeconnect
 yay -S python312
 sudo pacman -S libreoffice-fresh libreoffice-fresh-de
 sudo pacman -S ttf-liberation
+sudo pacman -S firejail
 
 # für yazi
 sudo pacman -S xdg-utils
@@ -248,6 +249,10 @@ sudo rkhunter --check
 # fun
 
 yay -S en-croissant-bin
+# sudo pacman -S webkit2gtk-4.1
+# yay -S stockfish
+sudo pacman -S gst-plugins-good
+
 ```
 
 after neovim config:
