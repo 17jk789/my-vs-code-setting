@@ -8,8 +8,8 @@ confirm-close-surface = false
 
 # HINTERGRUND (GLAS / HYPRLAND)
 background = #1a1b1b
-background-opacity = 0.7
-background-blur-radius = 20
+# background-opacity = 0.7
+# background-blur-radius = 20
 
 # background-image = /home/jk/Pictures/walpaper4-new.jpg
 # background-image-fit = cover
@@ -24,6 +24,10 @@ selection-invert-fg-bg = true
 # prefetch-glyphs = true
 # font-variation-settings = "wght=750"
 font-thicken = false
+# text-rendering = performance
+# font-feature = ["-calt", "-liga", "-dlig"]
+# max-frame-rate = 0
+# fps-limit = 60
 # font-family-italic = "JetBrainsMono Nerd Font Complete"
 # font-family-bold = "JetBrainsMono Nerd Font Complete"
 # font-family-bold-italic = "JetBrainsMono Nerd Font Complete"
