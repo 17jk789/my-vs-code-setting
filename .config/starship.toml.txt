@@ -10,7 +10,7 @@ add_newline = false
 # $directory $fill $git_branch $cmd_duration
 #  $character"""
 format = """
-$os$cmd_duration $directory$git_branch$git_status$python$rust$nodejs$golang$lua$java$c$cpp$bash
+$os$cmd_duration $directory$git_branch$git_status$python$rust$nodejs$golang$lua$java$c$bash
 $character"""
 
 [os]
@@ -154,10 +154,13 @@ detect_files = ["pom.xml", "build.gradle", "gradlew"]
 symbol = " "
 style = "bg:248 fg:235"
 format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
-detect_extensions = ["c", "h"]
+detect_extensions = ["c", "h", cpp", "hpp", "cc"]
+detect_files = ["CMakeLists.txt", "Makefile"]
 
-[cpp]
-symbol = " "
-style = "bg:248 fg:235"
-format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
-detect_extensions = ["cpp", "hpp", "cc"]
+# unötig -> immer C!!!
+# [cpp]
+# symbol = " "
+# style = "bg:248 fg:235"
+# format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
+# detect_extensions = ["cpp", "hpp", "cc"]
+# detect_files = ["CMakeLists.txt", "Makefile"]
