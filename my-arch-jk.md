@@ -215,6 +215,10 @@ yay -S python312
 sudo pacman -S libreoffice-fresh libreoffice-fresh-de
 sudo pacman -S ttf-liberation
 sudo pacman -S firejail
+sudo pacman -S cups cups-filters ghostscript gutenprint avahi nss-mdns system-config-printer
+sudo pacman -S hplip
+sudo systemctl enable --now cups.service
+sudo systemctl enable --now avahi-daemon.service
 
 # für yazi
 sudo pacman -S xdg-utils
