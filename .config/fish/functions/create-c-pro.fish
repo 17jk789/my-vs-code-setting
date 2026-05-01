@@ -17,7 +17,7 @@ function create-c-pro --argument-names action name
     cd "$PROJECT_DIR"
 
     # Beispiel main.c erstellen
-    printf '#include <stdio.h>\n\nint main() {\n    printf("Hello C from Julian!\\n");\n    return 0;\n}\n' > src/main.c
+    printf '#include <stdio.h>\n\nint main() {\n    printf("Hello C from Julian!\\\\n");\n    return 0;\n}\n' > src/main.c
 
     # CMakeLists.txt erstellen (für C konfiguriert)
     printf 'cmake_minimum_required(VERSION 3.10)
