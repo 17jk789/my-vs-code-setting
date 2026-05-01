@@ -10,21 +10,13 @@ add_newline = false
 # $directory $fill $git_branch $cmd_duration
 #  $character"""
 format = """
-$os$cmd_duration $directory$git_branch$python
-  $character"""
+$os$cmd_duration $directory$git_branch$git_status$python$rust$nodejs$golang$lua$java$c$cpp$bash
+$character"""
 
 [os]
 disabled = false
-style = "bg:252 fg:235" 
+style = "bg:252 fg:235"
 format = "[](bold fg:252)[  jk-arch]($style)[](bold fg:252) "
-
-[python]
-symbol = ""
-style = "bg:250 fg:235"
-format = " [](bold fg:250)[$symbol $virtualenv]($style)[](bold fg:250)"
-detect_extensions = ["py"]
-detect_files = ["requirements.txt", "pyproject.toml", ".python-version"]
-detect_folders = [".venv", "venv", "env"]
 
 [fill]
 symbol = '-'
@@ -97,8 +89,8 @@ show_always = true
 home_symbol = " "
 read_only = "  "
 style = "bg:255 fg:240"
-truncation_length = 2
-truncation_symbol = ".../"
+truncation_length = 5
+# truncation_symbol = ".../"
 format = '[](bold fg:255)[󰉋 → $path]($style)[](bold fg:255)'
 
 
@@ -114,3 +106,58 @@ format = '[](bold fg:255)[󰉋 → $path]($style)[](bold fg:255)'
 [cmd_duration]
 min_time = 0
 format = '[](bold fg:252)[󰪢 $duration](bold bg:252 fg:235)[](bold fg:252)'
+
+[python]
+symbol = ""
+style = "bg:250 fg:235"
+format = " [](bold fg:250)[$symbol $virtualenv]($style)[](bold fg:250)"
+detect_extensions = ["py"]
+detect_files = ["requirements.txt", "pyproject.toml", ".python-version"]
+detect_folders = [".venv", "venv", "env", ".env"]
+
+[rust]
+symbol = ""
+style = "bg:248 fg:235"
+format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
+detect_extensions = ["rs"]
+detect_files = ["Cargo.toml"]
+
+[nodejs]
+symbol = ""
+style = "bg:248 fg:235"
+format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
+detect_extensions = ["js", "ts", "jsx", "tsx"]
+detect_files = ["package.json", "node_modules"]
+
+[golang]
+symbol = ""
+style = "bg:248 fg:235"
+format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
+detect_extensions = ["go"]
+detect_files = ["go.mod", "go.sum"]
+
+[lua]
+symbol = ""
+style = "bg:248 fg:235"
+format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
+detect_extensions = ["lua"]
+detect_files = [".lua-version"]
+
+[java]
+symbol = " "
+style = "bg:248 fg:235"
+format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
+detect_extensions = ["java", "gradle", "jar"]
+detect_files = ["pom.xml", "build.gradle", "gradlew"]
+
+[c]
+symbol = " "
+style = "bg:248 fg:235"
+format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
+detect_extensions = ["c", "h"]
+
+[cpp]
+symbol = " "
+style = "bg:248 fg:235"
+format = " [](bold fg:248)[$symbol $version]($style)[](bold fg:248)"
+detect_extensions = ["cpp", "hpp", "cc"]
