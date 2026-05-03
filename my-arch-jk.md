@@ -205,6 +205,7 @@ sudo pacman -S tldr
 sudo pacman -S jq
 sudo pacman -S nwg-displays
 sudo pacman -S imagemagick
+sudo pacman -S thefuck
 # sudo pacman -S code
 yay -S visual-studio-code-bin
 yay -S discord
@@ -242,6 +243,10 @@ sudo pacman -S cups cups-filters ghostscript gutenprint avahi nss-mdns system-co
 sudo pacman -S hplip
 sudo systemctl enable --now cups.service
 sudo systemctl enable --now avahi-daemon.service
+
+fisher install jorgebucaran/autopair.fish
+fish_vi_key_bindings
+# fish_default_key_bindings
 
 # für yazi
 sudo pacman -S xdg-utils
