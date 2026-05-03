@@ -30,6 +30,7 @@ function reate-python-jup-pro --argument-names action name
     # Python-Tools installieren
     pip install --upgrade pip
     pip install pynvim jupyter_client ipykernel pylatexenc jupytext nbformat nbconvert notebook bandit
+    # pip install pynvim jupyter_client ipykernel pylatexenc jupytext nbformat nbconvert notebook bandit pillow cairosvg
 
     # Jupyter Kernel installieren
     python -m ipykernel install --user --name=pneovim --display-name "Python (P-NeoVim)"
