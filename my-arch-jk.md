@@ -44,6 +44,7 @@ cargo install --locked cargo-binutils
 cargo install --locked cargo-show-asm
 
 # Plugin für Decompilation in radare2 (Terminal)
+r2pm -U
 r2pm -init
 r2pm -i r2ghidra
 
