@@ -66,6 +66,9 @@ sudo pacman -S nasm binutils
 sudo pacman -S python-pwntools
 sudo pacman -S jdk25-openjdk
 
+# archlinux-java status
+# sudo archlinux-java set java-21-openjdk
+
 # Für Go
 # sudo pacman -S go
 # go install golang.org/x/tools/gopls@latest
