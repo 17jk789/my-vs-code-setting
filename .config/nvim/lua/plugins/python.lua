@@ -362,7 +362,7 @@ return {
       -- Prüft auf echte Kitty-Umgebung oder Ghostty
       if kitty_protocol and kitty_protocol ~= "" then
         return true
-      elseif term:find("kitty") or term_program == "Ghostty" then
+      elseif term:find("kitty") or term:find("ghostty") then
         return true
       end
 
