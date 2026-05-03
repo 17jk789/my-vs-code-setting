@@ -8,6 +8,7 @@ git clone https://github.com/end-4/dots-hyprland.git
 cd dots-hyprland
 ./setup install
 
+# sudo pacman -S ufw
 sudo systemctl enable --now ufw # Wichtig -> Firewall aktivieren!!!
 
 # sudo pacman -S firewalld
