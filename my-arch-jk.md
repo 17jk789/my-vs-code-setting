@@ -18,7 +18,8 @@ makepkg -si
 
 sudo pacman -S --needed base-devel git
 
-sudo pacman -S curl wget unzip base-devel cmark fzf luarocks gcc git-delta shellcheck lib32-gcc-libs
+sudo pacman -S curl wget unzip cmark fzf luarocks gcc git-delta shellcheck lib32-gcc-libs
+sudo pacman -S llvm clang lldb gdb strace ltrace radare2
 sudo bash -c 'grep -q "^\[multilib\]" /etc/pacman.conf || printf "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf'
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
@@ -32,6 +33,17 @@ cargo install --locked samply
 cargo install --locked cargo-watch
 cargo install --locked cargo-expand
 rustup component add rustfmt
+cargo install --locked cargo-bloat
+cargo install --locked cargo-binutils
+cargo install --locked cargo-show-asm
+
+# Plugin für Decompilation in radare2 (Terminal)
+r2pm -init
+r2pm -i r2ghidra
+
+# Zusätzliche Analyse-Tools für Rust
+cargo install --locked panopticon cargo-show-asm
+
 # cargo install --locked cargo-watch cargo-expand 
 sudo pacman -S make go
 
