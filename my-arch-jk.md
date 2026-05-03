@@ -204,6 +204,7 @@ sudo pacman -S eza
 sudo pacman -S tldr
 sudo pacman -S jq
 sudo pacman -S nwg-displays
+sudo pacman -S imagemagick
 # sudo pacman -S code
 yay -S visual-studio-code-bin
 yay -S discord
