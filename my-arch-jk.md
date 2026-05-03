@@ -10,6 +10,11 @@ cd dots-hyprland
 
 sudo systemctl enable --now ufw # Wichtig -> Firewall aktivieren!!!
 
+# sudo pacman -S firewalld
+# sudo systemctl stop ufw          # UFW stoppen
+# sudo systemctl disable ufw       # UFW Autostart aus
+# sudo systemctl enable --now firewalld  # firewalld starten
+
 sudo pacman -S --needed git base-devel
 cd /tmp
 git clone https://aur.archlinux.org/yay.git
