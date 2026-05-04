@@ -11,3 +11,9 @@ function y
 	end
 	rm -f -- "$tmp"
 end
+
+if type -q eza
+    alias ls='eza --icons --group-directories-first'
+    alias ll='eza -l --icons --group-directories-first'
+    alias la='eza -a --icons --group-directories-first'
+end
