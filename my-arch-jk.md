@@ -1,4 +1,4 @@
-Bitte installieren Sie eine Arch-basierte Distribution – vorzugsweise [Arch Linux](https://archlinux.org/download/) oder [CachyOS](https://cachyos.org/download/). Die Konfiguration sollte vollständig auf Hyprland unter Wayland basieren.
+Bitte installieren Sie eine Arch-basierte Distribution – vorzugsweise [Arch Linux](https://archlinux.org), [CachyOS](https://cachyos.org), [EndeavourOS](https://endeavouros.com), [Garuda Linux](https://garudalinux.org) oder [Manjaro](https://manjaro.org). Die Konfiguration sollte vollständig auf Hyprland unter Wayland basieren.
 
 Fish und nicht bash oder zsh!!!
 
