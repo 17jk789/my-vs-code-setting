@@ -128,7 +128,7 @@ return {
 
         config = {
           os = {
-            editCommand = "nvim", 
+            editCommand = "nvim",
             editCommandTemplate = "nvim --server {{server}} --remote-send '<C-\\><C-n>:e {{filename}}<CR>'",
           },
 
@@ -136,7 +136,8 @@ return {
             paging = {
               colorArg = "always",
               -- 'syntax-theme="none"' sorgt dafür, dass Grün/Rot deinem Theme entsprechen
-              pager = [[delta --paging=never --line-numbers --hunk-header-decoration-style="blue box" --hunk-header-style="file line-number syntax" --syntax-theme="none"]],
+              -- pager = [[delta --paging=never --line-numbers --hunk-header-decoration-style="blue box" --hunk-header-style="file line-number syntax" --syntax-theme="none"]],
+              pager = "delta --dark --paging=never --line-numbers",
             },
           },
 
@@ -148,7 +149,13 @@ return {
     },
 
     keys = {
-      { "<leader>gg", function() Snacks.lazygit() end, desc = "LazyGit" },
+      {
+        "<leader>gg",
+        function()
+          Snacks.lazygit()
+        end,
+        desc = "LazyGit",
+      },
     },
   },
 }
