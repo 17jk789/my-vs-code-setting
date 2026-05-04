@@ -251,18 +251,29 @@ sudo systemctl enable --now avahi-daemon.service
 fisher install jorgebucaran/autopair.fish
 
 set -l config_block '
-set -g fish_key_bindings fish_vi_key_bindings
-
 function fish_user_key_bindings
     fish_vi_key_bindings
-    
+
     if functions -q _autopair_install
         _autopair_install
     end
+
+    # 1. Bestehende Bindings für Alt+L löschen (wichtig!)
+    bind -e \el
+    bind -M insert -e \el
+    bind -M default -e \el
+
+    # 2. Deine eigenen Bindings neu setzen
+    bind -M insert \eh prevd-or-backward-word
+    bind -M insert \el nextd-or-forward-word
+
+    bind -M default \eh prevd-or-backward-word
+    bind -M default \el nextd-or-forward-word
 end'
 
 if not grep -q "fish_user_key_bindings" ~/.config/fish/config.fish
-    echo $config_block >> ~/.config/fish/config.fish
+    # echo $config_block >> ~/.config/fish/config.fish
+    echo "$config_block" >> ~/.config/fish/config.fish
     echo "Die Vi-Autopair-Konfiguration wurde am Ende der config.fish hinzugefügt!"
 else
     echo "Konfiguration bereits vorhanden oder manuell angepasst."
