@@ -37,7 +37,7 @@ symbol = "󰘬"
 truncation_length = 12
 truncation_symbol = ""
 # format = " 󰜥 [](bold fg:252)[$symbol $branch(:$remote_branch)](fg:235 bg:252)[ ](bold fg:252)"
-format = " [](bold fg:252)[$symbol $branch(:$remote_branch)](fg:235 bg:252)[ ](bold fg:252)"
+format = " [](bold fg:252)[$symbol $branch(:$remote_branch)](fg:235 bg:252)[](bold fg:252)"
 
 [git_commit]
 commit_hash_length = 4
@@ -48,16 +48,17 @@ format = '[\($state( $progress_current of $progress_total)\)]($style) '
 cherry_pick = "[🍒 PICKING](bold red)"
 
 [git_status]
-conflicted = " 🏳 "
-ahead = " 🏎💨 "
-behind = " 😰 "
-diverged = " 😵 "
-untracked = " 🤷 ‍"
-stashed = " 📦 "
-modified = " 📝 "
-staged = '[++\($count\)](green)'
-renamed = " ✍️ "
-deleted = " 🗑 "
+format = " [](bold fg:252)[$conflicted$untracked$modified$deleted$renamed$staged$ahead_behind](fg:235 bg:252)[](bold fg:252)"
+conflicted = "🏳 "
+untracked = "🤷 "
+modified = "📝 "
+deleted = "🗑 "
+renamed = "✍️ "
+stashed = "📦 "
+staged = "++($count)"
+ahead = "🏎💨 "
+behind = "😰 "
+diverged = "😵 "
 
 [hostname]
 ssh_only = false
