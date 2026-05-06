@@ -35,6 +35,7 @@ sudo pacman -S --needed base-devel git
 
 sudo pacman -S curl wget unzip cmark fzf luarocks gcc git-delta shellcheck lib32-gcc-libs
 sudo pacman -S llvm clang lldb gdb strace ltrace radare2
+sudo pacman -S gtk4 libadwaita network-manager-applet polkit-gnome librsvg adwaita-icon-theme
 sudo bash -c 'grep -q "^\[multilib\]" /etc/pacman.conf || printf "\n[multilib]\nInclude = /etc/pacman.d/mirrorlist\n" >> /etc/pacman.conf'
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 # cargo install --locked cargo-nextest cargo-benchcmp cargo-audit cargo-edit
