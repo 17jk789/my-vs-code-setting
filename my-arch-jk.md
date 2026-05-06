@@ -248,6 +248,8 @@ sudo pacman -S enscript ghostscript
 sudo systemctl enable --now cups.service
 sudo systemctl enable --now avahi-daemon.service
 sudo pacman -S sudo-rs
+sudo pacman -S libheif
+sudo pacman -S kimageformats
 
 fisher install jorgebucaran/autopair.fish
 
