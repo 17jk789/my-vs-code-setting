@@ -274,41 +274,41 @@ fisher install jorgebucaran/autopair.fish
 
 sudo pacman -S eza
 
-set -l config_block '
-function fish_user_key_bindings
-    fish_vi_key_bindings
+# set -l config_block '
+# function fish_user_key_bindings
+#     fish_vi_key_bindings
 
-    if functions -q _autopair_install
-        _autopair_install
-    end
+#     if functions -q _autopair_install
+#         _autopair_install
+#     end
 
-    # 1. Bestehende Bindings für Alt+L löschen (wichtig!)
-    bind -e \el
-    bind -M insert -e \el
-    bind -M default -e \el
+#     # 1. Bestehende Bindings für Alt+L löschen (wichtig!)
+#     bind -e \el
+#     bind -M insert -e \el
+#     bind -M default -e \el
 
-    # 2. Deine eigenen Bindings neu setzen
-    bind -M insert \eh prevd-or-backward-word
-    bind -M insert \el nextd-or-forward-word
+#     # 2. Deine eigenen Bindings neu setzen
+#     bind -M insert \eh prevd-or-backward-word
+#     bind -M insert \el nextd-or-forward-word
 
-    bind -M default \eh prevd-or-backward-word
-    bind -M default \el nextd-or-forward-word
+#     bind -M default \eh prevd-or-backward-word
+#     bind -M default \el nextd-or-forward-word
 
-    bind -M insert \cs "commandline -r 'ls -laa'; commandline -f execute"
-    bind -M default \cs "commandline -r 'ls -laa'; commandline -f execute"
-end'
+#     bind -M insert \cs "commandline -r 'ls -laa'; commandline -f execute"
+#     bind -M default \cs "commandline -r 'ls -laa'; commandline -f execute"
+# end'
 
-if not grep -q "fish_user_key_bindings" ~/.config/fish/config.fish
-    # echo $config_block >> ~/.config/fish/config.fish
-    echo "$config_block" >> ~/.config/fish/config.fish
-    echo "Die Vi-Autopair-Konfiguration wurde am Ende der config.fish hinzugefügt!"
-else
-    echo "Konfiguration bereits vorhanden oder manuell angepasst."
-end
+# if not grep -q "fish_user_key_bindings" ~/.config/fish/config.fish
+#     # echo $config_block >> ~/.config/fish/config.fish
+#     echo "$config_block" >> ~/.config/fish/config.fish
+#     echo "Die Vi-Autopair-Konfiguration wurde am Ende der config.fish hinzugefügt!"
+# else
+#     echo "Konfiguration bereits vorhanden oder manuell angepasst."
+# end
 
-echo "thefuck --alias | source" >> ~/.config/fish/config.fish; and source ~/.config/fish/config.fish
+# echo "thefuck --alias | source" >> ~/.config/fish/config.fish; and source ~/.config/fish/config.fish
 
-source ~/.config/fish/config.fish
+# source ~/.config/fish/config.fish
 
 # für yazi
 sudo pacman -S xdg-utils
@@ -317,7 +317,7 @@ sudo pacman -S perl-file-mimeinfo
 git clone https://github.com/sahaj-b/ghostty-cursor-shaders ~/.config/ghostty/shaders
 
 # echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
-echo 'zoxide init fish | source' >> ~/.config/fish/config.fish
+# echo 'zoxide init fish | source' >> ~/.config/fish/config.fish
 # sudo pacman -S just
 # source /usr/share/doc/fzf/examples/key-bindings.bash # für fzf im Terminal -> Strg + R
 # echo 'source /usr/share/fzf/key-bindings.bash' >> ~/.bashrc
@@ -325,16 +325,16 @@ echo 'zoxide init fish | source' >> ~/.config/fish/config.fish
 mkdir -p ~/.config/fish/conf.d
 
 # Aktiviert die fzf Tastenkombinationen für fish
-echo 'fzf_key_bindings' >> ~/.config/fish/config.fish
-echo "bind -M insert \cf 'yazi; commandline -f repaint'" >> ~/.config/fish/config.fish
-echo "bind -M default \cf 'yazi; commandline -f repaint'" >> ~/.config/fish/config.fish
+# echo 'fzf_key_bindings' >> ~/.config/fish/config.fish
+# echo "bind -M insert \cf 'yazi; commandline -f repaint'" >> ~/.config/fish/config.fish
+# echo "bind -M default \cf 'yazi; commandline -f repaint'" >> ~/.config/fish/config.fish
 
-echo "bind -M insert \cn 'nvim (pwd); commandline -f repaint'" >> ~/.config/fish/config.fish
-echo "bind -M default \cn 'nvim (pwd); commandline -f repaint'" >> ~/.config/fish/config.fish
+# echo "bind -M insert \cn 'nvim (pwd); commandline -f repaint'" >> ~/.config/fish/config.fish
+# echo "bind -M default \cn 'nvim (pwd); commandline -f repaint'" >> ~/.config/fish/config.fish
 
-echo "bind -M insert \cg 'lazygit; commandline -f repaint'" >> ~/.config/fish/config.fish
-echo "bind -M default \cg 'lazygit; commandline -f repaint'" >> ~/.config/fish/config.fish
-echo 'alias sudo="sudo-rs"' >> ~/.config/fish/config.fish
+# echo "bind -M insert \cg 'lazygit; commandline -f repaint'" >> ~/.config/fish/config.fish
+# echo "bind -M default \cg 'lazygit; commandline -f repaint'" >> ~/.config/fish/config.fish
+# echo 'alias sudo="sudo-rs"' >> ~/.config/fish/config.fish
 sudo pacman -S just
 
 # npm install -g @mermaid-js/mermaid-cli

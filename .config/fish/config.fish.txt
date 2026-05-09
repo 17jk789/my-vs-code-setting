@@ -1,3 +1,37 @@
+# Commands to run in interactive sessions can go here
+if status is-interactive
+    # No greeting
+    set fish_greeting
+
+    # Use starship
+    function starship_transient_prompt_func
+        starship module character
+    end
+    if test "$TERM" != linux
+        starship init fish | source
+        enable_transience
+    end
+
+    # Colors
+    if test -f ~/.local/state/quickshell/user/generated/terminal/sequences.txt
+        cat ~/.local/state/quickshell/user/generated/terminal/sequences.txt
+    end
+
+    # Aliases
+    # kitty doesn't clear properly so we need to do this weird printing
+    alias clear "printf '\033[2J\033[3J\033[1;1H'"
+    alias celar "printf '\033[2J\033[3J\033[1;1H'"
+    alias claer "printf '\033[2J\033[3J\033[1;1H'"
+    alias pamcan pacman
+    alias q 'qs -c ii'
+    if test "$TERM" != linux
+        alias ls 'eza --icons'
+    end
+    if test "$TERM" = xterm-kitty
+        alias ssh 'kitten ssh'
+    end
+end
+
 # Setze Neovim als Standard-Editor
 set -gx EDITOR nvim
 set -gx VISUAL nvim
@@ -17,3 +51,44 @@ if type -q eza
     alias ll='eza -l --icons --group-directories-first'
     alias la='eza -a --icons --group-directories-first'
 end
+
+zoxide init fish | source
+fzf_key_bindings
+zoxide init fish | source
+fzf_key_bindings
+bind \cf 'yazi; commandline -f repaint'
+bind \cn 'nvim (pwd); commandline -f repaint'
+
+function fish_user_key_bindings
+    fish_vi_key_bindings
+
+    if functions -q _autopair_install
+        _autopair_install
+    end
+
+    # 1. Bestehende Bindings für Alt+L löschen (wichtig!)
+    bind -e \el
+    bind -M insert -e \el
+    bind -M default -e \el
+
+    # 2. Deine eigenen Bindings neu setzen
+    bind -M insert \eh prevd-or-backward-word
+    bind -M insert \el nextd-or-forward-word
+
+    bind -M default \eh prevd-or-backward-word
+    bind -M default \el nextd-or-forward-word
+
+    bind -M insert \cs "commandline -r 'ls -laa'; commandline -f execute"
+    bind -M default \cs "commandline -r 'ls -laa'; commandline -f execute"
+end
+
+thefuck --alias | source
+zoxide init fish | source
+fzf_key_bindings
+bind -M insert \cf 'yazi; commandline -f repaint'
+bind -M default \cf 'yazi; commandline -f repaint'
+bind -M insert \cn 'nvim (pwd); commandline -f repaint'
+bind -M default \cn 'nvim (pwd); commandline -f repaint'
+bind -M insert \cg 'lazygit; commandline -f repaint'
+bind -M default \cg 'lazygit; commandline -f repaint'
+alias sudo="sudo-rs"
