@@ -453,6 +453,11 @@ and
 options 8821ce rtw_power_mgnt=0 rtw_enusbss=0 rtw_ips_mode=0
 ```
 
+```bash
+sudo update-initramfs -u
+reboot
+```
+
 and
 
 ```bash
@@ -463,6 +468,36 @@ wen an
 
 ```bash
 sudo iw dev wlan0 set power_save off
+```
+
+oder für immer:
+
+```bash
+sudo nvim /etc/NetworkManager/conf.d/wifi-powersave.conf
+```
+
+```text
+[connection]
+wifi.powersave = 2
+```
+
+Bedeutung:
+2 = Power Save deaktiviert
+
+Danach:
+
+```bash
+sudo systemctl restart NetworkManager
+```
+
+Prüfen:
+
+```bash
+iw dev wlan0 get power_save
+```
+
+```text
+Power save: off
 ```
 
 ### librewulf google securtiy:
