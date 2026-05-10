@@ -258,6 +258,8 @@ sudo systemctl enable --now avahi-daemon.service
 sudo pacman -S sudo-rs
 sudo pacman -S libheif
 sudo pacman -S kimageformats
+sudo pacman -S bandwhich
+sudo pacman -S wireshark-qt
 
 # Uni: eduroam
 sudo pacman -S --needed networkmanager python-dbus ca-certificates
@@ -270,9 +272,11 @@ sudo pacman -S globalprotect-openconnect
 # yay -S wireguird
 # yay -S wireguard-gui-bin
 
-fisher install jorgebucaran/autopair.fish
+fisher install jorgebucaran/autopair.fish nickeb96/fish-vim edc/bass PatrickF1/fzf.fish
 
-sudo pacman -S eza
+sudo pacman -S eza navi
+navi repo add denisidoro/cheats
+# navi repo add cachyos/cheats
 
 # set -l config_block '
 # function fish_user_key_bindings
