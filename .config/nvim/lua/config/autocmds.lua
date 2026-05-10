@@ -1414,6 +1414,7 @@ vim.api.nvim_create_autocmd("FileType", {
 --   callback = function()
 --     local opts = { noremap = true, silent = true, buffer = true }
 --     local matlab_path = "/usr/local/MATLAB/R2025b/bin/matlab"
+--     -- local matlab_path = "/opt/matlab/bin/matlab"
 
 --     -- Optimierte Run-Funktion mit startinsert
 --     local function run_cmd(cmd)
