@@ -532,11 +532,13 @@ sudo systemctl enable --now warp-svc
 ```
 
 ```bash
-bashwarp-cli register
+# bashwarp-cli register
+warp-cli register
 ```
 
 Connect:
 
 ```bash
-bashwarp-cli connect
+# bashwarp-cli connect
+warp-cli connect
 ```
