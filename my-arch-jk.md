@@ -602,3 +602,16 @@ sudo pacman -S tailscale
 sudo systemctl enable --now tailscaled
 sudo tailscale up
 ```
+
+Prüfen:
+
+```bash
+tailscale ip
+tailscale status
+```
+
+Dann von Gerät A:
+
+```bash
+ping 100.x.x.x
+```
