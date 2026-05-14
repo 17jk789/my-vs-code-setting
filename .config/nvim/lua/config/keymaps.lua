@@ -10,6 +10,27 @@ local function map_if_free(mode, lhs, rhs, opts)
   end
 end
 
+-- Test
+-- Schaltet Autoformat komplett AUS oder AN (für LSP und Conform)
+vim.keymap.set("n", "<leader>ta", function()
+  vim.g.autoformat = not vim.g.autoformat
+  if vim.g.autoformat then
+    print("Autoformat: ON (Watch out for legacy code!)")
+  else
+    print("Autoformat: OFF (Safe mode enabled)")
+  end
+end, { desc = "Toggle Autoformat Global" })
+
+vim.api.nvim_create_user_command("AutoFormatOff", function()
+  vim.g.autoformat = false
+  print("Autoformat: OFF")
+end, {})
+
+vim.api.nvim_create_user_command("AutoFormatOn", function()
+  vim.g.autoformat = true
+  print("Autoformat: ON")
+end, {})
+
 vim.keymap.set("n", "<C-p>", ":Telescope find_files<cr>", { desc = "Find Files (Telescope)", silent = true, noremap = true })
 vim.keymap.set("n", "<C-f>", ":Telescope live_grep<cr>", { desc = "Telescope Live Grep", silent = true, buffer = true })
 vim.keymap.set("n", "<C-o>", ":Telescope lsp_document_symbols<cr>", { desc = "Telescope LSP Document Symbols", silent = true, buffer = true })
@@ -268,17 +289,6 @@ map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<cr>", { desc = "Diffview Clo
 -- Wenn Diffview offen ist, kannst du mit diesen Keys durch die Dateien springen
 map_if_free("n", "<leader>gn", "<cmd>DiffviewNextFile<cr>", { desc = "Git: Next File in Diff" })
 map_if_free("n", "<leader>gN", "<cmd>DiffviewPrevFile<cr>", { desc = "Git: Prev File in Diff" })
-
--- Test
--- Schaltet Autoformat komplett AUS oder AN (für LSP und Conform)
-vim.keymap.set("n", "<leader>ta", function()
-  vim.g.autoformat = not vim.g.autoformat
-  if vim.g.autoformat then
-    print("Autoformat: ON (Watch out for legacy code!)")
-  else
-    print("Autoformat: OFF (Safe mode enabled)")
-  end
-end, { desc = "Toggle Autoformat Global" })
 
 -- local json_file = vim.fn.expand("~/.config/nvim/image_toggle_status.json")
 
