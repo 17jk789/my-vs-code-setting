@@ -594,3 +594,11 @@ warp-cli connect        # enable WARP
 warp-cli status         # check status
 warp-cli settings       # view settings
 ```
+
+# TailScale
+
+```bash
+sudo pacman -S tailscale
+sudo systemctl enable --now tailscaled
+sudo tailscale up
+```
