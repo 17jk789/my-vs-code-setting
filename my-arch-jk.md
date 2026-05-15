@@ -381,7 +381,7 @@ sudo pacman -S gst-plugins-good
 
 ```
 
-after neovim config:
+Nach der neovim config:
 
 ```bash
 # Cpp
@@ -537,6 +537,13 @@ iw dev wlan0 get power_save
 
 ```text
 Power save: off
+```
+
+und evt. bei Problemen:
+
+```bash
+# Installiert den stabileren Realtek WLAN-Treiber aus dem AUR und deaktiviert die fehlerhafte Kernel-Version
+yay -S rtw88-dkms-git
 ```
 
 ### librewulf google securtiy:
