@@ -622,3 +622,13 @@ Bei Problemen:
 sudo ufw allow in on tailscale0
 sudo ufw allow out on tailscale0
 ```
+
+Wichtig:
+
+```bash
+tailscale ip
+```
+
+```bash
+tailscale up --authkey [key]
+```
