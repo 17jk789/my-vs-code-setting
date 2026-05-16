@@ -372,6 +372,8 @@ sudo rkhunter --update
 sudo rkhunter --propupd
 sudo rkhunter --check
 
+sudo systemctl disable --now sshd # Falls du SSH nicht brauchst
+
 # sudo pacman -Rns cachyos-hello
 
 # fun
@@ -452,17 +454,6 @@ zeile 476
 ```qml
 # property list<string> excludedSites: ["quora.com", "facebook.com"]
 property list<string> excludedSites: []
-```
-
-### BlackArch
-
-```bash
-curl -O https://blackarch.org/strap.sh
-chmod +x strap.sh
-sudo ./strap.sh
-# alles 2800 tools oder so
-sudo pacman -S blackarch
-sudo pacman -Syyu
 ```
 
 ### ufw ist langsam:
