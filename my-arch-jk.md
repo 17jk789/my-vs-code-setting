@@ -368,6 +368,8 @@ sudo freshclam
 clamscan -r -i ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 clamscan -r -i ~/.cargo ~/.sdkman ~/.npm ~/.local/lib/python3*/site-packages ~/Downloads
 sudo pacman -S rkhunter
+sudo rkhunter --update
+sudo rkhunter --propupd
 sudo rkhunter --check
 
 # sudo pacman -Rns cachyos-hello
