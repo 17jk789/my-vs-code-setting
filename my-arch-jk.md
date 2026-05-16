@@ -609,6 +609,7 @@ sudo systemctl enable --now tailscaled
 sudo tailscale up
 warp-cli dns families malware
 warp-cli settings
+# warp-cli connectivity-check
 ```
 
 Prüfen:
