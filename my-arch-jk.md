@@ -592,6 +592,9 @@ Wen es immer noch nicht leuft, warte kurtz: WARP baut Zeit um den Tunnel aufzuba
 
 ```bash
 warp-cli status
+warp-cli dns families malware
+warp-cli settings
+# warp-cli connectivity-check
 ```
 
 Weitere Commands:
@@ -609,9 +612,6 @@ warp-cli settings       # view settings
 sudo pacman -S tailscale
 sudo systemctl enable --now tailscaled
 sudo tailscale up
-warp-cli dns families malware
-warp-cli settings
-# warp-cli connectivity-check
 ```
 
 Prüfen:
