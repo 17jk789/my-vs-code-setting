@@ -746,6 +746,18 @@ sudo ufw allow from 192.168.x.x to any port 47998:48010 proto udp
 https://localhost:47990
 ```
 
+Bei Problemen:
+
+Gehe zu Configuration -> Audio/Video.Ändere den Wert bei Monitor Index.
+
+oder auch einfach mal neustarten:
+
+```bash
+systemctl --user stop sunshine
+sleep 2
+systemctl --user start sunshine
+```
+
 # Windows
 
 ## Moonlight installieren
