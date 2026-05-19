@@ -684,7 +684,7 @@ bashsudo systemctl enable --now uksmd
 # sudo pacman -R cachyos-ksm-settings
 ```
 
-# Remote Desktop Connection
+# Remote Desktop Connection (Windows ↔ Linux)
 
 ```bash
 sudo pacman -S xrdp 
@@ -694,4 +694,45 @@ sudo systemctl start xrdp
 sudo ufw allow from 192.168.1.0/24 to any port 3389 
 sudo pacman -S fail2ban 
 sudo systemctl enable --now fail2ban
+```
+
+# Remote Desktop für Hyprland (Windows ↔ Linux)
+
+## Linux (Hyprland)
+
+### Installieren
+
+```bash id="hk4a3v"
+sudo pacman -S sunshine fail2ban
+```
+
+### Starten
+
+```bash id="x4a2mw"
+systemctl --user enable --now sunshine
+sudo systemctl enable --now fail2ban
+```
+
+### Firewall (nur LAN)
+
+```bash id="7xb7z4"
+sudo ufw allow from 192.168.1.0/24
+```
+
+### Setup öffnen
+
+```text id="5q0s6k"
+https://localhost:47990
+```
+
+# Windows
+
+## Moonlight installieren
+
+[Moonlight Official Website](https://moonlight-stream.org/?utm_source=chatgpt.com)
+
+## Verbinden
+
+```text id="0u3v9h"
+Moonlight öffnen → Linux-PC auswählen → Pairing-Code eingeben
 ```
