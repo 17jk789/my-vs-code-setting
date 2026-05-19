@@ -706,17 +706,38 @@ sudo systemctl enable --now fail2ban
 sudo pacman -S sunshine fail2ban
 ```
 
+```bash
+mkdir -p ~/.config/systemd/user
+nvim ~/.config/systemd/user/sunshine.service
+```
+
+```txt
+[Unit]
+Description=Sunshine Game Streaming Host
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/sunshine
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+```
+
 ### Starten
 
 ```bash id="x4a2mw"
-systemctl --user enable --now sunshine
+systemctl --user daemon-reload
+systemctl --user enable --now sunshine.service
 sudo systemctl enable --now fail2ban
+systemctl --user status sunshine
 ```
 
 ### Firewall (nur LAN)
 
 ```bash id="7xb7z4"
-sudo ufw allow from 192.168.1.0/24
+sudo ufw allow from 192.168.x.x to any port 47984:48010 proto tcp
+sudo ufw allow from 192.168.x.x to any port 47998:48010 proto udp
 ```
 
 ### Setup öffnen
