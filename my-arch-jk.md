@@ -750,6 +750,8 @@ Bei Problemen:
 
 Gehe zu Configuration -> Audio/Video.Ändere den Wert bei Monitor Index.
 
+evt.: alsa_output.pci-0000_e5_00.1.hdmi-stereo
+
 oder auch einfach mal neustarten:
 
 ```bash
