@@ -683,3 +683,15 @@ bashsudo systemctl enable --now uksmd
 # sudo systemctl disable --now uksmd
 # sudo pacman -R cachyos-ksm-settings
 ```
+
+# Remote Desktop Connection
+
+```bash
+sudo pacman -S xrdp 
+sudo pacman -S xorgxrdp 
+sudo systemctl enable xrdp 
+sudo systemctl start xrdp 
+sudo ufw allow from 192.168.1.0/24 to any port 3389 
+sudo pacman -S fail2ban 
+sudo systemctl enable --now fail2ban
+```
