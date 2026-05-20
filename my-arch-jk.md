@@ -283,6 +283,22 @@ sudo usermod -aG libvirt,kvm $(whoami)
 #       -display gtk,gl=on \
 #       -drive file=kali-linux-2026.1-qemu-amd64.qcow2,format=qcow2
 
+# or
+
+# qemu-system-x86_64 \
+#       -enable-kvm \
+#       -m 6144 \
+#       -cpu host \
+#       -smp 6 \
+#       -netdev user,id=n1 \
+#       -device virtio-net-pci,netdev=n1 \
+#       -device virtio-vga-gl,max_outputs=1,xres=3840,yres=2160,vgamem_mb=256 \
+#       -display gtk,gl=on \
+#       -drive file=kali-linux-2026.1-qemu-amd64.qcow2,format=qcow2
+
+# und wen was nicht leuft:
+# sudo pacman -S virglrenderer
+
 # Uni: eduroam
 sudo pacman -S --needed networkmanager python-dbus ca-certificates
 yay -S geteduroam-gui
