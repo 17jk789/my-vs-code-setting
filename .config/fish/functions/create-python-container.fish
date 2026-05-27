@@ -41,30 +41,33 @@ function create-python-container --argument-names action name
 
     echo 'print("🔥 Secure Python Container Ready!")' > main.py
 
-    cat > Dockerfile << EOF
-FROM python:3.12-alpine
+    echo "FROM python:3.12-alpine" > Dockerfile
 
-RUN apk add --no-cache \
-    fish \
-    git \
-    curl \
-    bash
+    echo "" >> Dockerfile
+    echo "RUN apk add --no-cache \\" >> Dockerfile
+    echo "    fish \\" >> Dockerfile
+    echo "    git \\" >> Dockerfile
+    echo "    curl \\" >> Dockerfile
+    echo "    bash" >> Dockerfile
 
-# Create non-root user
-RUN adduser -D developer
+    echo "" >> Dockerfile
+    echo "RUN adduser -D developer" >> Dockerfile
 
-USER developer
+    echo "" >> Dockerfile
+    echo "USER developer" >> Dockerfile
 
-WORKDIR /workspace
+    echo "" >> Dockerfile
+    echo "WORKDIR /workspace" >> Dockerfile
 
-ENV PATH="/workspace/venv/bin:\$PATH"
+    echo "" >> Dockerfile
+    echo 'ENV PATH="/workspace/venv/bin:$PATH"' >> Dockerfile
 
-CMD ["fish"]
-EOF
+    echo "" >> Dockerfile
+    echo 'CMD ["fish"]' >> Dockerfile
 
     echo "🐳 Building secure Docker image..."
 
-    docker build -t $IMAGE_NAME .
+    sudo docker build -t $IMAGE_NAME .
 
     if test $status -ne 0
         echo "❌ Docker build failed!"
@@ -73,7 +76,7 @@ EOF
 
     echo "🚀 Starting secure container..."
 
-    docker run -dit \
+    sudo docker run -dit \
         --name $CONTAINER_NAME \
         --hostname $name \
         --security-opt=no-new-privileges:true \
@@ -89,9 +92,9 @@ EOF
         return 1
     end
 
-    docker exec $CONTAINER_NAME python -m venv /workspace/venv
+    sudo docker exec $CONTAINER_NAME python -m venv /workspace/venv
 
-    docker exec $CONTAINER_NAME fish -c "
+    sudo docker exec $CONTAINER_NAME fish -c "
         source /workspace/venv/bin/activate.fish;
         pip install --upgrade pip;
         pip install bandit black pytest requests;
@@ -104,13 +107,13 @@ EOF
     echo "🐳 Container: $CONTAINER_NAME"
     echo ""
     echo "👉 Enter container with:"
-    echo "   docker exec -it $CONTAINER_NAME fish"
+    echo "   sudo docker exec -it $CONTAINER_NAME fish"
     echo ""
     echo "👉 Activate venv:"
     echo "   source venv/bin/activate.fish"
     echo ""
     echo "🛑 Stop container:"
-    echo "   docker stop $CONTAINER_NAME"
+    echo "   sudo docker stop $CONTAINER_NAME"
     echo ""
     echo "🔥 Done!"
 end
