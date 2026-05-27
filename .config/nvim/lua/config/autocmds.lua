@@ -98,27 +98,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.api.nvim_create_autocmd("LspAttach", {
-  group = augroup,
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client and client.name == "rust_analyzer" then
-      vim.lsp.codelens.refresh()
-    end
-  end,
-})
-
-vim.api.nvim_create_autocmd(
-  { "BufEnter", "BufWritePost", "InsertLeave" },
-  {
-    group = augroup,
-    pattern = "*.rs",
-    callback = function()
-      pcall(vim.lsp.codelens.refresh)
-    end,
-  }
-)
-
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = "*.fxml",
   callback = function()
