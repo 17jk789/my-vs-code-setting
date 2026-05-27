@@ -21,7 +21,7 @@ function create-python-pro --argument-names action name
     source venv/bin/activate.fish
 
     pip install --upgrade pip
-    pip install bandit
+    pip install bandit black mypy pytest
 
     echo "✅ Project $name has been created!"
     echo "💡 Virtual environment is active. (Deactivate with ‘deactivate’)"
