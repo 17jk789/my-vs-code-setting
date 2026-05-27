@@ -5,6 +5,8 @@ local M = {}
 M.setup = function(capabilities)
     local lspconfig = require("lspconfig")
 
+    capabilities = require("lsp.capabilities").get()
+
     lspconfig.dockerls.setup({
         capabilities = capabilities,
         filetypes = { "dockerfile" },
