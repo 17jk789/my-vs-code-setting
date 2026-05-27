@@ -139,21 +139,15 @@ end
 _G.winbar = get_ls_style
 vim.opt.winbar = "%!v:lua.winbar()"
 
--- vim.filetype.add({
---   extension = {
---     fxml = "xml",
---   },
--- })
 
-vim.filetype.add({
-  pattern = {
-    [".*docker%-compose.*yaml"] = "yaml",
-    [".*docker%-compose.*yml"] = "yaml",
-    [".*%.gitlab%-ci%.yaml"] = "yaml",
-    [".*%.gitlab%-ci%.yml"] = "yaml",
-    [".*helm%-values.*%.yaml"] = "yaml",
-    [".*helm%-values.*%.yml"] = "yaml",
-  },
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function(args)
+    local ft = vim.bo[args.buf].filetype
+
+    if ft == "yaml.docker-compose" or ft == "yaml.gitlab" or ft == "yaml.helm-values" then
+      vim.bo[args.buf].filetype = "yaml"
+    end
+  end,
 })
 
 -- Mason-Binaries zum System-Pfad hinzufügen (behebt "CLI not found")
