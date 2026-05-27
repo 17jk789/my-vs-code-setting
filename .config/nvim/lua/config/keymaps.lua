@@ -32,32 +32,32 @@ vim.api.nvim_create_user_command("AutoFormatOn", function()
 end, {})
 
 vim.keymap.set("n", "<C-p>", ":Telescope find_files<cr>", { desc = "Find Files (Telescope)", silent = true, noremap = true })
-vim.keymap.set("n", "<C-f>", ":Telescope live_grep<cr>", { desc = "Telescope Live Grep", silent = true, buffer = true })
-vim.keymap.set("n", "<C-o>", ":Telescope lsp_document_symbols<cr>", { desc = "Telescope LSP Document Symbols", silent = true, buffer = true })
+vim.keymap.set("n", "<C-f>", ":Telescope live_grep<cr>", { desc = "Telescope Live Grep", silent = true })
+vim.keymap.set("n", "<C-o>", ":Telescope lsp_document_symbols<cr>", { desc = "Telescope LSP Document Symbols", silent = true })
 -- vim.keymap.set("n", "<C-m>", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true, buffer = true })
-vim.keymap.set("n", "<leader>xx", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true, buffer = true })
-vim.keymap.set("n", "<C-b>", ":NvimTreeToggle<cr>", { desc = "NvimTree Toggle", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>xx", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true })
+vim.keymap.set("n", "<C-b>", ":NvimTreeToggle<cr>", { desc = "NvimTree Toggle", silent = true })
 
 vim.keymap.set("n", "<leader>f<space>", "<cmd>FzfLua files<cr>", { desc = "Fzf Find Files", silent = true })
 
 -- vim.keymap.set("n", "<C-_>", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
-vim.keymap.set("n", "<leader>/", "gcc", { desc = "Toggle Comment", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>/", "gcc", { desc = "Toggle Comment", silent = true })
 -- vim.keymap.set("v", "<C-_>", "gc", { desc = "Toggle Comment (Visual)", silent = true, buffer = true })
-vim.keymap.set("v", "<leader>/", "gc", { desc = "Toggle Comment", silent = true, buffer = true })
+vim.keymap.set("v", "<leader>/", "gc", { desc = "Toggle Comment", silent = true })
 
-vim.keymap.set("n", "<C-S-p>", ":Telescope commands<cr>", { desc = "Telescope Commands", silent = true, buffer = true })
+vim.keymap.set("n", "<C-S-p>", ":Telescope commands<cr>", { desc = "Telescope Commands", silent = true })
 
 -- vim.keymap.set("n", "<C-Tab>", ":bnext<cr>", { desc = "Switch to Next Buffer", silent = true, buffer = true })
-vim.keymap.set("n", "<leader>bn", ":bnext<cr>", { desc = "Next Buffer", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>bn", ":bnext<cr>", { desc = "Next Buffer", silent = true })
 -- vim.keymap.set("n", "<C-S-Tab>", ":bprevious<cr>", { desc = "Switch to Previous Buffer", silent = true, buffer = true })
-vim.keymap.set("n", "<leader>bp", ":bprevious<cr>", { desc = "Previous Buffer", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>bp", ":bprevious<cr>", { desc = "Previous Buffer", silent = true })
 
-vim.keymap.set("n", "<C-s>", ":w<cr>", { desc = "Save File", silent = true, buffer = true })
-vim.keymap.set("i", "<C-s>", "<Esc>:w<cr>a", { desc = "Save File and Continue Editing", silent = true, buffer = true })
+vim.keymap.set("n", "<C-s>", ":w<cr>", { desc = "Save File", silent = true })
+vim.keymap.set("i", "<C-s>", "<Esc>:w<cr>a", { desc = "Save File and Continue Editing", silent = true })
 
-vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to Definition", silent = true, buffer = true })
-vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "Show References", silent = true, buffer = true })
-vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "Show Hover Info", silent = true, buffer = true })
+vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<cr>", { desc = "Go to Definition", silent = true })
+vim.keymap.set("n", "gr", "<cmd>lua vim.lsp.buf.references()<cr>", { desc = "Show References", silent = true })
+vim.keymap.set("n", "K", "<cmd>lua vim.lsp.buf.hover()<cr>", { desc = "Show Hover Info", silent = true })
 
 vim.keymap.set("n", "<F2>", "<cmd>lua vim.lsp.buf.rename()<cr>", opts)
 
@@ -75,8 +75,8 @@ vim.keymap.set("n", "L", ":BufferLineCycleNext<CR>", { silent = true })
 vim.keymap.set("n", "H", ":BufferLineCyclePrev<CR>", { silent = true })
 
 -- vim.keymap.set("n", "<C-d>", "<cmd>lua require('dapui').toggle()<cr>", { desc = "Toggle DAP UI", silent = true, buffer = true })
-vim.keymap.set("n", "<leader>du", "<cmd>lua require('dapui').toggle()<cr>", { desc = "DAP UI Toggle", silent = true, buffer = true })
-vim.keymap.set("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<cr>", { desc = "DAP Open REPL", silent = true, buffer = true })
+vim.keymap.set("n", "<leader>du", "<cmd>lua require('dapui').toggle()<cr>", { desc = "DAP UI Toggle", silent = true })
+vim.keymap.set("n", "<leader>dr", "<cmd>lua require'dap'.repl.open()<cr>", { desc = "DAP Open REPL", silent = true })
 
 vim.keymap.set("n", "<leader>cf", ":ConformInfo<CR>", { desc = "Conform: Formatter Info" })
 
