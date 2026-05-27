@@ -91,6 +91,10 @@ return {
 
         -- MATLAB
         -- "matlab-language-server",
+
+        -- Docker & YAML
+        "dockerfile-language-server",
+        "yaml-language-server",
       },
     },
   },
