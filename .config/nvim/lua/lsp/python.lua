@@ -233,136 +233,132 @@
 local M = {}
 
 M.setup = function(capabilities)
-local lspconfig = require('lspconfig')
-local null_ls = require("null-ls")
+  local lspconfig = require("lspconfig")
+  local null_ls = require("none-ls") -- wichtig!
 
--- bessere capabilities
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+  capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
--- Pyright Setup (MAXIMUM PROFESSIONAL)
-lspconfig.pyright.setup({
+  -- PYRIGHT
+  lspconfig.pyright.setup({
     capabilities = capabilities,
 
-    -- Diagnostics aus
-    handlers = {
-      ["$/progress"] = function(_, _) end,
-    },
-
     settings = {
-        python = {
-            analysis = {
-                typeCheckingMode = "strict",
-                diagnosticMode = "workspace",
+      python = {
+        analysis = {
+          typeCheckingMode = "strict",
+          diagnosticMode = "workspace",
+          autoSearchPaths = true,
+          useLibraryCodeForTypes = true,
+          autoImportCompletions = true,
 
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
-                autoImportCompletions = true,
-
-                -- maximale Strenge
-                reportMissingImports = true,
-                reportMissingTypeStubs = false,
-                reportUnusedVariable = true,
-                reportUnusedImport = true,
-                reportOptionalMemberAccess = true,
-                reportOptionalSubscript = true,
-                reportGeneralTypeIssues = true,
-                reportPrivateImportUsage = true,
-                reportUnnecessaryTypeIgnoreComment = true,
-                reportImplicitStringConcatenation = true,
-                reportCallInDefaultInitializer = true,
-                reportUnboundVariable = true,
-
-                -- Performance
-                indexing = true,
-            },
+          reportMissingImports = true,
+          reportUnusedVariable = true,
+          reportUnusedImport = true,
+          reportOptionalMemberAccess = true,
+          reportOptionalSubscript = true,
+          reportGeneralTypeIssues = true,
+          reportUnboundVariable = true,
         },
+      },
     },
 
     on_attach = function(client, bufnr)
-        -- Pyright kein Formatting
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.semanticTokensProvider = nil
+      client.server_capabilities.documentFormattingProvider = false
 
-        local map = function(mode, lhs, rhs)
-            vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
-        end
+      local map = function(mode, lhs, rhs)
+        vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, silent = true })
+      end
 
-        -- Navigation
-        map('n', 'K', vim.lsp.buf.hover)
-        map('n', 'gd', vim.lsp.buf.definition)
-        map('n', 'gD', vim.lsp.buf.declaration)
-        map('n', 'gi', vim.lsp.buf.implementation)
-        map('n', 'gr', vim.lsp.buf.references)
-
-        -- Refactor
-        map('n', '<leader>rn', vim.lsp.buf.rename)
-        map('n', '<leader>ca', vim.lsp.buf.code_action)
-
-        -- Diagnostics
-        map('n', '<leader>d', vim.diagnostic.open_float)
-        map('n', '[d', vim.diagnostic.goto_prev)
-        map('n', ']d', vim.diagnostic.goto_next)
-
-        -- Format
-        map('n', '<leader>f', function()
-            vim.lsp.buf.format({ async = true })
-        end)
+      map("n", "K", vim.lsp.buf.hover)
+      map("n", "gd", vim.lsp.buf.definition)
+      map("n", "gr", vim.lsp.buf.references)
+      map("n", "<leader>rn", vim.lsp.buf.rename)
+      map("n", "<leader>ca", vim.lsp.buf.code_action)
+      map("n", "[d", vim.diagnostic.goto_prev)
+      map("n", "]d", vim.diagnostic.goto_next)
     end,
-})
+  })
 
--- NULL-LS (LINT + FORMAT + SECURITY)
-null_ls.setup({
+  -- NONE-LS (MUSS IM FUNKTIONSTEIL SEIN!)
+  null_ls.setup({
     sources = {
-        -- Ruff (Lint)
-        null_ls.builtins.diagnostics.ruff,
-
-        -- Formatting (empfohlen stabiler als ruff-format hier)
-        null_ls.builtins.formatting.black.with({
-            extra_args = { "--fast" }
-        }),
-
-        -- Security
-        null_ls.builtins.diagnostics.bandit,
-
-        -- Typing ergänzend
-        null_ls.builtins.diagnostics.mypy.with({
-            extra_args = { "--strict" }
-        }),
+      null_ls.builtins.diagnostics.ruff,
+      null_ls.builtins.formatting.black.with({
+        extra_args = { "--fast" },
+      }),
+      null_ls.builtins.diagnostics.bandit,
+      null_ls.builtins.diagnostics.mypy.with({
+        extra_args = { "--strict" },
+      }),
     },
+  })
 
-    on_attach = function(client, bufnr)
-        if client.supports_method("textDocument/formatting") then
-            local group = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
-
-            vim.api.nvim_create_autocmd("BufWritePre", {
-                group = group,
-                buffer = bufnr,
-                callback = function()
-                    vim.lsp.buf.format({
-                        bufnr = bufnr,
-                        timeout_ms = 2000,
-                    })
-                end,
-            })
-        end
-    end,
-})
-
--- Diagnostics UI verbessern
-vim.diagnostic.config({
-    virtual_text = false, -- cleaner
+  vim.diagnostic.config({
+    virtual_text = false,
     signs = true,
     underline = true,
     update_in_insert = false,
     severity_sort = true,
-
     float = {
-        border = "rounded",
-        -- source = "always",
-        source = "if_many",
+      border = "rounded",
+      source = "if_many",
     },
-})
-
+  })
 end
+
+-- NULL-LS (LINT + FORMAT + SECURITY)
+-- null_ls.setup({
+--     sources = {
+--         -- Ruff (Lint)
+--         null_ls.builtins.diagnostics.ruff,
+
+--         -- Formatting (empfohlen stabiler als ruff-format hier)
+--         null_ls.builtins.formatting.black.with({
+--             extra_args = { "--fast" }
+--         }),
+
+--         -- Security
+--         null_ls.builtins.diagnostics.bandit,
+
+--         -- Typing ergänzend
+--         null_ls.builtins.diagnostics.mypy.with({
+--             extra_args = { "--strict" }
+--         }),
+--     },
+
+--     on_attach = function(client, bufnr)
+--         if client.supports_method("textDocument/formatting") then
+--             local group = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
+
+--             vim.api.nvim_create_autocmd("BufWritePre", {
+--                 group = group,
+--                 buffer = bufnr,
+--                 callback = function()
+--                     vim.lsp.buf.format({
+--                         bufnr = bufnr,
+--                         timeout_ms = 2000,
+--                     })
+--                 end,
+--             })
+--         end
+--     end,
+-- })
+
+-- Diagnostics UI verbessern
+-- vim.diagnostic.config({
+--     virtual_text = false, -- cleaner
+--     signs = true,
+--     underline = true,
+--     update_in_insert = false,
+--     severity_sort = true,
+
+--     float = {
+--         border = "rounded",
+--         -- source = "always",
+--         source = "if_many",
+--     },
+-- })
+
+-- end
 
 return M
