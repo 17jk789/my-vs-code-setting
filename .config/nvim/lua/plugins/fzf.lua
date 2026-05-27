@@ -6,8 +6,6 @@ return {
   {
     "ibhagwan/fzf-lua",
     opts = function(_, opts)
-      local fzf = require("fzf-lua")
-      
       opts.winopts = {
         height = 0.85,
         width = 0.80,
