@@ -115,6 +115,9 @@ function create-python-jup-pro-container --argument-names action name
             bandit \
             requests \
             black \
+            black \
+            mypy \
+            pytest \
             pytest;
 
         python -m ipykernel install \
