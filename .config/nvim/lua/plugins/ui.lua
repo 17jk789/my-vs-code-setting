@@ -4,6 +4,7 @@ return {
   {
     -- cmd = "Telescope", -- lädt erst bei Telescope-Befehl
     "nvim-telescope/telescope.nvim",
+    cmd = "Telescope",
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
@@ -12,12 +13,14 @@ return {
   {
     "folke/trouble.nvim",
     -- cmd = { "TroubleToggle", "Trouble" }, -- nur wenn du Trouble-Befehl benutzt
+    cmd = { "Trouble", "TroubleToggle" },
     opts = {},
   },
 
   {
     "nvim-tree/nvim-tree.lua",
     -- cmd = { "NvimTreeToggle", "NvimTreeFindFile" }, -- nur bei diesen Befehlen laden
+    cmd = { "NvimTreeToggle", "NvimTreeFindFile", "NvimTreeFocus" },
     opts = {
       view = { width = 30 },
       renderer = { group_empty = true },
@@ -26,6 +29,10 @@ return {
 
   {
     "numToStr/Comment.nvim",
+    keys = {
+      { "gcc", mode = "n" },
+      { "gc", mode = "v" },
+    },
     opts = {},
   },
 
@@ -39,6 +46,7 @@ return {
     "akinsho/bufferline.nvim",
     version = "v5.0.0",
     -- Aktualisiertes Repository
+    event = "VeryLazy",
     dependencies = { "nvim-mini/mini.icons" },
     opts = {
       options = {
@@ -58,6 +66,7 @@ return {
   {
     "nvim-mini/mini.nvim",
     version = false,
+    event = "VeryLazy",
     config = function()
       local hipatterns = require("mini.hipatterns")
 
