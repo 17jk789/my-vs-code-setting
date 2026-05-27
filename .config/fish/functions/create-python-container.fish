@@ -97,7 +97,7 @@ function create-python-container --argument-names action name
     sudo docker exec $CONTAINER_NAME fish -c "
         source /workspace/venv/bin/activate.fish;
         pip install --upgrade pip;
-        pip install bandit black pytest requests mypy pytest ;
+        pip install bandit black pytest requests mypy pytest;
     "
 
     echo ""
