@@ -104,7 +104,7 @@ return {
         json = { "prettier" },
         html = { "prettier" },
         css = { "prettier" },
-        xml = { "xmlformat" },
+        xml = { "xmlformatter" },
         -- fxml = { "xmlformat" },
       },
       -- optional: automatische Formatierung auf Save
