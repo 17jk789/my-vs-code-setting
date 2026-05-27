@@ -234,7 +234,7 @@ local M = {}
 
 M.setup = function(capabilities)
   local lspconfig = require("lspconfig")
-  local null_ls = require("none-ls") -- wichtig!
+  -- local null_ls = require("none-ls")
 
   capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
@@ -280,19 +280,20 @@ M.setup = function(capabilities)
   })
 
   -- NONE-LS (MUSS IM FUNKTIONSTEIL SEIN!)
-  null_ls.setup({
-    sources = {
-      null_ls.builtins.diagnostics.ruff,
-      null_ls.builtins.formatting.black.with({
-        extra_args = { "--fast" },
-      }),
-      null_ls.builtins.diagnostics.bandit,
-      null_ls.builtins.diagnostics.mypy.with({
-        extra_args = { "--strict" },
-      }),
-    },
-  })
+--   null_ls.setup({
+--     sources = {
+--       null_ls.builtins.diagnostics.ruff,
+--       null_ls.builtins.formatting.black.with({
+--         extra_args = { "--fast" },
+--       }),
+--       null_ls.builtins.diagnostics.bandit,
+--       null_ls.builtins.diagnostics.mypy.with({
+--         extra_args = { "--strict" },
+--       }),
+--     },
+--   })
 
+  -- DIAGNOSTICS UI (Clean & Modern)
   vim.diagnostic.config({
     virtual_text = false,
     signs = true,
