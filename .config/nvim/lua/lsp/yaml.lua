@@ -12,8 +12,12 @@ M.setup = function(capabilities)
 
         settings = {
             yaml = {
+                schemaStore = {
+                    enable = true,
+                },
                 schemas = {
-                    ["https://json.schemastore.org/docker-compose.json"] = "docker-compose*.y*ml",
+                    ["https://json.schemastore.org/docker-compose.json"] = "docker-compose*.yml",
+                    ["https://json.schemastore.org/gitlab-ci.json"] = ".gitlab-ci.yml",
                 },
             },
         },
