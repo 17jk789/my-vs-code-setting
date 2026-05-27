@@ -1,5 +1,6 @@
-function reate-python-jup-pro --argument-names action name
-    if test "$action" != "new"; or test -z "$name"
+function create-python-jup-pro --argument-names action name
+
+    if test "$action" != "new" -o -z "$name"
         echo "Usage: create-python-jup-pro new <projektname>"
         return 1
     end
@@ -22,8 +23,10 @@ function reate-python-jup-pro --argument-names action name
     source venv/bin/activate.fish
 
     pip install --upgrade pip
-    pip install pynvim jupyter_client ipykernel pylatexenc jupytext nbformat nbconvert notebook bandit
-    # pip install pynvim jupyter_client ipykernel pylatexenc jupytext nbformat nbconvert notebook bandit pillow cairosvg
+    pip install \
+        pynvim jupyter_client ipykernel pylatexenc jupytext \
+        nbformat nbconvert notebook \
+        bandit black mypy pytest
 
     python -m ipykernel install --user --name=pneovim --display-name "Python (P-NeoVim)"
 
@@ -32,5 +35,5 @@ function reate-python-jup-pro --argument-names action name
     chmod -R 700 "$HOME/.local/share/jupyter/runtime"
 
     echo "✅ Project $PROJECT_NAME created."
-    echo "💡 The virtual environment is active. Use ‘deactivate’ to exit."
+    echo "💡 The virtual environment is active. Use 'deactivate' to exit."
 end
