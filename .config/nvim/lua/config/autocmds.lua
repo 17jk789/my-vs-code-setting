@@ -223,7 +223,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrr", function() my_cargo("run") end, { desc = "Cargo Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrb", function() my_cargo("build") end, { desc = "Cargo Build (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rra", function() my_cargo("build && cargo run") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
-    vim.keymap.set("n", "<leader>rrt", function() my_cargo("test") end, { desc = "Cargo Build & Run (Split)", silent = true, buffer = true })
+    -- Testing: Use Neotest via <leader>rrntr instead
 
     vim.keymap.set("n", "<leader>rrAar", function()
       local cmd = table.concat({
@@ -356,18 +356,22 @@ vim.api.nvim_create_autocmd("FileType", {
       })
     end
 
-    -- Cargo Test
-    local function cargo_test(args)
+    -- Cargo Test (Optimized: removed --all-targets for faster iteration)
+    local function cargo_test(args, show_output)
+      show_output = show_output ~= false  -- default: true
       local cmd = {
         "env",
         "RUST_BACKTRACE=1",
         "cargo",
         "test",
-        "--all-targets",
+        "--lib",  -- fast: only library tests, not integration/doc
         "--color=always",
         "--",
-        "--show-output",
       }
+      
+      if show_output then
+        table.insert(cmd, "--nocapture")
+      end
 
       for _, a in ipairs(args or {}) do
         table.insert(cmd, a)
@@ -377,23 +381,43 @@ vim.api.nvim_create_autocmd("FileType", {
     end
 
     -- Keymaps
-    vim.keymap.set("n", "<leader>rret", function()
-      cargo_test({})
-    end, { desc = "Cargo Test (Workspace) - experimental", silent = true, buffer = true })
+    -- Unified test commands (all use cargo_test helper)
+    vim.keymap.set("n", "<leader>rrt", function()
+      cargo_test({ "--lib" }, true)  -- Library tests only, fastest
+    end, { desc = "Cargo Test (Lib) - Fast", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>rreT", function()
-      cargo_test({ "--nocapture" })
-    end, { desc = "Cargo Test No Capture - experimental", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrT", function()
+      cargo_test({ "--all-targets" }, true)  -- All tests (lib + integration + doc)
+    end, { desc = "Cargo Test (All Targets)", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>rref", function()
+    vim.keymap.set("n", "<leader>rrti", function()
+      cargo_test({ "--test", "*" }, true)  -- Integration tests only
+    end, { desc = "Cargo Test (Integration)", silent = true, buffer = true })
+
+    vim.keymap.set("n", "<leader>rrte", function()
       local testname = vim.fn.expand("<cword>")
-      cargo_test({ testname, "--nocapture" })
-    end, { desc = "Cargo Test Current - experimental", silent = true, buffer = true })
+      cargo_test({ testname }, true)  -- Single test by name
+    end, { desc = "Cargo Test (Current)", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>tnef", function()
+    vim.keymap.set("n", "<leader>rrtf", function()
       local file = vim.fn.expand("%:t:r")
-      cargo_test({ "--test", file, "--nocapture" })
-    end, { desc = "Cargo Test File - experimental", silent = true, buffer = true })
+      cargo_test({ "--test", file }, true)  -- Current test file
+    end, { desc = "Cargo Test (File)", silent = true, buffer = true })
+    
+    -- Coverage (requires cargo-tarpaulin: cargo install cargo-tarpaulin)
+    vim.keymap.set("n", "<leader>rrtcov", function()
+      my_cargo("tarpaulin --out Html --output-dir ./coverage")
+    end, { desc = "Cargo Tarpaulin (Coverage)", silent = true, buffer = true })
+    
+    -- Undefined Behavior check (requires nightly: rustup toolchain install nightly)
+    vim.keymap.set("n", "<leader>rrts", function()
+      my_cargo("+nightly miri test")
+    end, { desc = "Cargo Miri (UB Detection)", silent = true, buffer = true })
+    
+    -- Show all available tests
+    vim.keymap.set("n", "<leader>rrtl", function()
+      my_cargo("test -- --list")
+    end, { desc = "Cargo Test (List All)", silent = true, buffer = true })
 
     vim.keymap.set("n", "<leader>rrntr", function()
       require("neotest").run.run()
@@ -452,18 +476,7 @@ vim.api.nvim_create_autocmd("FileType", {
       my_cargo("flamegraph")
     end, { desc = "Cargo Flamegraph", silent = true, buffer = true })
 
-    vim.keymap.set("n", "<leader>rrfr", function()
-      vim.fn.jobstart({
-        "samply",
-        "record",
-        "cargo",
-        "run",
-        "--release"
-      }, {
-        detach = true,
-      })
-    end, { desc = "Rust Profile (samply)", silent = true, buffer = true })
-
+    -- Profiling: Samply integration
     vim.keymap.set("n", "<leader>rrfr", function()
       vim.cmd("write")
       vim.fn.jobstart({ "cargo", "build", "--release" }, {
@@ -475,7 +488,7 @@ vim.api.nvim_create_autocmd("FileType", {
           end
         end,
       })
-    end, { desc = "Build + Profile", buffer = true })
+    end, { desc = "Build + Profile (samply)", buffer = true })
 
     -- Hilfsfunktion um den Projektnamen (Binärdatei) zu finden
     local function get_project_name()
@@ -530,7 +543,7 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrFs", function() my_cargo("fmt") end, { desc = "Cargo Format (Split)", silent = true, buffer = true })
 
     -- Cleanup / Docs / Benchmarks
-    vim.keymap.set("n", "<leader>rrx", function() my_cargo("clean") end, { desc = "Cargo Clean (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrxc", function() my_cargo("clean") end, { desc = "Cargo Clean (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrd", function() my_cargo("doc --open") end, { desc = "Cargo Doc Open (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrBM", function() my_cargo("bench") end, { desc = "Cargo Bench (Split)", silent = true, buffer = true })
 
@@ -605,6 +618,28 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrCl", function()
       my_cargo("clippy --fix --allow-dirty")
     end, { desc = "Clippy Fix", buffer = true })
+
+    -- Dependency Management
+    vim.keymap.set("n", "<leader>rruD", function()
+      my_cargo("+nightly udeps --output json")
+    end, { desc = "Cargo Udeps (Unused Deps)", buffer = true })
+
+    vim.keymap.set("n", "<leader>rrtdup", function()
+      my_cargo("tree --duplicates")
+    end, { desc = "Cargo Tree (Duplicates)", buffer = true })
+
+    vim.keymap.set("n", "<leader>rrVc", function()
+      my_cargo("vendor")
+    end, { desc = "Cargo Vendor (Offline)", buffer = true })
+
+    vim.keymap.set("n", "<leader>rrUp", function()
+      my_cargo("update")
+    end, { desc = "Cargo Update Deps", buffer = true })
+
+    -- Workspace Management
+    vim.keymap.set("n", "<leader>rrWT", function()
+      my_cargo("test --workspace")
+    end, { desc = "Workspace Test", buffer = true })
 
     -- Die Klassiker (Run & Stop)
     -- vim.keymap.set("n", "<leader>tnr", function() require("neotest").run.run() end, { desc = "Test Run (Nearest)", buffer = true })
@@ -735,10 +770,10 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rrtt", ":split | terminal ./gradlew test<CR>", { desc = "Gradle Test (Split)", silent = true, buffer = true })
 
     -- Nur aktuelle Testklasse
-    map_if_free("n", "<leader>rrtc", function()
+    map_if_free("n", "<leader>rrtcs", function()
       local file = vim.fn.expand("%:t:r")
       vim.cmd("split | terminal ./gradlew test --tests " .. file)
-    end, { desc = "Gradle Test Specific (Split)", silent = true, buffer = true })
+    end, { desc = "Gradle Test Class (Split)", silent = true, buffer = true })
 
     -- Testmethode unter Cursor (JUnit naming assumed)
     map_if_free("n", "<leader>rrtm", function()
@@ -747,7 +782,7 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Gradle Test Method (Split)", silent = true, buffer = true })
 
     -- Tests mit Debug Infos
-    map_if_free("n", "<leader>rrtd", function()
+    map_if_free("n", "<leader>rrtdi", function()
       vim.cmd("split | terminal ./gradlew test --info")
     end, { desc = "Gradle Test Info (Split)", silent = true, buffer = true })
 
@@ -775,6 +810,34 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { desc = "Gradle Test Rerun Tasks (Split)", silent = true, buffer = true })
 
     vim.keymap.set("n", "<leader>rrg", ":edit build.gradle<CR>", { desc = "Edit build.gradle (Split)", silent = true, buffer = true })
+
+    -- Maven Support (if not using Gradle)
+    local function is_maven_project()
+      return vim.fn.filereadable("pom.xml") == 1
+    end
+
+    if is_maven_project() then
+      local function mvn(cmd)
+        vim.cmd("split | terminal mvn " .. cmd)
+      end
+
+      vim.keymap.set("n", "<leader>rrma", function() mvn("clean package") end, { desc = "Maven Build (Split)", silent = true, buffer = true })
+      vim.keymap.set("n", "<leader>rrmr", function() mvn("exec:java -Dexec.mainClass=\"com.example.App\"") end, { desc = "Maven Run (Split)", silent = true, buffer = true })
+      vim.keymap.set("n", "<leader>rrmc", function() mvn("compile") end, { desc = "Maven Compile (Split)", silent = true, buffer = true })
+      vim.keymap.set("n", "<leader>rrmt", function() mvn("test") end, { desc = "Maven Test (Split)", silent = true, buffer = true })
+      vim.keymap.set("n", "<leader>rrmci", function() mvn("clean install") end, { desc = "Maven Install (Split)", silent = true, buffer = true })
+    end
+
+    -- Interactive Console (jshell)
+    vim.keymap.set("n", "<leader>jsh", ":split | terminal jshell<CR>", { desc = "JShell Console", silent = true, buffer = true })
+
+    -- Fixed: Maven mainClass should be user input
+    if is_maven_project() then
+      vim.keymap.set("n", "<leader>rrmrc", function()
+        local mainClass = vim.fn.input("Main Class (e.g., com.example.App): ")
+        mvn("exec:java -Dexec.mainClass=\"" .. mainClass .. "\"")
+      end, { desc = "Maven Run (Custom Class)", silent = true, buffer = true })
+    end
     
     vim.keymap.set("n", "<F5>", function()
       require("dap").continue()
@@ -988,8 +1051,30 @@ vim.api.nvim_create_autocmd("FileType", {
       run("clang-tidy $(find . -name '*.cpp')")
     end, { desc = "Clang-Tidy Analyze (Split)", silent = true, buffer = true })
 
+    -- Memory & Sanitizers
+    vim.keymap.set("n", "<leader>rrv", function()
+      run("cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug && cmake --build build && valgrind ./build/app")
+    end, { desc = "Valgrind (Memory Check)", silent = true, buffer = true })
+
+    vim.keymap.set("n", "<leader>rrs", function()
+      run("cmake -S . -B build -DCMAKE_CXX_FLAGS='-fsanitize=address -g' && cmake --build build && ./build/app")
+    end, { desc = "ASAN (Address Sanitizer)", silent = true, buffer = true })
+
+    vim.keymap.set("n", "<leader>rru", function()
+      run("cmake -S . -B build -DCMAKE_CXX_FLAGS='-fsanitize=undefined -g' && cmake --build build && ./build/app")
+    end, { desc = "UBSAN (UB Sanitizer)", silent = true, buffer = true })
+
+    -- Profiling
+    vim.keymap.set("n", "<leader>rrP", function()
+      run("cmake --build build && perf record -g ./build/app && perf report")
+    end, { desc = "Perf Profiling", silent = true, buffer = true })
+
+    vim.keymap.set("n", "<leader>rrgp", function()
+      run("cmake --build build && gprof ./build/app gmon.out | head -30")
+    end, { desc = "GProf Analysis", silent = true, buffer = true })
+
     -- Wichtige Files schnell öffnen
-    vim.keymap.set("n", "<leader>rrg", ":edit CMakeLists.txt<CR>", { desc = "Edit CMakeLists.txt (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrCM", ":edit CMakeLists.txt<CR>", { desc = "Edit CMakeLists.txt (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrC", ":edit build/CMakeCache.txt<CR>", { desc = "Edit CMakeCache.txt (Split)", silent = true, buffer = true })
   end,
 })
@@ -1005,16 +1090,20 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rir", function() run_in_term("pycharm .") end, { desc = "Open Project in PyCharm", silent = true, buffer = true })
 
     -- Python Run & Testing
-    vim.keymap.set("n", "<leader>rra", ":split | terminal python3 %<CR>", { desc = "Python Run (Split)", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrpy", ":split | terminal python3 %<CR>", { desc = "Python Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrt", ":split | terminal pytest<CR>", { desc = "Pytest Run (Split)", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rrv", ":split | terminal python3 -m venv .venv<CR>", { desc = "Python Create Venv (Split)", silent = true, buffer = true })
     
     -- Linting & Formatting
     vim.keymap.set("n", "<leader>rlf", ":!black %<CR>", { desc = "Format with Black", silent = true, buffer = true })
     vim.keymap.set("n", "<leader>rll", ":!ruff check %<CR>", { desc = "Lint with Ruff", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rlF", ":!ruff format %<CR>", { desc = "Format with Ruff", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rty", ":split | terminal mypy %<CR>", { desc = "Type Check (mypy)", silent = true, buffer = true })
 
     -- Tests
     vim.keymap.set("n", "<leader>rrrT", ":split | terminal pytest %<CR>", { desc = "Run current file tests", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrcvov", ":split | terminal pytest --cov=. --cov-report=html %<CR>", { desc = "Pytest Coverage", silent = true, buffer = true })
+    vim.keymap.set("n", "<leader>rrp", ":split | terminal python3 -m cProfile -s cumtime %<CR>", { desc = "Python Profile (CProfile)", silent = true, buffer = true })
 
     -- DAP Debugging
     vim.keymap.set("n", "<F5>", function() require("dap").continue() end, opts)
@@ -1142,6 +1231,17 @@ vim.api.nvim_create_autocmd("FileType", {
       ":split | terminal gcc -c %<CR>",
       { desc = "GCC Compile Only (Split)", silent = true, buffer = true }
     )
+
+    -- Memory & Sanitizers
+    vim.keymap.set("n", "<leader>rcv",
+      ":split | terminal gcc -g % -o %:r && valgrind ./%:r<CR>",
+      { desc = "GCC + Valgrind (Memory Check)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rcsan",
+      ":split | terminal gcc -fsanitize=address -g % -o %:r && ./%:r<CR>",
+      { desc = "GCC + ASAN", silent = true, buffer = true }
+    )
   end,
 })
 
@@ -1181,6 +1281,22 @@ vim.api.nvim_create_autocmd("FileType", {
       ":split | terminal g++ -c %<CR>",
       { desc = "G++ Compile Only (Split)", silent = true, buffer = true }
     )
+
+    -- Memory & Sanitizers
+    vim.keymap.set("n", "<leader>rpv",
+      ":split | terminal g++ -g % -o %:r && valgrind ./%:r<CR>",
+      { desc = "G++ + Valgrind (Memory Check)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpsan",
+      ":split | terminal g++ -fsanitize=address -g % -o %:r && ./%:r<CR>",
+      { desc = "G++ + ASAN", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpub",
+      ":split | terminal g++ -fsanitize=undefined -g % -o %:r && ./%:r<CR>",
+      { desc = "G++ + UBSAN", silent = true, buffer = true }
+    )
   end,
 })
 
@@ -1201,8 +1317,18 @@ vim.api.nvim_create_autocmd("FileType", {
     )
 
     vim.keymap.set("n", "<leader>rpt",
-      ":split | terminal go test %<CR>",
-      { desc = "Go Test Current File (Split)", silent = true, buffer = true }
+      ":split | terminal go test -v -race %<CR>",
+      { desc = "Go Test (with Race Detector)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rptc",
+      ":split | terminal go test -cover %<CR>",
+      { desc = "Go Test (with Coverage)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpb",
+      ":split | terminal go test -bench ./... -benchmem<CR>",
+      { desc = "Go Benchmark", silent = true, buffer = true }
     )
 
     vim.keymap.set("n", "<leader>rpl",
@@ -1210,9 +1336,25 @@ vim.api.nvim_create_autocmd("FileType", {
       { desc = "Go Lint Current File (Split)", silent = true, buffer = true }
     )
 
+    vim.keymap.set("n", "<leader>rpmg",
+      ":split | terminal go mod tidy<CR>",
+      { desc = "Go Mod Tidy", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpmu",
+      ":split | terminal go get -u ./...<CR>",
+      { desc = "Go Mod Update", silent = true, buffer = true }
+    )
+
     vim.keymap.set("n", "<leader>rpc",
       ":split | terminal go build -c %<CR>",
       { desc = "Go Compile Only (Split)", silent = true, buffer = true }
+    )
+
+    -- Documentation
+    vim.keymap.set("n", "<leader>rpd",
+      ":split | terminal godoc -h<CR>",
+      { desc = "Go Doc Server", silent = true, buffer = true }
     )
   end,
 })
@@ -1247,6 +1389,16 @@ vim.api.nvim_create_autocmd("FileType", {
       ":split | terminal zig build-exe % -femit-bin=%:r<CR>",
       { desc = "Zig Compile Only (Split)", silent = true, buffer = true }
     )
+
+    vim.keymap.set("n", "<leader>rpt",
+      ":split | terminal zig build test<CR>",
+      { desc = "Zig Run Tests", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpf",
+      ":split | terminal zig fmt %<CR>",
+      { desc = "Zig Format", silent = true, buffer = true }
+    )
   end,
 })
 
@@ -1271,6 +1423,12 @@ vim.api.nvim_create_autocmd("FileType", {
       ":split | terminal tidy -errors -quiet %<CR>",
       { desc = "HTML: Check with Tidy", silent = true, buffer = true }
     )
+
+    -- Pretty Print HTML
+    vim.keymap.set("n", "<leader>rpf",
+      ":split | terminal prettier --write %<CR>",
+      { desc = "HTML: Format with Prettier", silent = true, buffer = true }
+    )
   end,
 })
 
@@ -1292,10 +1450,75 @@ vim.api.nvim_create_autocmd("FileType", {
       { desc = "TS Compile & Run (Split)", silent = true, buffer = true }
     )
 
-    -- Linting
+    -- Linting & Formatting
     vim.keymap.set("n", "<leader>rpl",
       ":split | terminal eslint %<CR>",
       { desc = "Lint Current JS/TS File (Split)", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rpf",
+      ":split | terminal npx prettier --write %<CR>",
+      { desc = "Format with Prettier", silent = true, buffer = true }
+    )
+
+    -- Package Manager Detection & Build (wrapped in function to ensure proper scope)
+    local function get_pm()
+      if vim.fn.filereadable("pnpm-lock.yaml") == 1 then return "pnpm"
+      elseif vim.fn.filereadable("yarn.lock") == 1 then return "yarn"
+      else return "npm" end
+    end
+
+    -- Build
+    vim.keymap.set("n", "<leader>rrb",
+      function() vim.cmd("split | terminal " .. pm .. " run build") end,
+      { desc = "Build (" .. pm .. ")", silent = true, buffer = true }
+    )
+
+    -- Dev Server
+    vim.keymap.set("n", "<leader>rrfd",
+      function() vim.cmd("split | terminal " .. pm .. " run dev") end,
+      { desc = "Dev Server (" .. pm .. ")", silent = true, buffer = true }
+    )
+
+    -- Test (Jest/Vitest)
+    vim.keymap.set("n", "<leader>rrt",
+      function() vim.cmd("split | terminal " .. pm .. " test") end,
+      { desc = "Test (" .. pm .. ")", silent = true, buffer = true }
+    )
+
+    vim.keymap.set("n", "<leader>rrtc",
+      function() vim.cmd("split | terminal " .. pm .. " test -- --coverage") end,
+      { desc = "Test Coverage", silent = true, buffer = true }
+    )
+
+    -- Lint
+    vim.keymap.set("n", "<leader>rrl",
+      function() vim.cmd("split | terminal " .. pm .. " run lint") end,
+      { desc = "Lint (" .. pm .. ")", silent = true, buffer = true }
+    )
+
+    -- Install Dependencies
+    vim.keymap.set("n", "<leader>rri",
+      function() vim.cmd("split | terminal " .. get_pm() .. " install") end,
+      { desc = "Install Dependencies", silent = true, buffer = true }
+    )
+
+    -- Add Package
+    vim.keymap.set("n", "<leader>rradd", function()
+      local pkg = vim.fn.input("Package name: ")
+      vim.cmd("split | terminal " .. get_pm() .. " add " .. pkg)
+    end, { desc = "Add Package", buffer = true })
+
+    -- Remove Package
+    vim.keymap.set("n", "<leader>rrrm", function()
+      local pkg = vim.fn.input("Package name: ")
+      vim.cmd("split | terminal " .. get_pm() .. " remove " .. pkg)
+    end, { desc = "Remove Package", buffer = true })
+
+    -- Type Check (TypeScript)
+    vim.keymap.set("n", "<leader>rty",
+      ":split | terminal tsc --noEmit<CR>",
+      { desc = "TypeScript Check", silent = true, buffer = true }
     )
   end,
 })
@@ -1316,6 +1539,18 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.keymap.set("n", "<leader>rpj",
       ":split | terminal luajit %<CR>",
       { desc = "LuaJIT Run (Split)", silent = true, buffer = true }
+    )
+
+    -- Lua testing with busted
+    vim.keymap.set("n", "<leader>rpt",
+      ":split | terminal busted<CR>",
+      { desc = "Busted Test (Split)", silent = true, buffer = true }
+    )
+
+    -- Linting with luacheck
+    vim.keymap.set("n", "<leader>rpl",
+      ":split | terminal luacheck %<CR>",
+      { desc = "Luacheck Lint", silent = true, buffer = true }
     )
   end,
 })
