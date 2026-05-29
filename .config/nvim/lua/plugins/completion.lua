@@ -393,6 +393,7 @@ return {
     "saghen/blink.cmp",
     event = "InsertEnter",
     dependencies = {
+      "L3MON4D3/LuaSnip",
       "rafamadriz/friendly-snippets",
     },
 
@@ -403,6 +404,11 @@ return {
 
       snippets = {
         expand = function(snippet)
+          -- REPARATUR 1: Lädt die friendly-snippets automatisch beim ersten Snippet
+          if not _G.luasnip_loader_initialized then
+            require("luasnip.loaders.from_vscode").lazy_load()
+            _G.luasnip_loader_initialized = true
+          end
           require("luasnip").lsp_expand(snippet)
         end,
       },
@@ -421,7 +427,7 @@ return {
           "fallback",
         },
 
-        -- ELITE TAB (Copilot + blink perfekt kombiniert)
+        -- ELITE TAB (Copilot + blink + LuaSnip perfekt kombiniert)
         ["<Tab>"] = {
           function(cmp)
             -- 1. Copilot FIRST
@@ -436,9 +442,11 @@ return {
               return cmp.select_next()
             end
 
-            -- 3. Snippet
-            if cmp.snippet_active() then
-              return cmp.snippet_forward()
+            -- 3. REPARATUR 2: Nutzt direkt LuaSnip zum Vorwärtsspringen
+            local ls = require("luasnip")
+            if ls.expand_or_locally_jumpable() then
+              ls.expand_or_jump()
+              return true
             end
 
             return false
@@ -446,14 +454,19 @@ return {
           "fallback",
         },
 
-
         ["<S-Tab>"] = {
           function(cmp)
             if cmp.is_visible() then
               return cmp.select_prev()
             end
+
+            -- REPARATUR 3: Nutzt direkt LuaSnip zum Rückwärtsspringen
+            local ls = require("luasnip")
+            if ls.jumpable(-1) then
+              ls.jump(-1)
+              return true
+            end
           end,
-          "snippet_backward",
           "fallback",
         },
       },
