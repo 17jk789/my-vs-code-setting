@@ -59,15 +59,38 @@ function _G.run_in_term(cmd)
   vim.cmd("split | terminal " .. cmd)
 end
 
+-- vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+--   group = vim.api.nvim_create_augroup("WslLineEndings", { clear = true }),
+--   pattern = "*",
+--   callback = function()
+--     local path = vim.fn.expand("%:p")
+--     if path:find("^/mnt/") then
+--       vim.opt_local.fileformat = "dos"
+--     else
+--       vim.opt_local.fileformat = "unix"
+--     end
+--   end,
+-- })
+
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   group = vim.api.nvim_create_augroup("WslLineEndings", { clear = true }),
   pattern = "*",
-  callback = function()
-    local path = vim.fn.expand("%:p")
-    if path:find("^/mnt/") then
-      vim.opt_local.fileformat = "dos"
-    else
-      vim.opt_local.fileformat = "unix"
+  callback = function(args)
+    local buf = args.buf
+
+    if vim.bo[buf].buftype ~= "" then
+      return
+    end
+
+    local path = vim.api.nvim_buf_get_name(buf)
+    if path == "" then
+      return
+    end
+
+    local format = path:match("^/mnt/") and "dos" or "unix"
+
+    if vim.bo[buf].fileformat ~= format then
+      vim.bo[buf].fileformat = format
     end
   end,
 })

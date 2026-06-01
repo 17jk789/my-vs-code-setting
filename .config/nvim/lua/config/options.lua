@@ -185,3 +185,34 @@ vim.diagnostic.config({
 })
 
 -- vim.opt.guicursor = "n-v-c:block,i:block-blinkwait500-blinkon500-blinkoff500"
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+  callback = function(args)
+    local buf = args.buf
+    local file = args.file
+
+    if vim.bo[buf].filetype == "hexdump" then
+      return
+    end
+
+    if file == "" or vim.fn.filereadable(file) == 0 then
+      return
+    end
+
+    if vim.fn.executable("file") == 0 then
+      return
+    end
+
+    local mime = vim.fn.system({ "file", "--brief", "--mime-type", file })
+
+    if mime:match("^application/") then
+      vim.bo[buf].modifiable = true
+      vim.cmd("%!hexdump -C")
+
+      vim.bo[buf].filetype = "hexdump"
+      vim.bo[buf].readonly = true
+      vim.bo[buf].modifiable = false
+      vim.bo[buf].modified = false
+    end
+  end,
+})
