@@ -416,6 +416,7 @@ return {
 
   {
     "GCBallesteros/jupytext.nvim",
+    lazy = false,
     ft = { "python", "markdown" },
     opts = {
       -- Hier erzwingen wir das Markdown-Verhalten für Python-Notebooks
