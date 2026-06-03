@@ -186,33 +186,37 @@ vim.diagnostic.config({
 
 -- vim.opt.guicursor = "n-v-c:block,i:block-blinkwait500-blinkon500-blinkoff500"
 
+local function is_binary(path)
+  local fd = vim.loop.fs_open(path, "r", 438)
+  if not fd then
+    return false
+  end
+
+  local data = vim.loop.fs_read(fd, 1024, 0)
+  vim.loop.fs_close(fd)
+
+  return data and data:find("\0", 1, true) ~= nil
+end
+
 vim.api.nvim_create_autocmd("BufReadPost", {
   callback = function(args)
     local buf = args.buf
     local file = args.file
 
-    if vim.bo[buf].filetype == "hexdump" then
-      return
-    end
-
     if file == "" or vim.fn.filereadable(file) == 0 then
       return
     end
 
-    if vim.fn.executable("file") == 0 then
+    if not is_binary(file) then
       return
     end
 
-    local mime = vim.fn.system({ "file", "--brief", "--mime-type", file })
+    vim.bo[buf].modifiable = true
+    vim.cmd("%!hexdump -C")
 
-    if mime:match("^application/") then
-      vim.bo[buf].modifiable = true
-      vim.cmd("%!hexdump -C")
-
-      vim.bo[buf].filetype = "hexdump"
-      vim.bo[buf].readonly = true
-      vim.bo[buf].modifiable = false
-      vim.bo[buf].modified = false
-    end
+    vim.bo[buf].filetype = "hexdump"
+    vim.bo[buf].readonly = true
+    vim.bo[buf].modifiable = false
+    vim.bo[buf].modified = false
   end,
 })
