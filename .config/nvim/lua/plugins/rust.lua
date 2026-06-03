@@ -56,7 +56,7 @@
 
 -- return {
 --   {
---     "simrat39/rust-tools.nvim", -- This repository was archived by the owner on Jan 3, 2024. It is now read-only. 
+--     "simrat39/rust-tools.nvim", -- This repository was archived by the owner on Jan 3, 2024. It is now read-only.
 --     ft = { "rust" },
 --     dependencies = {
 --       "neovim/nvim-lspconfig",
@@ -119,7 +119,7 @@
 
 -- return {
 --   {
---     "simrat39/rust-tools.nvim", -- This repository was archived by the owner on Jan 3, 2024. It is now read-only. 
+--     "simrat39/rust-tools.nvim", -- This repository was archived by the owner on Jan 3, 2024. It is now read-only.
 --     ft = { "rust" },
 --     dependencies = {
 --       "neovim/nvim-lspconfig",
@@ -303,7 +303,7 @@
 --   --   "nvim-neotest/neotest",
 --   --   dependencies = {
 --   --     "nvim-neotest/nvim-nio",
---   --     "rouge8/neotest-rust", -- Dieser Adapter ist LSP-unabhängig - aber This repository was archived by the owner on Aug 19, 2025. It is now read-only. 
+--   --     "rouge8/neotest-rust", -- Dieser Adapter ist LSP-unabhängig - aber This repository was archived by the owner on Aug 19, 2025. It is now read-only.
 --   --   },
 --   --   config = function()
 --   --     require("neotest").setup({
@@ -339,418 +339,417 @@
 -- }
 
 return {
-  {
-    "mrcjkb/rustaceanvim",
-    version = "^8",
-    ft = { "rust" },
-
-    config = function()
-      vim.g.rustaceanvim = {
-
-        -------------------------
-        -- TOOLS
-        -------------------------
-
-        tools = {
-          autoSetHints = true,
-
-          hover_actions = {
-            auto_focus = true,
-          },
-
-          inlay_hints = {
-            auto = true,
-            show_parameter_hints = true,
-            parameter_hints_prefix = " ",
-            other_hints_prefix = "=> ",
-          },
-        },
-
-        -------------------------
-        -- LSP SERVER
-        -------------------------
-
-        server = {
-
-          on_attach = function(_, bufnr)
-
-            -- local map = function(keys, func, desc)
-            --   vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
-            -- end
-
-            local map = function(keys, func, desc)
-              vim.keymap.set("n", keys, func, {
-                buffer = bufnr,
-                desc = desc or "",
-              })
-            end
-
-            -- Rust spezielle Features
-
-            map("<leader>re", function()
-              vim.cmd.RustLsp("expandMacro")
-            end, "Expand Macro")
-
-            map("<leader>rh", function()
-              vim.cmd.RustLsp("hoverActions")
-            end, "Hover Actions")
-
-            map("<leader>rca", function()
-              vim.cmd.RustLsp("codeAction")
-            end, "Rust Code Action")
-
-            map("<leader>rj", function()
-              vim.cmd.RustLsp("joinLines")
-            end, "Join Lines")
-
-            map("<leader>rr", function()
-              vim.cmd.RustLsp("runnables")
-            end, "Rust Runnables")
-
-            map("<leader>rd", function()
-              vim.cmd.RustLsp("debuggables")
-            end, "Rust Debuggables")
-
-            map("<leader>rt", function()
-              vim.cmd.RustLsp("testables")
-            end, "Rust Testables")
-
-            map("<leader>rrx", function()
-              vim.cmd("!cargo clippy --all --all-features -- -Dwarnings")
-            end, "Run full clippy")
-          end,
-
-          -------------------------
-          -- rust-analyzer settings
-          -------------------------
-
-          default_settings = {
-            ["rust-analyzer"] = {
-
-              diagnostics = {
-                enable = true,
-                experimental = {
-                  enable = true,
-                },
-              },
-
-              -------------------------
-              -- Clippy on Save
-              -------------------------
-
-              checkOnSave = {
-                command = "clippy",
-
-                -- This enables full Clippy analysis on every save.
-                -- It is very accurate but also a CPU-heavy operation ("CPU killer"),
-                -- especially in large projects or WSL environments.
-                -- extraArgs = {
-                --   "--all",
-                --   "--all-features",
-                --   "--",
-                --   "-Dwarnings",
-                -- },
-              },
-
-              -------------------------
-              -- Cargo
-              -------------------------
-
-              cargo = {
-                allFeatures = true,
-                buildScripts = {
-                  enable = true,
-                },
-                loadOutDirsFromCheck = true,
-                autoreload = true,
-              },
-
-              -------------------------
-              -- Proc Macros
-              -------------------------
-
-              procMacro = {
-                enable = true,
-              },
-
-              -------------------------
-              -- Completion
-              -------------------------
-
-              -- completion = {
-
-              --   autoimport = {
-              --     enable = true,
-              --   },
-
-              --   autoself = {
-              --     enable = true,
-              --   },
-
-              --   postfix = {
-              --     enable = true,
-              --   },
-
-              --   callable = {
-              --     snippets = "fill_arguments",
-              --   },
-
-              --   fullFunctionSignatures = {
-              --     enable = true,
-              --   },
-              -- },
-
-              completion = {
-                autoimport = {
-                  enable = true,
-                },
-
-                autoself = {
-                  enable = true,
-                },
-
-                postfix = {
-                  enable = true,
-                },
-
-                callable = {
-                  snippets = "fill_arguments",
-                  -- snippets = "none", -- momenates Problem neovim 0.12
-                },
-
-                fullFunctionSignatures = {
-                  enable = true,
-                },
-
-                completionItemLabelDetails = {
-                  enable = true,
-                },
-
-                limit = {
-                  maxItems = 200,
-                },
-
-                hideDeprecated = true,
-              },
-
-              -------------------------
-              -- Inlay hints
-              -------------------------
-
-              -- inlayHints = {
-
-              --   bindingModeHints = {
-              --     enable = true,
-              --   },
-
-              --   chainingHints = {
-              --     enable = true,
-              --   },
-
-              --   closingBraceHints = {
-              --     enable = true,
-              --     minLines = 1,
-              --   },
-
-              --   closureReturnTypeHints = {
-              --     enable = "always",
-              --   },
-
-              --   lifetimeElisionHints = {
-              --     enable = "always",
-              --     useParameterNames = true,
-              --   },
-
-              --   parameterHints = {
-              --     enable = true,
-              --   },
-
-              --   typeHints = {
-              --     enable = true,
-              --   },
-              -- },
-
-              inlayHints = {
-                bindingModeHints = {
-                  enable = true,
-                },
-
-                chainingHints = {
-                  enable = true,
-                },
-
-                closingBraceHints = {
-                  enable = true,
-                  minLines = 1,
-                },
-
-                closureReturnTypeHints = {
-                  enable = "always",
-                },
-
-                lifetimeElisionHints = {
-                  enable = "always",
-                  useParameterNames = true,
-                },
-
-                parameterHints = {
-                  enable = true,
-                },
-
-                typeHints = {
-                  enable = true,
-                },
-
-                renderColons = true,
-                locationLinks = true,
-
-                maxLength = 25,
-              },
-
-              -------------------------
-              -- CodeLens
-              -------------------------
-
-              -- lens = {
-              --   enable = true,
-              --   run = true,
-              --   debug = true,
-              --   implementations = true,
-              --   references = true,
-              -- },
-
-              lens = {
-                enable = true,
-                run = true,
-                debug = true,
-                implementations = true,
-                references = true,
-                refresh = true,
-              },
-
-              -------------------------
-              -- Hover
-              -------------------------
-
-              hover = {
-                actions = {
-                  enable = true,
-                },
-              },
-
-              -------------------------
-              -- Performance Boost
-              -------------------------
-
-              files = {
-                -- watcher = "client",
-                watcher = "server",
-              },
-            },
-          },
-        },
-
-        -------------------------
-        -- Debug Adapter
-        -------------------------
-
-        dap = {
-          adapter = require("rustaceanvim.config").get_codelldb_adapter(
-            vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/adapter/codelldb",
-            vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/lldb/lib/liblldb.so"
-          ),
-        },
-      }
-    end,
-  },
-
-  -- crates bleibt gleich (perfekt)
-  {
-    "Saecki/crates.nvim",
-    ft = { "toml" },
-    -- event = { "BufRead Cargo.toml" },
-    event = { "BufReadPre Cargo.toml" },
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    opts = {
-      popup = { border = "rounded" },
-      completion = {
-        crates = { enabled = true },
-      },
-    },
-  },
-
-  -- outline bleibt gleich
-  {
-    "stevearc/aerial.nvim",
-    ft = { "rust" },
-    keys = {
-      { "<leader>rua", "<cmd>AerialToggle! right<CR>", desc = "Rust Outline" },
-    },
-    opts = {
-      backends = { "lsp" },
-      layout = {
-        min_width = 35,
-        default_direction = "right",
-      },
-      attach_mode = "global",
-      show_guides = true,
-      close_on_select = true,
-    },
-  },
-
-  -- Neotest (modern + kompatibel mit deinem Setup)
-  -- {
-  --   "nvim-neotest/neotest",
-  --   dependencies = {
-  --     "nvim-neotest/nvim-nio",
-  --     "rouge8/neotest-rust",
-  --   },
-  --   config = function()
-  --     -- require("neotest").setup({
-  --     --   adapters = {
-  --     --     require("neotest-rust")({
-  --     --       args = { "--all-features", "--nocapture" },
-  --     --       dap_adapter = "lldb",
-  --     --     }),
-  --     --   },
-  --     -- })
-  --     require("neotest").setup({
-  --       adapters = {
-  --         require("neotest-rust")({
-  --           args = { "--all-features" },
-  --           dap_adapter = "codelldb",
-  --         }),
-  --       },
-  --     })
-  --   end,
-  -- },
-
-{
-    "nvim-neotest/neotest",
-  ft = { "rust" },
-    dependencies = {
-      "nvim-neotest/nvim-nio",
-      "rouge8/neotest-rust",
-    },
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-rust")({
-            args = { "--all-features" },
-            dap_adapter = "codelldb",
-          }),
-        },
-      })
-    end,
-  },
-
-  {
-    "stevearc/conform.nvim",
-    opts = function(_, opts)
-      opts.formatters_by_ft = opts.formatters_by_ft or {}
-      opts.formatters_by_ft.rust = { "rustfmt" }
-    end,
-  },
+	{
+		"mrcjkb/rustaceanvim",
+		version = "^8",
+		ft = { "rust" },
+
+		config = function()
+			vim.g.rustaceanvim = {
+
+				-------------------------
+				-- TOOLS
+				-------------------------
+
+				tools = {
+					autoSetHints = true,
+
+					hover_actions = {
+						auto_focus = true,
+					},
+
+					inlay_hints = {
+						auto = true,
+						show_parameter_hints = true,
+						parameter_hints_prefix = " ",
+						other_hints_prefix = "=> ",
+					},
+				},
+
+				-------------------------
+				-- LSP SERVER
+				-------------------------
+
+				server = {
+
+					on_attach = function(_, bufnr)
+						-- local map = function(keys, func, desc)
+						--   vim.keymap.set("n", keys, func, { buffer = bufnr, desc = desc })
+						-- end
+
+						local map = function(keys, func, desc)
+							vim.keymap.set("n", keys, func, {
+								buffer = bufnr,
+								desc = desc or "",
+							})
+						end
+
+						-- Rust spezielle Features
+
+						map("<leader>re", function()
+							vim.cmd.RustLsp("expandMacro")
+						end, "Expand Macro")
+
+						map("<leader>rh", function()
+							vim.cmd.RustLsp("hoverActions")
+						end, "Hover Actions")
+
+						map("<leader>rca", function()
+							vim.cmd.RustLsp("codeAction")
+						end, "Rust Code Action")
+
+						map("<leader>rj", function()
+							vim.cmd.RustLsp("joinLines")
+						end, "Join Lines")
+
+						map("<leader>rr", function()
+							vim.cmd.RustLsp("runnables")
+						end, "Rust Runnables")
+
+						map("<leader>rd", function()
+							vim.cmd.RustLsp("debuggables")
+						end, "Rust Debuggables")
+
+						map("<leader>rt", function()
+							vim.cmd.RustLsp("testables")
+						end, "Rust Testables")
+
+						map("<leader>rrx", function()
+							vim.cmd("!cargo clippy --all --all-features -- -Dwarnings")
+						end, "Run full clippy")
+					end,
+
+					-------------------------
+					-- rust-analyzer settings
+					-------------------------
+
+					default_settings = {
+						["rust-analyzer"] = {
+
+							diagnostics = {
+								enable = true,
+								experimental = {
+									enable = true,
+								},
+							},
+
+							-------------------------
+							-- Clippy on Save
+							-------------------------
+
+							checkOnSave = {
+								command = "clippy",
+
+								-- This enables full Clippy analysis on every save.
+								-- It is very accurate but also a CPU-heavy operation ("CPU killer"),
+								-- especially in large projects or WSL environments.
+								-- extraArgs = {
+								--   "--all",
+								--   "--all-features",
+								--   "--",
+								--   "-Dwarnings",
+								-- },
+							},
+
+							-------------------------
+							-- Cargo
+							-------------------------
+
+							cargo = {
+								allFeatures = true,
+								buildScripts = {
+									enable = true,
+								},
+								loadOutDirsFromCheck = true,
+								autoreload = true,
+							},
+
+							-------------------------
+							-- Proc Macros
+							-------------------------
+
+							procMacro = {
+								enable = true,
+							},
+
+							-------------------------
+							-- Completion
+							-------------------------
+
+							-- completion = {
+
+							--   autoimport = {
+							--     enable = true,
+							--   },
+
+							--   autoself = {
+							--     enable = true,
+							--   },
+
+							--   postfix = {
+							--     enable = true,
+							--   },
+
+							--   callable = {
+							--     snippets = "fill_arguments",
+							--   },
+
+							--   fullFunctionSignatures = {
+							--     enable = true,
+							--   },
+							-- },
+
+							completion = {
+								autoimport = {
+									enable = true,
+								},
+
+								autoself = {
+									enable = true,
+								},
+
+								postfix = {
+									enable = true,
+								},
+
+								callable = {
+									snippets = "fill_arguments",
+									-- snippets = "none", -- momenates Problem neovim 0.12
+								},
+
+								fullFunctionSignatures = {
+									enable = true,
+								},
+
+								completionItemLabelDetails = {
+									enable = true,
+								},
+
+								limit = {
+									maxItems = 200,
+								},
+
+								hideDeprecated = true,
+							},
+
+							-------------------------
+							-- Inlay hints
+							-------------------------
+
+							-- inlayHints = {
+
+							--   bindingModeHints = {
+							--     enable = true,
+							--   },
+
+							--   chainingHints = {
+							--     enable = true,
+							--   },
+
+							--   closingBraceHints = {
+							--     enable = true,
+							--     minLines = 1,
+							--   },
+
+							--   closureReturnTypeHints = {
+							--     enable = "always",
+							--   },
+
+							--   lifetimeElisionHints = {
+							--     enable = "always",
+							--     useParameterNames = true,
+							--   },
+
+							--   parameterHints = {
+							--     enable = true,
+							--   },
+
+							--   typeHints = {
+							--     enable = true,
+							--   },
+							-- },
+
+							inlayHints = {
+								bindingModeHints = {
+									enable = true,
+								},
+
+								chainingHints = {
+									enable = true,
+								},
+
+								closingBraceHints = {
+									enable = true,
+									minLines = 1,
+								},
+
+								closureReturnTypeHints = {
+									enable = "always",
+								},
+
+								lifetimeElisionHints = {
+									enable = "always",
+									useParameterNames = true,
+								},
+
+								parameterHints = {
+									enable = true,
+								},
+
+								typeHints = {
+									enable = true,
+								},
+
+								renderColons = true,
+								locationLinks = true,
+
+								maxLength = 25,
+							},
+
+							-------------------------
+							-- CodeLens
+							-------------------------
+
+							-- lens = {
+							--   enable = true,
+							--   run = true,
+							--   debug = true,
+							--   implementations = true,
+							--   references = true,
+							-- },
+
+							lens = {
+								enable = true,
+								run = true,
+								debug = true,
+								implementations = true,
+								references = true,
+								refresh = true,
+							},
+
+							-------------------------
+							-- Hover
+							-------------------------
+
+							hover = {
+								actions = {
+									enable = true,
+								},
+							},
+
+							-------------------------
+							-- Performance Boost
+							-------------------------
+
+							files = {
+								-- watcher = "client",
+								watcher = "server",
+							},
+						},
+					},
+				},
+
+				-------------------------
+				-- Debug Adapter
+				-------------------------
+
+				dap = {
+					adapter = require("rustaceanvim.config").get_codelldb_adapter(
+						vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/adapter/codelldb",
+						vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/lldb/lib/liblldb.so"
+					),
+				},
+			}
+		end,
+	},
+
+	-- crates bleibt gleich (perfekt)
+	{
+		"Saecki/crates.nvim",
+		ft = { "toml" },
+		-- event = { "BufRead Cargo.toml" },
+		event = { "BufReadPre Cargo.toml" },
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+		},
+		opts = {
+			popup = { border = "rounded" },
+			completion = {
+				crates = { enabled = true },
+			},
+		},
+	},
+
+	-- outline bleibt gleich
+	{
+		"stevearc/aerial.nvim",
+		ft = { "rust" },
+		keys = {
+			{ "<leader>rua", "<cmd>AerialToggle! right<CR>", desc = "Rust Outline" },
+		},
+		opts = {
+			backends = { "lsp" },
+			layout = {
+				min_width = 35,
+				default_direction = "right",
+			},
+			attach_mode = "global",
+			show_guides = true,
+			close_on_select = true,
+		},
+	},
+
+	-- Neotest (modern + kompatibel mit deinem Setup)
+	-- {
+	--   "nvim-neotest/neotest",
+	--   dependencies = {
+	--     "nvim-neotest/nvim-nio",
+	--     "rouge8/neotest-rust",
+	--   },
+	--   config = function()
+	--     -- require("neotest").setup({
+	--     --   adapters = {
+	--     --     require("neotest-rust")({
+	--     --       args = { "--all-features", "--nocapture" },
+	--     --       dap_adapter = "lldb",
+	--     --     }),
+	--     --   },
+	--     -- })
+	--     require("neotest").setup({
+	--       adapters = {
+	--         require("neotest-rust")({
+	--           args = { "--all-features" },
+	--           dap_adapter = "codelldb",
+	--         }),
+	--       },
+	--     })
+	--   end,
+	-- },
+
+	{
+		"nvim-neotest/neotest",
+		ft = { "rust" },
+		dependencies = {
+			"nvim-neotest/nvim-nio",
+			"rouge8/neotest-rust",
+		},
+		config = function()
+			require("neotest").setup({
+				adapters = {
+					require("neotest-rust")({
+						args = { "--all-features" },
+						dap_adapter = "codelldb",
+					}),
+				},
+			})
+		end,
+	},
+
+	{
+		"stevearc/conform.nvim",
+		opts = function(_, opts)
+			opts.formatters_by_ft = opts.formatters_by_ft or {}
+			opts.formatters_by_ft.rust = { "rustfmt" }
+		end,
+	},
 }

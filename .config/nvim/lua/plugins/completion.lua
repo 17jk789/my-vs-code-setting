@@ -389,135 +389,135 @@
 -- }
 
 return {
-  {
-    "saghen/blink.cmp",
-    event = "InsertEnter",
-    dependencies = {
-      "L3MON4D3/LuaSnip",
-      "rafamadriz/friendly-snippets",
-    },
+	{
+		"saghen/blink.cmp",
+		event = "InsertEnter",
+		dependencies = {
+			"L3MON4D3/LuaSnip",
+			"rafamadriz/friendly-snippets",
+		},
 
-    opts = {
-      enabled = function()
-        return vim.g.blink_cmp_enabled ~= false
-      end,
+		opts = {
+			enabled = function()
+				return vim.g.blink_cmp_enabled ~= false
+			end,
 
-      snippets = {
-        expand = function(snippet)
-          -- REPARATUR 1: Lädt die friendly-snippets automatisch beim ersten Snippet
-          if not _G.luasnip_loader_initialized then
-            require("luasnip.loaders.from_vscode").lazy_load()
-            _G.luasnip_loader_initialized = true
-          end
-          require("luasnip").lsp_expand(snippet)
-        end,
-      },
+			snippets = {
+				expand = function(snippet)
+					-- REPARATUR 1: Lädt die friendly-snippets automatisch beim ersten Snippet
+					if not _G.luasnip_loader_initialized then
+						require("luasnip.loaders.from_vscode").lazy_load()
+						_G.luasnip_loader_initialized = true
+					end
+					require("luasnip").lsp_expand(snippet)
+				end,
+			},
 
-      keymap = {
-        preset = "default",
+			keymap = {
+				preset = "default",
 
-        ["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
+				["<C-Space>"] = { "show", "show_documentation", "hide_documentation" },
 
-        ["<CR>"] = {
-          function(cmp)
-            if cmp.is_visible() and cmp.get_selected_item() then
-              return cmp.accept()
-            end
-          end,
-          "fallback",
-        },
+				["<CR>"] = {
+					function(cmp)
+						if cmp.is_visible() and cmp.get_selected_item() then
+							return cmp.accept()
+						end
+					end,
+					"fallback",
+				},
 
-        -- ELITE TAB (Copilot + blink + LuaSnip perfekt kombiniert)
-        ["<Tab>"] = {
-          function(cmp)
-            -- 1. Copilot FIRST
-            local copilot = vim.fn["copilot#Accept"]("")
-            if copilot ~= "" then
-              vim.api.nvim_feedkeys(copilot, "n", false)
-              return true
-            end
+				-- ELITE TAB (Copilot + blink + LuaSnip perfekt kombiniert)
+				["<Tab>"] = {
+					function(cmp)
+						-- 1. Copilot FIRST
+						local copilot = vim.fn["copilot#Accept"]("")
+						if copilot ~= "" then
+							vim.api.nvim_feedkeys(copilot, "n", false)
+							return true
+						end
 
-            -- 2. Completion
-            if cmp.is_visible() then
-              return cmp.select_next()
-            end
+						-- 2. Completion
+						if cmp.is_visible() then
+							return cmp.select_next()
+						end
 
-            -- 3. REPARATUR 2: Nutzt direkt LuaSnip zum Vorwärtsspringen
-            local ls = require("luasnip")
-            if ls.expand_or_locally_jumpable() then
-              ls.expand_or_jump()
-              return true
-            end
+						-- 3. REPARATUR 2: Nutzt direkt LuaSnip zum Vorwärtsspringen
+						local ls = require("luasnip")
+						if ls.expand_or_locally_jumpable() then
+							ls.expand_or_jump()
+							return true
+						end
 
-            return false
-          end,
-          "fallback",
-        },
+						return false
+					end,
+					"fallback",
+				},
 
-        ["<S-Tab>"] = {
-          function(cmp)
-            if cmp.is_visible() then
-              return cmp.select_prev()
-            end
+				["<S-Tab>"] = {
+					function(cmp)
+						if cmp.is_visible() then
+							return cmp.select_prev()
+						end
 
-            -- REPARATUR 3: Nutzt direkt LuaSnip zum Rückwärtsspringen
-            local ls = require("luasnip")
-            if ls.jumpable(-1) then
-              ls.jump(-1)
-              return true
-            end
-          end,
-          "fallback",
-        },
-      },
+						-- REPARATUR 3: Nutzt direkt LuaSnip zum Rückwärtsspringen
+						local ls = require("luasnip")
+						if ls.jumpable(-1) then
+							ls.jump(-1)
+							return true
+						end
+					end,
+					"fallback",
+				},
+			},
 
-      completion = {
-        menu = {
-          auto_show = true,
-          -- border = "rounded", -- nicer UI
-        },
+			completion = {
+				menu = {
+					auto_show = true,
+					-- border = "rounded", -- nicer UI
+				},
 
-        list = {
-          selection = {
-            preselect = false, -- verhindert falsche auto-selections
-          },
-        },
+				list = {
+					selection = {
+						preselect = false, -- verhindert falsche auto-selections
+					},
+				},
 
-        ghost_text = {
-          enabled = false, -- wichtig für Copilot!
-        },
+				ghost_text = {
+					enabled = false, -- wichtig für Copilot!
+				},
 
-        -- Copilot-safe
-        accept = {
-          auto_brackets = {
-            enabled = false,
-          },
-        },
-      },
+				-- Copilot-safe
+				accept = {
+					auto_brackets = {
+						enabled = false,
+					},
+				},
+			},
 
-      -- sources = {
-      --   default = { "lsp", "path", "buffer" },
+			-- sources = {
+			--   default = { "lsp", "path", "buffer" },
 
-      --   providers = {
-      --     lsp = { score_offset = 1000 },
-      --     path = { score_offset = 750 },
+			--   providers = {
+			--     lsp = { score_offset = 1000 },
+			--     path = { score_offset = 750 },
 
-      --     buffer = {
-      --       score_offset = 500,
-      --       min_keyword_length = 4, -- weniger spam = mehr performance
-      --     },
-      --   },
-      -- },
+			--     buffer = {
+			--       score_offset = 500,
+			--       min_keyword_length = 4, -- weniger spam = mehr performance
+			--     },
+			--   },
+			-- },
 
-      sources = {
-        default = { "snippets", "lsp", "path", "buffer" }, -- Snippets priorisiert
-      },
+			sources = {
+				default = { "snippets", "lsp", "path", "buffer" }, -- Snippets priorisiert
+			},
 
-      signature = {
-        enabled = true,
-      },
-    },
-  },
+			signature = {
+				enabled = true,
+			},
+		},
+	},
 }
 
 -- return {

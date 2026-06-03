@@ -42,123 +42,123 @@
 -- }
 
 return {
-  -- GITSIGNS (GitLens Inline Blame + Signs)
-  {
-    "lewis6991/gitsigns.nvim",
-    event = "BufReadPre",
-    opts = {
-      signcolumn = true,
-      numhl = true,
-      -- linehl = true,
-      linehl = false,
-      -- word_diff = true,
-      word_diff = false,
+	-- GITSIGNS (GitLens Inline Blame + Signs)
+	{
+		"lewis6991/gitsigns.nvim",
+		event = "BufReadPre",
+		opts = {
+			signcolumn = true,
+			numhl = true,
+			-- linehl = true,
+			linehl = false,
+			-- word_diff = true,
+			word_diff = false,
 
-      -- Inline blame automatisch aktiv
-      current_line_blame = true,
-      current_line_blame_opts = {
-        delay = 250,
-        virt_text_pos = "eol",
-        ignore_whitespace = false,
-      },
+			-- Inline blame automatisch aktiv
+			current_line_blame = true,
+			current_line_blame_opts = {
+				delay = 250,
+				virt_text_pos = "eol",
+				ignore_whitespace = false,
+			},
 
-      current_line_blame_formatter =
-        -- " <author>, <author_time:%Y-%m-%d> • <summary>",
-        -- " <author>, <author_time:%Y-%m-%d %H:%M> • <summary>",
-        "    <author> (<abbrev_sha>), <author_time:%Y-%m-%d %H:%M> • <summary>",
-      -- "    <author> <abbrev_sha> • <author_time:%Y-%m-%d %H:%M> • <summary>",
+			current_line_blame_formatter =
+				-- " <author>, <author_time:%Y-%m-%d> • <summary>",
+				-- " <author>, <author_time:%Y-%m-%d %H:%M> • <summary>",
+				"    <author> (<abbrev_sha>), <author_time:%Y-%m-%d %H:%M> • <summary>",
+			-- "    <author> <abbrev_sha> • <author_time:%Y-%m-%d %H:%M> • <summary>",
 
-      watch_gitdir = { interval = 1000 },
-      update_debounce = 100,
+			watch_gitdir = { interval = 1000 },
+			update_debounce = 100,
 
-      preview_config = {
-        border = "rounded",
-        style = "minimal",
-      },
+			preview_config = {
+				border = "rounded",
+				style = "minimal",
+			},
 
-      signs = {
-        add = { text = "│" },
-        change = { text = "│" },
-        delete = { text = "_" },
-        topdelete = { text = "‾" },
-        changedelete = { text = "~" },
-        untracked = { text = "┆" },
-      },
-    },
-  },
+			signs = {
+				add = { text = "│" },
+				change = { text = "│" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
+				untracked = { text = "┆" },
+			},
+		},
+	},
 
-  -- DIFFVIEW (GitLens Diff UI Ersatz)
-  {
-    "sindrets/diffview.nvim",
-    dependencies = "nvim-lua/plenary.nvim",
-    cmd = {
-      "DiffviewOpen",
-      "DiffviewClose",
-      "DiffviewFileHistory",
-    },
-    opts = {
-      enhanced_diff_hl = true,
-      use_icons = true,
-      show_help_hints = true,
-    },
-  },
+	-- DIFFVIEW (GitLens Diff UI Ersatz)
+	{
+		"sindrets/diffview.nvim",
+		dependencies = "nvim-lua/plenary.nvim",
+		cmd = {
+			"DiffviewOpen",
+			"DiffviewClose",
+			"DiffviewFileHistory",
+		},
+		opts = {
+			enhanced_diff_hl = true,
+			use_icons = true,
+			show_help_hints = true,
+		},
+	},
 
-  -- FUGITIVE (Power Git Commands)
-  {
-    "tpope/vim-fugitive",
-    cmd = {
-      "Git",
-      "G",
-    },
-  },
+	-- FUGITIVE (Power Git Commands)
+	{
+		"tpope/vim-fugitive",
+		cmd = {
+			"Git",
+			"G",
+		},
+	},
 
-  -- LAZYGIT via snacks.nvim
-  {
-    "folke/snacks.nvim",
-    priority = 1000,
-    lazy = false,
-    opts = {
-      lazygit = {
-        enabled = true,
-        configure = true,
-        win = {
-          width = 0,
-          height = 0,
-        },
+	-- LAZYGIT via snacks.nvim
+	{
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
+		opts = {
+			lazygit = {
+				enabled = true,
+				configure = true,
+				win = {
+					width = 0,
+					height = 0,
+				},
 
-        config = {
-          os = {
-            editCommand = "nvim",
-            editCommandTemplate = "nvim --server {{server}} --remote-send '<C-\\><C-n>:e {{filename}}<CR>'",
-          },
+				config = {
+					os = {
+						editCommand = "nvim",
+						editCommandTemplate = "nvim --server {{server}} --remote-send '<C-\\><C-n>:e {{filename}}<CR>'",
+					},
 
-          git = {
-            paging = {
-              colorArg = "always",
-              -- 'syntax-theme="none"' sorgt dafür, dass Grün/Rot deinem Theme entsprechen
-              -- pager = [[delta --paging=never --line-numbers --hunk-header-decoration-style="blue box" --hunk-header-style="file line-number syntax" --syntax-theme="none"]],
-              -- pager = "delta --dark --paging=never --line-numbers",
-              pager = "delta --dark --paging=never --line-numbers --true-color=always --syntax-theme='Catppuccin-mocha'",
-            },
-          },
+					git = {
+						paging = {
+							colorArg = "always",
+							-- 'syntax-theme="none"' sorgt dafür, dass Grün/Rot deinem Theme entsprechen
+							-- pager = [[delta --paging=never --line-numbers --hunk-header-decoration-style="blue box" --hunk-header-style="file line-number syntax" --syntax-theme="none"]],
+							-- pager = "delta --dark --paging=never --line-numbers",
+							pager = "delta --dark --paging=never --line-numbers --true-color=always --syntax-theme='Catppuccin-mocha'",
+						},
+					},
 
-          gui = {
-            sideBySideView = true,
-          },
-        },
-      },
-    },
+					gui = {
+						sideBySideView = true,
+					},
+				},
+			},
+		},
 
-    keys = {
-      {
-        "<leader>gg",
-        function()
-          Snacks.lazygit()
-        end,
-        desc = "LazyGit",
-      },
-    },
-  },
+		keys = {
+			{
+				"<leader>gg",
+				function()
+					Snacks.lazygit()
+				end,
+				desc = "LazyGit",
+			},
+		},
+	},
 }
 
 -- :Gitsigns toggle_current_line_blame

@@ -15,11 +15,11 @@
 -- }
 
 return {
-  'vyfor/cord.nvim',
-  build = ':Cord update',
-  opts = {
-    display = {
-      theme = 'atom', -- Aktiviert das Atom Material Design
-    },
-  },
+	"vyfor/cord.nvim",
+	build = ":Cord update",
+	opts = {
+		display = {
+			theme = "atom", -- Aktiviert das Atom Material Design
+		},
+	},
 }
