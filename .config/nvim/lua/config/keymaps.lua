@@ -5,47 +5,56 @@ local opts = { noremap = true, silent = true }
 
 -- Safe Keymap Helper (setzt nur wenn frei)
 local function map_if_free(mode, lhs, rhs, opts)
-	if vim.fn.mapcheck(lhs, mode) == "" then
-		vim.keymap.set(mode, lhs, rhs, opts or { noremap = true, silent = true })
-	end
+  if vim.fn.mapcheck(lhs, mode) == "" then
+    vim.keymap.set(mode, lhs, rhs, opts or { noremap = true, silent = true })
+  end
 end
 
 -- Test
 -- Schaltet Autoformat komplett AUS oder AN (für LSP und Conform)
 vim.keymap.set("n", "<leader>ta", function()
-	vim.g.autoformat = not vim.g.autoformat
-	if vim.g.autoformat then
-		print("Autoformat: ON (Watch out for legacy code!)")
-	else
-		print("Autoformat: OFF (Safe mode enabled)")
-	end
+  vim.g.autoformat = not vim.g.autoformat
+  if vim.g.autoformat then
+    print("Autoformat: ON (Watch out for legacy code!)")
+  else
+    print("Autoformat: OFF (Safe mode enabled)")
+  end
 end, { desc = "Toggle Autoformat Global" })
 
 vim.api.nvim_create_user_command("AutoFormatOff", function()
-	vim.g.autoformat = false
-	print("Autoformat: OFF")
+  vim.g.autoformat = false
+  print("Autoformat: OFF")
 end, {})
 
 vim.api.nvim_create_user_command("AutoFormatOn", function()
-	vim.g.autoformat = true
-	print("Autoformat: ON")
+  vim.g.autoformat = true
+  print("Autoformat: ON")
 end, {})
 
 vim.keymap.set(
-	"n",
-	"<C-p>",
-	":Telescope find_files<cr>",
-	{ desc = "Find Files (Telescope)", silent = true, noremap = true }
+  "n",
+  "<C-p>",
+  ":Telescope find_files<cr>",
+  { desc = "Find Files (Telescope)", silent = true, noremap = true }
 )
 vim.keymap.set("n", "<C-f>", ":Telescope live_grep<cr>", { desc = "Telescope Live Grep", silent = true })
 vim.keymap.set(
-	"n",
-	"<C-o>",
-	":Telescope lsp_document_symbols<cr>",
-	{ desc = "Telescope LSP Document Symbols", silent = true }
+  "n",
+  "<C-o>",
+  ":Telescope lsp_document_symbols<cr>",
+  { desc = "Telescope LSP Document Symbols", silent = true }
 )
+
+vim.api.nvim_create_user_command("LspRestart", function()
+  for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
+    vim.lsp.stop_client(client.id)
+  end
+
+  vim.cmd("edit")
+end, { desc = "Restart LSP" })
+
 -- vim.keymap.set("n", "<C-m>", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true, buffer = true })
-vim.keymap.set("n", "<leader>xx", ":TroubleToggle<cr>", { desc = "Trouble Toggle", silent = true })
+vim.keymap.set("n", "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Trouble Toggle", silent = true })
 vim.keymap.set("n", "<C-b>", ":NvimTreeToggle<cr>", { desc = "NvimTree Toggle", silent = true })
 
 vim.keymap.set("n", "<leader>f<space>", "<cmd>FzfLua files<cr>", { desc = "Fzf Find Files", silent = true })
@@ -104,136 +113,136 @@ vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action
 vim.keymap.set("v", "<leader>ca", vim.lsp.buf.code_action, { desc = "Range Code Action" })
 
 local function get_current_dir()
-	return vim.fn.expand("%:p:h")
+  return vim.fn.expand("%:p:h")
 end
 
 local function build_path(dir, file)
-	return vim.fn.fnameescape(dir .. "/" .. file)
+  return vim.fn.fnameescape(dir .. "/" .. file)
 end
 
 local function ensure_dir(path)
-	local dir = vim.fn.fnamemodify(path, ":h")
-	if vim.fn.isdirectory(dir) == 0 then
-		vim.fn.mkdir(dir, "p")
-	end
+  local dir = vim.fn.fnamemodify(path, ":h")
+  if vim.fn.isdirectory(dir) == 0 then
+    vim.fn.mkdir(dir, "p")
+  end
 end
 
 function _G.complete_from_current_dir(arglead)
-	local dir = get_current_dir()
-	local results = vim.fn.getcompletion(dir .. "/" .. arglead, "file")
+  local dir = get_current_dir()
+  local results = vim.fn.getcompletion(dir .. "/" .. arglead, "file")
 
-	return vim.tbl_map(function(path)
-		return path:gsub("^" .. dir .. "/", "")
-	end, results)
+  return vim.tbl_map(function(path)
+    return path:gsub("^" .. dir .. "/", "")
+  end, results)
 end
 
 local function open_relative(cmd, raw_args)
-	local dir = get_current_dir()
+  local dir = get_current_dir()
 
-	-- split nur beim ersten |
-	local file, extra = raw_args:match("^(.-)%s*|%s*(.+)$")
+  -- split nur beim ersten |
+  local file, extra = raw_args:match("^(.-)%s*|%s*(.+)$")
 
-	if not file then
-		file = raw_args
-	end
+  if not file then
+    file = raw_args
+  end
 
-	-- Datei / Split
-	if file == "" then
-		vim.cmd(cmd)
-	else
-		local full_path = dir .. "/" .. file
-		ensure_dir(full_path)
-		vim.cmd(cmd .. " " .. build_path(dir, file))
-	end
+  -- Datei / Split
+  if file == "" then
+    vim.cmd(cmd)
+  else
+    local full_path = dir .. "/" .. file
+    ensure_dir(full_path)
+    vim.cmd(cmd .. " " .. build_path(dir, file))
+  end
 
-	-- Extra Commands (z.B. term, terminal, etc.)
-	if extra and extra ~= "" then
-		-- wenn irgendein terminal command vorkommt
-		if extra:match("^term") or extra:match("^terminal") then
-			vim.cmd("lcd " .. vim.fn.fnameescape(dir))
-		end
+  -- Extra Commands (z.B. term, terminal, etc.)
+  if extra and extra ~= "" then
+    -- wenn irgendein terminal command vorkommt
+    if extra:match("^term") or extra:match("^terminal") then
+      vim.cmd("lcd " .. vim.fn.fnameescape(dir))
+    end
 
-		vim.cmd(extra)
-	end
+    vim.cmd(extra)
+  end
 end
 
 vim.api.nvim_create_user_command("Ee", function(opts)
-	open_relative("edit", opts.args)
+  open_relative("edit", opts.args)
 end, {
-	nargs = "*",
-	complete = "customlist,v:lua.complete_from_current_dir",
+  nargs = "*",
+  complete = "customlist,v:lua.complete_from_current_dir",
 })
 
 vim.api.nvim_create_user_command("Spp", function(opts)
-	open_relative("split", opts.args)
+  open_relative("split", opts.args)
 end, {
-	nargs = "*",
-	complete = "customlist,v:lua.complete_from_current_dir",
+  nargs = "*",
+  complete = "customlist,v:lua.complete_from_current_dir",
 })
 
 vim.api.nvim_create_user_command("Vspp", function(opts)
-	open_relative("vsplit", opts.args)
+  open_relative("vsplit", opts.args)
 end, {
-	nargs = "*",
-	complete = "customlist,v:lua.complete_from_current_dir",
+  nargs = "*",
+  complete = "customlist,v:lua.complete_from_current_dir",
 })
 
 -- :Open <file> -> öffnet Datei mit xdg-open / OS Default App
 vim.api.nvim_create_user_command("Open", function(opts)
-	local file = opts.args ~= "" and opts.args or vim.fn.expand("%:p")
+  local file = opts.args ~= "" and opts.args or vim.fn.expand("%:p")
 
-	if vim.fn.filereadable(file) == 0 then
-		vim.notify("File not found: " .. file, vim.log.levels.ERROR)
-		return
-	end
+  if vim.fn.filereadable(file) == 0 then
+    vim.notify("File not found: " .. file, vim.log.levels.ERROR)
+    return
+  end
 
-	-- Tool-Auswahl: wslview für WSL, xdg-open für natives Linux
-	local cmd = vim.env.WSL_DISTRO_NAME ~= nil and "wslview" or "xdg-open"
+  -- Tool-Auswahl: wslview für WSL, xdg-open für natives Linux
+  local cmd = vim.env.WSL_DISTRO_NAME ~= nil and "wslview" or "xdg-open"
 
-	-- Prüfen, ob das Tool überhaupt existiert
-	if vim.fn.executable(cmd) == 0 then
-		vim.notify("Programm '" .. cmd .. "' not found. Please install it!", vim.log.levels.ERROR)
-		return
-	end
+  -- Prüfen, ob das Tool überhaupt existiert
+  if vim.fn.executable(cmd) == 0 then
+    vim.notify("Programm '" .. cmd .. "' not found. Please install it!", vim.log.levels.ERROR)
+    return
+  end
 
-	vim.fn.jobstart({ cmd, file }, { detach = true })
+  vim.fn.jobstart({ cmd, file }, { detach = true })
 end, {
-	nargs = "?",
-	complete = "file",
+  nargs = "?",
+  complete = "file",
 })
 
 vim.api.nvim_create_user_command("Openn", function(opts)
-	local dir = vim.fn.expand("%:p:h")
+  local dir = vim.fn.expand("%:p:h")
 
-	-- wenn kein Argument → aktuelle Datei
-	local file
-	if opts.args == "" then
-		file = vim.fn.expand("%:p")
-	else
-		file = dir .. "/" .. opts.args
-	end
+  -- wenn kein Argument → aktuelle Datei
+  local file
+  if opts.args == "" then
+    file = vim.fn.expand("%:p")
+  else
+    file = dir .. "/" .. opts.args
+  end
 
-	file = vim.fn.fnameescape(file)
+  file = vim.fn.fnameescape(file)
 
-	-- prüfen ob Datei existiert
-	if vim.fn.filereadable(file) == 0 then
-		vim.notify("File not found: " .. file, vim.log.levels.ERROR)
-		return
-	end
+  -- prüfen ob Datei existiert
+  if vim.fn.filereadable(file) == 0 then
+    vim.notify("File not found: " .. file, vim.log.levels.ERROR)
+    return
+  end
 
-	-- Tool wählen
-	local cmd = vim.env.WSL_DISTRO_NAME ~= nil and "wslview" or "xdg-open"
+  -- Tool wählen
+  local cmd = vim.env.WSL_DISTRO_NAME ~= nil and "wslview" or "xdg-open"
 
-	if vim.fn.executable(cmd) == 0 then
-		vim.notify("Programm '" .. cmd .. "' not found!", vim.log.levels.ERROR)
-		return
-	end
+  if vim.fn.executable(cmd) == 0 then
+    vim.notify("Programm '" .. cmd .. "' not found!", vim.log.levels.ERROR)
+    return
+  end
 
-	-- öffnen
-	vim.fn.jobstart({ cmd, file }, { detach = true })
+  -- öffnen
+  vim.fn.jobstart({ cmd, file }, { detach = true })
 end, {
-	nargs = "?",
-	complete = "customlist,v:lua.complete_from_current_dir",
+  nargs = "?",
+  complete = "customlist,v:lua.complete_from_current_dir",
 })
 
 -- Explorer öffnen, sollte schon gehen.
@@ -254,7 +263,7 @@ map_if_free("n", "<leader>gl", "<cmd>Git pull<cr>", { desc = "Git Pull", silent 
 -- Git Status öffnen
 -- map_if_free("n", "<leader>g", Snacks.picker.git_status, { desc = "Git Status Picker" })
 vim.keymap.set("n", "<leader>g", function()
-	Snacks.picker.git_status()
+  Snacks.picker.git_status()
 end, { desc = "Git Status" })
 
 -- Hunks
@@ -271,40 +280,40 @@ map_if_free("n", "<leader>hD", "<cmd>Gitsigns diffthis ~<cr>", { desc = "Gitsign
 
 -- Toggle Git UI
 map_if_free(
-	"n",
-	"<leader>tb",
-	"<cmd>Gitsigns toggle_current_line_blame<cr>",
-	{ desc = "Gitsigns Toggle Current Line Blame", silent = true }
+  "n",
+  "<leader>tb",
+  "<cmd>Gitsigns toggle_current_line_blame<cr>",
+  { desc = "Gitsigns Toggle Current Line Blame", silent = true }
 )
 map_if_free("n", "<leader>ts", "<cmd>Gitsigns toggle_signs<cr>", { desc = "Gitsigns Toggle Signs", silent = true })
 map_if_free(
-	"n",
-	"<leader>tn",
-	"<cmd>Gitsigns toggle_numhl<cr>",
-	{ desc = "Gitsigns Toggle Number Highlight", silent = true }
+  "n",
+  "<leader>tn",
+  "<cmd>Gitsigns toggle_numhl<cr>",
+  { desc = "Gitsigns Toggle Number Highlight", silent = true }
 )
 map_if_free(
-	"n",
-	"<leader>tl",
-	"<cmd>Gitsigns toggle_linehl<cr>",
-	{ desc = "Gitsigns Toggle Line Highlight", silent = true }
+  "n",
+  "<leader>tl",
+  "<cmd>Gitsigns toggle_linehl<cr>",
+  { desc = "Gitsigns Toggle Line Highlight", silent = true }
 )
 map_if_free(
-	"n",
-	"<leader>tw",
-	"<cmd>Gitsigns toggle_word_diff<cr>",
-	{ desc = "Gitsigns Toggle Word Diff", silent = true }
+  "n",
+  "<leader>tw",
+  "<cmd>Gitsigns toggle_word_diff<cr>",
+  { desc = "Gitsigns Toggle Word Diff", silent = true }
 )
 
 -- Extra Git Commands (nicht typisch in LazyVim)
 map_if_free("n", "<leader>gco", "<cmd>Git checkout<cr>", { desc = "Git Checkout", silent = true })
 -- map_if_free("n", "<leader>gcb", "<cmd>Git checkout -b ")
 map_if_free("n", "<leader>gcb", function()
-	vim.ui.input({ prompt = "New branch name: " }, function(branch)
-		if branch and branch ~= "" then
-			vim.cmd("Git checkout -b " .. branch)
-		end
-	end)
+  vim.ui.input({ prompt = "New branch name: " }, function(branch)
+    if branch and branch ~= "" then
+      vim.cmd("Git checkout -b " .. branch)
+    end
+  end)
 end)
 map_if_free("n", "<leader>gca", "<cmd>Git commit --amend<cr>", { desc = "Git Commit Amend", silent = true })
 map_if_free("n", "<leader>gss", "<cmd>Git stash<cr>", { desc = "Git Stash", silent = true })
@@ -313,10 +322,10 @@ map_if_free("n", "<leader>gf", "<cmd>Git fetch<cr>", { desc = "Git Fetch", silen
 map_if_free("n", "<leader>gr", "<cmd>Git remote -v<cr>", { desc = "Git Remote -v", silent = true })
 -- map_if_free("n", "<leader>glo", "<cmd>Git log --oneline --graph<cr>")
 map_if_free(
-	"n",
-	"<leader>glo",
-	"<cmd>Git log --oneline --graph --decorate --all<cr>",
-	{ desc = "Git Log Oneline Graph", silent = true }
+  "n",
+  "<leader>glo",
+  "<cmd>Git log --oneline --graph --decorate --all<cr>",
+  { desc = "Git Log Oneline Graph", silent = true }
 )
 map_if_free("n", "<leader>gdc", "<cmd>DiffviewClose<cr>", { desc = "Diffview Close", silent = true })
 
@@ -389,49 +398,49 @@ map_if_free("n", "<leader>gN", "<cmd>DiffviewPrevFile<cr>", { desc = "Git: Prev 
 -- end, { desc = "Toggle Copilot / blink" })
 
 vim.api.nvim_create_user_command("LspInfo", function()
-	local clients = vim.lsp.get_clients({ bufnr = 0 })
+  local clients = vim.lsp.get_clients({ bufnr = 0 })
 
-	if vim.tbl_isempty(clients) then
-		vim.notify("No active LSP clients", vim.log.levels.INFO)
-		return
-	end
+  if vim.tbl_isempty(clients) then
+    vim.notify("No active LSP clients", vim.log.levels.INFO)
+    return
+  end
 
-	local buf = vim.api.nvim_get_current_buf()
-	local lines = {}
+  local buf = vim.api.nvim_get_current_buf()
+  local lines = {}
 
-	table.insert(lines, "Active LSP clients (buffer " .. buf .. "):\n")
+  table.insert(lines, "Active LSP clients (buffer " .. buf .. "):\n")
 
-	for _, client in ipairs(clients) do
-		-- SICHERER AUFRUF: pcall verhindert, dass nvim-java/jdtls alles zum Absturz bringt
-		local success, cmd_list = pcall(function()
-			local raw = client.config.cmd
-			if type(raw) == "function" then
-				return raw()
-			end
-			return raw
-		end)
+  for _, client in ipairs(clients) do
+    -- SICHERER AUFRUF: pcall verhindert, dass nvim-java/jdtls alles zum Absturz bringt
+    local success, cmd_list = pcall(function()
+      local raw = client.config.cmd
+      if type(raw) == "function" then
+        return raw()
+      end
+      return raw
+    end)
 
-		-- Fallback, falls der Aufruf fehlschlägt oder kein Table kommt
-		if not success or type(cmd_list) ~= "table" then
-			cmd_list = { "Befehl konnte nicht gelesen werden (LSP geschützt)" }
-		end
+    -- Fallback, falls der Aufruf fehlschlägt oder kein Table kommt
+    if not success or type(cmd_list) ~= "table" then
+      cmd_list = { "Befehl konnte nicht gelesen werden (LSP geschützt)" }
+    end
 
-		table.insert(lines, "• Name: " .. client.name)
-		table.insert(lines, "  id: " .. client.id)
-		table.insert(lines, "  root: " .. (client.config.root_dir or "nil"))
-		table.insert(lines, "  cmd: " .. table.concat(cmd_list, " "))
-		table.insert(lines, "")
-	end
+    table.insert(lines, "• Name: " .. client.name)
+    table.insert(lines, "  id: " .. client.id)
+    table.insert(lines, "  root: " .. (client.config.root_dir or "nil"))
+    table.insert(lines, "  cmd: " .. table.concat(cmd_list, " "))
+    table.insert(lines, "")
+  end
 
-	vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO, {
-		title = "LSP Info",
-	})
+  vim.notify(table.concat(lines, "\n"), vim.log.levels.INFO, {
+    title = "LSP Info",
+  })
 end, {})
 
 vim.api.nvim_create_user_command("LspClient", function()
-	vim.cmd("checkhealth lsp")
+  vim.cmd("checkhealth lsp")
 end, {})
 
 vim.api.nvim_create_user_command("LspClient", function()
-	vim.cmd("checkhealth lsp")
+  vim.cmd("checkhealth lsp")
 end, {})
