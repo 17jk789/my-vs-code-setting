@@ -27,8 +27,8 @@ input {
 decoration {
     # 2 = circle, higher = squircle, 4 = very obvious squircle
     # Clear squircles look really off; we use only extra .4 here to make the rounding feel more continuous
-    rounding_power = 5
-    rounding = 19
+    rounding_power = 4
+    rounding = 18
 
     blur {
         enabled = true
@@ -62,3 +62,4 @@ decoration {
     dim_strength = 0.05
     dim_special = 0.2
 }
+
