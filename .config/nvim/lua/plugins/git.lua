@@ -113,52 +113,114 @@ return {
 	},
 
 	-- LAZYGIT via snacks.nvim
-	{
-		"folke/snacks.nvim",
-		priority = 1000,
-		lazy = false,
-		opts = {
-			lazygit = {
-				enabled = true,
-				configure = true,
-				win = {
-					width = 0,
-					height = 0,
-				},
+	-- {
+	-- 	"folke/snacks.nvim",
+	-- 	priority = 1000,
+	-- 	lazy = false,
+	-- 	opts = {
+	-- 		lazygit = {
+	-- 			enabled = true,
+	-- 			configure = true,
+	-- 			win = {
+	-- 				width = 0,
+	-- 				height = 0,
+	-- 			},
 
-				config = {
-					os = {
-						editCommand = "nvim",
-						editCommandTemplate = "nvim --server {{server}} --remote-send '<C-\\><C-n>:e {{filename}}<CR>'",
-					},
+	-- 			config = {
+	-- 				os = {
+	-- 					editCommand = "nvim",
+	-- 					editCommandTemplate = "nvim --server {{server}} --remote-send '<C-\\><C-n>:e {{filename}}<CR>'",
+	-- 				},
 
-					git = {
-						paging = {
-							colorArg = "always",
-							-- 'syntax-theme="none"' sorgt dafür, dass Grün/Rot deinem Theme entsprechen
-							-- pager = [[delta --paging=never --line-numbers --hunk-header-decoration-style="blue box" --hunk-header-style="file line-number syntax" --syntax-theme="none"]],
-							-- pager = "delta --dark --paging=never --line-numbers",
-							pager = "delta --dark --paging=never --line-numbers --true-color=always --syntax-theme='Catppuccin-mocha'",
-						},
-					},
+	-- 				git = {
+	-- 					paging = {
+	-- 						colorArg = "always",
+	-- 						-- 'syntax-theme="none"' sorgt dafür, dass Grün/Rot deinem Theme entsprechen
+	-- 						-- pager = [[delta --paging=never --line-numbers --hunk-header-decoration-style="blue box" --hunk-header-style="file line-number syntax" --syntax-theme="none"]],
+	-- 						-- pager = "delta --dark --paging=never --line-numbers",
+	-- 						pager = "delta --dark --paging=never --line-numbers --true-color=always --syntax-theme='Catppuccin-mocha'",
+	-- 					},
+	-- 				},
 
-					gui = {
-						sideBySideView = true,
-					},
-				},
-			},
-		},
+	-- 				gui = {
+	-- 					sideBySideView = true,
+	-- 				},
+	-- 			},
+	-- 		},
+	-- 	},
 
-		keys = {
-			{
-				"<leader>gg",
-				function()
-					Snacks.lazygit()
-				end,
-				desc = "LazyGit",
-			},
-		},
-	},
+	-- 	keys = {
+	-- 		{
+	-- 			"<leader>gg",
+	-- 			function()
+	-- 				Snacks.lazygit()
+	-- 			end,
+	-- 			desc = "LazyGit",
+	-- 		},
+	-- 	},
+	-- },
+
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = {
+      lazygit = {
+        enabled = true,
+        configure = true,
+
+        win = {
+          width = 0,
+          height = 0,
+        },
+
+        config = {
+          os = {
+            editCommand = "nvim",
+            -- kompatibel mit LazyGit + Snacks + remote editing
+            editCommandTemplate = "nvim --server {{server}} --remote-send '<C-\\><C-n>:e {{filename}} +{{line}}<CR>'",
+          },
+
+          git = {
+            paging = {
+              colorArg = "always",
+              pager = table.concat({
+                "delta",
+                "--paging=never",
+                "--line-numbers",
+                "--side-by-side",
+                "--true-color=always",
+                "--navigate",
+                "--hyperlinks",
+                '--hyperlinks-file-link-format="lazygit-edit://{path}:{line}"',
+                "--plus-style=syntax",
+                "--minus-style=syntax",
+                "--file-decoration-style=none",
+                "--hunk-header-style=file",
+                "--commit-style=bold",
+              }, " "),
+            },
+          },
+
+          gui = {
+            sideBySideView = true,
+            showBottomLine = true,
+          },
+        },
+      },
+    },
+
+    keys = {
+      {
+        "<leader>gg",
+        function()
+          Snacks.lazygit()
+        end,
+        desc = "LazyGit",
+      },
+    },
+  },
+
 }
 
 -- :Gitsigns toggle_current_line_blame

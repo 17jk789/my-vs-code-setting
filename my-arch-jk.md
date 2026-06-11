@@ -272,6 +272,8 @@ sudo pacman -S ollama
 sudo pacman -S smartmontools
 sudo pacman -S krdc
 sudo pacman -S aria2
+sudo pacman -S difftastic
+sudo pacman -S github-cli
 yay -S ghidra
 # sudo smartctl --scan
 sudo usermod -aG libvirt,kvm $(whoami)
