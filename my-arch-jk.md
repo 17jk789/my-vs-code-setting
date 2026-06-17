@@ -413,6 +413,7 @@ sudo rkhunter --propupd
 sudo rkhunter --check
 
 sudo systemctl disable --now sshd # Falls du SSH nicht brauchst
+# sudo systemctl enable --now sshd # Wider einschalten, wen man es doch braucht
 
 # sudo pacman -Rns cachyos-hello
 
