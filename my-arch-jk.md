@@ -391,6 +391,17 @@ sudo pacman -S just
 grep -RinE \
 'npm|node|curl.*\||wget.*\||bash -c|sh -c|eval|base64|openssl|nc |socat|python -c' \
 ~/.cache/yay/*/PKGBUILD
+yay -Qm
+ls ~/.cache/yay
+grep "2026-06" /var/log/pacman.log | tail -100
+grep -E "installed|upgraded" /var/log/pacman.log | tail -200
+grep -R "atomic-lockfile" /tmp 2>/dev/null
+grep -R "npm install" ~/.cache/yay 2>/dev/null
+pacman -Qm
+find ~ -iname "*atomic-lockfile*" 2>/dev/null
+npm list -g 2>/dev/null | grep atomic-lockfile
+grep -R "atomic-lockfile" /var/cache 2>/dev/null
+grep -R "atomic-lockfile" ~/.cache/yay 2>/dev/null
 sudo pacman -S clamav
 sudo freshclam
 clamscan -r -i ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
