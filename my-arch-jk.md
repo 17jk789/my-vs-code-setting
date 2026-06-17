@@ -388,10 +388,14 @@ mkdir -p ~/.config/fish/conf.d
 sudo pacman -S just
 
 # npm install -g @mermaid-js/mermaid-cli
+grep -RinE \
+'npm|node|curl.*\||wget.*\||bash -c|sh -c|eval|base64|openssl|nc |socat|python -c' \
+~/.cache/yay/*/PKGBUILD
 sudo pacman -S clamav
 sudo freshclam
 clamscan -r -i ~/.config/nvim ~/.local/share/nvim ~/.local/state/nvim ~/.cache/nvim
 clamscan -r -i ~/.cargo ~/.sdkman ~/.npm ~/.local/lib/python3*/site-packages ~/Downloads
+clamscan -r -i ~/.cache/yay
 sudo pacman -S rkhunter
 sudo rkhunter --update
 sudo rkhunter --propupd
