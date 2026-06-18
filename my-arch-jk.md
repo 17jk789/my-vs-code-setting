@@ -273,96 +273,144 @@ fc-cache -fv
 nvim
 ```
 
+## Fun:
+
+### Das System-Informationswerkzeug Fastfetch installieren
+
 ```bash
 sudo pacman -S fastfetch
 ```
+
+### Den interaktiven Prozess-Viewer htop installieren
 
 ```bash
 sudo pacman -S htop
 ```
 
+### Den hochentwickelten System-Monitor btop installieren
+
 ```bash
 sudo pacman -S btop # nvim ~/.config/btop/btop.conf
 ```
 
-```bash
-sudo pacman -S nvtop
-```
+### Den GPU-Prozess-Monitor nvtop installieren
 
 ```bash
-sudo pacman -S ranger w3m ranger-devicons
+# sudo pacman -S nvtop
 ```
+
+### Den Terminal-Dateimanager und die Bildvorschau installieren
+
+```bash
+sudo pacman -S ranger w3m
+```
+
+### Das Zeitmessungs-Werkzeug time installieren
 
 ```bash
 sudo pacman -S time
 ```
 
+### Das professionelle Benchmarking-Werkzeug Hyperfine installieren
+
 ```bash
 sudo pacman -S hyperfine
 ```
+
+### Den Terminal-Multiplexer tmux installieren
 
 ```bash
 sudo pacman -S tmux
 ```
 
-```bash
-sudo pacman -S wofi
-```
+### Den Anwendungsstarter Wofi installieren
 
 ```bash
-sudo pacman -S zoxide
+# sudo pacman -S wofi
 ```
+
+### Die intelligente Ordner-Navigation zoxide installieren
+
+```bash
+# sudo pacman -S zoxide
+```
+
+### Den Hex-Editor GHex installieren
 
 ```bash
 sudo pacman -S ghex
 ```
 
+### Die moderne cat-Alternative bat installieren
+
 ```bash
 sudo pacman -S bat
 ```
+
+### Den ultraschnellen Terminal-Dateimanager Yazi installieren
 
 ```bash
 sudo pacman -S yazi
 ```
 
+### Das interaktive Git-Terminalwerkzeug LazyGit installieren
+
 ```bash
 sudo pacman -S lazygit
 ```
+
+### Den Verzeichnisbaum-Generator tree installieren
 
 ```bash
 sudo pacman -S tree
 ```
 
+### Das ultraschnelle Suchwerkzeug ripgrep installieren
+
 ```bash
 sudo pacman -S ripgrep
 ```
+
+### Das blitzschnelle Dateisuch-Werkzeug fd installieren
 
 ```bash
 sudo pacman -S fd
 ```
 
+### Die moderne und farbenfrohe ls-Alternative eza installieren
+
 ```bash
 sudo pacman -S eza
 ```
+
+### Die vereinfachten Community-Handbücher tldr installieren
 
 ```bash
 sudo pacman -S tldr
 ```
 
+### Den JSON-Datenprozessor jq installieren
+
 ```bash
 sudo pacman -S jq
 ```
+
+### Die grafische Monitor-Konfiguration nwg-displays installieren
 
 ```bash
 sudo pacman -S nwg-displays
 ```
 
+### Das Bildverarbeitungs-Framework ImageMagick installieren
+
 ```bash
 sudo pacman -S imagemagick
 ```
 
+### Den Tippfehler-Korrektor thefuck installieren
+
 ```bash
-sudo pacman -S thefuck
+# sudo pacman -S thefuck
 ```
 
 ```bash
@@ -736,19 +784,33 @@ sudo pacman -S rkhunter
 sudo rkhunter --update
 sudo rkhunter --propupd
 sudo rkhunter --check
+```
 
+### Den SSH-Server sofort ausschalten und dauerhaft deaktivieren
+
+```bash
 sudo systemctl disable --now sshd # Falls du SSH nicht brauchst
 # sudo systemctl enable --now sshd # Wider einschalten, wen man es doch braucht
+```
 
+### Das Begrüßungsprogramm von CachyOS entfernen 
+
+```bash
 # sudo pacman -Rns cachyos-hello
+```
 
-# fun
+### Instalation von En Croissant, eine moderne grafische Benutzeroberfläche (GUI) für Schachdatenbanken und Partienanalysen.
 
-yay -S en-croissant-bin
+```bash
+# yay -S en-croissant-bin
 # sudo pacman -S webkit2gtk-4.1
 # yay -S stockfish
-sudo pacman -S gst-plugins-good
+# sudo pacman -S gst-plugins-good
+```
 
+### Den Boot-Bildschirm (Plymouth) anpassen und das System-Abbild neu bauen
+
+```bash
 # yay -S plymouth-theme-arch-logo
 # sudo plymouth-set-default-theme -R arch-logo
 # plymouth-set-default-theme
@@ -759,7 +821,7 @@ sudo pacman -S gst-plugins-good
 # arch-logo
 ```
 
-Nach der neovim config:
+## Nach der neovim config:
 
 ```bash
 # Cpp
