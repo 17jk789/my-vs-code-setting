@@ -142,6 +142,7 @@ Bitte führen sie alle Commands aus und fügen sie .config in ihr Systhem ein.
     - [Instalation von En Croissant, eine moderne grafische Benutzeroberfläche (GUI) für Schachdatenbanken und Partienanalysen.](#instalation-von-en-croissant-eine-moderne-grafische-benutzeroberfläche-gui-für-schachdatenbanken-und-partienanalysen)
     - [Den Boot-Bildschirm (Plymouth) anpassen und das System-Abbild neu bauen](#den-boot-bildschirm-plymouth-anpassen-und-das-system-abbild-neu-bauen)
   - [Nach der neovim config:](#nach-der-neovim-config)
+    - [Code über den LSP-Server im Editor formatieren](#code-über-den-lsp-server-im-editor-formatieren)
     - [emfehlungen:](#emfehlungen)
     - [ufw ist langsam:](#ufw-ist-langsam)
     - [Langsames Internet](#langsames-internet)
@@ -1133,25 +1134,20 @@ curl -L \
 https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml \
 -o ~/.config/nvim/lang-servers/intellij-java-google-style.xml
 
-# asm
-
-# 1. Verzeichnis erstellen
+# ASM Verzeichnis erstellen
 mkdir -p ~/.config/asm-lsp/
 
-# 2. Die Konfiguration schreiben (mit printf)
-printf 'version = "0.10.0"
+# Die Konfiguration schreiben (mit printf)
+# printf 'version = "0.10.0"
 
-[default_config]
-assembler = "gas"
-instruction_set = "x86-64"
+# [default_config]
+# assembler = "gas"
+# instruction_set = "x86-64"
 
-[default_config.opts]
-compiler = "as"
-diagnostics = true
-default_diagnostics = true' > ~/.config/asm-lsp/.asm-lsp.toml
-
-# 3. Bestätigung
-echo "Globale Konfiguration unter ~/.config/asm-lsp/.asm-lsp.toml wurde erstellt."
+# [default_config.opts]
+# compiler = "as"
+# diagnostics = true
+# default_diagnostics = true' > ~/.config/asm-lsp/.asm-lsp.toml
 
 # rust
 rm ~/.cargo/bin/rust-analyzer
@@ -1160,9 +1156,7 @@ rm ~/.cargo/bin/rust-analyzer
 cd /home/jk/.local/share/nvim/lazy/markdown-preview.nvim
 git checkout -- app/yarn.lock   
 
-# lazygit
-
-# Verzeichnis erstellen
+# lazygit Verzeichnis erstellen
 mkdir -p ~/.config/lazygit/
 
 # Die Konfiguration direkt mit printf schreiben (sicherer in fish)
@@ -1174,6 +1168,8 @@ mkdir -p ~/.config/lazygit/
 #   editCommand: 'nvim'" > ~/.config/lazygit/config.yml
 
 ```
+
+### Code über den LSP-Server im Editor formatieren
 
 ```vim
 :lua vim.lsp.buf.format()
@@ -1270,6 +1266,7 @@ Power save: off
 und evt. bei Problemen:
 
 ```bash
+# sudo pacman -S linux-cachyos-headers
 # Installiert den stabileren Realtek WLAN-Treiber aus dem AUR und deaktiviert die fehlerhafte Kernel-Version
 yay -S rtw88-dkms-git
 ```
