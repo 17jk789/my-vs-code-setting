@@ -683,21 +683,73 @@ sudo pacman -S bandwhich
 sudo pacman -S wireshark-qt
 ```
 
+### Den zweispaltigen Dateimanager Krusader installieren
+
 ```bash
 sudo pacman -S krusader
 ```
+
+### Das offizielle 7-Zip-Kompressionswerkzeug installieren
 
 ```bash
 sudo pacman -S 7zip
 ```
 
+### QEMU, KVM und die grafische Verwaltung Virt-Manager installieren
+
 ```bash
 sudo pacman -S qemu-full virt-manager libvirt virt-viewer dnsmasq
 ```
 
+### Den Virtualisierungs-Dienst für KVM/QEMU aktivieren
 ```bash
 sudo systemctl enable --now libvirtd
 ```
+
+### Festplatten-Diagnosewerkzeuge scannen
+
+```bash
+# sudo smartctl --scan
+```
+
+### Erweiterte Gruppenrechte für native Kernel-Virtualisierung (KVM) setzen
+
+```bash
+sudo usermod -aG libvirt,kvm $(whoami)
+```
+
+### Das Highlight: Der optimale QEMU-Startbefehl (Die 2. Variante ist besser!)
+
+```bash
+qemu-system-x86_64 \
+      -enable-kvm \
+      -m 6144 \
+      -cpu host \
+      -smp 6 \
+      -netdev user,id=n1 \
+      -device virtio-net-pci,netdev=n1 \
+      -vga virtio \
+      -display gtk,gl=on \
+      -drive file=kali-linux-2026.1-qemu-amd64.qcow2,format=qcow2
+
+# or
+
+qemu-system-x86_64 \
+      -enable-kvm \
+      -m 6144 \
+      -cpu host \
+      -smp 6 \
+      -netdev user,id=n1 \
+      -device virtio-net-pci,netdev=n1 \
+      -device virtio-vga-gl,max_outputs=1,xres=3840,yres=2160,vgamem_mb=256 \
+      -display gtk,gl=on \
+      -drive file=kali-linux-2026.1-qemu-amd64.qcow2,format=qcow2
+
+# und wen was nicht leuft:
+# sudo pacman -S virglrenderer
+```
+
+### Den grafischen Audio-Mixer pwvucontrol installieren
 
 ```bash
 sudo pacman -S pwvucontrol
@@ -736,35 +788,6 @@ yay -S ghidra
 ```
 
 ```bash
-# sudo smartctl --scan
-sudo usermod -aG libvirt,kvm $(whoami)
-# Bsp.:
-# qemu-system-x86_64 \
-#       -enable-kvm \
-#       -m 6144 \
-#       -cpu host \
-#       -smp 6 \
-#       -netdev user,id=n1 \
-#       -device virtio-net-pci,netdev=n1 \
-#       -vga virtio \
-#       -display gtk,gl=on \
-#       -drive file=kali-linux-2026.1-qemu-amd64.qcow2,format=qcow2
-
-# or
-
-# qemu-system-x86_64 \
-#       -enable-kvm \
-#       -m 6144 \
-#       -cpu host \
-#       -smp 6 \
-#       -netdev user,id=n1 \
-#       -device virtio-net-pci,netdev=n1 \
-#       -device virtio-vga-gl,max_outputs=1,xres=3840,yres=2160,vgamem_mb=256 \
-#       -display gtk,gl=on \
-#       -drive file=kali-linux-2026.1-qemu-amd64.qcow2,format=qcow2
-
-# und wen was nicht leuft:
-# sudo pacman -S virglrenderer
 
 # Uni: eduroam
 sudo pacman -S --needed networkmanager python-dbus ca-certificates
