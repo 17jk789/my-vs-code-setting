@@ -1,8 +1,5 @@
 # Commands to run in interactive sessions can go here
 if status is-interactive
-
-    set -g fish_key_bindings fish_vi_key_bindings
-
     # No greeting
     set fish_greeting
 
@@ -36,24 +33,20 @@ if status is-interactive
         alias la='eza -a --icons --group-directories-first'
     end
 
-    # Zentralisierte Key Bindings Funktion
+    # fzf_key_bindings
     function fish_user_key_bindings
-        # Starte den Vi-Modus direkt im Insert-Modus
-        fish_vi_key_bindings insert
+        fish_vi_key_bindings
 
         if functions -q _autopair_install
             _autopair_install
         end
 
-        # bind -e \el
-        # bind -M insert -e \el
-        # bind -M default -e \el
+        # 1. Bestehende Bindings für Alt+L löschen (wichtig!)
+        bind -e \el
+        bind -M insert -e \el
+        bind -M default -e \el
 
-        # Alt+L deaktivieren, ohne die Bindungstabelle zu crashen
-        bind -M insert \el true
-        bind -M default \el true
-
-        # Deine eigenen Navigation-Bindings neu setzen
+        # 2. Deine eigenen Bindings neu setzen
         bind -M insert \ch prevd-or-backward-word
         bind -M insert \cl nextd-or-forward-word
 
@@ -62,21 +55,25 @@ if status is-interactive
 
         bind -M insert \cs "commandline -r 'ls -laa'; commandline -f execute"
         bind -M default \cs "commandline -r 'ls -laa'; commandline -f execute"
-
-        # TUI Bindings (MÜSSEN hier drin stehen)
-        bind -M insert \cy 'yazi; commandline -f repaint'
-        bind -M default \cy 'yazi; commandline -f repaint'
-        bind -M insert \cn 'nvim (pwd); commandline -f repaint'
-        bind -M default \cn 'nvim (pwd); commandline -f repaint'
-        bind -M insert \cg 'lazygit; commandline -f repaint'
-        bind -M default \cg 'lazygit; commandline -f repaint'
-        bind -M insert \cc 'lazy_navi; commandline -f repaint'
-        bind -M default \cc 'lazy_navi; commandline -f repaint'
     end
+
+    # if test "$TERM" != linux
+    #     alias ls 'eza --icons'
+    # end
 
     if test "$TERM" = xterm-kitty
         alias ssh 'kitten ssh'
     end
+
+    bind -M insert \cy 'yazi; commandline -f repaint'
+    bind -M default \cy 'yazi; commandline -f repaint'
+    bind -M insert \cn 'nvim (pwd); commandline -f repaint'
+    bind -M default \cn 'nvim (pwd); commandline -f repaint'
+    bind -M insert \cg 'lazygit; commandline -f repaint'
+    bind -M default \cg 'lazygit; commandline -f repaint'
+    bind -M insert \cc 'lazy_navi; commandline -f repaint'
+    bind -M default \cc 'lazy_navi; commandline -f repaint'
+    # alias sudo="sudo-rs"
 end
 
 # Setze Neovim als Standard-Editor
