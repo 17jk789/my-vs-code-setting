@@ -146,6 +146,7 @@ Bitte führen sie alle Commands aus und fügen sie .config in ihr Systhem ein.
     - [emfehlungen:](#emfehlungen)
     - [ufw ist langsam:](#ufw-ist-langsam)
     - [Langsames Internet](#langsames-internet)
+    - [Firefox ist langsam](#firefox-ist-langsam)
     - [librewulf google securtiy:](#librewulf-google-securtiy)
     - [repairen von haskel](#repairen-von-haskel)
 - [WARP Cloudflair "1.1.1.1"](#warp-cloudflair-1111)
@@ -1096,7 +1097,7 @@ sudo systemctl disable --now sshd # Falls du SSH nicht brauchst
 ### Das Begrüßungsprogramm von CachyOS entfernen 
 
 ```bash
-# sudo pacman -Rns cachyos-hello
+sudo pacman -R cachyos-hell
 ```
 
 ### Instalation von En Croissant, eine moderne grafische Benutzeroberfläche (GUI) für Schachdatenbanken und Partienanalysen.
