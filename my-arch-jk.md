@@ -1278,6 +1278,12 @@ Firefox nutzt unter Linux nicht immer automatisch deine Grafikkarte. So schaltes
 - Suche nach der Einstellung: `layers.acceleration.force-enabled`
 - Klicke doppelt darauf, um den Wert auf true zu setzen.
 
+Nur RAM-Cache nutzen (Einfachste Methode):
+Dies kann durch das Ändern der internen Einstellungen im Firefox erfolgen.
+- Öffne about:config.
+- Suche nach der Einstellung browser.cache.disk.enable.
+- Klicke doppelt darauf, um den Wert auf false zu setzen.
+
 ### librewulf google securtiy:
 
 ```bash
