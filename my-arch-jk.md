@@ -1098,6 +1098,7 @@ sudo systemctl disable --now sshd # Falls du SSH nicht brauchst
 
 ```bash
 sudo pacman -R cachyos-hell
+rm ~/.config/autostart/cachyos-hello.desktop
 ```
 
 ### Instalation von En Croissant, eine moderne grafische Benutzeroberfläche (GUI) für Schachdatenbanken und Partienanalysen.
