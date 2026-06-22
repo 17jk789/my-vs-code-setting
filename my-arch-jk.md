@@ -1275,16 +1275,18 @@ yay -S rtw88-dkms-git
 
 ### Firefox ist langsam
 
+> Ist nicht notwenig bei modernen Linux OS.
 Firefox nutzt unter Linux nicht immer automatisch deine Grafikkarte. So schaltest du sie manuell ein:
 - Gib `about:config` in die Adresszeile ein und bestätige die Warnung.
 - Suche nach der Einstellung: `layers.acceleration.force-enabled`
-- Klicke doppelt darauf, um den Wert auf true zu setzen.
+- Klicke doppelt darauf, um den Wert auf `true` zu setzen.
 
+> Diese Einstellung sorgt dafür, dass Firefox die SSD nicht mehr beansprucht und stattdessen alle temporären Daten direkt im blitzschnellen Arbeitsspeicher (RAM) ablegt.
 Nur RAM-Cache nutzen (Einfachste Methode):
 Dies kann durch das Ändern der internen Einstellungen im Firefox erfolgen.
-- Öffne about:config.
-- Suche nach der Einstellung browser.cache.disk.enable.
-- Klicke doppelt darauf, um den Wert auf false zu setzen.
+- Öffne `about:config`.
+- Suche nach der Einstellung `browser.cache.disk.enable`.
+- Klicke doppelt darauf, um den Wert auf `false` zu setzen.
 
 ### librewulf google securtiy:
 
