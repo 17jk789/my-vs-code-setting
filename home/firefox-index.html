@@ -69,92 +69,94 @@
     </header>
 
     <div class="grid">
-      <main class="card" id="card-main" data-card-id="card-main">
-        <div class="card-handle" draggable="true" style="cursor:grab;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <div style="font-weight:700">Schnellzugriff</div>
-          <div style="display:flex;gap:8px">
-            <button class="collapse-btn" data-target="card-main" title="Ein-/ausklappen" style="background:transparent;border:0;color:var(--muted)">▾</button>
-          </div>
-        </div>
-        <form class="search" action="https://search.brave.com/search" method="get" target="_blank">
-          <input name="q" placeholder="Suche (Brave Search) — Enter" autocomplete="off" />
-          <button type="submit">Suchen</button>
-        </form>
-
-        <div class="links" role="navigation" aria-label="Schnellzugriffe">
-          <a class="link" href="https://wiki.archlinux.org" target="_blank">Arch Wiki</a>
-          <a class="link" href="https://aur.archlinux.org" target="_blank">AUR</a>
-          <a class="link" href="https://github.com/17jk789/my-vs-code-setting" target="_blank">17jk789</a>
-          <a class="link" href="https://www.google.com/" target="_blank">Google</a>
-          <a class="link" href="https://search.brave.com" target="_blank">Brave Search</a>
-          <a class="link" href="https://www.gmx.net/consent-management/" target="_blank">GMX</a>
-          <a class="link" href="https://news.ycombinator.com" target="_blank">Hacker News</a>
-          <a class="link" href="https://matrix.to/#/" target="_blank">Matrix</a>
-          <a class="link" href="https://www.youtube.com/" target="_blank">YouTube</a>
-        </div>
-
-        <section style="margin-top:14px">
-          <h3 style="margin:0 0 8px 0">Arch Linux — Kurze Notizen</h3>
-          <div class="muted">Schnelle Befehle und Hinweise; diese Seite ist lokal und benötigt kein Webserver.</div>
-          <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap">
-            <div style="flex:1;min-width:220px">
-              <strong>System / Paket</strong>
-              <pre class="cmd">sudo pacman -Syu
-sudo pacman -S package_name
-sudo pacman -Rns package_name</pre>
-            </div>
-            <div style="flex:1;min-width:220px">
-              <strong>Nützliche Tools</strong>
-              <pre class="cmd">systemctl status --user
-journalctl -b -p err
-htop</pre>
+      <main id="card-main" data-card-id="card-main">
+        <main class="card" id="card-main" data-card-id="card-main">
+          <div class="card-handle" draggable="true" style="cursor:grab;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div style="font-weight:700">Schnellzugriff</div>
+            <div style="display:flex;gap:8px">
+              <button class="collapse-btn" data-target="card-main" title="Ein-/ausklappen" style="background:transparent;border:0;color:var(--muted)">▾</button>
             </div>
           </div>
+          <form class="search" action="https://search.brave.com/search" method="get" target="_blank">
+            <input name="q" placeholder="Suche (Brave Search) — Enter" autocomplete="off" />
+            <button type="submit">Suchen</button>
+          </form>
 
-          <div style="margin-top:12px">
-            <strong>Dotfiles / Home</strong>
-            <div class="muted">Beispiel: Klone dein JK-Arch Repo und verlinke Configs nach <code>~/.config</code>.</div>
-            <pre class="cmd">cd ~
-git clone git@github.com:17jk789/my-vs-code-setting.git
-# Details: https://github.com/17jk789/my-vs-code-setting/blob/main/my-arch-jk.md
-stow -t ~ nvim</pre>
+          <div class="links" role="navigation" aria-label="Schnellzugriffe">
+            <a class="link" href="https://wiki.archlinux.org" target="_blank">Arch Wiki</a>
+            <a class="link" href="https://aur.archlinux.org" target="_blank">AUR</a>
+            <a class="link" href="https://github.com/17jk789/my-vs-code-setting" target="_blank">17jk789</a>
+            <a class="link" href="https://www.google.com/" target="_blank">Google</a>
+            <a class="link" href="https://search.brave.com" target="_blank">Brave Search</a>
+            <a class="link" href="https://www.gmx.net/consent-management/" target="_blank">GMX</a>
+            <a class="link" href="https://news.ycombinator.com" target="_blank">Hacker News</a>
+            <a class="link" href="https://matrix.to/#/" target="_blank">Matrix</a>
+            <a class="link" href="https://www.youtube.com/" target="_blank">YouTube</a>
           </div>
 
-          <div style="margin-top:12px">
-            <strong>Sicherheit & Best Practices</strong>
-            <div class="muted">Kompakte Empfehlungen, um JK-Arch sicher zu betreiben:</div>
-            <ul class="muted">
-              <li><strong>Regelmäßig updaten:</strong> <code>sudo pacman -Syu</code></li>
-              <li><strong>Pacman Keyring:</strong> <code>sudo pacman -S archlinux-keyring</code> falls Signaturfehler auftreten</li>
-              <li><strong>Firewall:</strong> nutze <code>nftables</code> oder <code>ufw</code> und aktiviere nur nötige Ports</li>
-              <li><strong>SSH-Härtung:</strong> Passwort-Login deaktivieren, SSH-Keys verwenden</li>
-              <li><strong>AUR:</strong> prüfe PKGBUILD manuell; nutze vertrauenswürdige Helper (z.B. <code>yay</code>) mit Vorsicht</li>
-              <li><strong>Backups:</strong> regelmäßige Snapshots mit <code>timeshift</code> oder inkrementelle Backups mit <code>borg</code></li>
-              <li><strong>Kernel & LTS:</strong> behalte stabile Kernel im Auge, installiere <code>linux-lts</code> wenn nötig</li>
-            </ul>
-          </div>
+          <section style="margin-top:14px">
+            <h3 style="margin:0 0 8px 0">Arch Linux — Kurze Notizen</h3>
+            <div class="muted">Schnelle Befehle und Hinweise; diese Seite ist lokal und benötigt kein Webserver.</div>
+            <div style="margin-top:10px;display:flex;gap:12px;flex-wrap:wrap">
+              <div style="flex:1;min-width:220px">
+                <strong>System / Paket</strong>
+                <pre class="cmd">sudo pacman -Syu
+  sudo pacman -S package_name
+  sudo pacman -Rns package_name</pre>
+              </div>
+              <div style="flex:1;min-width:220px">
+                <strong>Nützliche Tools</strong>
+                <pre class="cmd">systemctl status --user
+  journalctl -b -p err
+  htop</pre>
+              </div>
+            </div>
 
-          <div style="margin-top:12px">
-            <strong>Hyprland (Wayland) — JK-Arch Hinweise</strong>
-            <div class="muted">Hyprland ist ein beliebter Wayland-Composer auf Arch. Hinweise:</div>
-            <pre class="cmd"># Hyprland-Konfiguration: ~/.config/hypr/
-# Wallpaper (hyprpaper):
-hyprpaper set /pfad/zum/wallpaper.jpg
-# Autostart: ~/.config/hypr/autostart
-# Passe scale, gaps und binds in ~/.config/hypr/hyprland.conf an
-</pre>
-            <div class="muted">"end-4" habe ich als Hinweis auf dein gewünschtes Hyprland-Setup übernommen — passe Themes/scale entsprechend an.</div>
-          </div>
+            <div style="margin-top:12px">
+              <strong>Dotfiles / Home</strong>
+              <div class="muted">Beispiel: Klone dein JK-Arch Repo und verlinke Configs nach <code>~/.config</code>.</div>
+              <pre class="cmd">cd ~
+  git clone git@github.com:17jk789/my-vs-code-setting.git
+  # Details: https://github.com/17jk789/my-vs-code-setting/blob/main/my-arch-jk.md
+  stow -t ~ nvim</pre>
+            </div>
 
-          <div style="margin-top:12px">
-            <strong>SGE (Google Search Generative Experience)</strong>
-            <div class="muted">SGE ist experimentell; Brave Search ist standardmäßig genutzt. Achte bei SGE/Cloud-Features auf Datenschutz und benutze sie selektiv.</div>
-          </div>
-        </section>
+            <div style="margin-top:12px">
+              <strong>Sicherheit & Best Practices</strong>
+              <div class="muted">Kompakte Empfehlungen, um JK-Arch sicher zu betreiben:</div>
+              <ul class="muted">
+                <li><strong>Regelmäßig updaten:</strong> <code>sudo pacman -Syu</code></li>
+                <li><strong>Pacman Keyring:</strong> <code>sudo pacman -S archlinux-keyring</code> falls Signaturfehler auftreten</li>
+                <li><strong>Firewall:</strong> nutze <code>nftables</code> oder <code>ufw</code> und aktiviere nur nötige Ports</li>
+                <li><strong>SSH-Härtung:</strong> Passwort-Login deaktivieren, SSH-Keys verwenden</li>
+                <li><strong>AUR:</strong> prüfe PKGBUILD manuell; nutze vertrauenswürdige Helper (z.B. <code>yay</code>) mit Vorsicht</li>
+                <li><strong>Backups:</strong> regelmäßige Snapshots mit <code>timeshift</code> oder inkrementelle Backups mit <code>borg</code></li>
+                <li><strong>Kernel & LTS:</strong> behalte stabile Kernel im Auge, installiere <code>linux-lts</code> wenn nötig</li>
+              </ul>
+            </div>
 
-        <footer style="margin-top:16px;color:var(--muted);font-size:13px">
-          Hinweis: Diese Seite wurde so gestaltet, dass sie beim direkten Öffnen via <code>file:///</code> funktioniert.
-        </footer>
+            <div style="margin-top:12px">
+              <strong>Hyprland (Wayland) — JK-Arch Hinweise</strong>
+              <div class="muted">Hyprland ist ein beliebter Wayland-Composer auf Arch. Hinweise:</div>
+              <pre class="cmd"># Hyprland-Konfiguration: ~/.config/hypr/
+  # Wallpaper (hyprpaper):
+  hyprpaper set /pfad/zum/wallpaper.jpg
+  # Autostart: ~/.config/hypr/autostart
+  # Passe scale, gaps und binds in ~/.config/hypr/hyprland.conf an
+  </pre>
+              <div class="muted">"end-4" habe ich als Hinweis auf dein gewünschtes Hyprland-Setup übernommen — passe Themes/scale entsprechend an.</div>
+            </div>
+
+            <div style="margin-top:12px">
+              <strong>SGE (Google Search Generative Experience)</strong>
+              <div class="muted">SGE ist experimentell; Brave Search ist standardmäßig genutzt. Achte bei SGE/Cloud-Features auf Datenschutz und benutze sie selektiv.</div>
+            </div>
+          </section>
+
+          <footer style="margin-top:16px;color:var(--muted);font-size:13px">
+            Hinweis: Diese Seite wurde so gestaltet, dass sie beim direkten Öffnen via <code>file:///</code> funktioniert.
+          </footer>
+        </main>
       </main>
 
       <aside id="aside">
@@ -212,37 +214,6 @@ hyprpaper set /pfad/zum/wallpaper.jpg
           </div>
         </div>
 
-        </div>
-
-        <div class="card box" id="card-arch-wallpaper" data-card-id="card-arch-wallpaper">
-          <strong>Arch Linux — Wallpaper setzen</strong>
-          <div class="muted" style="margin-top:6px">Kurzanleitungen für gängige Umgebungen:</div>
-          <ul class="muted" style="margin-top:8px">
-            <li><strong>Generisch (feh):</strong>
-              <pre class="cmd">feh --bg-scale /pfad/zum/wallpaper.jpg</pre>
-            </li>
-            <li><strong>Sway/Wayland (swaybg):</strong>
-              <pre class="cmd">swaybg -i /pfad/zum/wallpaper.jpg -m fill &</pre>
-            </li>
-            <li><strong>Hyprland:</strong>
-              <pre class="cmd">hyprpaper set /pfad/zum/wallpaper.jpg</pre>
-            </li>
-            <li><strong>GNOME (gsettings):</strong>
-              <pre class="cmd">gsettings set org.gnome.desktop.background picture-uri 'file:///pfad/zum/wallpaper.jpg'</pre>
-            </li>
-            <li><strong>KDE Plasma:</strong>
-              <pre class="cmd"># via System Settings oder mit plasmashell-skripten; einfacher: kopiere nach /usr/share/wallpapers</pre>
-            </li>
-            <li><strong>XFCE:</strong>
-              <pre class="cmd">xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor0/image-path -s /pfad/zum/wallpaper.jpg</pre>
-            </li>
-          </ul>
-          <div style="margin-top:8px" class="muted">Kopieren als root (z.B. für mehrere Benutzer):</div>
-          <pre class="cmd">sudo cp /pfad/zum/wallpaper.jpg /usr/share/backgrounds/
-sudo chmod 644 /usr/share/backgrounds/wallpaper.jpg</pre>
-        </div>
-        </div>
-
         <div class="card box" id="card-issues" data-card-id="card-issues">
           <strong>Was nicht zuverlässig funktioniert</strong>
           <div class="muted" style="margin-top:6px">Einige browserseitige Features sind bei `file://` eingeschränkt, z.B.:</div>
@@ -253,8 +224,6 @@ sudo chmod 644 /usr/share/backgrounds/wallpaper.jpg</pre>
           </ul>
         </div>
 
-        </div>
-
         <div class="card box" id="card-server" data-card-id="card-server">
           <strong>Wenn etwas blockiert ist</strong>
           <div class="muted" style="margin-top:6px">Starte bei Bedarf einen lokalen Server (nur optional):</div>
@@ -263,11 +232,171 @@ python3 -m http.server 8000
 # dann: http://localhost:8000/firefox-index.html</pre>
         </div>
 
-        </div>
-
         <div class="card box" id="card-startpage" data-card-id="card-startpage">
           <strong>Als Firefox-Startseite nutzen</strong>
           <div class="muted" style="margin-top:6px">Einfach die Datei per `file:///` öffnen und als Startseite setzen.</div>
+        </div>
+
+        </div>
+
+        <!-- CARD 1: PACMAN & CORE SYSTEMS -->
+        <div class="card box" id="card-arch-pacman" data-card-id="card-arch-pacman">
+          <strong>Arch Linux — Paketmanagement (Pacman)</strong>
+          <div class="muted" style="margin-top:6px">Wichtigste Befehle zur Systempflege:</div>
+          <ul class="muted" style="margin-top:8px">
+            <li><strong>System vollständig aktualisieren:</strong>
+              <pre class="cmd">sudo pacman -Syu</pre>
+            </li>
+            <li><strong>Neues Paket installieren:</strong>
+              <pre class="cmd">sudo pacman -S paketname</pre>
+            </li>
+            <li><strong>Paket samt ungenutzter Abhängigkeiten entfernen:</strong>
+              <pre class="cmd">sudo pacman -Rs paketname</pre>
+            </li>
+            <li><strong>Offizielle Repositorys nach Begriff durchsuchen:</strong>
+              <pre class="cmd">pacman -Ss suchbegriff</pre>
+            </li>
+            <li><strong>Nicht mehr benötigte Pakete (Orphans) aufspüren und löschen:</strong>
+              <pre class="cmd">sudo pacman -Rns $(pacman -Qtdq)</pre>
+            </li>
+            <li><strong>Paket-Cache komplett leeren (Speicherplatz freigeben):</strong>
+              <pre class="cmd">sudo pacman -Scc</pre>
+            </li>
+          </ul>
+        </div>
+
+        <!-- CARD 2: AUR HELPER -->
+        <div class="card box" id="card-arch-aur" data-card-id="card-arch-aur">
+          <strong>Arch Linux — AUR Helper (yay / paru)</strong>
+          <div class="muted" style="margin-top:6px">Befehle für das Arch User Repository:</div>
+          <ul class="muted" style="margin-top:8px">
+            <li><strong>System inklusive AUR-Pakete aktualisieren:</strong>
+              <pre class="cmd">yay -Syu</pre>
+            </li>
+            <li><strong>Paket aus dem AUR installieren:</strong>
+              <pre class="cmd">yay -S aur-paketname</pre>
+            </li>
+            <li><strong>Das AUR nach einem Begriff durchsuchen:</strong>
+              <pre class="cmd">yay -Ss suchbegriff</pre>
+            </li>
+          </ul>
+        </div>
+
+        <!-- CARD 3: SYSTEMD SERVICES -->
+        <div class="card box" id="card-arch-systemd" data-card-id="card-arch-systemd">
+          <strong>Arch Linux — Systemd (Dienste &amp; Logs)</strong>
+          <div class="muted" style="margin-top:6px">Hintergrunddienste steuern und Fehler finden:</div>
+          <ul class="muted" style="margin-top:8px">
+            <li><strong>Dienst sofort starten:</strong>
+              <pre class="cmd">sudo systemctl start dienstname</pre>
+            </li>
+            <li><strong>Dienst sofort stoppen:</strong>
+              <pre class="cmd">sudo systemctl stop dienstname</pre>
+            </li>
+            <li><strong>Automatischen Start bei Systemboot aktivieren:</strong>
+              <pre class="cmd">sudo systemctl enable dienstname</pre>
+            </li>
+            <li><strong>Automatischen Start bei Systemboot deaktivieren:</strong>
+              <pre class="cmd">sudo systemctl disable dienstname</pre>
+            </li>
+            <li><strong>Aktuellen Status und Fehler eines Dienstes prüfen:</strong>
+              <pre class="cmd">systemctl status dienstname</pre>
+            </li>
+            <li><strong>System-Logs des aktuellen Boots auslesen (Fehlersuche):</strong>
+              <pre class="cmd">journalctl -xb</pre>
+            </li>
+          </ul>
+        </div>
+
+        <!-- CARD 4: SYSTEM MAINTENANCE -->
+        <div class="card box" id="card-arch-maintenance" data-card-id="card-arch-maintenance">
+          <strong>Arch Linux — System-Wartung &amp; Spiegelserver</strong>
+          <div class="muted" style="margin-top:6px">Optimierung und Fehleranalyse:</div>
+          <ul class="muted" style="margin-top:8px">
+            <li><strong>Schnellste HTTPS-Spiegelserver via Reflector holen:</strong>
+              <pre class="cmd">sudo reflector --protocol https --latest 5 --sort rate --save /etc/pacman.d/mirrorlist</pre>
+            </li>
+            <li><strong>Bremsen beim Systemstart identifizieren:</strong>
+              <pre class="cmd">systemd-analyze blame</pre>
+            </li>
+            <li><strong>Festplattenbelegung übersichtlich anzeigen:</strong>
+              <pre class="cmd">df -h</pre>
+            </li>
+          </ul>
+        </div>
+
+        <!-- CARD 5: NETWORK & WIFI -->
+        <div class="card box" id="card-arch-network" data-card-id="card-arch-network">
+          <strong>Arch Linux — Netzwerk &amp; WLAN (NetworkManager)</strong>
+          <div class="muted" style="margin-top:6px">Verbindungen verwalten über das Terminal:</div>
+          <ul class="muted" style="margin-top:8px">
+            <li><strong>Verfügbare WLAN-Netzwerke auflisten:</strong>
+              <pre class="cmd">nmcli dev wifi list</pre>
+            </li>
+            <li><strong>Mit einem WLAN-Netzwerk verbinden:</strong>
+              <pre class="cmd">nmcli dev wifi connect "SSID_NAME" password "DEIN_PASSWORT"</pre>
+            </li>
+            <li><strong>Netzwerkschnittstellen und IP-Adressen anzeigen:</strong>
+              <pre class="cmd">ip a</pre>
+            </li>
+            <li><strong>Aktive Netzwerkverbindungen anzeigen:</strong>
+              <pre class="cmd">nmcli connection show</pre>
+            </li>
+          </ul>
+        </div>
+
+        <!-- CARD 6: HARDWARE & KERNEL -->
+        <div class="card box" id="card-arch-hardware" data-card-id="card-arch-hardware">
+          <strong>Arch Linux — Hardware &amp; Kernel-Module</strong>
+          <div class="muted" style="margin-top:6px">System-Informationen und Treiber prüfen:</div>
+          <ul class="muted" style="margin-top:8px">
+            <li><strong>Aktuell geladene Kernel-Version anzeigen:</strong>
+              <pre class="cmd">uname -r</pre>
+            </li>
+            <li><strong>PCI-Geräte (z.B. Grafikkarte, WLAN-Chipsatz) auflisten:</strong>
+              <pre class="cmd">lspci -v</pre>
+            </li>
+            <li><strong>Angeschlossene USB-Geräte anzeigen:</strong>
+              <pre class="cmd">lsusb</pre>
+            </li>
+            <li><strong>Geladene Kernel-Module (Treiber) durchsuchen:</strong>
+              <pre class="cmd">lsmod | grep -i modulname</pre>
+            </li>
+          </ul>
+        </div>
+
+        <!-- CARD 7: AUDIO MANAGEMENT -->
+        <div class="card box" id="card-arch-audio" data-card-id="card-arch-audio">
+          <strong>Arch Linux — Audio-Management (PipeWire)</strong>
+          <div class="muted" style="margin-top:6px">Status prüfen und Soundprobleme beheben:</div>
+          <ul class="muted" style="margin-top:8px">
+            <li><strong>Status aller PipeWire-Audio-Dienste prüfen:</strong>
+              <pre class="cmd">systemctl --user status pipewire pipewire-pulse wireplumber</pre>
+            </li>
+            <li><strong>Audio-Server neu starten bei Sound-Problemen:</strong>
+              <pre class="cmd">systemctl --user restart pipewire pipewire-pulse wireplumber</pre>
+            </li>
+            <li><strong>Lautstärke im Terminal regeln (Mixer öffnen):</strong>
+              <pre class="cmd">alsamixer</pre>
+            </li>
+          </ul>
+        </div>
+
+        <!-- CARD 8: LIVE-SYSTEM & RECOVERY -->
+        <div class="card box" id="card-arch-recovery" data-card-id="card-arch-recovery">
+          <strong>Arch Linux — Notfall-System &amp; Chroot</strong>
+          <div class="muted" style="margin-top:6px">Kaputtes System über einen Arch-Live-USB-Stick reparieren:</div>
+          <ul class="muted" style="margin-top:8px">
+            <li><strong>Root-Partition einhängen (z. B. für Reparatur):</strong>
+              <pre class="cmd">mount /dev/sdXy /mnt</pre>
+            </li>
+            <li><strong>In das installierte System wechseln (Chrooten):</strong>
+              <pre class="cmd">arch-chroot /mnt</pre>
+            </li>
+            <li><strong>Bootloader (GRUB) innerhalb von Chroot neu generieren:</strong>
+              <pre class="cmd">grub-mkconfig -o /boot/grub/grub.cfg</pre>
+            </li>
+          </ul>
         </div>
       </aside>
     </div>
