@@ -6,10 +6,111 @@ if status is-interactive
     # No greeting
     set fish_greeting
 
+    function print_banner
+
+        set main_color "\033[38;5;51m"
+        set white "\033[97m"
+        set reset "\033[0m"
+
+        function timestamp
+            date "+%H:%M:%S"
+        end
+
+        function get_commit_info
+            set local_path $argv[1]
+
+            if not test -d $local_path
+                echo "0 0"
+                return
+            end
+
+            set branch (git -C $local_path rev-parse --abbrev-ref HEAD 2>/dev/null)
+
+            if test -z "$branch"
+                echo "0 0"
+                return
+            end
+
+            git -C $local_path fetch >/dev/null 2>&1
+
+            set remote_total (git -C $local_path rev-list --count origin/$branch 2>/dev/null)
+            set behind (git -C $local_path rev-list --count $branch..origin/$branch 2>/dev/null)
+
+            echo "$remote_total $behind"
+        end
+
+
+        set user_name $USER
+        set local_repo_path "$HOME/p-terminal"
+
+
+        set info (get_commit_info $local_repo_path)
+
+        set remote_total $info[1]
+        set behind $info[2]
+
+        if test -z "$remote_total"
+            set remote_total 0
+        end
+
+        if test -z "$behind"
+            set behind 0
+        end
+
+
+        set total (math 500 + 971 + $remote_total)
+
+
+        if test $behind -ne 0
+            echo -e "[(timestamp)] [INFO] The local repository is $main_color$behind$reset commits behind the remote repository."
+            echo -e "Remote contains $main_color$remote_total$reset / hole $main_color$total$reset commits."
+            echo -e "Update with 'update' in PP-Terminal."
+            echo
+        end
+
+        echo -e "
+$main_color██████╗ ██████╗$reset$white    ████████╗███████╗██████╗ ███╗   ███╗██╗███╗   ██╗ █████╗ ██╗     $reset
+$main_color██╔══██╗██╔══██╗$reset$white   ╚══██╔══╝██╔════╝██╔══██╗████╗ ████║██║████╗  ██║██╔══██╗██║     $reset
+$main_color██████╔╝██████╔╝$reset$white█████╗██║   █████╗  ██████╔╝██╔████╔██║██║██╔██╗ ██║███████║██║     $reset
+$main_color██╔═══╝ ██╔═══╝ $reset$white╚════╝██║   ██╔══╝  ██╔══██╗██║╚██╔╝██║██║██║╚██╗██║██╔══██║██║     $reset
+$main_color██║     ██║     $reset$white      ██║   ███████╗██║  ██║██║ ╚═╝ ██║██║██║ ╚████║██║  ██║███████╗$reset
+$main_color╚═╝     ╚═╝     $reset$white      ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚══════╝$reset
+"
+
+
+        echo -e "A warm welcome, $main_color$user_name$reset, to Peharge Python Terminal!
+Developed by Peharge and JK (Peharge Projects 2025)
+Thank you so much for using PP-Terminal ❤️
+
+[GitHub Repository] https://github.com/Peharge/p-terminal
+[Project Website] file://$HOME/peharge-web/p-term.html
+[Learn PP-Term] file://$HOME/peharge-web/pp-term-hole.html"
+
+        echo
+        echo -e "$main_color PP-Terminal Version 8.3.9 $reset"
+        echo
+
+        for i in (seq 0 7)
+            echo -ne "\033[48;5;{$i}m  \033[0m"
+        end
+
+        echo ""
+
+        for i in (seq 8 15)
+            echo -ne "\033[48;5;{$i}m  \033[0m"
+        end
+
+        echo ""
+    end
+
+    # Banner starten
+    print_banner
+
     # Use starship
     function starship_transient_prompt_func
         starship module character
     end
+
     if test "$TERM" != linux
         starship init fish | source
         enable_transience
