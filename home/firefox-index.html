@@ -45,6 +45,46 @@
     .muted{color:var(--muted);font-size:13px}
 
     @media(max-width:980px){.grid{grid-template-columns:1fr}.brand .subtitle{display:none}}
+
+    .timer-card{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:12px;
+    padding:12px;
+    }
+
+    .timer-header{
+    display:flex;
+    justify-content:space-between;
+    }
+
+    .timer-progress{
+    height:8px;
+    background:rgba(255,255,255,.08);
+    border-radius:20px;
+    overflow:hidden;
+    margin:10px 0;
+    }
+
+    .timer-progress-fill{
+    height:100%;
+    background:var(--accent);
+    transition:.3s;
+    }
+
+    .timer-actions{
+    display:flex;
+    gap:6px;
+    }
+
+    .timer-actions button{
+    flex:1;
+    padding:7px;
+    border-radius:8px;
+    border:0;
+    background:rgba(255,255,255,.08);
+    color:white;
+    }
   </style>
 </head>
 <body>
@@ -157,87 +197,6 @@
             Hinweis: Diese Seite wurde so gestaltet, dass sie beim direkten Öffnen via <code>file:///</code> funktioniert.
           </footer>
         </main>
-      </main>
-
-      <aside id="aside">
-        <!-- Notes box -->
-        <div class="card box" id="card-notes" data-card-id="card-notes">
-          <div class="card-handle" draggable="true" style="cursor:grab;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <div style="font-weight:700">Notizen</div>
-            <div style="display:flex;gap:8px">
-              <button class="collapse-btn" data-target="card-notes" title="Ein-/ausklappen" style="background:transparent;border:0;color:var(--muted)">▾</button>
-            </div>
-          </div>
-          <div class="card-content">
-            <div style="display:flex;gap:8px;margin-bottom:8px">
-              <input id="note-title" placeholder="Titel" style="flex:1;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
-              <button id="note-add" style="padding:8px;border-radius:6px;background:var(--accent);border:0;color:#022">Hinzufügen</button>
-            </div>
-            <textarea id="note-text" placeholder="Notiz..." style="width:100%;min-height:80px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit"></textarea>
-            <div id="notes-list" style="margin-top:10px;display:flex;flex-direction:column;gap:8px"></div>
-          </div>
-        </div>
-
-        <!-- Timers box -->
-        <div class="card box" id="card-timers" data-card-id="card-timers">
-          <div class="card-handle" draggable="true" style="cursor:grab;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <div style="font-weight:700">Timer</div>
-            <div style="display:flex;gap:8px">
-              <button class="collapse-btn" data-target="card-timers" title="Ein-/ausklappen" style="background:transparent;border:0;color:var(--muted)">▾</button>
-            </div>
-          </div>
-          <div class="card-content">
-            <div style="display:flex;gap:8px;margin-bottom:8px">
-              <input id="timer-label" placeholder="Label" style="flex:1;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
-            </div>
-            <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
-              <input id="timer-min" type="number" min="0" value="0" style="width:68px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
-              <label class="muted">min</label>
-              <input id="timer-sec" type="number" min="0" max="59" value="0" style="width:68px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
-              <label class="muted">sec</label>
-              <button id="timer-add" style="padding:8px;border-radius:6px;background:var(--accent);border:0;color:#022">Erstellen</button>
-            </div>
-            <div id="timers-list" style="display:flex;flex-direction:column;gap:8px"></div>
-          </div>
-        </div>
-
-        <div class="card box" id="card-wallpaper" data-card-id="card-wallpaper">
-          <strong>Wallpaper</strong>
-          <div class="muted" style="margin-top:6px">Wähle ein Bild von deinem Rechner; die Seite speichert es lokal (localStorage) und nutzt es immer.</div>
-          <div style="margin-top:8px">
-            <input id="wall-input" type="file" accept="image/*" />
-            <div style="margin-top:8px;display:flex;gap:8px">
-              <button id="wall-save" style="padding:8px;border-radius:8px;background:var(--accent);border:0">Speichern</button>
-              <button id="wall-reset" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">Zurücksetzen</button>
-            </div>
-            <div id="wall-preview" style="margin-top:10px;border-radius:8px;overflow:hidden;max-height:120px;background:rgba(255,255,255,0.02);display:none"></div>
-          </div>
-        </div>
-
-        <div class="card box" id="card-issues" data-card-id="card-issues">
-          <strong>Was nicht zuverlässig funktioniert</strong>
-          <div class="muted" style="margin-top:6px">Einige browserseitige Features sind bei `file://` eingeschränkt, z.B.:</div>
-          <ul class="muted">
-            <li>AJAX/fetch zu lokalen Dateien (Sicherheitsbeschränkungen)</li>
-            <li>Service Worker funktionieren nicht unter <code>file://</code></li>
-            <li>Cross-origin Einschränkungen für lokale Pfade</li>
-          </ul>
-        </div>
-
-        <div class="card box" id="card-server" data-card-id="card-server">
-          <strong>Wenn etwas blockiert ist</strong>
-          <div class="muted" style="margin-top:6px">Starte bei Bedarf einen lokalen Server (nur optional):</div>
-          <pre class="cmd"># im Verzeichnis dieser Datei
-python3 -m http.server 8000
-# dann: http://localhost:8000/firefox-index.html</pre>
-        </div>
-
-        <div class="card box" id="card-startpage" data-card-id="card-startpage">
-          <strong>Als Firefox-Startseite nutzen</strong>
-          <div class="muted" style="margin-top:6px">Einfach die Datei per `file:///` öffnen und als Startseite setzen.</div>
-        </div>
-
-        </div>
 
         <!-- CARD 1: PACMAN & CORE SYSTEMS -->
         <div class="card box" id="card-arch-pacman" data-card-id="card-arch-pacman">
@@ -398,6 +357,108 @@ python3 -m http.server 8000
             </li>
           </ul>
         </div>
+      </main>
+
+      <aside id="aside">
+        <!-- Notes box -->
+        <div class="card box" id="card-notes" data-card-id="card-notes">
+          <div class="card-handle" draggable="true" style="cursor:grab;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div style="font-weight:700">Notizen</div>
+            <div style="display:flex;gap:8px">
+              <button class="collapse-btn" data-target="card-notes" title="Ein-/ausklappen" style="background:transparent;border:0;color:var(--muted)">▾</button>
+            </div>
+          </div>
+          <div class="card-content">
+
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <input
+                id="note-title"
+                placeholder="Titel..."
+                style="flex:1;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,.08);background:transparent;color:inherit"
+              >
+
+              <button id="note-add"
+                style="padding:8px 12px;border-radius:6px;border:0;background:var(--accent);font-weight:700">
+                +
+              </button>
+            </div>
+
+            <textarea
+              id="note-text"
+              placeholder="Notiz eingeben..."
+              style="width:100%;min-height:90px;padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,.08);background:transparent;color:inherit"
+            ></textarea>
+
+            <input
+              id="note-search"
+              placeholder="🔍 Notizen durchsuchen..."
+              style="width:100%;margin-top:10px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,.08);background:transparent;color:inherit"
+            >
+
+            <div id="notes-list"
+                style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+            </div>
+          </div>
+        </div>
+
+        <!-- Timers box -->
+        <div class="card box" id="card-timers" data-card-id="card-timers">
+          <div class="card-handle" draggable="true" style="cursor:grab;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div style="font-weight:700">Timer</div>
+            <div style="display:flex;gap:8px">
+              <button class="collapse-btn" data-target="card-timers" title="Ein-/ausklappen" style="background:transparent;border:0;color:var(--muted)">▾</button>
+            </div>
+          </div>
+          <div class="card-content">
+            <div style="display:flex;gap:8px;margin-bottom:8px">
+              <input id="timer-label" placeholder="Label" style="flex:1;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+              <input id="timer-min" type="number" min="0" value="0" style="width:68px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+              <label class="muted">min</label>
+              <input id="timer-sec" type="number" min="0" max="59" value="0" style="width:68px;padding:8px;border-radius:6px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit" />
+              <label class="muted">sec</label>
+              <button id="timer-add" style="padding:8px;border-radius:6px;background:var(--accent);border:0;color:#022">Erstellen</button>
+            </div>
+            <div id="timers-list" style="display:flex;flex-direction:column;gap:8px"></div>
+          </div>
+        </div>
+
+        <div class="card box" id="card-wallpaper" data-card-id="card-wallpaper">
+          <strong>Wallpaper</strong>
+          <div class="muted" style="margin-top:6px">Wähle ein Bild von deinem Rechner; die Seite speichert es lokal (localStorage) und nutzt es immer.</div>
+          <div style="margin-top:8px">
+            <input id="wall-input" type="file" accept="image/*" />
+            <div style="margin-top:8px;display:flex;gap:8px">
+              <button id="wall-save" style="padding:8px;border-radius:8px;background:var(--accent);border:0">Speichern</button>
+              <button id="wall-reset" style="padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted)">Zurücksetzen</button>
+            </div>
+            <div id="wall-preview" style="margin-top:10px;border-radius:8px;overflow:hidden;max-height:120px;background:rgba(255,255,255,0.02);display:none"></div>
+          </div>
+        </div>
+
+        <div class="card box" id="card-issues" data-card-id="card-issues">
+          <strong>Was nicht zuverlässig funktioniert</strong>
+          <div class="muted" style="margin-top:6px">Einige browserseitige Features sind bei `file://` eingeschränkt, z.B.:</div>
+          <ul class="muted">
+            <li>AJAX/fetch zu lokalen Dateien (Sicherheitsbeschränkungen)</li>
+            <li>Service Worker funktionieren nicht unter <code>file://</code></li>
+            <li>Cross-origin Einschränkungen für lokale Pfade</li>
+          </ul>
+        </div>
+
+        <div class="card box" id="card-server" data-card-id="card-server">
+          <strong>Wenn etwas blockiert ist</strong>
+          <div class="muted" style="margin-top:6px">Starte bei Bedarf einen lokalen Server (nur optional):</div>
+          <pre class="cmd"># im Verzeichnis dieser Datei
+python3 -m http.server 8000
+# dann: http://localhost:8000/firefox-index.html</pre>
+        </div>
+
+        <div class="card box" id="card-startpage" data-card-id="card-startpage">
+          <strong>Als Firefox-Startseite nutzen</strong>
+          <div class="muted" style="margin-top:6px">Einfach die Datei per `file:///` öffnen und als Startseite setzen.</div>
+        </div>
       </aside>
     </div>
   </div>
@@ -487,6 +548,189 @@ python3 -m http.server 8000
           alert('Fehler beim Zurücksetzen: ' + e);
         }
       });
+    })();
+
+    (function(){
+
+      const NOTES_KEY = "ultimate_notes_v1";
+
+      let notes = JSON.parse(
+        localStorage.getItem(NOTES_KEY) || "[]"
+      );
+
+      const titleInput = document.getElementById("note-title");
+      const textInput = document.getElementById("note-text");
+      const searchInput = document.getElementById("note-search");
+      const addBtn = document.getElementById("note-add");
+      const list = document.getElementById("notes-list");
+
+      function saveNotes(){
+        localStorage.setItem(
+          NOTES_KEY,
+          JSON.stringify(notes)
+        );
+      }
+
+      function escapeHtml(str){
+        return str
+          .replaceAll("&","&amp;")
+          .replaceAll("<","&lt;")
+          .replaceAll(">","&gt;");
+      }
+
+      function renderNotes(){
+
+        const q = searchInput.value.toLowerCase();
+
+        list.innerHTML = "";
+
+        notes
+          .filter(n =>
+            n.title.toLowerCase().includes(q) ||
+            n.text.toLowerCase().includes(q)
+          )
+          .sort((a,b)=>{
+            if(a.pinned && !b.pinned) return -1;
+            if(!a.pinned && b.pinned) return 1;
+            return b.created - a.created;
+          })
+          .forEach(note=>{
+
+            const div = document.createElement("div");
+
+            div.className = "note-card";
+
+            div.style.cssText = `
+              padding:10px;
+              border-radius:8px;
+              background:rgba(255,255,255,.03);
+              border:1px solid rgba(255,255,255,.05);
+            `;
+
+            div.innerHTML = `
+              <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:6px;
+              ">
+                <strong>
+                  ${note.pinned ? "📌 " : ""}
+                  ${escapeHtml(note.title)}
+                </strong>
+
+                <div style="display:flex;gap:6px">
+
+                  <button class="pin-btn"
+                    data-id="${note.id}">
+                    📌
+                  </button>
+
+                  <button class="edit-btn"
+                    data-id="${note.id}">
+                    ✏️
+                  </button>
+
+                  <button class="delete-btn"
+                    data-id="${note.id}">
+                    🗑️
+                  </button>
+
+                </div>
+              </div>
+
+              <div style="
+                white-space:pre-wrap;
+                font-size:.95rem;
+                color:var(--muted);
+              ">
+                ${escapeHtml(note.text)}
+              </div>
+            `;
+
+            list.appendChild(div);
+
+          });
+
+      }
+
+      addBtn.addEventListener("click",()=>{
+
+        const title = titleInput.value.trim();
+        const text = textInput.value.trim();
+
+        if(!title && !text) return;
+
+        notes.push({
+          id: crypto.randomUUID(),
+          title,
+          text,
+          pinned:false,
+          created: Date.now()
+        });
+
+        saveNotes();
+        renderNotes();
+
+        titleInput.value = "";
+        textInput.value = "";
+      });
+
+      searchInput.addEventListener(
+        "input",
+        renderNotes
+      );
+
+      list.addEventListener("click",(e)=>{
+
+        const id = e.target.dataset.id;
+
+        if(!id) return;
+
+        const note = notes.find(n=>n.id===id);
+
+        if(!note) return;
+
+        if(e.target.classList.contains("delete-btn")){
+
+          if(confirm("Notiz löschen?")){
+
+            notes = notes.filter(
+              n=>n.id!==id
+            );
+
+            saveNotes();
+            renderNotes();
+          }
+        }
+
+        if(e.target.classList.contains("pin-btn")){
+
+          note.pinned = !note.pinned;
+
+          saveNotes();
+          renderNotes();
+        }
+
+        if(e.target.classList.contains("edit-btn")){
+
+          titleInput.value = note.title;
+          textInput.value = note.text;
+
+          notes = notes.filter(
+            n=>n.id!==id
+          );
+
+          saveNotes();
+          renderNotes();
+
+          titleInput.focus();
+        }
+
+      });
+
+      renderNotes();
+
     })();
 
     // Drag & Drop for cards + persist layout and collapse state
@@ -603,80 +847,222 @@ python3 -m http.server 8000
       });
 
       ['dragover'].forEach(ev=>{
-        document.addEventListener(ev, (e)=>{ if(e.target.closest('.card')||e.target.closest('main')||e.target.closest('aside')) e.preventDefault(); }, {passive:false});
+        document.addEventListener(ev, (e)=>{
+          if(
+            e.target.closest('.card') ||
+            e.target.closest('main') ||
+            e.target.closest('aside')
+          ){
+            e.preventDefault();
+          }
+        }, {passive:false});
       });
-      document.addEventListener('drop', onDrop);
-    })();
-
-    // Notes: simple CRUD stored in localStorage
-    (function(){
-      const KEY='jk_notes_v1';
-      const listEl = document.getElementById('notes-list');
-      const titleEl = document.getElementById('note-title');
-      const textEl = document.getElementById('note-text');
-      const addBtn = document.getElementById('note-add');
-      let notes = [];
-      function load(){ try{ notes = JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){notes=[];} render(); }
-      function save(){ localStorage.setItem(KEY, JSON.stringify(notes)); }
-      function render(){ listEl.innerHTML=''; notes.forEach(n=>{
-        const el = document.createElement('div'); el.style.background='rgba(255,255,255,0.02)'; el.style.padding='8px'; el.style.borderRadius='6px';
-        el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center"><strong>${escapeHtml(n.title)}</strong><div style=\"display:flex;gap:6px\"><button data-id=\"${n.id}\" class=\"note-edit\">Bearbeiten</button><button data-id=\"${n.id}\" class=\"note-del\">Löschen</button></div></div><div style=\"margin-top:6px\">${escapeHtml(n.text).replace(/\n/g,'<br/>')}</div>`;
-        listEl.appendChild(el);
-      });
-      // attach events
-      listEl.querySelectorAll('.note-del').forEach(b=>b.addEventListener('click', ()=>{ const id=b.dataset.id; notes=notes.filter(x=>x.id!==id); save(); render(); }));
-      listEl.querySelectorAll('.note-edit').forEach(b=>b.addEventListener('click', ()=>{ const id=b.dataset.id; const n=notes.find(x=>x.id===id); if(n){ titleEl.value=n.title; textEl.value=n.text; notes=notes.filter(x=>x.id!==id); save(); render(); } }));
-      }
-      function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":"&#39;"})[c]); }
-      addBtn.addEventListener('click', ()=>{
-        const t=titleEl.value.trim(); const c=textEl.value.trim(); if(!t && !c){ alert('Titel oder Text eingeben'); return }
-        const id = 'n'+Date.now(); notes.unshift({id,title:t,text:c,ts:Date.now()}); titleEl.value=''; textEl.value=''; save(); render();
-      });
-      load();
     })();
 
     // Timers: create multiple timers with start/pause/reset
     (function(){
-      const KEY='jk_timers_v1'; const list = document.getElementById('timers-list'); const addBtn=document.getElementById('timer-add'); const lbl=document.getElementById('timer-label'); const minEl=document.getElementById('timer-min'); const secEl=document.getElementById('timer-sec');
-      let timers = []; let intervals = {};
-      function load(){ try{ timers=JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){timers=[];} render(); }
-      function save(){ localStorage.setItem(KEY, JSON.stringify(timers)); }
-      function render(){ list.innerHTML=''; timers.forEach(t=>{
-        const item = document.createElement('div'); item.style.display='flex'; item.style.justifyContent='space-between'; item.style.alignItems='center'; item.style.background='rgba(255,255,255,0.02)'; item.style.padding='8px'; item.style.borderRadius='6px';
-        const left = document.createElement('div'); left.innerHTML = `<div style="font-weight:700">${escape(t.label)}</div><div class="muted">${formatTime(t.remaining)}</div>`;
-        const ctrl = document.createElement('div'); ctrl.style.display='flex'; ctrl.style.gap='6px';
-        const start = document.createElement('button'); start.textContent = t.running? 'Pause' : 'Start';
-        const reset = document.createElement('button'); reset.textContent = 'Reset';
-        const del = document.createElement('button'); del.textContent = 'Löschen';
-        [start,reset,del].forEach(b=>{ b.style.padding='6px'; b.style.borderRadius='6px'; b.style.background='transparent'; b.style.border='1px solid rgba(255,255,255,0.06)'; b.style.color='inherit' });
-        ctrl.appendChild(start); ctrl.appendChild(reset); ctrl.appendChild(del);
-        item.appendChild(left); item.appendChild(ctrl);
-        list.appendChild(item);
+      const TIMER_KEY = 'jk_timers_v2';
 
-        start.addEventListener('click', ()=>{
-          if(t.running){ // pause
-            t.running=false; if(intervals[t.id]) clearInterval(intervals[t.id]); intervals[t.id]=null; save(); render();
-          } else { // start
-            t.running=true; t.lastStart=Date.now(); if(!t.remaining) t.remaining=t.total; intervals[t.id]=setInterval(()=>{
-              const elapsed = Math.floor((Date.now()-t.lastStart)/1000);
-              const rem = Math.max(0, t.total - elapsed - (t.pausedElapsed||0));
-              t.remaining = rem;
-              if(rem<=0){ clearInterval(intervals[t.id]); t.running=false; t.remaining=0; alert('Timer "'+t.label+'" beendet'); }
-              save(); render();
-            },300);
-            save(); render();
+      const list = document.getElementById('timers-list');
+      const addBtn = document.getElementById('timer-add');
+      const lbl = document.getElementById('timer-label');
+      const minEl = document.getElementById('timer-min');
+      const secEl = document.getElementById('timer-sec');
+
+      let timers = [];
+
+      function saveTimers(){
+        localStorage.setItem(
+          TIMER_KEY,
+          JSON.stringify(timers)
+        );
+      }
+
+      function loadTimers(){
+        try{
+          timers = JSON.parse(
+            localStorage.getItem(TIMER_KEY) || '[]'
+          );
+        }catch{
+          timers=[];
+        }
+        renderTimers();
+      }
+
+      function formatTime(seconds){
+        seconds = Math.max(0,seconds);
+
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+
+        return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+      }
+
+
+      function getRemaining(timer){
+        if(!timer.running){
+          return timer.remaining;
+        }
+
+        const elapsed =
+          Math.floor(
+            (Date.now() - timer.startedAt) / 1000
+          );
+
+        return Math.max(
+          0,
+          timer.remaining - elapsed
+        );
+      }
+
+      function finishTimer(timer){
+        timer.running=false;
+        timer.remaining=0;
+
+        saveTimers();
+
+        try{
+          const audio = new Audio(
+          'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEA'
+          );
+
+          audio.play();
+
+        }catch(e){}
+      }
+
+      function renderTimers(){
+        list.innerHTML='';
+
+        timers.forEach(timer=>{
+
+          const remaining =
+            getRemaining(timer);
+
+          if(timer.running && remaining<=0){
+            finishTimer(timer);
+            return;
+
           }
+
+          const progress =
+            ((timer.total - remaining)
+            / timer.total)*100;
+
+          const card =
+            document.createElement('div');
+
+          card.className='timer-card';
+
+          card.innerHTML = `
+
+          <div class="timer-header">
+            <strong>${timer.label}</strong>
+            <div class="timer-time">
+              ${formatTime(remaining)}
+            </div>
+          </div>
+
+          <div class="timer-progress">
+            <div 
+            class="timer-progress-fill"
+            style="width:${progress}%">
+            </div>
+          </div>
+
+          <div class="timer-actions">
+            <button class="toggle">
+            ${timer.running?'Pause':'Start'}
+            </button>
+
+            <button class="reset">
+            Reset
+            </button>
+
+            <button class="delete">
+            Löschen
+            </button>
+          </div>
+          `;
+
+          card.querySelector('.toggle')
+          .onclick=()=>{
+
+            if(timer.running){
+
+              timer.remaining =
+                getRemaining(timer);
+
+              timer.running=false;
+
+            }else{
+              timer.startedAt=Date.now();
+              timer.running=true;
+            }
+
+            saveTimers();
+            renderTimers();
+          };
+
+          card.querySelector('.reset')
+          .onclick=()=>{
+            timer.running=false;
+            timer.remaining=timer.total;
+
+            saveTimers();
+            renderTimers();
+          };
+
+          card.querySelector('.delete')
+          .onclick=()=>{
+            timers =
+              timers.filter(
+              t=>t.id!==timer.id
+              );
+
+            saveTimers();
+            renderTimers();
+          };
+
+          list.appendChild(card);
         });
-        reset.addEventListener('click', ()=>{ t.remaining = t.total; t.running=false; if(intervals[t.id]) clearInterval(intervals[t.id]); intervals[t.id]=null; save(); render(); });
-        del.addEventListener('click', ()=>{ if(intervals[t.id]) clearInterval(intervals[t.id]); timers = timers.filter(x=>x.id!==t.id); save(); render(); });
-      }); }
-      function escape(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-      function formatTime(s){ if(s==null) return '--:--'; const mm = Math.floor(s/60); const ss = s%60; return `${String(mm).padStart(2,'0')}:${String(ss).padStart(2,'0')}`; }
-      addBtn.addEventListener('click', ()=>{
-        const label = (lbl.value||'Timer').trim(); const mins = Math.max(0,parseInt(minEl.value||0)); const secs = Math.max(0,parseInt(secEl.value||0)); const total = mins*60 + secs; if(total<=0){ alert('Gib eine Dauer an'); return }
-        const id = 't'+Date.now(); timers.unshift({id,label,total,remaining:total,running:false}); lbl.value=''; minEl.value='0'; secEl.value='0'; save(); render();
-      });
-      load();
+      }
+
+      addBtn.onclick=()=>{
+        const label =
+        lbl.value.trim() || 'Timer';
+
+
+        const total =
+        (parseInt(minEl.value)||0)*60
+        +
+        (parseInt(secEl.value)||0);
+
+        if(total<=0){
+          alert("Zeit eingeben");
+          return;
+        }
+
+        timers.unshift({
+          id: crypto.randomUUID(),
+          label,
+          total,
+          remaining:total,
+          running:false,
+          startedAt:null
+        });
+
+        lbl.value='';
+        minEl.value=0;
+        secEl.value=0;
+
+        saveTimers();
+        renderTimers();
+      };
+
+      setInterval(renderTimers,1000);
+
+      loadTimers();
     })();
 
     // Keine externen Ressourcen oder fetch-APIs verwendet — volle file://-Kompatibilität
