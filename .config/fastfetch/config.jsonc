@@ -22,7 +22,7 @@
 
     {
       "type": "kernel",
-      "format": "{release}-arch"
+      "format": "{release}-peharge"
     },
 
     "uptime",
