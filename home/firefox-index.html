@@ -174,11 +174,86 @@
       }
 
       pre.cmd {
+        position: relative;
+        margin-top: 8px;
+        padding: 12px 14px 12px 42px;
+
         background: rgba(0, 0, 0, 0.18);
-        padding: 10px;
-        border-radius: 8px;
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+        border-radius: 10px;
+
         color: #dff4ff;
-        overflow: auto;
+
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+
+        font-size: 14px;
+        line-height: 1.5;
+
+        overflow-x: auto;
+
+        box-shadow:
+          inset 0 0 20px rgba(125, 211, 252, 0.05),
+          0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      pre.cmd::before {
+        content: "$";
+        position: absolute;
+        left: 14px;
+        top: 12px;
+
+        color: #38bdf8;
+        font-weight: bold;
+
+        text-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+      }
+      .terminal-cmd {
+        overflow: hidden;
+        border-radius: 10px;
+        margin-top: 8px;
+
+        background: rgba(0, 0, 0, 0.18);
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+
+        box-shadow:
+          0 4px 20px rgba(0, 0, 0, 0.3),
+          inset 0 0 20px rgba(125, 211, 252, 0.05);
+      }
+
+      .terminal-header {
+        display: flex;
+        gap: 6px;
+        padding: 8px 10px;
+
+        background: rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .terminal-header span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      .terminal-header span:nth-child(1) {
+        background: #ff5f56;
+      }
+
+      .terminal-header span:nth-child(2) {
+        background: #ffbd2e;
+      }
+
+      .terminal-header span:nth-child(3) {
+        background: #27c93f;
+      }
+
+      .terminal-cmd pre.cmd {
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+        background: transparent;
       }
       img {
         max-width: 100%;
@@ -708,19 +783,33 @@
               >
                 <div style="flex: 1; min-width: 220px">
                   <strong>System / Paket</strong>
-                  <pre class="cmd">
+                  <div class="terminal-cmd">
+                    <div class="terminal-header">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <pre class="cmd">
 sudo pacman -Syu
 sudo pacman -S package_name
 sudo pacman -Rns package_name</pre
-                  >
+                    >
+                  </div>
                 </div>
                 <div style="flex: 1; min-width: 220px">
                   <strong>Nützliche Tools</strong>
-                  <pre class="cmd">
+                  <div class="terminal-cmd">
+                    <div class="terminal-header">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <pre class="cmd">
 systemctl status --user
 journalctl -b -p err
 htop</pre
-                  >
+                    >
+                  </div>
                 </div>
               </div>
 
@@ -730,12 +819,20 @@ htop</pre
                   Beispiel: Klone dein JK-Arch Repo und verlinke Configs nach
                   <code>~/.config</code>.
                 </div>
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 cd ~
 git clone git@github.com:17jk789/my-vs-code-setting.git
 # Details: https://github.com/17jk789/my-vs-code-setting/blob/main/my-arch-jk.md
 stow -t ~ nvim</pre
-                >
+                  >
+                </div>
               </div>
 
               <div style="margin-top: 12px">
@@ -784,13 +881,21 @@ stow -t ~ nvim</pre
                   Hyprland ist ein beliebter Wayland-Composer auf Arch.
                   Hinweise:
                 </div>
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 # Hyprland-Konfiguration: ~/.config/hypr/
 # Wallpaper (hyprpaper):
 hyprpaper set /pfad/zum/wallpaper.jpg
 # Autostart: ~/.config/hypr/autostart
 # Passe scale, gaps und binds in ~/.config/hypr/hyprland.conf an</pre
-                >
+                  >
+                </div>
                 <div class="muted">
                   "end-4" habe ich als Hinweis auf dein gewünschtes
                   Hyprland-Setup übernommen — passe Themes/scale entsprechend
@@ -829,37 +934,85 @@ hyprpaper set /pfad/zum/wallpaper.jpg
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>System vollständig aktualisieren:</strong>
-                <pre class="cmd">sudo pacman -Syu</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -Syu</pre>
+                </div>
               </li>
               <li>
                 <strong>Neues Paket installieren:</strong>
-                <pre class="cmd">sudo pacman -S paketname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -S paketname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Paket samt ungenutzter Abhängigkeiten entfernen:</strong
                 >
-                <pre class="cmd">sudo pacman -Rs paketname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -Rs paketname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Offizielle Repositorys nach Begriff durchsuchen:</strong
                 >
-                <pre class="cmd">pacman -Ss suchbegriff</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">pacman -Ss suchbegriff</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Nicht mehr benötigte Pakete (Orphans) aufspüren und
                   löschen:</strong
                 >
-                <pre class="cmd">sudo pacman -Rns $(pacman -Qtdq)</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -Rns $(pacman -Qtdq)</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Paket-Cache komplett leeren (Speicherplatz
                   freigeben):</strong
                 >
-                <pre class="cmd">sudo pacman -Scc</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -Scc</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -873,15 +1026,39 @@ hyprpaper set /pfad/zum/wallpaper.jpg
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>System inklusive AUR-Pakete aktualisieren:</strong>
-                <pre class="cmd">yay -Syu</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">yay -Syu</pre>
+                </div>
               </li>
               <li>
                 <strong>Paket aus dem AUR installieren:</strong>
-                <pre class="cmd">yay -S aur-paketname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">yay -S aur-paketname</pre>
+                </div>
               </li>
               <li>
                 <strong>Das AUR nach einem Begriff durchsuchen:</strong>
-                <pre class="cmd">yay -Ss suchbegriff</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">yay -Ss suchbegriff</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -899,34 +1076,82 @@ hyprpaper set /pfad/zum/wallpaper.jpg
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>Dienst sofort starten:</strong>
-                <pre class="cmd">sudo systemctl start dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo systemctl start dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong>Dienst sofort stoppen:</strong>
-                <pre class="cmd">sudo systemctl stop dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo systemctl stop dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong>Automatischen Start bei Systemboot aktivieren:</strong>
-                <pre class="cmd">sudo systemctl enable dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo systemctl enable dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Automatischen Start bei Systemboot deaktivieren:</strong
                 >
-                <pre class="cmd">sudo systemctl disable dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo systemctl disable dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Aktuellen Status und Fehler eines Dienstes prüfen:</strong
                 >
-                <pre class="cmd">systemctl status dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">systemctl status dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >System-Logs des aktuellen Boots auslesen
                   (Fehlersuche):</strong
                 >
-                <pre class="cmd">journalctl -xb</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">journalctl -xb</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -946,17 +1171,40 @@ hyprpaper set /pfad/zum/wallpaper.jpg
                 <strong
                   >Schnellste HTTPS-Spiegelserver via Reflector holen:</strong
                 >
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 sudo reflector --protocol https --latest 5 --sort rate --save /etc/pacman.d/mirrorlist</pre
-                >
+                  >
+                </div>
               </li>
               <li>
                 <strong>Bremsen beim Systemstart identifizieren:</strong>
-                <pre class="cmd">systemd-analyze blame</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">systemd-analyze blame</pre>
+                </div>
               </li>
               <li>
                 <strong>Festplattenbelegung übersichtlich anzeigen:</strong>
-                <pre class="cmd">df -h</pre>
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">df -h</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -974,23 +1222,55 @@ sudo reflector --protocol https --latest 5 --sort rate --save /etc/pacman.d/mirr
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>Verfügbare WLAN-Netzwerke auflisten:</strong>
-                <pre class="cmd">nmcli dev wifi list</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">nmcli dev wifi list</pre>
+                </div>
               </li>
               <li>
                 <strong>Mit einem WLAN-Netzwerk verbinden:</strong>
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 nmcli dev wifi connect "SSID_NAME" password "DEIN_PASSWORT"</pre
-                >
+                  >
+                </div>
               </li>
               <li>
                 <strong
                   >Netzwerkschnittstellen und IP-Adressen anzeigen:</strong
                 >
-                <pre class="cmd">ip a</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">ip a</pre>
+                </div>
               </li>
               <li>
                 <strong>Aktive Netzwerkverbindungen anzeigen:</strong>
-                <pre class="cmd">nmcli connection show</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">nmcli connection show</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -1008,22 +1288,54 @@ nmcli dev wifi connect "SSID_NAME" password "DEIN_PASSWORT"</pre
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>Aktuell geladene Kernel-Version anzeigen:</strong>
-                <pre class="cmd">uname -r</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">uname -r</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >PCI-Geräte (z.B. Grafikkarte, WLAN-Chipsatz)
                   auflisten:</strong
                 >
-                <pre class="cmd">lspci -v</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">lspci -v</pre>
+                </div>
               </li>
               <li>
                 <strong>Angeschlossene USB-Geräte anzeigen:</strong>
-                <pre class="cmd">lsusb</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">lsusb</pre>
+                </div>
               </li>
               <li>
                 <strong>Geladene Kernel-Module (Treiber) durchsuchen:</strong>
-                <pre class="cmd">lsmod | grep -i modulname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">lsmod | grep -i modulname</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -1047,13 +1359,29 @@ systemctl --user status pipewire pipewire-pulse wireplumber</pre
               </li>
               <li>
                 <strong>Audio-Server neu starten bei Sound-Problemen:</strong>
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 systemctl --user restart pipewire pipewire-pulse wireplumber</pre
-                >
+                  >
+                </div>
               </li>
               <li>
                 <strong>Lautstärke im Terminal regeln (Mixer öffnen):</strong>
-                <pre class="cmd">alsamixer</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">alsamixer</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -1071,18 +1399,41 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>Root-Partition einhängen (z. B. für Reparatur):</strong>
-                <pre class="cmd">mount /dev/sdXy /mnt</pre>
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">mount /dev/sdXy /mnt</pre>
+                </div>
               </li>
               <li>
                 <strong>In das installierte System wechseln (Chrooten):</strong>
-                <pre class="cmd">arch-chroot /mnt</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">arch-chroot /mnt</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Bootloader (GRUB) innerhalb von Chroot neu
                   generieren:</strong
                 >
-                <pre class="cmd">grub-mkconfig -o /boot/grub/grub.cfg</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">grub-mkconfig -o /boot/grub/grub.cfg</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -1448,11 +1799,19 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
             <div class="muted" style="margin-top: 6px">
               Starte bei Bedarf einen lokalen Server (nur optional):
             </div>
-            <pre class="cmd">
+
+            <div class="terminal-cmd">
+              <div class="terminal-header">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <pre class="cmd">
 # im Verzeichnis dieser Datei
 python3 -m http.server 8000
 # dann: http://localhost:8000/firefox-index.html</pre
-            >
+              >
+            </div>
           </div>
 
           <div
