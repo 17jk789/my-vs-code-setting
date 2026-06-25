@@ -242,6 +242,328 @@
         background: rgba(255, 255, 255, 0.08);
         color: white;
       }
+
+      .page-background {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background: #e0e5ec;
+        font-family: "Helvetica Neue", "Arial", sans-serif;
+      }
+
+      .clock-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 0;
+      }
+
+      .clock-face {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: radial-gradient(
+          circle at top left,
+          rgba(125, 211, 252, 0.12),
+          rgba(255, 255, 255, 0.03)
+        );
+
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+
+        box-shadow:
+          0 0 30px rgba(125, 211, 252, 0.08),
+          0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      .clock-face::before {
+        content: "";
+        position: absolute;
+        width: 92%;
+        height: 92%;
+        border-radius: 50%;
+
+        border: 1px solid rgba(125, 211, 252, 0.08);
+
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.02),
+          rgba(0, 0, 0, 0.15)
+        );
+      }
+
+      .marker {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      .marker-dot {
+        position: absolute;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #7dd3fc;
+        box-shadow:
+          0 0 8px rgba(125, 211, 252, 0.8),
+          0 0 14px rgba(125, 211, 252, 0.4);
+      }
+
+      .marker-1 {
+        transform: rotate(30deg);
+      }
+      .marker-2 {
+        transform: rotate(60deg);
+      }
+      .marker-3 {
+        transform: rotate(90deg);
+      }
+      .marker-3 .marker-dot {
+        width: 8px;
+        height: 8px;
+      }
+      .marker-4 {
+        transform: rotate(120deg);
+      }
+      .marker-5 {
+        transform: rotate(150deg);
+      }
+      .marker-6 {
+        transform: rotate(180deg);
+      }
+      .marker-6 .marker-dot {
+        width: 8px;
+        height: 8px;
+      }
+      .marker-7 {
+        transform: rotate(210deg);
+      }
+      .marker-8 {
+        transform: rotate(240deg);
+      }
+      .marker-9 {
+        transform: rotate(270deg);
+      }
+      .marker-9 .marker-dot {
+        width: 8px;
+        height: 8px;
+      }
+      .marker-10 {
+        transform: rotate(300deg);
+      }
+      .marker-11 {
+        transform: rotate(330deg);
+      }
+      .marker-12 {
+        transform: rotate(360deg);
+      }
+      .marker-12 .marker-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .number {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        color: #7dd3fc;
+        text-shadow:
+          0 0 8px rgba(125, 211, 252, 0.5),
+          0 0 16px rgba(125, 211, 252, 0.2);
+        z-index: 2;
+      }
+
+      .number-1 {
+        transform: rotate(30deg);
+      }
+      .number-1-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-30deg);
+      }
+      .number-2 {
+        transform: rotate(60deg);
+      }
+      .number-2-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-60deg);
+      }
+      .number-3 {
+        transform: rotate(90deg);
+      }
+      .number-3-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-90deg);
+      }
+      .number-4 {
+        transform: rotate(120deg);
+      }
+      .number-4-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-120deg);
+      }
+      .number-5 {
+        transform: rotate(150deg);
+      }
+      .number-5-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-150deg);
+      }
+      .number-6 {
+        transform: rotate(180deg);
+      }
+      .number-6-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-180deg);
+      }
+      .number-7 {
+        transform: rotate(210deg);
+      }
+      .number-7-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-210deg);
+      }
+      .number-8 {
+        transform: rotate(240deg);
+      }
+      .number-8-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-240deg);
+      }
+      .number-9 {
+        transform: rotate(270deg);
+      }
+      .number-9-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-270deg);
+      }
+      .number-10 {
+        transform: rotate(300deg);
+      }
+      .number-10-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-300deg);
+      }
+      .number-11 {
+        transform: rotate(330deg);
+      }
+      .number-11-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-330deg);
+      }
+      .number-12 {
+        transform: rotate(360deg);
+      }
+      .number-12-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-360deg);
+      }
+
+      .hand {
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+        transform-origin: bottom center;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+      }
+
+      .hour-hand {
+        width: 8px;
+        height: 50px;
+        background: #ffffff;
+        transform: translateX(-50%) rotate(105.5deg);
+        /* animation: rotate-hours 43200s linear infinite; */
+        animation-play-state: running;
+        z-index: 5;
+      }
+
+      .minute-hand {
+        width: 6px;
+        height: 80px;
+        background: #7a8a9e;
+        transform: translateX(-50%) rotate(186deg);
+        /* animation: rotate-minutes 3600s linear infinite; */
+        animation-play-state: running;
+        z-index: 6;
+      }
+
+      .second-hand {
+        width: 3px;
+        height: 100px;
+        background: #e65e5e;
+        transform: translateX(-50%) rotate(0deg);
+        /* animation: rotate-seconds 60s steps(60, end) infinite; */
+        animation-play-state: running;
+        z-index: 7;
+      }
+
+      .center-pin {
+        width: 20px;
+        height: 20px;
+        background: #e0e5ec;
+        border-radius: 50%;
+        position: absolute;
+        z-index: 10;
+        box-shadow:
+          inset 3px 3px 6px #a3b1c6,
+          inset -3px -3px 6px #ffffff;
+      }
+
+      .center-pin::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 6px;
+        height: 6px;
+        background: #4a5463;
+        border-radius: 50%;
+      }
+
+      @keyframes rotate-seconds {
+        from {
+          transform: translateX(-50%) rotate(0deg);
+        }
+        to {
+          transform: translateX(-50%) rotate(360deg);
+        }
+      }
+
+      @keyframes rotate-minutes {
+        from {
+          transform: translateX(-50%) rotate(186deg);
+        }
+        to {
+          transform: translateX(-50%) rotate(546deg);
+        }
+      }
+
+      @keyframes rotate-hours {
+        from {
+          transform: translateX(-50%) rotate(105.5deg);
+        }
+        to {
+          transform: translateX(-50%) rotate(465.5deg);
+        }
+      }
     </style>
   </head>
   <body>
@@ -389,14 +711,16 @@
                   <pre class="cmd">
 sudo pacman -Syu
 sudo pacman -S package_name
-sudo pacman -Rns package_name</pre>
+sudo pacman -Rns package_name</pre
+                  >
                 </div>
                 <div style="flex: 1; min-width: 220px">
                   <strong>Nützliche Tools</strong>
                   <pre class="cmd">
 systemctl status --user
 journalctl -b -p err
-htop</pre>
+htop</pre
+                  >
                 </div>
               </div>
 
@@ -410,7 +734,8 @@ htop</pre>
 cd ~
 git clone git@github.com:17jk789/my-vs-code-setting.git
 # Details: https://github.com/17jk789/my-vs-code-setting/blob/main/my-arch-jk.md
-stow -t ~ nvim</pre>
+stow -t ~ nvim</pre
+                >
               </div>
 
               <div style="margin-top: 12px">
@@ -464,7 +789,8 @@ stow -t ~ nvim</pre>
 # Wallpaper (hyprpaper):
 hyprpaper set /pfad/zum/wallpaper.jpg
 # Autostart: ~/.config/hypr/autostart
-# Passe scale, gaps und binds in ~/.config/hypr/hyprland.conf an</pre>
+# Passe scale, gaps und binds in ~/.config/hypr/hyprland.conf an</pre
+                >
                 <div class="muted">
                   "end-4" habe ich als Hinweis auf dein gewünschtes
                   Hyprland-Setup übernommen — passe Themes/scale entsprechend
@@ -763,6 +1089,56 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
         </main>
 
         <aside id="aside">
+          <div
+            class="card box"
+            id="card-wallpaper"
+            data-card-id="card-wallpaper"
+          >
+            <strong>Wallpaper</strong>
+            <div class="muted" style="margin-top: 6px">
+              Wähle ein Bild von deinem Rechner; die Seite speichert es lokal
+              (localStorage) und nutzt es immer.
+            </div>
+            <div style="margin-top: 8px">
+              <input id="wall-input" type="file" accept="image/*" />
+              <div style="margin-top: 8px; display: flex; gap: 8px">
+                <button
+                  id="wall-save"
+                  style="
+                    padding: 8px;
+                    border-radius: 8px;
+                    background: var(--accent);
+                    border: 0;
+                  "
+                >
+                  Speichern
+                </button>
+                <button
+                  id="wall-reset"
+                  style="
+                    padding: 8px;
+                    border-radius: 8px;
+                    background: transparent;
+                    border: 1px solid rgba(255, 255, 255, 0.06);
+                    color: var(--muted);
+                  "
+                >
+                  Zurücksetzen
+                </button>
+              </div>
+              <div
+                id="wall-preview"
+                style="
+                  margin-top: 10px;
+                  border-radius: 8px;
+                  overflow: hidden;
+                  max-height: 120px;
+                  background: rgba(255, 255, 255, 0.02);
+                  display: none;
+                "
+              ></div>
+            </div>
+          </div>
           <!-- Notes box -->
           <div class="card box" id="card-notes" data-card-id="card-notes">
             <div
@@ -858,6 +1234,94 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
                   gap: 8px;
                 "
               ></div>
+            </div>
+          </div>
+
+          <div class="card box" id="card-clock" data-card-id="card-clock">
+            <!-- <strong>Analoge Uhr</strong> -->
+
+            <div class="clock-container" style="margin-top: 15px">
+              <div class="clock-face">
+                <div class="marker marker-1">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-2">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-3">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-4">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-5">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-6">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-7">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-8">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-9">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-10">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-11">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-12">
+                  <div class="marker-dot"></div>
+                </div>
+
+                <div class="number number-1">
+                  <span class="number-1-text">1</span>
+                </div>
+                <div class="number number-2">
+                  <span class="number-2-text">2</span>
+                </div>
+                <div class="number number-3">
+                  <span class="number-3-text">3</span>
+                </div>
+                <div class="number number-4">
+                  <span class="number-4-text">4</span>
+                </div>
+                <div class="number number-5">
+                  <span class="number-5-text">5</span>
+                </div>
+                <div class="number number-6">
+                  <span class="number-6-text">6</span>
+                </div>
+                <div class="number number-7">
+                  <span class="number-7-text">7</span>
+                </div>
+                <div class="number number-8">
+                  <span class="number-8-text">8</span>
+                </div>
+                <div class="number number-9">
+                  <span class="number-9-text">9</span>
+                </div>
+                <div class="number number-10">
+                  <span class="number-10-text">10</span>
+                </div>
+                <div class="number number-11">
+                  <span class="number-11-text">11</span>
+                </div>
+                <div class="number number-12">
+                  <span class="number-12-text">12</span>
+                </div>
+
+                <div class="hand hour-hand" id="hour-hand"></div>
+                <div class="hand minute-hand" id="minute-hand"></div>
+                <div class="hand second-hand" id="second-hand"></div>
+
+                <div class="center-pin"></div>
+              </div>
             </div>
           </div>
 
@@ -960,57 +1424,6 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
               <div
                 id="timers-list"
                 style="display: flex; flex-direction: column; gap: 8px"
-              ></div>
-            </div>
-          </div>
-
-          <div
-            class="card box"
-            id="card-wallpaper"
-            data-card-id="card-wallpaper"
-          >
-            <strong>Wallpaper</strong>
-            <div class="muted" style="margin-top: 6px">
-              Wähle ein Bild von deinem Rechner; die Seite speichert es lokal
-              (localStorage) und nutzt es immer.
-            </div>
-            <div style="margin-top: 8px">
-              <input id="wall-input" type="file" accept="image/*" />
-              <div style="margin-top: 8px; display: flex; gap: 8px">
-                <button
-                  id="wall-save"
-                  style="
-                    padding: 8px;
-                    border-radius: 8px;
-                    background: var(--accent);
-                    border: 0;
-                  "
-                >
-                  Speichern
-                </button>
-                <button
-                  id="wall-reset"
-                  style="
-                    padding: 8px;
-                    border-radius: 8px;
-                    background: transparent;
-                    border: 1px solid rgba(255, 255, 255, 0.06);
-                    color: var(--muted);
-                  "
-                >
-                  Zurücksetzen
-                </button>
-              </div>
-              <div
-                id="wall-preview"
-                style="
-                  margin-top: 10px;
-                  border-radius: 8px;
-                  overflow: hidden;
-                  max-height: 120px;
-                  background: rgba(255, 255, 255, 0.02);
-                  display: none;
-                "
               ></div>
             </div>
           </div>
@@ -1658,6 +2071,30 @@ python3 -m http.server 8000
       })();
 
       // Keine externen Ressourcen oder fetch-APIs verwendet — volle file://-Kompatibilität
+
+      function updateClock() {
+        const now = new Date();
+
+        const seconds = now.getSeconds();
+        const minutes = now.getMinutes();
+        const hours = now.getHours();
+
+        const secondAngle = seconds * 6;
+        const minuteAngle = minutes * 6 + seconds * 0.1;
+        const hourAngle = (hours % 12) * 30 + minutes * 0.5;
+
+        document.getElementById("second-hand").style.transform =
+          `translateX(-50%) rotate(${secondAngle}deg)`;
+
+        document.getElementById("minute-hand").style.transform =
+          `translateX(-50%) rotate(${minuteAngle}deg)`;
+
+        document.getElementById("hour-hand").style.transform =
+          `translateX(-50%) rotate(${hourAngle}deg)`;
+      }
+
+      updateClock();
+      setInterval(updateClock, 1000);
     </script>
   </body>
 </html>
