@@ -374,6 +374,7 @@ sudo pacman -S nodejs npm
 ```bash
 sudo pacman -S dotnet-sdk
 sudo pacman -S dotnet-runtime aspnet-runtime
+fish_add_path $HOME/.dotnet/tools
 ```
 
 ### Das Standard-Kompressionswerkzeug installieren
