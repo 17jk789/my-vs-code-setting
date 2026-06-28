@@ -135,23 +135,115 @@
 
       .search {
         display: flex;
-        gap: 8px;
+        align-items: stretch;
+        gap: 12px;
+
+        padding: 8px;
+
+        background: rgba(0, 0, 0, 0.18);
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+        border-radius: 16px;
+
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        box-shadow:
+          0 4px 20px rgba(0, 0, 0, 0.3),
+          inset 0 0 20px rgba(125, 211, 252, 0.05);
       }
+
       .search input {
         flex: 1;
-        padding: 12px;
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.04);
+
         background: transparent;
-        color: inherit;
+        border: none;
+        outline: none;
+
+        color: #e8f2fb;
+        font-size: 16px;
+        padding: 12px 8px;
       }
+
+      .search input::placeholder {
+        color: rgba(232, 242, 251, 0.45);
+      }
+
       .search button {
-        padding: 12px 14px;
-        border-radius: 10px;
-        border: 0;
-        background: var(--accent);
-        color: #022;
+        flex: 0 0 18%; /* ca. 18 % der Formularbreite */
+        min-width: 110px; /* Mindestbreite */
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0 18px;
+
+        border: none;
+        border-radius: 12px;
+
+        background: linear-gradient(135deg, var(--accent), #38bdf8);
+
+        color: #02131e;
+        font-size: 15px;
         font-weight: 700;
+
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .search button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px rgba(125, 211, 252, 0.45);
+      }
+
+      .search button:active {
+        transform: scale(0.96);
+      }
+
+      .search:focus-within {
+        border-color: rgba(125, 211, 252, 0.45);
+        box-shadow:
+          0 0 0 1px rgba(125, 211, 252, 0.25),
+          0 0 30px rgba(125, 211, 252, 0.18);
+      }
+
+      .glass-input {
+        flex: 1;
+
+        width: 100%;
+        padding: 10px 12px;
+
+        background: rgba(0, 0, 0, 0.18);
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+        border-radius: 12px;
+
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        color: #e8f2fb;
+        font-size: 15px;
+
+        outline: none;
+
+        box-shadow:
+          0 4px 20px rgba(0, 0, 0, 0.25),
+          inset 0 0 15px rgba(125, 211, 252, 0.04);
+
+        transition: all 0.25s ease;
+      }
+
+      .glass-input::placeholder {
+        color: rgba(232, 242, 251, 0.45);
+      }
+
+      .glass-input:focus {
+        border-color: rgba(125, 211, 252, 0.45);
+        box-shadow:
+          0 0 0 1px rgba(125, 211, 252, 0.2),
+          0 0 20px rgba(125, 211, 252, 0.15),
+          inset 0 0 15px rgba(125, 211, 252, 0.05);
       }
 
       .links {
@@ -174,11 +266,86 @@
       }
 
       pre.cmd {
+        position: relative;
+        margin-top: 8px;
+        padding: 12px 14px 12px 42px;
+
         background: rgba(0, 0, 0, 0.18);
-        padding: 10px;
-        border-radius: 8px;
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+        border-radius: 10px;
+
         color: #dff4ff;
-        overflow: auto;
+
+        font-family: "JetBrains Mono", "Fira Code", monospace;
+
+        font-size: 14px;
+        line-height: 1.5;
+
+        overflow-x: auto;
+
+        box-shadow:
+          inset 0 0 20px rgba(125, 211, 252, 0.05),
+          0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      pre.cmd::before {
+        content: "$";
+        position: absolute;
+        left: 14px;
+        top: 12px;
+
+        color: #38bdf8;
+        font-weight: bold;
+
+        text-shadow: 0 0 8px rgba(56, 189, 248, 0.7);
+      }
+      .terminal-cmd {
+        overflow: hidden;
+        border-radius: 10px;
+        margin-top: 8px;
+
+        background: rgba(0, 0, 0, 0.18);
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+
+        box-shadow:
+          0 4px 20px rgba(0, 0, 0, 0.3),
+          inset 0 0 20px rgba(125, 211, 252, 0.05);
+      }
+
+      .terminal-header {
+        display: flex;
+        gap: 6px;
+        padding: 8px 10px;
+
+        background: rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .terminal-header span {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+
+      .terminal-header span:nth-child(1) {
+        background: #ff5f56;
+      }
+
+      .terminal-header span:nth-child(2) {
+        background: #ffbd2e;
+      }
+
+      .terminal-header span:nth-child(3) {
+        background: #27c93f;
+      }
+
+      .terminal-cmd pre.cmd {
+        margin: 0;
+        border: 0;
+        box-shadow: none;
+        background: transparent;
       }
       img {
         max-width: 100%;
@@ -204,10 +371,13 @@
       }
 
       .timer-card {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: transparent;
+        border: 1px solid rgba(125, 211, 252, 0.15);
         border-radius: 12px;
         padding: 12px;
+        box-shadow:
+          0 4px 20px rgba(0, 0, 0, 0.3),
+          inset 0 0 20px rgba(125, 211, 252, 0.05);
       }
 
       .timer-header {
@@ -236,11 +406,469 @@
 
       .timer-actions button {
         flex: 1;
-        padding: 7px;
-        border-radius: 8px;
-        border: 0;
-        background: rgba(255, 255, 255, 0.08);
-        color: white;
+      }
+
+      .page-background {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        background: #e0e5ec;
+        font-family: "Helvetica Neue", "Arial", sans-serif;
+      }
+
+      .clock-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 0;
+      }
+
+      .clock-face {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: radial-gradient(
+          circle at top left,
+          rgba(125, 211, 252, 0.12),
+          rgba(255, 255, 255, 0.03)
+        );
+
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+
+        box-shadow:
+          0 0 30px rgba(125, 211, 252, 0.08),
+          0 10px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      .clock-face::before {
+        content: "";
+        position: absolute;
+        width: 92%;
+        height: 92%;
+        border-radius: 50%;
+
+        border: 1px solid rgba(125, 211, 252, 0.08);
+
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.02),
+          rgba(0, 0, 0, 0.15)
+        );
+      }
+
+      .marker {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 1;
+      }
+
+      .marker-dot {
+        position: absolute;
+        top: 15px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background-color: #7dd3fc;
+        box-shadow:
+          0 0 8px rgba(125, 211, 252, 0.8),
+          0 0 14px rgba(125, 211, 252, 0.4);
+      }
+
+      .marker-1 {
+        transform: rotate(30deg);
+      }
+      .marker-2 {
+        transform: rotate(60deg);
+      }
+      .marker-3 {
+        transform: rotate(90deg);
+      }
+      .marker-3 .marker-dot {
+        width: 8px;
+        height: 8px;
+      }
+      .marker-4 {
+        transform: rotate(120deg);
+      }
+      .marker-5 {
+        transform: rotate(150deg);
+      }
+      .marker-6 {
+        transform: rotate(180deg);
+      }
+      .marker-6 .marker-dot {
+        width: 8px;
+        height: 8px;
+      }
+      .marker-7 {
+        transform: rotate(210deg);
+      }
+      .marker-8 {
+        transform: rotate(240deg);
+      }
+      .marker-9 {
+        transform: rotate(270deg);
+      }
+      .marker-9 .marker-dot {
+        width: 8px;
+        height: 8px;
+      }
+      .marker-10 {
+        transform: rotate(300deg);
+      }
+      .marker-11 {
+        transform: rotate(330deg);
+      }
+      .marker-12 {
+        transform: rotate(360deg);
+      }
+      .marker-12 .marker-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .number {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        color: #7dd3fc;
+        text-shadow:
+          0 0 8px rgba(125, 211, 252, 0.5),
+          0 0 16px rgba(125, 211, 252, 0.2);
+        z-index: 2;
+      }
+
+      .number-1 {
+        transform: rotate(30deg);
+      }
+      .number-1-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-30deg);
+      }
+      .number-2 {
+        transform: rotate(60deg);
+      }
+      .number-2-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-60deg);
+      }
+      .number-3 {
+        transform: rotate(90deg);
+      }
+      .number-3-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-90deg);
+      }
+      .number-4 {
+        transform: rotate(120deg);
+      }
+      .number-4-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-120deg);
+      }
+      .number-5 {
+        transform: rotate(150deg);
+      }
+      .number-5-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-150deg);
+      }
+      .number-6 {
+        transform: rotate(180deg);
+      }
+      .number-6-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-180deg);
+      }
+      .number-7 {
+        transform: rotate(210deg);
+      }
+      .number-7-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-210deg);
+      }
+      .number-8 {
+        transform: rotate(240deg);
+      }
+      .number-8-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-240deg);
+      }
+      .number-9 {
+        transform: rotate(270deg);
+      }
+      .number-9-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-270deg);
+      }
+      .number-10 {
+        transform: rotate(300deg);
+      }
+      .number-10-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-300deg);
+      }
+      .number-11 {
+        transform: rotate(330deg);
+      }
+      .number-11-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-330deg);
+      }
+      .number-12 {
+        transform: rotate(360deg);
+      }
+      .number-12-text {
+        display: inline-block;
+        transform: translateY(35px) rotate(-360deg);
+      }
+
+      .hand {
+        position: absolute;
+        bottom: 50%;
+        left: 50%;
+        transform-origin: bottom center;
+        border-radius: 10px 10px 0 0;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
+      }
+
+      .hour-hand {
+        width: 8px;
+        height: 50px;
+        background: #ffffff;
+        transform: translateX(-50%) rotate(105.5deg);
+        /* animation: rotate-hours 43200s linear infinite; */
+        animation-play-state: running;
+        z-index: 5;
+      }
+
+      .minute-hand {
+        width: 6px;
+        height: 80px;
+        background: #7a8a9e;
+        transform: translateX(-50%) rotate(186deg);
+        /* animation: rotate-minutes 3600s linear infinite; */
+        animation-play-state: running;
+        z-index: 6;
+      }
+
+      .second-hand {
+        width: 3px;
+        height: 100px;
+        background: #e65e5e;
+        transform: translateX(-50%) rotate(0deg);
+        /* animation: rotate-seconds 60s steps(60, end) infinite; */
+        animation-play-state: running;
+        z-index: 7;
+      }
+
+      .center-pin {
+        width: 20px;
+        height: 20px;
+        background: #e0e5ec;
+        border-radius: 50%;
+        position: absolute;
+        z-index: 10;
+        box-shadow:
+          inset 3px 3px 6px #a3b1c6,
+          inset -3px -3px 6px #ffffff;
+      }
+
+      .center-pin::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 6px;
+        height: 6px;
+        background: #4a5463;
+        border-radius: 50%;
+      }
+
+      @keyframes rotate-seconds {
+        from {
+          transform: translateX(-50%) rotate(0deg);
+        }
+        to {
+          transform: translateX(-50%) rotate(360deg);
+        }
+      }
+
+      @keyframes rotate-minutes {
+        from {
+          transform: translateX(-50%) rotate(186deg);
+        }
+        to {
+          transform: translateX(-50%) rotate(546deg);
+        }
+      }
+
+      @keyframes rotate-hours {
+        from {
+          transform: translateX(-50%) rotate(105.5deg);
+        }
+        to {
+          transform: translateX(-50%) rotate(465.5deg);
+        }
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 8px 16px;
+        min-height: 36px;
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+        border-radius: 10px;
+
+        background: transparent;
+
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+
+        color: #e8f2fb;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.05),
+          0 4px 12px rgba(0, 0, 0, 0.25);
+      }
+
+      .btn:hover {
+        border-color: rgba(125, 211, 252, 0.4);
+        color: var(--accent);
+
+        transform: translateY(-1px);
+
+        box-shadow:
+          0 0 15px rgba(125, 211, 252, 0.18),
+          0 6px 18px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      .btn:focus-visible {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow:
+          0 0 0 3px rgba(125, 211, 252, 0.2),
+          0 0 20px rgba(125, 211, 252, 0.25);
+      }
+
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .toggle,
+      .reset,
+      .delete,
+      .pin-btn,
+      .edit-btn,
+      .delete-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 8px 16px;
+        min-height: 36px;
+
+        border: 1px solid rgba(125, 211, 252, 0.15);
+        border-radius: 10px;
+
+        background: transparent;
+
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+
+        color: #e8f2fb;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.05),
+          0 4px 12px rgba(0, 0, 0, 0.25);
+      }
+
+      .toggle:hover,
+      .reset:hover,
+      .delete:hover,
+      .pin-btn:hover,
+      .edit-btn:hover,
+      .delete-btn:hover {
+        border-color: rgba(125, 211, 252, 0.4);
+        color: var(--accent);
+
+        transform: translateY(-1px);
+
+        box-shadow:
+          0 0 15px rgba(125, 211, 252, 0.18),
+          0 6px 18px rgba(0, 0, 0, 0.3);
+      }
+
+      .toggle:active,
+      .reset:active,
+      .delete:active,
+      .pin-btn:active,
+      .edit-btn:active,
+      .delete-btn:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      .toggle:focus-visible,
+      .reset:focus-visible,
+      .delete:focus-visible,
+      .pin-btn:focus-visible,
+      .edit-btn:focus-visible,
+      .delete-btn:focus-visible {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow:
+          0 0 0 3px rgba(125, 211, 252, 0.2),
+          0 0 20px rgba(125, 211, 252, 0.25);
+      }
+
+      .toggle:disabled,
+      .reset:disabled,
+      .delete:disabled,
+      .pin-btn:disabled,
+      .edit-btn:disabled,
+      .delete-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
       }
     </style>
   </head>
@@ -304,7 +932,6 @@
               <div style="font-weight: 700">Schnellzugriff</div>
               <div style="display: flex; gap: 8px">
                 <button
-                  class="collapse-btn"
                   data-target="card-main"
                   title="Ein-/ausklappen"
                   style="
@@ -332,41 +959,72 @@
             </form>
 
             <div class="links" role="navigation" aria-label="Schnellzugriffe">
-              <a class="link" href="https://wiki.archlinux.org" target="_blank"
+              <a class="btn" href="https://wiki.archlinux.org" target="_blank"
                 >Arch Wiki</a
               >
-              <a class="link" href="https://aur.archlinux.org" target="_blank"
+              <a class="btn" href="https://stackoverflow.com" target="_blank"
+                >Arch Manpages</a
+              >
+              <a class="btn" href="https://aur.archlinux.org" target="_blank"
                 >AUR</a
               >
               <a
-                class="link"
+                class="btn"
                 href="https://github.com/17jk789/my-vs-code-setting"
                 target="_blank"
                 >17jk789</a
               >
-              <a class="link" href="https://www.google.com/" target="_blank"
+              <a class="btn" href="https://www.google.com/" target="_blank"
                 >Google</a
               >
-              <a class="link" href="https://search.brave.com" target="_blank"
+              <a class="btn" href="https://search.brave.com" target="_blank"
                 >Brave Search</a
               >
               <a
-                class="link"
+                class="btn"
                 href="https://www.gmx.net/consent-management/"
                 target="_blank"
                 >GMX</a
               >
-              <a
-                class="link"
-                href="https://news.ycombinator.com"
-                target="_blank"
+              <a class="btn" href="https://news.ycombinator.com" target="_blank"
                 >Hacker News</a
               >
-              <a class="link" href="https://matrix.to/#/" target="_blank"
+              <a class="btn" href="https://matrix.to/#/" target="_blank"
                 >Matrix</a
               >
-              <a class="link" href="https://www.youtube.com/" target="_blank"
+              <a class="btn" href="https://www.youtube.com/" target="_blank"
                 >YouTube</a
+              >
+              <a class="btn" href="https://gitlab.com" target="_blank"
+                >GitHub</a
+              >
+              <a class="btn" href="https://www.youtube.com/" target="_blank"
+                >GitLab</a
+              >
+              <a class="btn" href="https://ipinfo.io" target="_blank"
+                >IP Info</a
+              >
+              <a class="btn" href="https://speedtest.net" target="_blank"
+                >Speedtest</a
+              >
+              <a class="btn" href="https://dnsleaktest.com" target="_blank"
+                >DNS Leak Test</a
+              >
+              <a class="btn" href="https://haveibeenpwned.com" target="_blank"
+                >Have I Been Pwned</a
+              >
+              <a class="btn" href="https://deepl.com" target="_blank">DeepL</a>
+              <a class="btn" href="https://reddit.com/r/linux" target="_blank"
+                >r/linux</a
+              >
+              <a
+                class="btn"
+                href="https://reddit.com/r/archlinux"
+                target="_blank"
+                >r/archlinux</a
+              >
+              <a class="btn" href="https://www.virustotal.com" target="_blank"
+                >VirusTotal</a
               >
             </div>
 
@@ -386,17 +1044,33 @@
               >
                 <div style="flex: 1; min-width: 220px">
                   <strong>System / Paket</strong>
-                  <pre class="cmd">
+                  <div class="terminal-cmd">
+                    <div class="terminal-header">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <pre class="cmd">
 sudo pacman -Syu
 sudo pacman -S package_name
-sudo pacman -Rns package_name</pre>
+sudo pacman -Rns package_name</pre
+                    >
+                  </div>
                 </div>
                 <div style="flex: 1; min-width: 220px">
                   <strong>Nützliche Tools</strong>
-                  <pre class="cmd">
+                  <div class="terminal-cmd">
+                    <div class="terminal-header">
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                    </div>
+                    <pre class="cmd">
 systemctl status --user
 journalctl -b -p err
-htop</pre>
+htop</pre
+                    >
+                  </div>
                 </div>
               </div>
 
@@ -406,11 +1080,20 @@ htop</pre>
                   Beispiel: Klone dein JK-Arch Repo und verlinke Configs nach
                   <code>~/.config</code>.
                 </div>
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 cd ~
 git clone git@github.com:17jk789/my-vs-code-setting.git
 # Details: https://github.com/17jk789/my-vs-code-setting/blob/main/my-arch-jk.md
-stow -t ~ nvim</pre>
+stow -t ~ nvim</pre
+                  >
+                </div>
               </div>
 
               <div style="margin-top: 12px">
@@ -459,12 +1142,21 @@ stow -t ~ nvim</pre>
                   Hyprland ist ein beliebter Wayland-Composer auf Arch.
                   Hinweise:
                 </div>
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 # Hyprland-Konfiguration: ~/.config/hypr/
 # Wallpaper (hyprpaper):
 hyprpaper set /pfad/zum/wallpaper.jpg
 # Autostart: ~/.config/hypr/autostart
-# Passe scale, gaps und binds in ~/.config/hypr/hyprland.conf an</pre>
+# Passe scale, gaps und binds in ~/.config/hypr/hyprland.conf an</pre
+                  >
+                </div>
                 <div class="muted">
                   "end-4" habe ich als Hinweis auf dein gewünschtes
                   Hyprland-Setup übernommen — passe Themes/scale entsprechend
@@ -503,37 +1195,85 @@ hyprpaper set /pfad/zum/wallpaper.jpg
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>System vollständig aktualisieren:</strong>
-                <pre class="cmd">sudo pacman -Syu</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -Syu</pre>
+                </div>
               </li>
               <li>
                 <strong>Neues Paket installieren:</strong>
-                <pre class="cmd">sudo pacman -S paketname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -S paketname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Paket samt ungenutzter Abhängigkeiten entfernen:</strong
                 >
-                <pre class="cmd">sudo pacman -Rs paketname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -Rs paketname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Offizielle Repositorys nach Begriff durchsuchen:</strong
                 >
-                <pre class="cmd">pacman -Ss suchbegriff</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">pacman -Ss suchbegriff</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Nicht mehr benötigte Pakete (Orphans) aufspüren und
                   löschen:</strong
                 >
-                <pre class="cmd">sudo pacman -Rns $(pacman -Qtdq)</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -Rns $(pacman -Qtdq)</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Paket-Cache komplett leeren (Speicherplatz
                   freigeben):</strong
                 >
-                <pre class="cmd">sudo pacman -Scc</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo pacman -Scc</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -547,15 +1287,39 @@ hyprpaper set /pfad/zum/wallpaper.jpg
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>System inklusive AUR-Pakete aktualisieren:</strong>
-                <pre class="cmd">yay -Syu</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">yay -Syu</pre>
+                </div>
               </li>
               <li>
                 <strong>Paket aus dem AUR installieren:</strong>
-                <pre class="cmd">yay -S aur-paketname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">yay -S aur-paketname</pre>
+                </div>
               </li>
               <li>
                 <strong>Das AUR nach einem Begriff durchsuchen:</strong>
-                <pre class="cmd">yay -Ss suchbegriff</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">yay -Ss suchbegriff</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -573,34 +1337,82 @@ hyprpaper set /pfad/zum/wallpaper.jpg
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>Dienst sofort starten:</strong>
-                <pre class="cmd">sudo systemctl start dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo systemctl start dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong>Dienst sofort stoppen:</strong>
-                <pre class="cmd">sudo systemctl stop dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo systemctl stop dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong>Automatischen Start bei Systemboot aktivieren:</strong>
-                <pre class="cmd">sudo systemctl enable dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo systemctl enable dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Automatischen Start bei Systemboot deaktivieren:</strong
                 >
-                <pre class="cmd">sudo systemctl disable dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">sudo systemctl disable dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Aktuellen Status und Fehler eines Dienstes prüfen:</strong
                 >
-                <pre class="cmd">systemctl status dienstname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">systemctl status dienstname</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >System-Logs des aktuellen Boots auslesen
                   (Fehlersuche):</strong
                 >
-                <pre class="cmd">journalctl -xb</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">journalctl -xb</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -620,17 +1432,40 @@ hyprpaper set /pfad/zum/wallpaper.jpg
                 <strong
                   >Schnellste HTTPS-Spiegelserver via Reflector holen:</strong
                 >
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 sudo reflector --protocol https --latest 5 --sort rate --save /etc/pacman.d/mirrorlist</pre
-                >
+                  >
+                </div>
               </li>
               <li>
                 <strong>Bremsen beim Systemstart identifizieren:</strong>
-                <pre class="cmd">systemd-analyze blame</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">systemd-analyze blame</pre>
+                </div>
               </li>
               <li>
                 <strong>Festplattenbelegung übersichtlich anzeigen:</strong>
-                <pre class="cmd">df -h</pre>
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">df -h</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -648,23 +1483,55 @@ sudo reflector --protocol https --latest 5 --sort rate --save /etc/pacman.d/mirr
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>Verfügbare WLAN-Netzwerke auflisten:</strong>
-                <pre class="cmd">nmcli dev wifi list</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">nmcli dev wifi list</pre>
+                </div>
               </li>
               <li>
                 <strong>Mit einem WLAN-Netzwerk verbinden:</strong>
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 nmcli dev wifi connect "SSID_NAME" password "DEIN_PASSWORT"</pre
-                >
+                  >
+                </div>
               </li>
               <li>
                 <strong
                   >Netzwerkschnittstellen und IP-Adressen anzeigen:</strong
                 >
-                <pre class="cmd">ip a</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">ip a</pre>
+                </div>
               </li>
               <li>
                 <strong>Aktive Netzwerkverbindungen anzeigen:</strong>
-                <pre class="cmd">nmcli connection show</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">nmcli connection show</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -682,22 +1549,54 @@ nmcli dev wifi connect "SSID_NAME" password "DEIN_PASSWORT"</pre
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>Aktuell geladene Kernel-Version anzeigen:</strong>
-                <pre class="cmd">uname -r</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">uname -r</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >PCI-Geräte (z.B. Grafikkarte, WLAN-Chipsatz)
                   auflisten:</strong
                 >
-                <pre class="cmd">lspci -v</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">lspci -v</pre>
+                </div>
               </li>
               <li>
                 <strong>Angeschlossene USB-Geräte anzeigen:</strong>
-                <pre class="cmd">lsusb</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">lsusb</pre>
+                </div>
               </li>
               <li>
                 <strong>Geladene Kernel-Module (Treiber) durchsuchen:</strong>
-                <pre class="cmd">lsmod | grep -i modulname</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">lsmod | grep -i modulname</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -715,19 +1614,43 @@ nmcli dev wifi connect "SSID_NAME" password "DEIN_PASSWORT"</pre
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>Status aller PipeWire-Audio-Dienste prüfen:</strong>
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 systemctl --user status pipewire pipewire-pulse wireplumber</pre
-                >
+                  >
+                </div>
               </li>
               <li>
                 <strong>Audio-Server neu starten bei Sound-Problemen:</strong>
-                <pre class="cmd">
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">
 systemctl --user restart pipewire pipewire-pulse wireplumber</pre
-                >
+                  >
+                </div>
               </li>
               <li>
                 <strong>Lautstärke im Terminal regeln (Mixer öffnen):</strong>
-                <pre class="cmd">alsamixer</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">alsamixer</pre>
+                </div>
               </li>
             </ul>
           </div>
@@ -745,24 +1668,91 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
             <ul class="muted" style="margin-top: 8px">
               <li>
                 <strong>Root-Partition einhängen (z. B. für Reparatur):</strong>
-                <pre class="cmd">mount /dev/sdXy /mnt</pre>
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">mount /dev/sdXy /mnt</pre>
+                </div>
               </li>
               <li>
                 <strong>In das installierte System wechseln (Chrooten):</strong>
-                <pre class="cmd">arch-chroot /mnt</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">arch-chroot /mnt</pre>
+                </div>
               </li>
               <li>
                 <strong
                   >Bootloader (GRUB) innerhalb von Chroot neu
                   generieren:</strong
                 >
-                <pre class="cmd">grub-mkconfig -o /boot/grub/grub.cfg</pre>
+
+                <div class="terminal-cmd">
+                  <div class="terminal-header">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <pre class="cmd">grub-mkconfig -o /boot/grub/grub.cfg</pre>
+                </div>
               </li>
             </ul>
           </div>
         </main>
 
         <aside id="aside">
+          <div
+            class="card box"
+            id="card-wallpaper"
+            data-card-id="card-wallpaper"
+          >
+            <strong>Wallpaper</strong>
+            <div class="muted" style="margin-top: 6px">
+              Wähle ein Bild von deinem Rechner; die Seite speichert es lokal
+              (localStorage) und nutzt es immer.
+            </div>
+            <div style="margin-top: 8px">
+              <form id="wallpaper-form">
+                <input
+                  id="wall-input"
+                  name="wallpaper"
+                  type="file"
+                  accept="image/*"
+                />
+
+                <div style="margin-top: 10px"></div>
+
+                <div class="wall-actions">
+                  <button id="wall-save" class="btn" type="submit">
+                    Speichern
+                  </button>
+
+                  <button id="wall-reset" class="btn" type="button">
+                    Zurücksetzen
+                  </button>
+                </div>
+              </form>
+              <div
+                id="wall-preview"
+                style="
+                  margin-top: 10px;
+                  border-radius: 8px;
+                  overflow: hidden;
+                  max-height: 120px;
+                  background: rgba(255, 255, 255, 0.02);
+                  display: none;
+                "
+              ></div>
+            </div>
+          </div>
           <!-- Notes box -->
           <div class="card box" id="card-notes" data-card-id="card-notes">
             <div
@@ -797,56 +1787,26 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
                 <input
                   id="note-title"
                   placeholder="Titel..."
-                  style="
-                    flex: 1;
-                    padding: 8px;
-                    border-radius: 6px;
-                    border: 1px solid rgba(255, 255, 255, 0.08);
-                    background: transparent;
-                    color: inherit;
-                  "
+                  class="glass-input"
                 />
 
-                <button
-                  id="note-add"
-                  style="
-                    padding: 8px 12px;
-                    border-radius: 6px;
-                    border: 0;
-                    background: var(--accent);
-                    font-weight: 700;
-                  "
-                >
-                  +
-                </button>
+                <button id="note-add" class="btn">+</button>
               </div>
+
+              <div style="margin-top: 10px"></div>
 
               <textarea
                 id="note-text"
                 placeholder="Notiz eingeben..."
-                style="
-                  width: 100%;
-                  min-height: 90px;
-                  padding: 10px;
-                  border-radius: 6px;
-                  border: 1px solid rgba(255, 255, 255, 0.08);
-                  background: transparent;
-                  color: inherit;
-                "
+                class="glass-input"
               ></textarea>
+
+              <div style="margin-top: 10px"></div>
 
               <input
                 id="note-search"
-                placeholder="🔍 Notizen durchsuchen..."
-                style="
-                  width: 100%;
-                  margin-top: 10px;
-                  padding: 8px;
-                  border-radius: 6px;
-                  border: 1px solid rgba(255, 255, 255, 0.08);
-                  background: transparent;
-                  color: inherit;
-                "
+                placeholder="Notizen durchsuchen..."
+                class="glass-input"
               />
 
               <div
@@ -858,6 +1818,94 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
                   gap: 8px;
                 "
               ></div>
+            </div>
+          </div>
+
+          <div class="card box" id="card-clock" data-card-id="card-clock">
+            <!-- <strong>Analoge Uhr</strong> -->
+
+            <div class="clock-container" style="margin-top: 15px">
+              <div class="clock-face">
+                <div class="marker marker-1">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-2">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-3">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-4">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-5">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-6">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-7">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-8">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-9">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-10">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-11">
+                  <div class="marker-dot"></div>
+                </div>
+                <div class="marker marker-12">
+                  <div class="marker-dot"></div>
+                </div>
+
+                <div class="number number-1">
+                  <span class="number-1-text">1</span>
+                </div>
+                <div class="number number-2">
+                  <span class="number-2-text">2</span>
+                </div>
+                <div class="number number-3">
+                  <span class="number-3-text">3</span>
+                </div>
+                <div class="number number-4">
+                  <span class="number-4-text">4</span>
+                </div>
+                <div class="number number-5">
+                  <span class="number-5-text">5</span>
+                </div>
+                <div class="number number-6">
+                  <span class="number-6-text">6</span>
+                </div>
+                <div class="number number-7">
+                  <span class="number-7-text">7</span>
+                </div>
+                <div class="number number-8">
+                  <span class="number-8-text">8</span>
+                </div>
+                <div class="number number-9">
+                  <span class="number-9-text">9</span>
+                </div>
+                <div class="number number-10">
+                  <span class="number-10-text">10</span>
+                </div>
+                <div class="number number-11">
+                  <span class="number-11-text">11</span>
+                </div>
+                <div class="number number-12">
+                  <span class="number-12-text">12</span>
+                </div>
+
+                <div class="hand hour-hand" id="hour-hand"></div>
+                <div class="hand minute-hand" id="minute-hand"></div>
+                <div class="hand second-hand" id="second-hand"></div>
+
+                <div class="center-pin"></div>
+              </div>
             </div>
           </div>
 
@@ -895,14 +1943,7 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
                 <input
                   id="timer-label"
                   placeholder="Label"
-                  style="
-                    flex: 1;
-                    padding: 8px;
-                    border-radius: 6px;
-                    border: 1px solid rgba(255, 255, 255, 0.04);
-                    background: transparent;
-                    color: inherit;
-                  "
+                  class="glass-input"
                 />
               </div>
               <div
@@ -922,9 +1963,12 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
                     width: 68px;
                     padding: 8px;
                     border-radius: 6px;
-                    border: 1px solid rgba(255, 255, 255, 0.04);
+                    border: 1px solid rgba(125, 211, 252, 0.15);
                     background: transparent;
                     color: inherit;
+                    box-shadow:
+                      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                      0 4px 12px rgba(0, 0, 0, 0.25);
                   "
                 />
                 <label class="muted">min</label>
@@ -938,79 +1982,20 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
                     width: 68px;
                     padding: 8px;
                     border-radius: 6px;
-                    border: 1px solid rgba(255, 255, 255, 0.04);
+                    border: 1px solid rgba(125, 211, 252, 0.15);
                     background: transparent;
                     color: inherit;
+                    box-shadow:
+                      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+                      0 4px 12px rgba(0, 0, 0, 0.25);
                   "
                 />
                 <label class="muted">sec</label>
-                <button
-                  id="timer-add"
-                  style="
-                    padding: 8px;
-                    border-radius: 6px;
-                    background: var(--accent);
-                    border: 0;
-                    color: #022;
-                  "
-                >
-                  Erstellen
-                </button>
+                <button id="timer-add" class="btn">Erstellen</button>
               </div>
               <div
                 id="timers-list"
                 style="display: flex; flex-direction: column; gap: 8px"
-              ></div>
-            </div>
-          </div>
-
-          <div
-            class="card box"
-            id="card-wallpaper"
-            data-card-id="card-wallpaper"
-          >
-            <strong>Wallpaper</strong>
-            <div class="muted" style="margin-top: 6px">
-              Wähle ein Bild von deinem Rechner; die Seite speichert es lokal
-              (localStorage) und nutzt es immer.
-            </div>
-            <div style="margin-top: 8px">
-              <input id="wall-input" type="file" accept="image/*" />
-              <div style="margin-top: 8px; display: flex; gap: 8px">
-                <button
-                  id="wall-save"
-                  style="
-                    padding: 8px;
-                    border-radius: 8px;
-                    background: var(--accent);
-                    border: 0;
-                  "
-                >
-                  Speichern
-                </button>
-                <button
-                  id="wall-reset"
-                  style="
-                    padding: 8px;
-                    border-radius: 8px;
-                    background: transparent;
-                    border: 1px solid rgba(255, 255, 255, 0.06);
-                    color: var(--muted);
-                  "
-                >
-                  Zurücksetzen
-                </button>
-              </div>
-              <div
-                id="wall-preview"
-                style="
-                  margin-top: 10px;
-                  border-radius: 8px;
-                  overflow: hidden;
-                  max-height: 120px;
-                  background: rgba(255, 255, 255, 0.02);
-                  display: none;
-                "
               ></div>
             </div>
           </div>
@@ -1035,11 +2020,19 @@ systemctl --user restart pipewire pipewire-pulse wireplumber</pre
             <div class="muted" style="margin-top: 6px">
               Starte bei Bedarf einen lokalen Server (nur optional):
             </div>
-            <pre class="cmd">
+
+            <div class="terminal-cmd">
+              <div class="terminal-header">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <pre class="cmd">
 # im Verzeichnis dieser Datei
 python3 -m http.server 8000
 # dann: http://localhost:8000/firefox-index.html</pre
-            >
+              >
+            </div>
           </div>
 
           <div
@@ -1195,8 +2188,11 @@ python3 -m http.server 8000
               div.style.cssText = `
               padding:10px;
               border-radius:8px;
-              background:rgba(255,255,255,.03);
-              border:1px solid rgba(255,255,255,.05);
+              background:transparent;
+              border: 1px solid rgba(125, 211, 252, 0.15);
+              box-shadow:
+                0 4px 20px rgba(0, 0, 0, 0.3),
+                inset 0 0 20px rgba(125, 211, 252, 0.05);
             `;
 
               div.innerHTML = `
@@ -1658,6 +2654,30 @@ python3 -m http.server 8000
       })();
 
       // Keine externen Ressourcen oder fetch-APIs verwendet — volle file://-Kompatibilität
+
+      function updateClock() {
+        const now = new Date();
+
+        const seconds = now.getSeconds();
+        const minutes = now.getMinutes();
+        const hours = now.getHours();
+
+        const secondAngle = seconds * 6;
+        const minuteAngle = minutes * 6 + seconds * 0.1;
+        const hourAngle = (hours % 12) * 30 + minutes * 0.5;
+
+        document.getElementById("second-hand").style.transform =
+          `translateX(-50%) rotate(${secondAngle}deg)`;
+
+        document.getElementById("minute-hand").style.transform =
+          `translateX(-50%) rotate(${minuteAngle}deg)`;
+
+        document.getElementById("hour-hand").style.transform =
+          `translateX(-50%) rotate(${hourAngle}deg)`;
+      }
+
+      updateClock();
+      setInterval(updateClock, 1000);
     </script>
   </body>
 </html>
