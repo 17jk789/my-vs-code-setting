@@ -112,13 +112,13 @@ return {
     --   map("<leader>.R", dotnet.restore, ".NET Restore")
     --   map("<leader>.c", dotnet.clean, ".NET Clean")
     --   map("<leader>.p", dotnet.publish, ".NET Publish")
-    map("<leader>db", dotnet.build, ".NET Build")
-    map("<leader>dt", dotnet.test, ".NET Test")
-    map("<leader>dR", dotnet.restore, ".NET Restore")
-    map("<leader>dc", dotnet.clean, ".NET Clean")
-    map("<leader>di", dotnet.nuget, "NuGet")
-    map("<leader>do", dotnet.publish, ".NET Publish")
-    map("<leader>dx", dotnet.run, ".NET Run")
+    map("<leader>db", function() dotnet.build() end, ".NET Build")
+    map("<leader>dt", function() dotnet.test() end, ".NET Test")
+    map("<leader>dR", function() dotnet.restore() end, ".NET Restore")
+    map("<leader>dc", function() dotnet.clean() end, ".NET Clean")
+    map("<leader>di", function() dotnet.nuget() end, "NuGet")
+    map("<leader>do", function() dotnet.publish() end, ".NET Publish")
+    map("<leader>dx", function() dotnet.run() end, ".NET Run")
     end,
   },
 }
