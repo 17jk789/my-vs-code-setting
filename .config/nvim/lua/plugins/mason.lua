@@ -69,7 +69,7 @@ return {
 
         -- C#
         -- "omnisharp",
-        "roslyn",
+        "roslyn-language-server",
 
         -- Bash
         "bash-language-server",
