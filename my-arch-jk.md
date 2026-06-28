@@ -5,7 +5,7 @@
 > 1. Repository klonen und Ordner öffnen:
 > 
 > ```bash
-> git clone https://github.com
+> git clone https://github.com/lenucksi/aur-malware-check.git
 > cd aur-malware-check
 > ```
 > 
@@ -13,7 +13,7 @@
 > 
 > ```bash
 > python -m aur_check --refresh-campaigns --dry-run
-> ```bash
+> ```
 > 
 > 3. Der vollständige Tiefenscan (erfordert sudo für eBPF- und Systemd-Prüfungen):
 >
