@@ -1,3 +1,29 @@
+> ## 🚨 Arch Linux AUR-Malware? So prüfst du dein System!
+> Im Juni 2026 gab es eine massive Supply-Chain-Attacke auf das Arch User Repository (AUR), bei der über 1600 Pakete mit Infostealern und eBPF-Rootkits infiziert wurden.
+> Die Arch-Community hat ein großartiges Open-Source-Tool entwickelt, mit dem ihr euer System komplett durchleuchten könnt (inklusive aller Pacman-Logs, systemd-Dienste und npm/bun/yarn/pnpm-Caches).
+> ## Schnell-Check in 3 Schritten:
+> 1. Repository klonen und Ordner öffnen:
+> 
+> ```bash
+> git clone https://github.com
+> cd aur-malware-check
+> ```
+> 
+> 2. Risikofreier Testlauf (holt die neuesten Listen, scannt ohne Root):
+> 
+> ```bash
+> python -m aur_check --refresh-campaigns --dry-run
+> ```bash
+> 
+> 3. Der vollständige Tiefenscan (erfordert sudo für eBPF- und Systemd-Prüfungen):
+>
+> ```bash
+> sudo python -m aur_check --refresh --full
+> ```
+> 
+> Wenn am Ende RESULT: CLEAN steht, ist alles im grünen Bereich! Falls das Tool anschlägt, solltet ihr umgehend eure Passwörter und SSH-Keys von einem anderen Gerät aus ändern.
+> Bleibt sicher! 🐧
+
 Bitte installieren Sie eine Arch-basierte Distribution – vorzugsweise [Arch Linux](https://archlinux.org), [CachyOS](https://cachyos.org), [EndeavourOS](https://endeavouros.com), [Garuda Linux](https://garudalinux.org) oder [Manjaro](https://manjaro.org). Die Konfiguration sollte vollständig auf Hyprland unter Wayland basieren.
 
 Fish und nicht bash oder zsh!!!
