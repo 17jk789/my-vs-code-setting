@@ -11,6 +11,7 @@ return {
 				"c",
 				"cpp",
 				"rust",
+        		"c_sharp",
 				"java",
 				"kotlin",
 				"lua",
