@@ -108,6 +108,7 @@ Bitte führen sie alle Commands aus und fügen sie .config in ihr Systhem ein.
     - [Das digitale Mal- und Zeichenprogramm Krita installieren](#das-digitale-mal--und-zeichenprogramm-krita-installieren)
     - [Das Bildbearbeitungsprogramm GIMP installieren](#das-bildbearbeitungsprogramm-gimp-installieren)
     - [Das professionelle Videoschnittprogramm Kdenlive installieren](#das-professionelle-videoschnittprogramm-kdenlive-installieren)
+    - [Das professionelle All-in-One-Videoschnittprogramm DaVinci Resolve installieren](#das-professionelle-all-in-one-videoschnittprogramm-davinci-resolve-installieren)
     - [Das plattformübergreifende Videoschnittprogramm Shotcut installieren](#das-plattformübergreifende-videoschnittprogramm-shotcut-installieren)
     - [Die 3D-Grafik- und Animations-Suite Blender installieren](#die-3d-grafik--und-animations-suite-blender-installieren)
     - [Den E-Mail- und Kalender-Client Thunderbird installieren](#den-e-mail--und-kalender-client-thunderbird-installieren)
@@ -737,6 +738,14 @@ sudo pacman -S gimp
 
 ```bash
 sudo pacman -S kdenlive
+```
+
+### Das professionelle All-in-One-Videoschnittprogramm DaVinci Resolve installieren
+
+```bash
+sudo pacman -S davinci-resolve
+# sudo pacman -S cuda opencl-nvidia
+# sudo pacman -S rocm-opencl-runtime
 ```
 
 ### Das plattformübergreifende Videoschnittprogramm Shotcut installieren
