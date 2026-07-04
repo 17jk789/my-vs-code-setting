@@ -744,8 +744,12 @@ sudo pacman -S kdenlive
 
 ```bash
 sudo pacman -S davinci-resolve
+
 # sudo pacman -S cuda opencl-nvidia
 # sudo pacman -S rocm-opencl-runtime
+
+# ffmpeg -i eingabe.mp4 -c:v prores_ks -profile:v 3 -c:a pcm_s16le ausgabe.mov
+# mkdir -p konvertiert && for f in *.mp4; do ffmpeg -i "$f" -c:v prores_ks -profile:v 3 -c:a pcm_s16le "konvertiert/${f%.mp4}.mov"; done
 ```
 
 ### Das plattformübergreifende Videoschnittprogramm Shotcut installieren
