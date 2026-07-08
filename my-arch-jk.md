@@ -698,6 +698,12 @@ sudo pacman -S okular
 sudo pacman -S vlc
 ```
 
+### Den Audio-Editor Audacity installieren
+
+```bash
+sudo pacman -S audacity
+```
+
 ### Den funktionsreichen Terminal-Emulator Konsole installieren
 
 ```bash
