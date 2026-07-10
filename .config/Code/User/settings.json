@@ -118,9 +118,9 @@
     "vim.statusBarColors.surroundinputmode": ["#11111A", "#11111b"],
     "editor.wordWrap": "off",
     "workbench.colorCustomizations": {
-        "statusBar.background": "#C5AAF1",
-        "statusBar.noFolderBackground": "#C5AAF1",
-        "statusBar.debuggingBackground": "#C5AAF1",
+        "statusBar.background": "#b4befe",
+        "statusBar.noFolderBackground": "#b4befe",
+        "statusBar.debuggingBackground": "#b4befe",
         "statusBar.foreground": "#11111b",
         "statusBar.debuggingForeground": "#11111b"
     },
@@ -163,3 +163,103 @@
     "terminal.integrated.letterSpacing": 0,
     "terminal.integrated.lineHeight": 1.2
 }
+
+// {
+//     // Editor
+//     "editor.mouseWheelZoom": true,
+//     "editor.cursorSmoothCaretAnimation": "on",
+//     "editor.smoothScrolling": true,
+//     "editor.guides.bracketPairs": true,
+//     "editor.occurrencesHighlight": "off",
+//     "editor.selectionHighlight": false,
+//     "editor.wordWrap": "off",
+//     "editor.tabSize": 4,
+//     "editor.insertSpaces": true,
+//     "editor.detectIndentation": true,
+//
+//     // Dateien
+//     "files.insertFinalNewline": true,
+//     "files.autoSave": "off",
+//
+//     // Suche
+//     "search.smartCase": true,
+//     "workbench.editor.enablePreview": false,
+//
+//     // VSCode Neovim
+//     "vscode-neovim.neovimExecutablePaths.linux": "/usr/bin/nvim",
+//
+//     // VS Code soll wichtige Tasten an Neovim weitergeben
+//     "vscode-neovim.handleKeys": {
+//         "<C-b>": false,
+//         "<C-f>": false,
+//         "<C-w>": false,
+//         "<C-h>": false,
+//         "<C-j>": false,
+//         "<C-k>": false,
+//         "<C-l>": false
+//     },
+//
+//     // Theme / UI
+//     "workbench.colorTheme": "Catppuccin Mocha",
+//     "workbench.activityBar.location": "top",
+//     "workbench.sideBar.location": "right",
+//     "window.menuBarVisibility": "compact",
+//     "window.commandCenter": false,
+//
+//     // Statusbar Farben
+//     "workbench.colorCustomizations": {
+//         "statusBar.background": "#C5AAF1",
+//         "statusBar.noFolderBackground": "#C5AAF1",
+//         "statusBar.debuggingBackground": "#C5AAF1",
+//         "statusBar.foreground": "#11111b",
+//         "statusBar.debuggingForeground": "#11111b"
+//     },
+//
+//     // Terminal
+//     "terminal.integrated.fontFamily": "'JetBrainsMono Nerd Font', 'JetBrains Mono', monospace",
+//     "terminal.integrated.gpuAcceleration": "on",
+//     "terminal.integrated.fontWeight": "normal",
+//     "terminal.integrated.letterSpacing": 0,
+//     "terminal.integrated.lineHeight": 1.2,
+//     "terminal.integrated.smoothScrolling": true,
+//     "terminal.integrated.cursorBlinking": true,
+//     "terminal.integrated.cursorStyle": "line",
+//     "terminal.external.linuxExec": "kitty",
+//
+//     // Rust Analyzer
+//     "rust-analyzer.cargo.loadOutDirsFromCheck": true,
+//     "rust-analyzer.procMacro.enable": true,
+//     "rust-analyzer.checkOnSave": true,
+//     "rust-analyzer.checkOnSave.command": "clippy",
+//     "rust-analyzer.checkOnSave.extraArgs": [
+//         "--",
+//         "-W",
+//         "clippy::all"
+//     ],
+//     "rust-analyzer.inlayHints.enable": true,
+//     "rust-analyzer.inlayHints.typeHints": true,
+//     "rust-analyzer.inlayHints.parameterHints": true,
+//     "rust-analyzer.lens.enable": true,
+//     "rust-analyzer.diagnostics.disabled": [
+//         "unresolved-proc-macro"
+//     ],
+//     "rust-analyzer.server.extraEnv": {
+//         "RA_LRU_CAP": "100000"
+//     },
+//
+//     // Git
+//     "git.autofetch": true,
+//     "gitlens.ai.enabled": false,
+//
+//     // Material Icon Theme / Colors
+//     "material-code.primaryColor": "#9FD2E0",
+//
+//     // Copilot deaktiviert
+//     "github.copilot.enable": {
+//         "*": false,
+//         "plaintext": false,
+//         "markdown": false,
+//         "scminput": false,
+//         "java": false
+//     }
+// }
