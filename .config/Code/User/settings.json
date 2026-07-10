@@ -161,7 +161,11 @@
     "terminal.integrated.gpuAcceleration": "on",
     "terminal.integrated.fontWeight": "normal",
     "terminal.integrated.letterSpacing": 0,
-    "terminal.integrated.lineHeight": 1.2
+    "terminal.integrated.lineHeight": 1.2,
+    "terminal.integrated.smoothScrolling": true,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.cursorStyle": "line",
+    "terminal.external.linuxExec": "kitty"
 }
 
 // {
