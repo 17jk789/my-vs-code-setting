@@ -1349,7 +1349,6 @@
 --   },
 -- }
 
-
 local function find_style_xml()
   local cwd = vim.fn.getcwd()
 
@@ -1378,16 +1377,17 @@ return {
       "neovim/nvim-lspconfig",
       "mfussenegger/nvim-dap",
       "mason-org/mason.nvim",
+ 	  "MunifTanjim/nui.nvim",
     },
     config = function()
       -- require("java").setup() -- Doppeltes require("java").setup() vermeiden Sonst: Debug/Test Bugs, Code-Actions verschwinden manchmal, doppelte LSP-Attachs, wird aber dennoch benötigt!
       -- Setup nvim-java
 
       -- wir haben noice.lua und brauchen daher keine eigenen Handler mehr für jdtls Notifications
-      local handlers = {
-        -- ["language/status"] = function(_, _) end,
-        ["$/progress"] = function(_, _) end,
-      }
+    --   local handlers = {
+    --     -- ["language/status"] = function(_, _) end,
+    --     ["$/progress"] = function(_, _) end,
+    --   }
 
       require("java").setup({
         jdk = {
@@ -1397,6 +1397,7 @@ return {
 
         lombok = {
           enable = true,
+		  auto_install = true,
         },
 
         java_test = {
@@ -1417,7 +1418,7 @@ return {
       })
 
       vim.lsp.config("jdtls", {
-        handlers = handlers,
+        -- handlers = handlers,
 
         settings = {
           java = {
@@ -1425,33 +1426,33 @@ return {
             --   downloadSources = true,
             -- },
 
-            configuration = {
-              runtimes = {
-                -- { name = "JavaSE-1.6", path = "/usr/lib/jvm/java-6-openjdk/", default = true, },
-                -- { name = "JavaSE-1.7", path = "/usr/lib/jvm/java-7-openjdk/", default = true, },
-                -- { name = "JavaSE-1.8", path = "/usr/lib/jvm/java-8-openjdk/", default = true, },
-                -- { name = "JavaSE-9",   path = "/usr/lib/jvm/java-9-openjdk/", default = true, },
-                -- { name = "JavaSE-10",  path = "/usr/lib/jvm/java-10-openjdk/", default = true, },
-                -- { name = "JavaSE-11",  path = "/usr/lib/jvm/java-11-openjdk/", default = true, }, -- LTS
-                -- { name = "JavaSE-12",  path = "/usr/lib/jvm/java-12-openjdk/", default = true, },
-                -- { name = "JavaSE-13",  path = "/usr/lib/jvm/java-13-openjdk/", default = true, },
-                -- { name = "JavaSE-14",  path = "/usr/lib/jvm/java-14-openjdk/", default = true, },
-                -- { name = "JavaSE-15",  path = "/usr/lib/jvm/java-15-openjdk/", default = true, },
-                -- { name = "JavaSE-16",  path = "/usr/lib/jvm/java-16-openjdk/", default = true, },
-                -- { name = "JavaSE-17",  path = "/usr/lib/jvm/java-17-openjdk/", default = true, }, -- LTS
-                { name = "JavaSE-17",  path = "/usr/lib/jvm/java-17-openjdk/", }, -- LTS
-                -- { name = "JavaSE-18",  path = "/usr/lib/jvm/java-18-openjdk/", default = true, },
-                -- { name = "JavaSE-19",  path = "/usr/lib/jvm/java-19-openjdk/", default = true, },
-                -- { name = "JavaSE-20",  path = "/usr/lib/jvm/java-20-openjdk/", default = true, },
-                -- { name = "JavaSE-21",  path = "/usr/lib/jvm/java-21-openjdk/", default = true, }, -- LTS
-                { name = "JavaSE-21",  path = "/usr/lib/jvm/java-21-openjdk/", }, -- LTS
-                -- { name = "JavaSE-22",  path = "/usr/lib/jvm/java-22-openjdk/", default = true, },
-                -- { name = "JavaSE-23",  path = "/usr/lib/jvm/java-23-openjdk/", default = true, },
-                -- { name = "JavaSE-24",  path = "/usr/lib/jvm/java-24-openjdk/", default = true, },
-                { name = "JavaSE-25", path = "/usr/lib/jvm/java-25-openjdk/", default = true, }, -- LTS
-                -- { name = "JavaSE-26",  path = "/usr/lib/jvm/java-26-openjdk/", default = true, },
-              },
-            },
+            -- configuration = {
+            --   runtimes = {
+            --     -- { name = "JavaSE-1.6", path = "/usr/lib/jvm/java-6-openjdk/", default = true, },
+            --     -- { name = "JavaSE-1.7", path = "/usr/lib/jvm/java-7-openjdk/", default = true, },
+            --     -- { name = "JavaSE-1.8", path = "/usr/lib/jvm/java-8-openjdk/", default = true, },
+            --     -- { name = "JavaSE-9",   path = "/usr/lib/jvm/java-9-openjdk/", default = true, },
+            --     -- { name = "JavaSE-10",  path = "/usr/lib/jvm/java-10-openjdk/", default = true, },
+            --     -- { name = "JavaSE-11",  path = "/usr/lib/jvm/java-11-openjdk/", default = true, }, -- LTS
+            --     -- { name = "JavaSE-12",  path = "/usr/lib/jvm/java-12-openjdk/", default = true, },
+            --     -- { name = "JavaSE-13",  path = "/usr/lib/jvm/java-13-openjdk/", default = true, },
+            --     -- { name = "JavaSE-14",  path = "/usr/lib/jvm/java-14-openjdk/", default = true, },
+            --     -- { name = "JavaSE-15",  path = "/usr/lib/jvm/java-15-openjdk/", default = true, },
+            --     -- { name = "JavaSE-16",  path = "/usr/lib/jvm/java-16-openjdk/", default = true, },
+            --     -- { name = "JavaSE-17",  path = "/usr/lib/jvm/java-17-openjdk/", default = true, }, -- LTS
+            --     { name = "JavaSE-17",  path = "/usr/lib/jvm/java-17-openjdk/", }, -- LTS
+            --     -- { name = "JavaSE-18",  path = "/usr/lib/jvm/java-18-openjdk/", default = true, },
+            --     -- { name = "JavaSE-19",  path = "/usr/lib/jvm/java-19-openjdk/", default = true, },
+            --     -- { name = "JavaSE-20",  path = "/usr/lib/jvm/java-20-openjdk/", default = true, },
+            --     -- { name = "JavaSE-21",  path = "/usr/lib/jvm/java-21-openjdk/", default = true, }, -- LTS
+            --     { name = "JavaSE-21",  path = "/usr/lib/jvm/java-21-openjdk/", }, -- LTS
+            --     -- { name = "JavaSE-22",  path = "/usr/lib/jvm/java-22-openjdk/", default = true, },
+            --     -- { name = "JavaSE-23",  path = "/usr/lib/jvm/java-23-openjdk/", default = true, },
+            --     -- { name = "JavaSE-24",  path = "/usr/lib/jvm/java-24-openjdk/", default = true, },
+            --     { name = "JavaSE-25", path = "/usr/lib/jvm/java-25-openjdk/", default = true, }, -- LTS
+            --     -- { name = "JavaSE-26",  path = "/usr/lib/jvm/java-26-openjdk/", default = true, },
+            --   },
+            -- },
 
             -- maven = {
             --   downloadSources = true,
@@ -1466,9 +1467,9 @@ return {
               enabled = true,
             },
 
-            -- references = {
-            --   includeDecompiledSources = true,
-            -- },
+            references = {
+              includeDecompiledSources = true,
+            },
 
             -- XML Formatter (Google Style)
             -- Du nutzt GoogleStyle + eigenes XML.
@@ -1542,12 +1543,12 @@ return {
               -- },
             },
 
-            -- sources = {
-            --   organizeImports = {
-            --     starThreshold = 9999,
-            --     staticStarThreshold = 9999,
-            --   },
-            -- },
+            sources = {
+              organizeImports = {
+                starThreshold = 9999,
+                staticStarThreshold = 9999,
+              },
+            },
 
             -- codeGeneration = {
             --   -- useBlocks = true,
