@@ -46,8 +46,8 @@ hl.config({
 			size = 10,
 			passes = 3,
 
-			brightness = 1.05,
-			contrast = 0.95,
+			brightness = 1.3,
+			contrast = 1,
 			noise = 0.0,
 			vibrancy = 0.1,
 			vibrancy_darkness = 0.0,
@@ -72,6 +72,7 @@ hl.config({
 		dim_strength = 0.0,
 		dim_special = 0.2,
 	},
+
 	animations = {
 		enabled = true,
 	},
