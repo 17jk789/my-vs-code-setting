@@ -31,38 +31,45 @@ hl.config({
 		},
 	},
 	decoration = {
-		-- 2 = circle, higher = squircle, 4 = very obvious squircle
-		-- Fuck clearly visible squircles. 100% Apple brainrot.
-		rounding_power = 2,
+		rounding_power = 3,
 		rounding = 18,
+
+		-- active_opacity = 0.85,
+		-- inactive_opacity = 0.75,
 
 		blur = {
 			enabled = true,
 			xray = true,
 			special = false,
 			new_optimizations = true,
-			size = 11,
+
+			size = 10,
 			passes = 3,
-			brightness = 1.3,
-			noise = 0.03,
-			contrast = 1.05,
-			vibrancy = 0.6,
-			vibrancy_darkness = 0.55,
+
+			brightness = 1.05,
+			contrast = 0.95,
+			noise = 0.0,
+			vibrancy = 0.1,
+			vibrancy_darkness = 0.0,
+
+			ignore_opacity = true,
+
 			popups = false,
 			popups_ignorealpha = 0.6,
 			input_methods = true,
 			input_methods_ignorealpha = 0.8,
 		},
+
 		shadow = {
 			enabled = true,
-			range = 28,
-			offset = { 0, 4 },
-			render_power = 10,
-			color = "rgba(00000025)",
+			range = 30,
+			offset = { 0, 8 },
+			render_power = 3,
+			color = "rgba(02061796)",
 		},
-		-- Dim
-		dim_inactive = true,
-		dim_strength = 0.06,
+
+		dim_inactive = false,
+		dim_strength = 0.0,
 		dim_special = 0.2,
 	},
 	animations = {
