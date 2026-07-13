@@ -23,7 +23,7 @@ Use them **at your own risk**.
 This repository is primarily licensed under the **Apache License 2.0**.
 
 Some files are distributed under different licenses:
-- `general.lua` is licensed under **GNU General Public License v3.0-only (GPL-3.0-only)** because it contains modifications based on:
+- `general.lua` and `execs.lua` is licensed under **GNU General Public License v3.0-only (GPL-3.0-only)** because it contains modifications based on:
   https://github.com/end-4/dots-hyprland
 
 Windows: 

@@ -6,8 +6,6 @@ This repository contains my personal **Visual Studio Code settings**.
 > This repo was not created for public distribution.
 > It is intended only for my own use, so I can use my settings on another computer without logging into my GitHub account.
 
----
-
 ## Disclaimer
 
 These settings are provided **as-is**, without any warranty.
@@ -21,17 +19,13 @@ I am **not responsible** for any issues, errors, or damage that may occur from u
 
 Use them **at your own risk**.
 
----
-
 ## License
 
 This repository is primarily licensed under the **Apache License 2.0**.
 
 Some files are distributed under different licenses:
-- `general.lua` is licensed under **GNU General Public License v3.0-only (GPL-3.0-only)** because it contains modifications based on:
+- `general.lua` and `execs.lua` is licensed under **GNU General Public License v3.0-only (GPL-3.0-only)** because it contains modifications based on:
   https://github.com/end-4/dots-hyprland
-
----
 
 ## Notes
 
