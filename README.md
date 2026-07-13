@@ -1,8 +1,5 @@
-<p float="left">
-  <img src="images/1.png" width="400" />
-  <img src="images/2.png" width="400" />
-  <img src="images/3.png" width="400" />
-  <img src="images/4.png" width="400" />
+<p style="text-align: center;">
+  <img src="images/5.png" width="1000" />
 </p>
 
 # My Visual Studio Code, IDEA Vim and NeoVim (LazyVim) setting on Windows and Linux (Ubuntu and Arch)
