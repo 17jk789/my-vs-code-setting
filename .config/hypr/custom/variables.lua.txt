@@ -1,4 +1,5 @@
 -- This file will not be overwritten across dots-hyprland updates.
+
 -- The file name is for the sake of organization and does not matter
 -- See the corresponding files in ~/.config/hypr/hyprland for examples
 
@@ -10,7 +11,8 @@ hl.device({
 	sensitivity = 0.0,
 
 	-- Scrollgeschwindigkeit
-	scroll_points = 10,
+	scroll_factor = 3.5,
+	scroll_points = 5.5,
 
 	-- Apple-typische Scrollrichtung
 	natural_scroll = true,
@@ -25,7 +27,7 @@ hl.device({
 	-- accel_speed = 0.0,
 
 	-- Scroll-Methode
-	scroll_method = "on_button_down",
+	-- scroll_method = "on_button_down",
 
 	-- Tasten-Emulation
 	middle_button_emulation = true,
