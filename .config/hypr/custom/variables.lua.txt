@@ -1,0 +1,32 @@
+-- This file will not be overwritten across dots-hyprland updates.
+-- The file name is for the sake of organization and does not matter
+-- See the corresponding files in ~/.config/hypr/hyprland for examples
+
+-- Custom Einstellungen für die Apple Magic Mouse
+hl.device({
+	name = "magic-mouse",
+
+	-- Geschwindigkeit der Mausbewegung
+	sensitivity = 0.0,
+
+	-- Scrollgeschwindigkeit
+	scroll_points = 10,
+
+	-- Apple-typische Scrollrichtung
+	natural_scroll = true,
+
+	-- Maustasten umdrehen (falls gewünscht)
+	left_handed = false,
+
+	-- Beschleunigung
+	accel_profile = "adaptive",
+
+	-- Beschleunigungsstärke
+	-- accel_speed = 0.0,
+
+	-- Scroll-Methode
+	scroll_method = "on_button_down",
+
+	-- Tasten-Emulation
+	middle_button_emulation = true,
+})
