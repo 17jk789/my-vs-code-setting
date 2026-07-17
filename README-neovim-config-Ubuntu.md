@@ -13738,9 +13738,9 @@ return {
             {
               icon = " ",
               key = "b",
-              desc = "17jk789/my-vs-code-setting",
+              desc = "17jk789/jk-arch",
               action = function()
-                local url = "https://github.com/17jk789/my-vs-code-setting/blob/main/README-neovim-config-Ubuntu.md"
+                local url = "https://github.com/17jk789/jk-arch/blob/main/README-neovim-config-Ubuntu.md"
                 local cmd
 
                 if vim.fn.has("mac") == 1 then
