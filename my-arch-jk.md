@@ -951,6 +951,10 @@ sudo usermod -aG libvirt,kvm $(whoami)
 ### Das Highlight: Der optimale QEMU-Startbefehl (Die 2. Variante ist besser!)
 
 ```bash
+sudo pacman -Syu qemu-ui-gtk qemu-ui-sdl qemu-audio-pa spice-gtk virglrenderer libvdpau libva-mesa-driver
+```
+
+```bash
 qemu-img create -f qcow2 ubuntu.qcow2 50G
 
 qemu-system-x86_64 \
@@ -960,7 +964,7 @@ qemu-system-x86_64 \
   -m 10G \
   -vga none \
   -device virtio-vga-gl,xres=3840,yres=2160 \
-  -display gtk,gl=on \
+  -display gtk,gl=on,grab-on-hover=on \
   -drive file=ubuntu.qcow2,if=virtio,cache=writeback,format=qcow2 \
   -cdrom /home/jk/ubuntu/ubuntu-26.04-desktop-amd64.iso \
   -boot d \
@@ -969,18 +973,51 @@ qemu-system-x86_64 \
   -sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
   -rtc base=localtime,clock=vm \
   -no-user-config \
-  -nodefaults
+  -nodefaults \
+  -device qemu-xhci \
+  -device usb-tablet \
+  -device usb-kbd
+
+qemu-system-x86_64 \
+   -enable-kvm \
+   -cpu host \
+   -smp sockets=1,cores=6,threads=1 \
+   -m 10G \
+   -device virtio-vga-gl,max_outputs=1,xres=3840,yres=2160 \
+   -display gtk,gl=on,zoom-to-fit=on \
+   -drive file=ubuntu.qcow2,if=virtio,format=qcow2,cache=writeback \
+   -device qemu-xhci \
+   -device usb-tablet \
+   -device usb-kbd \
+   -netdev user,id=net0 \
+   -device virtio-net-pci,netdev=net0 \
+   -rtc base=localtime,clock=host
+
+# or
 
 qemu-system-x86_64 \
   -enable-kvm \
-  -cpu host \
-  -smp 6 \
+  -cpu host,hv_relaxed,hv_spinlocks=0x1fff,hv_vapic,hv_time,kvm=on \
+  -smp 6,sockets=1,cores=6,threads=1 \
   -m 10G \
-  -device virtio-vga-gl,xres=3840,yres=2160 \
-  -display gtk,gl=on \
-  -drive file=ubuntu.qcow2,if=virtio,format=qcow2 \
+  -device virtio-vga-gl,max_outputs=1,xres=3840,yres=2160 \
+  -display sdl,gl=on \
+  -device virtio-blk-pci,drive=hd0,num-queues=6 \
+  -drive file=ubuntu.qcow2,id=hd0,if=none,format=qcow2,cache=writeback,aio=threads,discard=unmap \
+  -device qemu-xhci,id=xhci \
+  -device usb-tablet,bus=xhci.0 \
   -netdev user,id=net0 \
-  -device virtio-net-pci,netdev=net0
+  -device virtio-net-pci,netdev=net0 \
+  -device virtio-serial-pci \
+  -device virtserialport,chardev=spicechannel0,name=com.redhat.spice.0 \
+  -chardev spicevmc,id=spicechannel0,name=vdagent \
+  -audiodev pipewire,id=audio0 \
+  -device virtio-sound-pci,audiodev=audio0 \
+  -rtc base=localtime,clock=host
+
+# bei Ubuntu noch: 
+
+sudo apt install spice-vdagent
 
 # or
 
