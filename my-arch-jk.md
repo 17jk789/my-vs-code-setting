@@ -101,6 +101,7 @@ Bitte führen sie alle Commands aus und fügen sie .config in ihr Systhem ein.
     - [Der grafische Bildbetrachter Gwenview installieren](#der-grafische-bildbetrachter-gwenview-installieren)
     - [Der universelle Dokumentenbetrachter Okular installieren](#der-universelle-dokumentenbetrachter-okular-installieren)
     - [Den universellen Medienplayer VLC installieren](#den-universellen-medienplayer-vlc-installieren)
+    - [Den Audio-Editor Audacity installieren](#den-audio-editor-audacity-installieren)
     - [Den funktionsreichen Terminal-Emulator Konsole installieren](#den-funktionsreichen-terminal-emulator-konsole-installieren)
     - [Die Wissensdatenbank Obsidian installieren](#die-wissensdatenbank-obsidian-installieren)
     - [Den grafischen Plasma-Systemmonitor installieren](#den-grafischen-plasma-systemmonitor-installieren)
@@ -950,6 +951,39 @@ sudo usermod -aG libvirt,kvm $(whoami)
 ### Das Highlight: Der optimale QEMU-Startbefehl (Die 2. Variante ist besser!)
 
 ```bash
+qemu-img create -f qcow2 ubuntu.qcow2 50G
+
+qemu-system-x86_64 \
+  -enable-kvm \
+  -cpu host,kvm=off \
+  -smp sockets=1,cores=6,threads=1 \
+  -m 10G \
+  -vga none \
+  -device virtio-vga-gl,xres=3840,yres=2160 \
+  -display gtk,gl=on \
+  -drive file=ubuntu.qcow2,if=virtio,cache=writeback,format=qcow2 \
+  -cdrom /home/jk/ubuntu/ubuntu-26.04-desktop-amd64.iso \
+  -boot d \
+  -netdev user,id=net0,restrict=yes \
+  -device virtio-net-pci,netdev=net0 \
+  -sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+  -rtc base=localtime,clock=vm \
+  -no-user-config \
+  -nodefaults
+
+qemu-system-x86_64 \
+  -enable-kvm \
+  -cpu host \
+  -smp 6 \
+  -m 10G \
+  -device virtio-vga-gl,xres=3840,yres=2160 \
+  -display gtk,gl=on \
+  -drive file=ubuntu.qcow2,if=virtio,format=qcow2 \
+  -netdev user,id=net0 \
+  -device virtio-net-pci,netdev=net0
+
+# or
+
 qemu-system-x86_64 \
       -enable-kvm \
       -m 6144 \
