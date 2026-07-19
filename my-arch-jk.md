@@ -1001,7 +1001,7 @@ qemu-system-x86_64 \
   -smp 6,sockets=1,cores=6,threads=1 \
   -m 10G \
   -device virtio-vga-gl,max_outputs=1,xres=3840,yres=2160 \
-  -display sdl,gl=on \
+  -display sdl,gl=on,grab-mod=rctrl \
   -device virtio-blk-pci,drive=hd0,num-queues=6 \
   -drive file=ubuntu.qcow2,id=hd0,if=none,format=qcow2,cache=writeback,aio=threads,discard=unmap \
   -device qemu-xhci,id=xhci \
