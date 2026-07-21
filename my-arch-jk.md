@@ -519,6 +519,12 @@ sudo pacman -S ranger w3m
 sudo pacman -S time
 ```
 
+### Install Radare2 (often called r2), the advanced command-line hex editor and reverse engineering framework
+
+```bash
+sudo pacman -S radare2
+```
+
 ### Das professionelle Benchmarking-Werkzeug Hyperfine installieren
 
 ```bash
