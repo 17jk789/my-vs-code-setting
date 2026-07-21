@@ -70,6 +70,7 @@ Bitte führen sie alle Commands aus und fügen sie .config in ihr Systhem ein.
     - [Den GPU-Prozess-Monitor nvtop installieren](#den-gpu-prozess-monitor-nvtop-installieren)
     - [Den Terminal-Dateimanager und die Bildvorschau installieren](#den-terminal-dateimanager-und-die-bildvorschau-installieren)
     - [Das Zeitmessungs-Werkzeug time installieren](#das-zeitmessungs-werkzeug-time-installieren)
+    - [Install Radare2 (often called r2), the advanced command-line hex editor and reverse engineering framework](#install-radare2-often-called-r2-the-advanced-command-line-hex-editor-and-reverse-engineering-framework)
     - [Das professionelle Benchmarking-Werkzeug Hyperfine installieren](#das-professionelle-benchmarking-werkzeug-hyperfine-installieren)
     - [Den Terminal-Multiplexer tmux installieren](#den-terminal-multiplexer-tmux-installieren)
     - [Den Anwendungsstarter Wofi installieren](#den-anwendungsstarter-wofi-installieren)
@@ -1620,7 +1621,7 @@ WantedBy=default.target
 
 ### Starten
 
-```bash id="x4a2mw"
+```bash
 systemctl --user daemon-reload
 systemctl --user enable --now sunshine.service
 sudo systemctl enable --now fail2ban
@@ -1629,14 +1630,19 @@ systemctl --user status sunshine
 
 ### Firewall (nur LAN)
 
-```bash id="7xb7z4"
+```bash
 sudo ufw allow from 192.168.x.x to any port 47984:48010 proto tcp
 sudo ufw allow from 192.168.x.x to any port 47998:48010 proto udp
 ```
 
+```bash
+sudo ufw delete allow from 192.168.x.x to any port 47984:48010 proto tcp
+sudo ufw delete allow from 192.168.x.x to any port 47998:48010 proto udp
+```
+
 ### Setup öffnen
 
-```text id="5q0s6k"
+```text
 https://localhost:47990
 ```
 
