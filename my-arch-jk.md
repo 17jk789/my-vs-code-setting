@@ -220,21 +220,31 @@ sudo pacman -Syu
 ### Paketdatenbank prüfen
 
 ```bash
-pacman -Qk
+# pacman -Qk
+# pacman -Qkk
+sudo pacman -Qkk | grep -v "0 altered files"
+pacman -Qm
+grep installed /var/log/pacman.log | tail -100
+grep -RinE "curl|wget|base64|eval|bash -c|sh -c" ~/.cache/yay
+
+# Kürzlich installierte Pakete ansehen
+expac --timefmt='%Y-%m-%d %T' '%l %n' | sort -r | head -50
+
+# Unbekannte laufende Dienste prüfen
+systemctl --type=service --state=running
+```
+
+Bei Fehler, Programm neu istnalliren und:
+
+```bash
+sudo systemctl --failed
+sudo journalctl -p 3 -xb
 ```
 
 ### Die Werkzeuge für den Bau von Software installieren
 
 ```bash
 sudo pacman -S --needed git base-devel
-```
-
-### Die end-4 Hyperland Konfiguration herunterladen und die Installation starten
-
-```bash
-git clone https://github.com/end-4/dots-hyprland.git
-cd dots-hyprland
-./setup install
 ```
 
 ### Die Firewall sofort einschalten und dauerhaft aktivieren
@@ -247,6 +257,29 @@ sudo systemctl enable --now ufw # Wichtig -> Firewall aktivieren!!!
 # sudo systemctl stop ufw          # UFW stoppen
 # sudo systemctl disable ufw       # UFW Autostart aus
 # sudo systemctl enable --now firewalld  # firewalld starten
+```
+
+```bash
+sudo systemctl status ufw
+sudo ufw status verbose
+ss -tulpen
+```
+
+### Die end-4 Hyperland Konfiguration herunterladen und die Installation starten
+
+```bash
+git clone https://github.com/end-4/dots-hyprland.git
+cd dots-hyprland
+```
+
+```bash
+git remote -v
+git log --oneline -5
+grep -RinE "curl|wget|bash -c|sh -c|eval|base64|sudo rm|rm -rf" .
+```
+
+```bash
+./setup install
 ```
 
 ### Den Quellcode von yay herunterladen und das Programm bauen und installieren
@@ -1692,3 +1725,31 @@ Moonlight öffnen → Linux-PC auswählen → Pairing-Code eingeben
 # openclaw onboard --install-daemon
 # openclaw models auth login-github-copilot
 ```
+
+# Was ich noch machen würde
+
+Einmal:
+
+```bash
+sudo pacman -Syu
+```
+
+Dann:
+
+```bash
+sudo pacman -Qk
+```
+
+Dann:
+
+```bash
+systemctl --failed
+```
+
+Dann:
+
+```bash
+ss -tulpen
+```
+
+Damit siehst du offene Netzwerkdienste.
