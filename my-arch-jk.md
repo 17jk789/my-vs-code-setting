@@ -90,6 +90,7 @@ Bitte führen sie alle Commands aus und fügen sie .config in ihr Systhem ein.
     - [Den Tippfehler-Korrektor thefuck installieren](#den-tippfehler-korrektor-thefuck-installieren)
     - [Die Programmiersprache Lua in der Version 5.1 installieren](#die-programmiersprache-lua-in-der-version-51-installieren)
     - [Microsoft Visual Studio Code (VS Code) über yay installieren](#microsoft-visual-studio-code-vs-code-über-yay-installieren)
+    - [GitKraken über das offizielle Linux-Archiv installieren](#gitkraken-über-das-offizielle-linux-archiv-installieren)
     - [Den Discord-Client über den Paketmanager installieren](#den-discord-client-über-den-paketmanager-installieren)
     - [Den Signal Messenger installieren](#den-signal-messenger-installieren)
     - [Den Brave Browser über yay installieren](#den-brave-browser-über-yay-installieren)
@@ -300,6 +301,10 @@ sudo pacman -S curl wget unzip cmark fzf luarocks gcc git-delta shellcheck lib32
 
 ```bash
 echo "source /usr/share/gef/gef.py" >> ~/.gdbinit
+```
+
+```bash
+# echo core | sudo tee /proc/sys/kernel/core_pattern
 ```
 
 ### Das Multilib-Repository in den Systemquellen aktivieren
@@ -672,6 +677,16 @@ sudo pacman -S --needed lua51
 ```bash
 # sudo pacman -S code
 yay -S visual-studio-code-bin
+```
+
+### GitKraken über das offizielle Linux-Archiv installieren
+
+```bash
+wget https://release.gitkraken.com/linux/gitkraken-amd64.tar.gz
+sudo tar -xvzf gitkraken-amd64.tar.gz
+sudo mv gitkraken /opt/
+sudo ln -s /opt/gitkraken/gitkraken /usr/local/bin/gitkraken
+mkdir -p ~/.local/share/applications; printf '%s\n' '[Desktop Entry]' 'Name=GitKraken' 'Comment=Git Client' 'Exec=/opt/gitkraken/gitkraken' 'Icon=/opt/gitkraken/gitkraken.png' 'Terminal=false' 'Type=Application' 'Categories=Development;' > ~/.local/share/applications/gitkraken.desktop
 ```
 
 ### Den Discord-Client über den Paketmanager installieren
