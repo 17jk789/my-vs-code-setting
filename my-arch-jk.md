@@ -295,7 +295,7 @@ makepkg -si
 ### Kern-Werkzeuge und Entwickler-Tools installieren
 
 ```bash
-sudo pacman -S curl wget unzip cmark fzf luarocks gcc git-delta shellcheck lib32-gcc-libs llvm clang lldb gdb gef strace ltrace radare2 gtk4 libadwaita network-manager-applet polkit-gnome librsvg adwaita-icon-theme perf
+sudo pacman -S curl wget unzip cmark fzf luarocks gcc git-delta shellcheck lib32-gcc-libs llvm clang lldb gdb gef strace ltrace radare2 gtk4 libadwaita network-manager-applet polkit-gnome librsvg adwaita-icon-theme perf afl++
 ```
 
 ```bash
@@ -311,7 +311,7 @@ sudo bash -c 'grep -q "^\[multilib\]" /etc/pacman.conf || printf "\n[multilib]\n
 ```bash
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 cargo install --locked cargo-nextest 
-# cargo install --locked cargo-audit 
+cargo install --locked cargo-audit 
 # cargo install --locked probe-rs # or probe-rs-tools
 # rustup component add rustfmt
 cargo install --locked bacon
