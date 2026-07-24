@@ -137,9 +137,12 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.keymap.set("n", "<leader>rid", function()
 			run_in_term("code .")
 		end, { desc = "Open Project in VS Code", silent = true, buffer = true })
-		vim.keymap.set("n", "<leader>rir", function()
+		vim.keymap.set("n", "<leader>riR", function()
 			run_in_term("rustrover .")
 		end, { desc = "Open Project in RustRover", silent = true, buffer = true })
+		vim.keymap.set("n", "<leader>rir", function()
+			run_in_term("clion .")
+		end, { desc = "Open Project in Clion", silent = true, buffer = true })
 
 		-- vim.keymap.set("n", "<leader>rra", ":split | terminal cargo build && cargo run<CR>", opts)
 		-- vim.keymap.set("n", "<leader>rrr", ":split | terminal cargo run<CR>", opts)
